@@ -17,8 +17,8 @@ struct DiscoverMoviesView: View {
                         .frame(width: 200, height: 310)
                 }
             }
+            .offset(.init(width: 20, height: 0))
         }
-        .padding(20)
     }
 }
 

@@ -10,22 +10,31 @@ import SwiftUI
 struct TopVotedMoviesView: View {
     let movies: [MoviesResult]
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
-                ForEach(movies) { movie in
-                    VStack(spacing: 2) {
-                        MovieCell(image: URL(string: Constants.basePosters + movie.posterPath))
-                            .frame(width: 120, height: 180)
-                        Text(movie.title)
-                            .font(.system(size: 16))
-                            .bold()
-                            .lineLimit(1)
-                            .frame(width: 120)
+        VStack(alignment: .leading) {
+            Text("Top Rated")
+                .font(.system(size: 18))
+                .bold()
+                .offset(.init(width: 20, height: 0))
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 10) {
+                    HStack {
+                        ForEach(movies) { movie in
+                            VStack(spacing: 2) {
+                                MovieCell(image: URL(string: Constants.basePosters + movie.posterPath))
+                                    .frame(width: 120, height: 180)
+                                Text(movie.title)
+                                    .font(.system(size: 16))
+                                    .bold()
+                                    .lineLimit(1)
+                                    .frame(width: 120)
+                            }
+                        }
                     }
+                    .offset(.init(width: 20, height: 0))
                 }
             }
         }
-        .padding(20)
     }
 }
 
