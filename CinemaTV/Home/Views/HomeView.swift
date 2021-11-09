@@ -11,21 +11,26 @@ struct HomeView: View {
     @ObservedObject private var viewModel = HomeViewModel()
     
     var body: some View {
-        NavigationView{
-            Group {
-                if viewModel.discoverMovies.isEmpty && viewModel.topRatedMovies.isEmpty {
-                    ProgressView()
-                } else {
-                    VStack(spacing: 20) {
-                        DiscoverMoviesView(movies: viewModel.discoverMovies)
-                            .navigationTitle("Discover")
-                        
-                        TopVotedMoviesView(movies: viewModel.topRatedMovies)
+        TabView {
+            NavigationView{
+                Group {
+                    if viewModel.discoverMovies.isEmpty && viewModel.topRatedMovies.isEmpty {
+                        ProgressView()
+                    } else {
+                        VStack(spacing: 20) {
+                            DiscoverMoviesView(movies: viewModel.discoverMovies)
+                                .navigationTitle("Discover")
+                            
+                            TopVotedMoviesView(movies: viewModel.topRatedMovies)
+                        }
                     }
                 }
+                .task {
+                    await viewModel.loadComponents()
+                }
             }
-            .task {
-                await viewModel.loadComponents()
+            .tabItem {
+                Label("Movies", systemImage: "square.and.pencil")
             }
         }
     }

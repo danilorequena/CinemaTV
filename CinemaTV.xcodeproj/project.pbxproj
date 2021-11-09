@@ -122,6 +122,7 @@
 			children = (
 				7D42248F27381247006236F8 /* Share */,
 				7D42248A2738117B006236F8 /* Home */,
+				7DC78748273AA39F0042C445 /* Detail */,
 				7D42245F273810E2006236F8 /* Assets.xcassets */,
 				7D42245B273810E1006236F8 /* CinemaTVApp.swift */,
 				7D422464273810E2006236F8 /* Persistence.swift */,
@@ -220,6 +221,13 @@
 				7D4224A62738266D006236F8 /* HomeViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		7DC78748273AA39F0042C445 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Detail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
