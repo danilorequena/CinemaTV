@@ -11,24 +11,35 @@ struct DetailView: View {
     @ObservedObject var viewModel = DetailViewModel()
     var movieID: Int?
     
+    
     var body: some View {
         ScrollView {
-            ZStack {
-                if let image = URL(string: viewModel.detailMovie?.backdropPath ?? ""), let imageData = try? Data(contentsOf: image), let uiImage = UIImage(data: imageData) {
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .cornerRadius(16)
-                } else {
-                    Image("placeholder-image")
-                }
+            VStack {
                 VStack {
-                    Text(viewModel.detailMovie?.overview ?? "")
+                    if let detail = viewModel.detailMovie {
+                        AsyncImage(url: URL(string: Constants.basePosters + detail.posterPath)) { image in
+                            image.resizable()
+                        } placeholder: {
+                            ProgressView()
+                        }
+                        .scaledToFill()
+                        .frame(height: 475)
+                        
+                        VStack {
+                            Text(detail.overview)
+                                .font(.headline)
+                            .multilineTextAlignment(.leading)
+                        }
+                        .padding()
+                        .background(Color.white.opacity(0.3))
+                        .cornerRadius(16)
+                    }
                 }
+                .task {
+                    await viewModel.fetchDetail(movieID: movieID ?? 0)
             }
-            .task {
-                await viewModel.fetchDetail(movieID: movieID ?? 0)
             }
+            .navigationTitle(viewModel.detailMovie?.title ?? "")
         }
     }
 }
