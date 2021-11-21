@@ -13,12 +13,19 @@ struct DiscoverMoviesView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ForEach(movies) { movie in
-                    MovieCell(image: URL(string: Constants.basePosters + movie.posterPath))
-                        .frame(width: 200, height: 310)
+                    NavigationLink(destination: DetailView(movieID: movie.id)) {
+                        MovieCell(image: URL(string: Constants.basePosters + movie.posterPath))
+                            .frame(width: 260, height: 380)
+                    }
                 }
             }
+            .padding(.init(
+                top: 0,
+                leading: 22,
+                bottom: 0,
+                trailing: 0)
+            )
         }
-        .padding(20)
     }
 }
 
