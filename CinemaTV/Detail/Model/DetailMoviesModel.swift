@@ -8,10 +8,8 @@ import Foundation
 
 // MARK: - DetailMovies
 struct DetailMoviesModel: Codable, Identifiable {
-    let adult: Bool
     let backdropPath: String
     let belongsToCollection: JSONNull?
-    let budget: Int
     let genres: [Genre]
     let homepage: String
     let id: Int
@@ -19,7 +17,6 @@ struct DetailMoviesModel: Codable, Identifiable {
     let popularity: Double
     let posterPath: String
     let productionCompanies: [ProductionCompany]
-    let productionCountries: [ProductionCountry]
     let releaseDate: String
     let revenue, runtime: Int
     let spokenLanguages: [SpokenLanguage]
@@ -29,17 +26,15 @@ struct DetailMoviesModel: Codable, Identifiable {
     let voteCount: Int
 
     enum CodingKeys: String, CodingKey {
-        case adult
         case backdropPath = "backdrop_path"
         case belongsToCollection = "belongs_to_collection"
-        case budget, genres, homepage, id
+        case genres, homepage, id
         case imdbID = "imdb_id"
         case originalLanguage = "original_language"
         case originalTitle = "original_title"
         case overview, popularity
         case posterPath = "poster_path"
         case productionCompanies = "production_companies"
-        case productionCountries = "production_countries"
         case releaseDate = "release_date"
         case revenue, runtime
         case spokenLanguages = "spoken_languages"
@@ -65,16 +60,6 @@ struct ProductionCompany: Codable {
         case logoPath = "logo_path"
         case name
         case originCountry = "origin_country"
-    }
-}
-
-// MARK: - ProductionCountry
-struct ProductionCountry: Codable {
-    let iso3166_1, name: String
-
-    enum CodingKeys: String, CodingKey {
-        case iso3166_1 = "iso_3166_1"
-        case name
     }
 }
 

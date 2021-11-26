@@ -38,10 +38,10 @@ final class HomeViewModel: ObservableObject {
 //                    if self.movies.count < self.perPage {
 //                        self.listFull = true
 //                    }
-                    self.dispathGroup.leave()
                     self.dispathGroup.notify(queue: .main) {
                         self.discoverMovies = movies.results
                     }
+                    self.dispathGroup.leave()
                     self.isLoading = false
                 }
             case .failure(let error):
