@@ -41,6 +41,7 @@ struct DetailView: View {
                             .cornerRadius(16)
                         }
                     }
+                    .offset(y: UIScreen.main.bounds.height / 3)
                     .task {
                         await viewModel.fetchDetail(movieID: movieID ?? 0)
                     }

@@ -16,7 +16,7 @@ final class MoviesService: ObservableObject {
     
     private static let session = URLSession(configuration: configuration)
     
-    class func newloadMovies(from endpoint: String) async throws -> Result<Movie, APIServiceError> {
+    class func newloadMovies(from endpoint: String) async throws -> Result<DiscoverMovie, APIServiceError> {
         
         let url = URL(string: Constants.baseUrl + endpoint)!
         
@@ -38,7 +38,7 @@ final class MoviesService: ObservableObject {
         do {
             let (data, _) = try await URLSession.shared.data(for: request)
             let decoder = JSONDecoder()
-            let result = try decoder.decode(Movie.self, from: data)
+            let result = try decoder.decode(DiscoverMovie.self, from: data)
             return .success(result)
         } catch {
             return .failure(.invalidJSON)

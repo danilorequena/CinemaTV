@@ -31,37 +31,6 @@ struct DiscoverMoviesView: View {
 
 struct DiscoverMoviesView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverMoviesView(movies: [
-            MoviesResult(
-                adult: false,
-                backdropPath: "",
-                genreIDS: [1,2],
-                id: 1,
-                originalTitle: "",
-                overview: "",
-                popularity: 1.2,
-                posterPath: "/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg",
-                releaseDate: "",
-                title: "Steve Jobs Steve Jobs Steve Jobs",
-                video: true,
-                voteAverage: 1.2,
-                voteCount: 12
-            ),
-            MoviesResult(
-                adult: false,
-                backdropPath: "",
-                genreIDS: [1,2],
-                id: 1,
-                originalTitle: "",
-                overview: "",
-                popularity: 1.2,
-                posterPath: "/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg",
-                releaseDate: "",
-                title: "Steve Jobs Steve Jobs Steve Jobs",
-                video: true,
-                voteAverage: 1.2,
-                voteCount: 12
-            )
-        ])
+        DiscoverMoviesView(movies: MoviesResult.stub)
     }
 }

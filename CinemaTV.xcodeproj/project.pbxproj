@@ -16,7 +16,7 @@
 		7D422472273810E2006236F8 /* CinemaTVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D422471273810E2006236F8 /* CinemaTVTests.swift */; };
 		7D42247C273810E2006236F8 /* CinemaTVUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D42247B273810E2006236F8 /* CinemaTVUITests.swift */; };
 		7D42247E273810E2006236F8 /* CinemaTVUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D42247D273810E2006236F8 /* CinemaTVUITestsLaunchTests.swift */; };
-		7D42248E273811A7006236F8 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D42248D273811A7006236F8 /* Movie.swift */; };
+		7D42248E273811A7006236F8 /* DiscoverMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D42248D273811A7006236F8 /* DiscoverMovie.swift */; };
 		7D42249127381255006236F8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D42249027381255006236F8 /* Constants.swift */; };
 		7D42249527381348006236F8 /* MoviesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D42249427381348006236F8 /* MoviesEndpoint.swift */; };
 		7D4224972738136E006236F8 /* MoviesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4224962738136E006236F8 /* MoviesService.swift */; };
@@ -62,7 +62,7 @@
 		7D422477273810E2006236F8 /* CinemaTVUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CinemaTVUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D42247B273810E2006236F8 /* CinemaTVUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CinemaTVUITests.swift; sourceTree = "<group>"; };
 		7D42247D273810E2006236F8 /* CinemaTVUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CinemaTVUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		7D42248D273811A7006236F8 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		7D42248D273811A7006236F8 /* DiscoverMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverMovie.swift; sourceTree = "<group>"; };
 		7D42249027381255006236F8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		7D42249427381348006236F8 /* MoviesEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesEndpoint.swift; sourceTree = "<group>"; };
 		7D4224962738136E006236F8 /* MoviesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesService.swift; sourceTree = "<group>"; };
@@ -189,7 +189,7 @@
 		7D42248C27381190006236F8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				7D42248D273811A7006236F8 /* Movie.swift */,
+				7D42248D273811A7006236F8 /* DiscoverMovie.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -408,7 +408,7 @@
 				7D42245E273810E1006236F8 /* ContentView.swift in Sources */,
 				7D4224A72738266D006236F8 /* HomeViewModel.swift in Sources */,
 				7D42245C273810E1006236F8 /* CinemaTVApp.swift in Sources */,
-				7D42248E273811A7006236F8 /* Movie.swift in Sources */,
+				7D42248E273811A7006236F8 /* DiscoverMovie.swift in Sources */,
 				7D42249127381255006236F8 /* Constants.swift in Sources */,
 				7D42249E27381DB5006236F8 /* DiscoverMoviesView.swift in Sources */,
 			);

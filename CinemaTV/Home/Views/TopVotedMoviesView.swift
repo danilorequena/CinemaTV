@@ -43,7 +43,6 @@ struct TopVotedMoviesView_Previews: PreviewProvider {
     static var previews: some View {
         TopVotedMoviesView(movies: [
             MoviesResult(
-                adult: false,
                 backdropPath: "",
                 genreIDS: [1,2],
                 id: 1,
@@ -51,14 +50,12 @@ struct TopVotedMoviesView_Previews: PreviewProvider {
                 overview: "",
                 popularity: 1.2,
                 posterPath: "/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg",
-                releaseDate: "",
                 title: "Steve Jobs Steve Jobs Steve Jobs",
                 video: true,
                 voteAverage: 1.2,
                 voteCount: 12
             ),
             MoviesResult(
-                adult: false,
                 backdropPath: "",
                 genreIDS: [1,2],
                 id: 1,
@@ -66,7 +63,6 @@ struct TopVotedMoviesView_Previews: PreviewProvider {
                 overview: "",
                 popularity: 1.2,
                 posterPath: "/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg",
-                releaseDate: "",
                 title: "Steve Jobs Steve Jobs Steve Jobs",
                 video: true,
                 voteAverage: 1.2,
