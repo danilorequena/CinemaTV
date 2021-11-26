@@ -12,21 +12,18 @@ struct DetailView: View {
     var movieID: Int?
     
     var body: some View {
-        ScrollView {
-            GeometryReader { geometry in
-                ZStack {
+        ZStack {
+            if let detail = viewModel.detailMovie {
+                AsyncImage(url: URL(string: Constants.basePosters + detail.posterPath)) { image in
+                    image.resizable()
+                } placeholder: {
+                    ProgressView()
+                }
+            }
+            ZStack {
+                ScrollView {
                     if let detail = viewModel.detailMovie {
-                        AsyncImage(url: URL(string: Constants.basePosters + detail.posterPath)) { image in
-                            image.resizable()
-                        } placeholder: {
-                            ProgressView()
-                        }
-                        .scaledToFill()
-                        .frame(height: 475)
-                        .offset(y: -geometry.frame(in: .global).minY)
-                    }
-                    VStack {
-                        if let detail = viewModel.detailMovie {
+                        VStack(alignment: .leading, spacing: 16) {
                             VStack(alignment: .leading, spacing: 16) {
                                 Text("Average: \(detail.voteAverage.formatted())/10")
                                     .font(.subheadline)
@@ -34,24 +31,24 @@ struct DetailView: View {
                                 
                                 Text(detail.overview)
                                     .font(.headline)
-                                    .multilineTextAlignment(.leading)
                             }
-                            .padding()
-                            .background(Color.white.opacity(0.8))
-                            .cornerRadius(16)
+                            
+                            CastView(castID: detail.id)
+                                .offset(x: 10)
                         }
-                    }
-                    .offset(y: UIScreen.main.bounds.height / 3)
-                    .task {
-                        await viewModel.fetchDetail(movieID: movieID ?? 0)
+                        .padding()
+                        .background(Color.white.opacity(0.8))
+                        .cornerRadius(16)
+                        .offset(y: UIScreen.main.bounds.height / 2)
                     }
                 }
-                .navigationTitle(viewModel.detailMovie?.title ?? "")
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationBarHidden(true)
-                .edgesIgnoringSafeArea(.top)
+                .task {
+                    await viewModel.fetchDetail(movieID: movieID ?? 0)
+                }
             }
         }
+        .navigationTitle(viewModel.detailMovie?.title ?? "")
+        .navigationBarTitleDisplayMode(.automatic)
     }
 }
 
