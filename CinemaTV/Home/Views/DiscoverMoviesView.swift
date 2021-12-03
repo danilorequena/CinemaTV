@@ -10,21 +10,25 @@ import SwiftUI
 struct DiscoverMoviesView: View {
     let movies: [MoviesResult]
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
+        ScrollView {
+            TabView {
                 ForEach(movies) { movie in
                     NavigationLink(destination: DetailView(movieID: movie.id)) {
-                        MovieCell(image: URL(string: Constants.basePosters + movie.posterPath))
-                            .frame(width: 260, height: 380)
+                        GeometryReader { proxy in
+                            let minX = proxy.frame(in: .global).minX
+                            MovieCell(image: URL(string: Constants.basePosters + movie.posterPath))
+                                .padding(.vertical, 20)
+                                .rotation3DEffect(.degrees(minX / -10), axis: (x: 0, y: 1, z: 0))
+                                .blur(radius: abs(minX / 40))
+                                .shadow(color: .gray.opacity(0.3), radius: 10, x: 0, y: 10)
+                                .frame(width: 380, height: 580)
+                                .buttonStyle(.plain)
+                        }
                     }
                 }
             }
-            .padding(.init(
-                top: 0,
-                leading: 22,
-                bottom: 0,
-                trailing: 0)
-            )
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .frame(width: 380, height: 600)
         }
     }
 }

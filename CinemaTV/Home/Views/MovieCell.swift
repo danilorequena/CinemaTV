@@ -13,7 +13,9 @@ struct MovieCell: View {
         if let image = image, let imageData = try? Data(contentsOf: image), let uiImage = UIImage(data: imageData) {
             Image(uiImage: uiImage)
                 .resizable()
-                .aspectRatio(contentMode: .fit)
+                .scaledToFit()
+                .background(.ultraThinMaterial)
+                .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 .cornerRadius(16)
         } else {
             Image("placeholder-image")
