@@ -12,20 +12,23 @@ struct HomeView: View {
     
     var body: some View {
         NavigationView{
-            Group {
-                if viewModel.discoverMovies.isEmpty && viewModel.topRatedMovies.isEmpty {
-                    ProgressView()
-                } else {
-                    VStack(spacing: 20) {
-                        DiscoverMoviesView(movies: viewModel.discoverMovies)
-                            .navigationTitle("Discover")
-                        
-                        TopVotedMoviesView(movies: viewModel.topRatedMovies)
+            ScrollView(.vertical) {
+                Group {
+                    if viewModel.discoverMovies.isEmpty && viewModel.topRatedMovies.isEmpty {
+                        ProgressView()
+                    } else {
+                        VStack(spacing: 20) {
+                            DiscoverMoviesView(movies: viewModel.discoverMovies)
+                                .navigationTitle("Discover")
+                                .buttonStyle(.plain)
+                            
+                            TopVotedMoviesView(movies: viewModel.topRatedMovies)
+                        }
                     }
                 }
-            }
-            .task {
-                await viewModel.loadComponents()
+                .task {
+                    await viewModel.loadComponents()
+                }
             }
         }
     }
