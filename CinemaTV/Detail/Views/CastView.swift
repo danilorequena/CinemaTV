@@ -25,7 +25,7 @@ struct CastView: View {
             }
             .task {
                 await viewModel.fetchCast(movieID: castID ?? 0)
-        }
+            }
         }
     }
 }
