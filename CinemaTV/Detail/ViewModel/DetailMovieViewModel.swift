@@ -10,37 +10,44 @@ import SwiftUI
 
 final class DetailViewModel: ObservableObject {
     var service = MoviesService()
+    var isLoading = true
     @Published var detailMovie: DetailMoviesModel?
     @Published var cast: CastModel?
-
-    @State private var isLoading = true
+    @Published var dispathGroup = DispatchGroup()
     
     func fetchDetail(movieID: Int) async {
         Task.init {
+            dispathGroup.enter()
             let result = try await MoviesService.loadDetail(from: MoviesEndpoint.detail(movie: movieID).path())
             switch result {
             case .success(let movie):
-                DispatchQueue.main.async {
+                self.dispathGroup.notify(queue: .main) {
                     self.detailMovie = movie
                 }
+                self.dispathGroup.leave()
+                self.isLoading = false
                 
             case .failure(let error):
                 print(error)
+                self.dispathGroup.leave()
             }
         }
     }
     
     func fetchCast(movieID: Int) async {
         Task.init {
+            dispathGroup.enter()
             let result = try await CastService.loadCast(from: MoviesEndpoint.credits(movie: movieID).path())
             switch result {
             case .success(let cast):
-                DispatchQueue.main.async {
+                self.dispathGroup.notify(queue: .main) {
                     self.cast = cast
                 }
+                self.dispathGroup.leave()
                 
             case .failure(let error):
                 print(error)
+                self.dispathGroup.leave()
             }
         }
     }

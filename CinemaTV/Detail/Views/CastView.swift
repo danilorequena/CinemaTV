@@ -11,20 +11,29 @@ struct CastView: View {
     @ObservedObject var viewModel = DetailViewModel()
     let castID: Int?
     var body: some View {
-        ScrollView(.horizontal) {
-            HStack(spacing: 10) {
-                ForEach(viewModel.cast?.cast ?? []) { character in
-                    if let char = character.profilePath {
-                        CastCell(
-                            image: URL(string: Constants.basePosters + char),
-                            name: character.name
-                        )
-                            .frame(width: 60, height: 76)
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Casting")
+                .font(.headline)
+                .foregroundColor(.gray)
+                .padding(.init(top: 0, leading: 16, bottom: 0, trailing: 0))
+            
+            ScrollView(.horizontal) {
+                HStack(spacing: 10) {
+                    ForEach(viewModel.cast?.cast ?? []) { character in
+                        if let char = character.profilePath {
+                            CastCell(
+                                image: URL(string: Constants.basePosters + char),
+                                name: character.name
+                            )
+                                .frame(width: 60, height: 76)
+                                .padding(.bottom, 20)
+                                .padding(.leading, 10)
+                        }
                     }
                 }
-            }
-            .task {
-                await viewModel.fetchCast(movieID: castID ?? 0)
+                .task {
+                    await viewModel.fetchCast(movieID: castID ?? 0)
+                }
             }
         }
     }
