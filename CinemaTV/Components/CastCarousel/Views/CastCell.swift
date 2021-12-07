@@ -6,21 +6,19 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct CastCell: View {
     let image: URL?
     let name: String?
     var body: some View {
         VStack(spacing: 2) {
-            if let image = image, let imageData = try? Data(contentsOf: image), let uiImage = UIImage(data: imageData) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .scaledToFill()
-                    .clipShape(Circle())
-                    .frame(width: 60, height: 60)
-            } else {
-                Image("placeholder-image")
-            }
+            KFImage.url(image)
+                .resizable()
+                .scaledToFill()
+                .clipShape(Circle())
+                .frame(width: 60, height: 60)
+            
             Text(name ?? "")
                 .multilineTextAlignment(.leading)
                 .font(.caption)
