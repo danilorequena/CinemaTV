@@ -41,9 +41,11 @@ struct DetailView: View {
                                     .padding()
                                     
                                     CastView(castID: detail.id)
+                                    
+                                    TrailersView(videoID: movieID, videoKey: viewModel.videoKey!)
+                                        .padding(8)
+                                        .frame(height: 260)
                                 }
-                                .navigationTitle(detail.title)
-                                .navigationBarTitleDisplayMode(.automatic)
                                 .background(.ultraThinMaterial)
                                 .cornerRadius(16)
                             }
@@ -53,7 +55,7 @@ struct DetailView: View {
             }
             .edgesIgnoringSafeArea(.top)
             .task {
-                await viewModel.fetchDetail(movieID: movieID ?? 0)
+                await viewModel.loadDetails(movieID: movieID ?? 0)
             }
         }
     }
