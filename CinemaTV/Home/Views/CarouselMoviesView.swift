@@ -7,11 +7,12 @@
 
 import SwiftUI
 
-struct TopVotedMoviesView: View {
+struct CarouselMoviesView: View {
     let movies: [MoviesResult]
+    let title: String
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Top reated")
+            Text(title)
                 .padding(.init(top: 0, leading: 22, bottom: 0, trailing: 0))
             
             ScrollView(.horizontal, showsIndicators: false) {
@@ -41,7 +42,7 @@ struct TopVotedMoviesView: View {
 
 struct TopVotedMoviesView_Previews: PreviewProvider {
     static var previews: some View {
-        TopVotedMoviesView(movies: [
+        CarouselMoviesView(movies: [
             MoviesResult(
                 backdropPath: "",
                 genreIDS: [1,2],
@@ -68,7 +69,8 @@ struct TopVotedMoviesView_Previews: PreviewProvider {
                 voteAverage: 1.2,
                 voteCount: 12
             )
-        ]
+        ],
+                title: "Top Reated"
         )
     }
 }

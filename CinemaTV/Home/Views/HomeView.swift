@@ -22,7 +22,8 @@ struct HomeView: View {
                                 .buttonStyle(.plain)
                             .navigationTitle("Discover")
                             
-                            TopVotedMoviesView(movies: viewModel.topRatedMovies)
+                            CarouselMoviesView(movies: viewModel.latestMovies, title: "Upcoming Movies")
+                            CarouselMoviesView(movies: viewModel.topRatedMovies, title: "Top Reated")
                         }
                     }
                 }
