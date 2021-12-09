@@ -8,7 +8,7 @@
 import Foundation
 
 enum MoviesEndpoint {
-    case popular, toRated, upcoming, nowPlaying
+    case popular, toRated, upcoming, nowPlaying, latest
     case detail(movie: Int), recommended(movie: Int), similar(movie: Int)
     case credits(movie: Int), review(movie: Int), videos(videoID: Int)
     case searchMovie, searchKeyword
@@ -20,6 +20,8 @@ enum MoviesEndpoint {
         switch self {
         case .popular:
             return "movie/popular"
+        case .latest:
+            return "movie/latest"
         case .toRated:
             return "movie/top_rated"
         case .upcoming:
