@@ -81,7 +81,7 @@ final class HomeViewModel: ObservableObject {
     func getUpcomingList() async {
         Task.init {
             self.dispathGroup.enter()
-            let result = try await MoviesService.newloadMovies(from: MoviesEndpoint.upcoming.path())
+            let result = try await MoviesService.loadLatest(from: MoviesEndpoint.upcoming.path())
             switch result {
             case .success(let movies):
                 DispatchQueue.main.async {
