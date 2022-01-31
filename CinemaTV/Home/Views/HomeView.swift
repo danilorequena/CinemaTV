@@ -13,14 +13,14 @@ struct HomeView: View {
     var body: some View {
         NavigationView{
             Group {
-            if viewModel.discoverMovies.isEmpty && viewModel.topRatedMovies.isEmpty {
-                CinemaTVProgressView()
-            } else {
-                ScrollView(.vertical) {
+                if viewModel.discoverMovies.isEmpty && viewModel.topRatedMovies.isEmpty {
+                    CinemaTVProgressView()
+                } else {
+                    ScrollView(.vertical) {
                         VStack(spacing: 20) {
                             DiscoverMoviesView(movies: viewModel.discoverMovies)
                                 .buttonStyle(.plain)
-                            .navigationTitle("Discover")
+                                .navigationTitle("Discover")
                             
                             CarouselMoviesView(movies: viewModel.latestMovies, title: "Upcoming Movies")
                             CarouselMoviesView(movies: viewModel.topRatedMovies, title: "Top Reated")
