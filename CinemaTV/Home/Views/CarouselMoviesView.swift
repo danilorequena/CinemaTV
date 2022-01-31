@@ -18,14 +18,17 @@ struct CarouselMoviesView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(movies) { movie in
-                        VStack(spacing: 2) {
-                            MovieCell(image: URL(string: Constants.basePosters + movie.posterPath))
-                                .frame(width: 120, height: 180)
-                            Text(movie.title)
-                                .font(.system(size: 16))
-                                .bold()
-                                .lineLimit(1)
-                                .frame(width: 120)
+                        NavigationLink(destination: DetailView(movieID: movie.id)) {
+                            VStack(spacing: 2) {
+                                MovieCell(image: URL(string: Constants.basePosters + movie.posterPath))
+                                    .frame(width: 120, height: 180)
+                                Text(movie.title)
+                                    .font(.system(size: 16))
+                                    .bold()
+                                    .lineLimit(1)
+                                    .frame(width: 120)
+                            }
+                            .buttonStyle(.plain)
                         }
                     }
                 }
@@ -70,7 +73,7 @@ struct TopVotedMoviesView_Previews: PreviewProvider {
                 voteCount: 12
             )
         ],
-                title: "Top Reated"
+                           title: "Top Reated"
         )
     }
 }

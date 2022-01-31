@@ -43,7 +43,7 @@ struct DetailView: View {
                                     CastView(castID: detail.id)
                                     
                                     TrailersView(videoID: movieID, videoKey: viewModel.videoKey!)
-                                        .padding(8)
+                                        .padding(16)
                                         .frame(height: 260)
                                 }
                                 .background(.ultraThinMaterial)
