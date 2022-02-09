@@ -10,62 +10,69 @@ import SwiftUI
 
 final class HomeViewModel: ObservableObject {
     var service = MoviesService()
-    @Published var discoverMovies: [MoviesResult] = []
+    @Published var discoverMovies = [MoviesResult]()
     @Published var topRatedMovies: [MoviesResult] = []
     @Published var latestMovies: [MoviesResult] = []
+    @Published var isLoadingPage = false
     var perPage = 20
-    var currentPage = 1
+    var currentPage = 0
     var listFull = false
+    private var canloadMorePages = true
     @Published var dispathGroup = DispatchGroup()
     @State private var isLoading = true
     
-    func loadComponents() async {
-        dispathGroup.enter()
-        await getMoviesList()
-        dispathGroup.leave()
-        
-        dispathGroup.enter()
-        await getUpcomingList()
-        dispathGroup.leave()
-        
-        dispathGroup.enter()
-        await getTopVotedList()
-        dispathGroup.leave()
+    init() {
+        loadMoreContent()
     }
     
-    func getMoviesList() async {
-        Task.init {
-            self.dispathGroup.enter()
-            let result = try await MoviesService.newloadMovies(from: MoviesEndpoint.discover.path())
-            switch result {
-            case .success(let movies):
-                DispatchQueue.main.async {
-//                    if self.movies.count < self.perPage {
-//                        self.listFull = true
-//                    }
-                    self.dispathGroup.notify(queue: .main) {
-                        self.discoverMovies = movies.results
-                    }
-                    self.dispathGroup.leave()
-                    self.isLoading = false
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-                self.dispathGroup.leave()
+    func loadComponents(currentItem item: [MoviesResult]) async {
+//        guard let item  = item else {
+//            loadMoreContent()
+//            return
+//        }
+        let thresholdIndex = discoverMovies.index(discoverMovies.endIndex, offsetBy: -5)
+        for item in item {
+            if discoverMovies.firstIndex(where: { $0.id == item.id }) == thresholdIndex {
+                loadMoreContent()
             }
         }
     }
     
-    func getTopVotedList() async {
+    func loadMoreContent() {
+        guard !isLoadingPage && canloadMorePages else {
+            return
+        }
+        
+        isLoadingPage = true
+        
+        getMoviesList()
+    }
+    
+    func getMoviesList() {
         Task.init {
-            self.dispathGroup.enter()
-            let result = try await MoviesService.newloadMovies(from: MoviesEndpoint.toRated.path())
+            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.discover.path())
             switch result {
             case .success(let movies):
                 DispatchQueue.main.async {
-//                    if self.movies.count < self.perPage {
-//                        self.listFull = true
-//                    }
+                        self.discoverMovies += movies.results
+                        self.canloadMorePages = true
+                        self.isLoadingPage = false
+                        self.currentPage += 1
+                        print("Quantidade de filmes: \(self.discoverMovies.count)")
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func getTopVotedList() {
+        Task.init {
+            self.dispathGroup.enter()
+            let result = try await MoviesService.newloadMovies(page: "1", from: MoviesEndpoint.toRated.path())
+            switch result {
+            case .success(let movies):
+                DispatchQueue.main.async {
                     self.dispathGroup.leave()
                     self.dispathGroup.notify(queue: .main) {
                         self.topRatedMovies = movies.results
@@ -78,16 +85,13 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
-    func getUpcomingList() async {
+    func getUpcomingList() {
         Task.init {
             self.dispathGroup.enter()
             let result = try await MoviesService.loadLatest(from: MoviesEndpoint.upcoming.path())
             switch result {
             case .success(let movies):
                 DispatchQueue.main.async {
-//                    if self.movies.count < self.perPage {
-//                        self.listFull = true
-//                    }
                     self.dispathGroup.leave()
                     self.dispathGroup.notify(queue: .main) {
                         self.latestMovies = movies.results

@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct HomeView: View {
-    @ObservedObject private var viewModel = HomeViewModel()
+    @StateObject private var viewModel = HomeViewModel()
     
     var body: some View {
         NavigationView{
             Group {
-                if viewModel.discoverMovies.isEmpty && viewModel.topRatedMovies.isEmpty {
+                if viewModel.isLoadingPage {
                     CinemaTVProgressView()
                 } else {
                     ScrollView(.vertical) {
@@ -29,7 +29,7 @@ struct HomeView: View {
                 }
             }
             .task {
-                await viewModel.loadComponents()
+                await viewModel.loadComponents(currentItem: viewModel.discoverMovies)
             }
         }
     }
