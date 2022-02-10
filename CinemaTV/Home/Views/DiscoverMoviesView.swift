@@ -8,17 +8,23 @@
 import SwiftUI
 
 struct DiscoverMoviesView: View {
-    let movies: [MoviesResult]
+    @StateObject var viewModel = HomeViewModel()
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
-                ForEach(movies) { movie in
+            LazyHStack(spacing: 20) {
+                ForEach(viewModel.discoverMovies) { movie in
                     NavigationLink(destination: DetailView(movieID: movie.id)) {
-                        GeometryReader { proxy in
+                        //TODO: - acertar esse scroll pra tirar esses travamentos
+//                        GeometryReader { proxy in
                             MovieCell(image: URL(string: Constants.basePosters + movie.posterPath))
-                                .rotation3DEffect(Angle(degrees: (Double(proxy.frame(in: .global).minX) - 40) / -20), axis: (x: 0, y: 10.0, z: 0))
-                        }
-                        .frame(width: 246, height: 150)
+//                                x
+                                .onAppear {
+                                    if movie.id == viewModel.discoverMovies.last?.id {
+                                        viewModel.loadComponents(currentItem: movie)
+                                    }
+                                }
+//                        }
+//                        .frame(width: 246, height: 150)
                     }
                 }
             }
@@ -31,6 +37,6 @@ struct DiscoverMoviesView: View {
 
 struct DiscoverMoviesView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverMoviesView(movies: MoviesResult.stub)
+        DiscoverMoviesView()
     }
 }

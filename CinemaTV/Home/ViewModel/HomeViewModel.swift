@@ -14,34 +14,32 @@ final class HomeViewModel: ObservableObject {
     @Published var topRatedMovies: [MoviesResult] = []
     @Published var latestMovies: [MoviesResult] = []
     @Published var isLoadingPage = false
-    var perPage = 20
     var currentPage = 0
-    var listFull = false
-    private var canloadMorePages = true
+    var canloadMorePages = true
     @Published var dispathGroup = DispatchGroup()
     @State private var isLoading = true
+    var perPage = 20
+    var isLastItem = false
     
     init() {
         loadMoreContent()
     }
     
-    func loadComponents(currentItem item: [MoviesResult]) async {
-//        guard let item  = item else {
-//            loadMoreContent()
-//            return
-//        }
-        let thresholdIndex = discoverMovies.index(discoverMovies.endIndex, offsetBy: -5)
-        for item in item {
-            if discoverMovies.firstIndex(where: { $0.id == item.id }) == thresholdIndex {
-                loadMoreContent()
-            }
+    func loadComponents(currentItem item: MoviesResult?) {
+        guard let item = item else {
+            loadMoreContent()
+            return
         }
+        let thresholdIndex = discoverMovies.index(discoverMovies.endIndex, offsetBy: -5)
+//        if discoverMovies.lastIndex(where: { $0.id == item.id }) == thresholdIndex {
+            loadMoreContent()
+//        }
     }
     
     func loadMoreContent() {
-        guard !isLoadingPage && canloadMorePages else {
-            return
-        }
+//        guard !isLoadingPage && canloadMorePages else {
+//            return
+//        }
         
         isLoadingPage = true
         
@@ -54,11 +52,11 @@ final class HomeViewModel: ObservableObject {
             switch result {
             case .success(let movies):
                 DispatchQueue.main.async {
-                        self.discoverMovies += movies.results
-                        self.canloadMorePages = true
-                        self.isLoadingPage = false
-                        self.currentPage += 1
-                        print("Quantidade de filmes: \(self.discoverMovies.count)")
+                    self.discoverMovies += movies.results
+                    self.canloadMorePages = false
+                    self.isLoadingPage = false
+                    self.currentPage += 1
+                    print("Quantidade de filmes: \(self.discoverMovies.count)")
                 }
             case .failure(let error):
                 print(error.localizedDescription)

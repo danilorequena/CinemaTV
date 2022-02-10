@@ -18,7 +18,7 @@ struct HomeView: View {
                 } else {
                     ScrollView(.vertical) {
                         VStack(spacing: 20) {
-                            DiscoverMoviesView(movies: viewModel.discoverMovies)
+                            DiscoverMoviesView()
                                 .buttonStyle(.plain)
                                 .navigationTitle("Discover")
                             
@@ -27,9 +27,6 @@ struct HomeView: View {
                         }
                     }
                 }
-            }
-            .task {
-                await viewModel.loadComponents(currentItem: viewModel.discoverMovies)
             }
         }
     }
