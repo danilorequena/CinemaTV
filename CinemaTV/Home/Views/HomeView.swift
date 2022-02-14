@@ -9,7 +9,6 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
-    
     var body: some View {
         NavigationView{
             Group {
@@ -18,12 +17,14 @@ struct HomeView: View {
                 } else {
                     ScrollView(.vertical) {
                         VStack(spacing: 20) {
-                            DiscoverMoviesView()
+                            DiscoverMoviesView(movies: viewModel.discoverMovies)
                                 .buttonStyle(.plain)
                                 .navigationTitle("Discover")
                             
                             CarouselMoviesView(movies: viewModel.latestMovies, title: "Upcoming Movies")
+                                .buttonStyle(.plain)
                             CarouselMoviesView(movies: viewModel.topRatedMovies, title: "Top Reated")
+                                .buttonStyle(.plain)
                         }
                     }
                 }

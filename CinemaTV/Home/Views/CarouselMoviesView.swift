@@ -20,13 +20,13 @@ struct CarouselMoviesView: View {
                     ForEach(movies) { movie in
                         NavigationLink(destination: DetailView(movieID: movie.id)) {
                             VStack(spacing: 2) {
-                                MovieCell(image: URL(string: Constants.basePosters + movie.posterPath))
-                                    .frame(width: 120, height: 180)
+                                MovieCell(image: URL(string: Constants.basePosters + movie.backdropPath))
+                                    .frame(width: 180, height: 100)
                                 Text(movie.title)
                                     .font(.system(size: 16))
                                     .bold()
                                     .lineLimit(1)
-                                    .frame(width: 120)
+                                    .frame(width: 180)
                             }
                             .buttonStyle(.plain)
                         }
@@ -47,7 +47,7 @@ struct TopVotedMoviesView_Previews: PreviewProvider {
     static var previews: some View {
         CarouselMoviesView(movies: [
             MoviesResult(
-                backdropPath: "",
+                backdropPath: "/g2djzUqA6mFplzC03gDk0WSyg99.jpg",
                 genreIDS: [1,2],
                 id: 1,
                 originalTitle: "",

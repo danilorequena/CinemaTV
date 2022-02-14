@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 struct MovieCell: View {
     let image: URL?
@@ -18,12 +17,6 @@ struct MovieCell: View {
                 .background(.ultraThinMaterial)
                 .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 .cornerRadius(16)
-//            KFImage(image)
-//                .resizable()
-//                .loadDiskFileSynchronously()
-//                .cacheMemoryOnly()
-//                .fade(duration: 0.25)
-//                .scaledToFill()
         } else {
             Image("placeholder-image")
         }
