@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct DiscoverMoviesView: View {
-    //    @StateObject var viewModel = HomeViewModel()
     let movies: [MoviesResult]
     var body: some View {
         VStack(alignment: .trailing) {
@@ -17,7 +16,6 @@ struct DiscoverMoviesView: View {
             } label: {
                 Text("ver todos")
                     .font(.subheadline)
-                    .bold()
                     .padding(.trailing, 16)
                     .padding(.bottom, -16)
             }
