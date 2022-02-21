@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DiscoverMoviesView: View {
-//    @StateObject var viewModel = HomeViewModel()
+    //    @StateObject var viewModel = HomeViewModel()
     let movies: [MoviesResult]
     var body: some View {
         VStack(alignment: .trailing) {
@@ -37,8 +37,8 @@ struct DiscoverMoviesView: View {
                 .padding(40)
                 Spacer()
             }
-            .frame(width: UIScreen.main.bounds.width, height: 460)
         }
+        .frame(width: UIScreen.main.bounds.width, height: 460)
     }
 }
 

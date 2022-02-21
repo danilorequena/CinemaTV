@@ -10,9 +10,10 @@ import SwiftUI
 
 final class HomeViewModel: ObservableObject {
     var service = MoviesService()
-    @Published var discoverMovies = [MoviesResult]()
+    @Published var discoverMovies: [MoviesResult] = []
     @Published var topRatedMovies: [MoviesResult] = []
-    @Published var latestMovies: [MoviesResult] = []
+    @Published var upcomingMovies: [MoviesResult] = []
+    @Published var nowPlayngMovies: [MoviesResult] = []
     @Published var isLoadingPage = true
     var currentPage = 0
     var canloadMorePages = true
@@ -36,6 +37,10 @@ final class HomeViewModel: ObservableObject {
     
     func loadMoreContent() {
         DispatchQueue.main.async {
+            self.dispathGroup.enter()
+            self.getNowPlayngList()
+            self.dispathGroup.leave()
+            
             self.dispathGroup.enter()
             self.getMoviesList()
             self.dispathGroup.leave()
@@ -98,7 +103,26 @@ final class HomeViewModel: ObservableObject {
 //                DispatchQueue.main.async {
                     self.dispathGroup.leave()
                     self.dispathGroup.notify(queue: .main) {
-                        self.latestMovies = movies.results
+                        self.upcomingMovies = movies.results
+                    }
+//                }
+            case .failure(let error):
+                print(error.localizedDescription)
+                self.dispathGroup.leave()
+            }
+        }
+    }
+    
+    func getNowPlayngList() {
+        Task.init {
+            self.dispathGroup.enter()
+            let result = try await MoviesService.loadLatest(from: MoviesEndpoint.nowPlaying.path())
+            switch result {
+            case .success(let movies):
+//                DispatchQueue.main.async {
+                    self.dispathGroup.leave()
+                    self.dispathGroup.notify(queue: .main) {
+                        self.nowPlayngMovies = movies.results
                     }
 //                }
             case .failure(let error):

@@ -11,9 +11,23 @@ struct CarouselMoviesView: View {
     let movies: [MoviesResult]
     let title: String
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(title)
-                .padding(.init(top: 0, leading: 22, bottom: 0, trailing: 0))
+        VStack(alignment: .center) {
+            HStack {
+                Text(title)
+                    .font(.system(.headline, design: .rounded))
+                    .lineLimit(1)
+                    .frame(width: 260, alignment: .leading)
+                    
+                
+                Button {
+                    
+                } label: {
+                    Text("ver todos")
+                        .font(.subheadline)
+                        .frame(width: 80, alignment: .trailing)
+                }
+            }
+            .frame(width: UIScreen.main.bounds.width)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
@@ -23,8 +37,7 @@ struct CarouselMoviesView: View {
                                 MovieCell(image: URL(string: Constants.basePosters + movie.backdropPath))
                                     .frame(width: 180, height: 100)
                                 Text(movie.title)
-                                    .font(.system(size: 16))
-                                    .bold()
+                                    .font(.caption)
                                     .lineLimit(1)
                                     .frame(width: 180)
                             }
@@ -34,7 +47,7 @@ struct CarouselMoviesView: View {
                 }
                 .padding(.init(
                     top: 0,
-                    leading: 22,
+                    leading: 16,
                     bottom: 0,
                     trailing: 0
                 ))
@@ -73,7 +86,7 @@ struct TopVotedMoviesView_Previews: PreviewProvider {
                 voteCount: 12
             )
         ],
-                           title: "Top Reated"
+                           title: "Lançamentos"
         )
     }
 }

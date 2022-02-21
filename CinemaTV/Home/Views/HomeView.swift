@@ -16,14 +16,17 @@ struct HomeView: View {
                     CinemaTVProgressView()
                 } else {
                     ScrollView(.vertical) {
-                        VStack(spacing: 20) {
+                        VStack(spacing: 32) {
                             DiscoverMoviesView(movies: viewModel.discoverMovies)
                                 .buttonStyle(.plain)
                                 .navigationTitle("Discover")
                             
-                            CarouselMoviesView(movies: viewModel.latestMovies, title: "Upcoming Movies")
+                            CarouselMoviesView(movies: viewModel.nowPlayngMovies, title: "Lançamentos")
                                 .buttonStyle(.plain)
-                            CarouselMoviesView(movies: viewModel.topRatedMovies, title: "Top Reated")
+                            
+                            CarouselMoviesView(movies: viewModel.upcomingMovies, title: "O que vem por ai")
+                                .buttonStyle(.plain)
+                            CarouselMoviesView(movies: viewModel.topRatedMovies, title: "Melhor avaliados")
                                 .buttonStyle(.plain)
                         }
                     }
