@@ -22,13 +22,13 @@ struct MoviesListCell: View {
                 
                 VStack(spacing: 6) {
                     Text(title)
-                        .frame(width: 260)
-                        .font(.title2)
+                        .frame(width: 200)
+                        .font(.title3)
+                        .lineLimit(1)
                     Text(subTitle)
                         .font(.subheadline)
                         .lineLimit(4)
                 }
-                .frame(width: 200)
             } else {
                 Image("placeholder-image")
             }

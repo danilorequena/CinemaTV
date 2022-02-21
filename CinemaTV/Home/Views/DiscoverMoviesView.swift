@@ -11,13 +11,10 @@ struct DiscoverMoviesView: View {
     let movies: [MoviesResult]
     var body: some View {
         VStack(alignment: .trailing) {
-            Button {
-                
-            } label: {
+            NavigationLink(destination: MoviesListView(title: "Movies")) {
                 Text("ver todos")
                     .font(.subheadline)
                     .padding(.trailing, 16)
-                    .padding(.bottom, -16)
             }
             
             ScrollView(.horizontal, showsIndicators: false) {

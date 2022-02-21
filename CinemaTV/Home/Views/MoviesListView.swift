@@ -9,27 +9,36 @@ import SwiftUI
 
 struct MoviesListView: View {
     let title: String
-    let movies: [MoviesResult]
+    @StateObject private var viewModel = HomeViewModel()
     
     var body: some View {
-        NavigationView {
-            List(movies) { movie in
+        if viewModel.isLoadingPage {
+            CinemaTVProgressView()
+        } else {
+            List(viewModel.discoverMovies) { movie in
                 MoviesListCell(
                     image: URL(string: Constants.basePosters + movie.posterPath),
                     title: movie.title,
                     subTitle: movie.overview
                 )
+                    .onAppear {
+                        if movie == viewModel.discoverMovies.last {
+                            viewModel.getMoviesList()
+                        }
+                    }
+            }
+            .navigationTitle(title)
+            .refreshable {
+                viewModel.getMoviesList()
             }
         }
-        .navigationTitle(title)
     }
 }
 
 struct MoviesListView_Previews: PreviewProvider {
     static var previews: some View {
         MoviesListView(
-            title: "Movies",
-            movies: MoviesResult.stub
+            title: "Movies"
         )
     }
 }

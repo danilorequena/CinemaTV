@@ -18,10 +18,7 @@ struct CarouselMoviesView: View {
                     .lineLimit(1)
                     .frame(width: 260, alignment: .leading)
                     
-                
-                Button {
-                    
-                } label: {
+                NavigationLink(destination: MoviesListView(title: title)) {
                     Text("ver todos")
                         .font(.subheadline)
                         .frame(width: 80, alignment: .trailing)
