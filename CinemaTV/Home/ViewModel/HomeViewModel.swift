@@ -12,43 +12,78 @@ final class HomeViewModel: ObservableObject {
     var service = MoviesService()
     @Published var discoverMovies: [MoviesResult] = []
     @Published var topRatedMovies: [MoviesResult] = []
-    @Published var latestMovies: [MoviesResult] = []
-    var perPage = 20
-    var currentPage = 1
-    var listFull = false
+    @Published var upcomingMovies: [MoviesResult] = []
+    @Published var nowPlayngMovies: [MoviesResult] = []
+    @Published var isLoadingPage = true
+    var currentPage = 0
+    var canloadMorePages = true
     @Published var dispathGroup = DispatchGroup()
     @State private var isLoading = true
+    var perPage = 20
+    var isLastItem = false
     
-    func loadComponents() async {
-        dispathGroup.enter()
-        await getMoviesList()
-        dispathGroup.leave()
-        
-        dispathGroup.enter()
-        await getUpcomingList()
-        dispathGroup.leave()
-        
-        dispathGroup.enter()
-        await getTopVotedList()
-        dispathGroup.leave()
+    init() {
+        loadMoreContent()
     }
     
-    func getMoviesList() async {
+    func loadComponents(currentItem item: MoviesResult?) {
+        guard let item = item else {
+            loadMoreContent()
+            return
+        }
+        let thresholdIndex = discoverMovies.index(discoverMovies.endIndex, offsetBy: -5)
+            loadMoreContent()
+    }
+    
+    func loadMoreContent() {
+        DispatchQueue.main.async {
+            self.dispathGroup.enter()
+            self.getNowPlayngList()
+            self.dispathGroup.leave()
+            
+            self.dispathGroup.enter()
+            self.getMoviesList()
+            self.dispathGroup.leave()
+            
+            self.dispathGroup.enter()
+            self.getUpcomingList()
+            self.dispathGroup.leave()
+            
+            self.dispathGroup.enter()
+            self.getTopVotedList()
+            self.dispathGroup.leave()
+        }
+    }
+    
+    func getMoviesList() {
         Task.init {
             self.dispathGroup.enter()
-            let result = try await MoviesService.newloadMovies(from: MoviesEndpoint.discover.path())
+            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.discover.path())
             switch result {
             case .success(let movies):
-                DispatchQueue.main.async {
-//                    if self.movies.count < self.perPage {
-//                        self.listFull = true
-//                    }
-                    self.dispathGroup.notify(queue: .main) {
-                        self.discoverMovies = movies.results
-                    }
                     self.dispathGroup.leave()
-                    self.isLoading = false
+                    self.dispathGroup.notify(queue: .main) {
+                        self.discoverMovies += movies.results
+                        self.isLoadingPage = false
+                    print("Quantidade de filmes: \(self.discoverMovies.count)")
                 }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func getTopVotedList() {
+        Task.init {
+            self.dispathGroup.enter()
+            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.toRated.path())
+            switch result {
+            case .success(let movies):
+                    self.dispathGroup.leave()
+                    self.dispathGroup.notify(queue: .main) {
+                        self.topRatedMovies += movies.results
+                        self.isLoadingPage = false
+                    }
             case .failure(let error):
                 print(error.localizedDescription)
                 self.dispathGroup.leave()
@@ -56,21 +91,17 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
-    func getTopVotedList() async {
+    func getUpcomingList() {
         Task.init {
             self.dispathGroup.enter()
-            let result = try await MoviesService.newloadMovies(from: MoviesEndpoint.toRated.path())
+            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.upcoming.path())
             switch result {
             case .success(let movies):
-                DispatchQueue.main.async {
-//                    if self.movies.count < self.perPage {
-//                        self.listFull = true
-//                    }
                     self.dispathGroup.leave()
                     self.dispathGroup.notify(queue: .main) {
-                        self.topRatedMovies = movies.results
+                        self.upcomingMovies += movies.results
+                        self.isLoadingPage = false
                     }
-                }
             case .failure(let error):
                 print(error.localizedDescription)
                 self.dispathGroup.leave()
@@ -78,21 +109,17 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
-    func getUpcomingList() async {
+    func getNowPlayngList() {
         Task.init {
             self.dispathGroup.enter()
-            let result = try await MoviesService.loadLatest(from: MoviesEndpoint.upcoming.path())
+            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.nowPlaying.path())
             switch result {
             case .success(let movies):
-                DispatchQueue.main.async {
-//                    if self.movies.count < self.perPage {
-//                        self.listFull = true
-//                    }
                     self.dispathGroup.leave()
                     self.dispathGroup.notify(queue: .main) {
-                        self.latestMovies = movies.results
+                        self.nowPlayngMovies += movies.results
+                        self.isLoadingPage = false
                     }
-                }
             case .failure(let error):
                 print(error.localizedDescription)
                 self.dispathGroup.leave()

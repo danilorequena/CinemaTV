@@ -8,28 +8,29 @@
 import SwiftUI
 
 struct HomeView: View {
-    @ObservedObject private var viewModel = HomeViewModel()
-    
+    @StateObject private var viewModel = HomeViewModel()
     var body: some View {
         NavigationView{
             Group {
-                if viewModel.discoverMovies.isEmpty && viewModel.topRatedMovies.isEmpty {
+                if viewModel.isLoadingPage {
                     CinemaTVProgressView()
                 } else {
                     ScrollView(.vertical) {
-                        VStack(spacing: 20) {
+                        VStack(spacing: 32) {
                             DiscoverMoviesView(movies: viewModel.discoverMovies)
                                 .buttonStyle(.plain)
                                 .navigationTitle("Discover")
                             
-                            CarouselMoviesView(movies: viewModel.latestMovies, title: "Upcoming Movies")
-                            CarouselMoviesView(movies: viewModel.topRatedMovies, title: "Top Reated")
+                            CarouselMoviesView(movies: viewModel.nowPlayngMovies, title: "Lançamentos", state: .upcoming)
+                                .buttonStyle(.plain)
+                            
+                            CarouselMoviesView(movies: viewModel.upcomingMovies, title: "O que vem por ai", state: .nowPlaying)
+                                .buttonStyle(.plain)
+                            CarouselMoviesView(movies: viewModel.topRatedMovies, title: "Melhor avaliados", state: .topVoted)
+                                .buttonStyle(.plain)
                         }
                     }
                 }
-            }
-            .task {
-                await viewModel.loadComponents()
             }
         }
     }
