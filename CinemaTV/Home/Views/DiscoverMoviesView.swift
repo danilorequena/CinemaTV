@@ -11,7 +11,7 @@ struct DiscoverMoviesView: View {
     let movies: [MoviesResult]
     var body: some View {
         VStack(alignment: .trailing) {
-            NavigationLink(destination: MoviesListView(title: "Movies")) {
+            NavigationLink(destination: MoviesListView(title: "Movies", state: .discover)) {
                 Text("ver todos")
                     .font(.subheadline)
                     .padding(.trailing, 16)
@@ -29,7 +29,10 @@ struct DiscoverMoviesView: View {
                         }
                     }
                 }
-                .padding(40)
+                .padding(.top, 10)
+                .padding(.trailing, 40)
+                .padding(.leading, 40)
+                .padding(.bottom, 40)
                 Spacer()
             }
         }

@@ -10,6 +10,7 @@ import SwiftUI
 struct CarouselMoviesView: View {
     let movies: [MoviesResult]
     let title: String
+    var state: MoviesState
     var body: some View {
         VStack(alignment: .center) {
             HStack {
@@ -18,7 +19,7 @@ struct CarouselMoviesView: View {
                     .lineLimit(1)
                     .frame(width: 260, alignment: .leading)
                     
-                NavigationLink(destination: MoviesListView(title: title)) {
+                NavigationLink(destination: MoviesListView(title: title, state: state)) {
                     Text("ver todos")
                         .font(.subheadline)
                         .frame(width: 80, alignment: .trailing)
@@ -31,7 +32,7 @@ struct CarouselMoviesView: View {
                     ForEach(movies) { movie in
                         NavigationLink(destination: DetailView(movieID: movie.id)) {
                             VStack(spacing: 2) {
-                                MovieCell(image: URL(string: Constants.basePosters + movie.backdropPath))
+                                MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")))
                                     .frame(width: 180, height: 100)
                                 Text(movie.title)
                                     .font(.caption)
@@ -83,7 +84,7 @@ struct TopVotedMoviesView_Previews: PreviewProvider {
                 voteCount: 12
             )
         ],
-                           title: "Lançamentos"
+                           title: "Lançamentos", state: .topVoted
         )
     }
 }

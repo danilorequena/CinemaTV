@@ -61,12 +61,10 @@ final class HomeViewModel: ObservableObject {
             let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.discover.path())
             switch result {
             case .success(let movies):
-//                DispatchQueue.main.async {
                     self.dispathGroup.leave()
                     self.dispathGroup.notify(queue: .main) {
                         self.discoverMovies += movies.results
                         self.isLoadingPage = false
-//                    }
                     print("Quantidade de filmes: \(self.discoverMovies.count)")
                 }
             case .failure(let error):
@@ -78,15 +76,14 @@ final class HomeViewModel: ObservableObject {
     func getTopVotedList() {
         Task.init {
             self.dispathGroup.enter()
-            let result = try await MoviesService.newloadMovies(page: "1", from: MoviesEndpoint.toRated.path())
+            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.toRated.path())
             switch result {
             case .success(let movies):
-//                DispatchQueue.main.async {
                     self.dispathGroup.leave()
                     self.dispathGroup.notify(queue: .main) {
-                        self.topRatedMovies = movies.results
+                        self.topRatedMovies += movies.results
+                        self.isLoadingPage = false
                     }
-//                }
             case .failure(let error):
                 print(error.localizedDescription)
                 self.dispathGroup.leave()
@@ -97,15 +94,14 @@ final class HomeViewModel: ObservableObject {
     func getUpcomingList() {
         Task.init {
             self.dispathGroup.enter()
-            let result = try await MoviesService.loadLatest(from: MoviesEndpoint.upcoming.path())
+            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.upcoming.path())
             switch result {
             case .success(let movies):
-//                DispatchQueue.main.async {
                     self.dispathGroup.leave()
                     self.dispathGroup.notify(queue: .main) {
-                        self.upcomingMovies = movies.results
+                        self.upcomingMovies += movies.results
+                        self.isLoadingPage = false
                     }
-//                }
             case .failure(let error):
                 print(error.localizedDescription)
                 self.dispathGroup.leave()
@@ -116,15 +112,14 @@ final class HomeViewModel: ObservableObject {
     func getNowPlayngList() {
         Task.init {
             self.dispathGroup.enter()
-            let result = try await MoviesService.loadLatest(from: MoviesEndpoint.nowPlaying.path())
+            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.nowPlaying.path())
             switch result {
             case .success(let movies):
-//                DispatchQueue.main.async {
                     self.dispathGroup.leave()
                     self.dispathGroup.notify(queue: .main) {
-                        self.nowPlayngMovies = movies.results
+                        self.nowPlayngMovies += movies.results
+                        self.isLoadingPage = false
                     }
-//                }
             case .failure(let error):
                 print(error.localizedDescription)
                 self.dispathGroup.leave()
