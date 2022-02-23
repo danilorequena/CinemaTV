@@ -10,23 +10,34 @@ import SwiftUI
 struct CarouselMoviesView: View {
     let movies: [MoviesResult]
     let title: String
+    var state: MoviesState
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(title)
-                .padding(.init(top: 0, leading: 22, bottom: 0, trailing: 0))
+        VStack(alignment: .center) {
+            HStack {
+                Text(title)
+                    .font(.system(.headline, design: .rounded))
+                    .lineLimit(1)
+                    .frame(width: 260, alignment: .leading)
+                    
+                NavigationLink(destination: MoviesListView(title: title, state: state)) {
+                    Text("ver todos")
+                        .font(.subheadline)
+                        .frame(width: 80, alignment: .trailing)
+                }
+            }
+            .frame(width: UIScreen.main.bounds.width)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(movies) { movie in
                         NavigationLink(destination: DetailView(movieID: movie.id)) {
                             VStack(spacing: 2) {
-                                MovieCell(image: URL(string: Constants.basePosters + movie.posterPath))
-                                    .frame(width: 120, height: 180)
+                                MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")))
+                                    .frame(width: 180, height: 100)
                                 Text(movie.title)
-                                    .font(.system(size: 16))
-                                    .bold()
+                                    .font(.caption)
                                     .lineLimit(1)
-                                    .frame(width: 120)
+                                    .frame(width: 180)
                             }
                             .buttonStyle(.plain)
                         }
@@ -34,7 +45,7 @@ struct CarouselMoviesView: View {
                 }
                 .padding(.init(
                     top: 0,
-                    leading: 22,
+                    leading: 16,
                     bottom: 0,
                     trailing: 0
                 ))
@@ -47,7 +58,7 @@ struct TopVotedMoviesView_Previews: PreviewProvider {
     static var previews: some View {
         CarouselMoviesView(movies: [
             MoviesResult(
-                backdropPath: "",
+                backdropPath: "/g2djzUqA6mFplzC03gDk0WSyg99.jpg",
                 genreIDS: [1,2],
                 id: 1,
                 originalTitle: "",
@@ -73,7 +84,7 @@ struct TopVotedMoviesView_Previews: PreviewProvider {
                 voteCount: 12
             )
         ],
-                           title: "Top Reated"
+                           title: "Lançamentos", state: .topVoted
         )
     }
 }

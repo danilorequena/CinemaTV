@@ -13,7 +13,7 @@ struct MovieCell: View {
         if let image = image, let imageData = try? Data(contentsOf: image), let uiImage = UIImage(data: imageData) {
             Image(uiImage: uiImage)
                 .resizable()
-                .scaledToFit()
+                .scaledToFill()
                 .background(.ultraThinMaterial)
                 .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 .cornerRadius(16)

@@ -16,7 +16,7 @@ final class MoviesService: ObservableObject {
     
     private static let session = URLSession(configuration: configuration)
     
-    class func newloadMovies(from endpoint: String) async throws -> Result<DiscoverMovie, APIServiceError> {
+    class func newloadMovies(page: String, from endpoint: String) async throws -> Result<DiscoverMovie, APIServiceError> {
         
         guard let url = URL(string: Constants.baseUrl + endpoint) else { return .failure(APIServiceError.url) }
         
@@ -29,7 +29,7 @@ final class MoviesService: ObservableObject {
             URLQueryItem(name: "include_adult", value: "false"),
             URLQueryItem(name: "include_video", value: "true"),
             URLQueryItem(name: "watch_region", value: Locale.current.regionCode),
-            URLQueryItem(name: "page", value: "1")
+            URLQueryItem(name: "page", value: page)
         ]
         
         var request = URLRequest(url: (components?.url)!)
