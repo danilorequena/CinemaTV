@@ -26,15 +26,6 @@ final class HomeViewModel: ObservableObject {
         loadMoreContent()
     }
     
-    func loadComponents(currentItem item: MoviesResult?) {
-        guard let item = item else {
-            loadMoreContent()
-            return
-        }
-        let thresholdIndex = discoverMovies.index(discoverMovies.endIndex, offsetBy: -5)
-            loadMoreContent()
-    }
-    
     func loadMoreContent() {
         DispatchQueue.main.async {
             self.dispathGroup.enter()

@@ -33,6 +33,7 @@ struct MoviesListCell: View {
                 Image("placeholder-image")
             }
         }
+        .padding()
         .background(.bar)
         .cornerRadius(16)
     }
