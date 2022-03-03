@@ -11,7 +11,7 @@ struct DiscoverMoviesView: View {
     let movies: [MoviesResult]
     var body: some View {
         VStack(alignment: .trailing) {
-            NavigationLink(destination: MoviesListView(title: "Movies", state: .discover)) {
+            NavigationLink(destination: MoviesListView(title: "Discover", state: .discover)) {
                 Text("ver todos")
                     .font(.subheadline)
                     .padding(.trailing, 16)
@@ -42,6 +42,6 @@ struct DiscoverMoviesView: View {
 
 struct DiscoverMoviesView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverMoviesView( movies: MoviesResult.stub)
+        DiscoverMoviesView( movies: MoviesResult.stubbedMovies)
     }
 }

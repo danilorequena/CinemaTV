@@ -20,6 +20,11 @@ struct HomeView: View {
                             DiscoverMoviesView(movies: viewModel.discoverMovies)
                                 .buttonStyle(.plain)
                                 .navigationTitle("Discover")
+                                .toolbar {
+                                    Button("about") {
+                                        
+                                    }
+                                }
                             
                             CarouselMoviesView(movies: viewModel.nowPlayngMovies, title: "Lançamentos", state: .upcoming)
                                 .buttonStyle(.plain)

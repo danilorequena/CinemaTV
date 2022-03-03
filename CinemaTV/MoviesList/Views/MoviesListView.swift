@@ -18,23 +18,28 @@ struct MoviesListView: View {
     let title: String
     let state: MoviesState
     @ObservedObject private var viewModel = MoviesListViewModel()
+    @State private var searchText: String = ""
     
     var body: some View {
         VStack {
             if viewModel.isLoadingPage {
                 CinemaTVProgressView()
             } else if state == .discover {
-                List(viewModel.discoverMovies) { movie in
-                    MoviesListCell(
-                        image: URL(string: Constants.basePosters + movie.posterPath),
-                        title: movie.title,
-                        subTitle: movie.overview
-                    )
-                        .onAppear {
-                            setupViews(state: state, movie: movie)
-                        }
+                List(viewModel.discoverMovies, id: \.self) { movie in
+                    NavigationLink(destination: DetailView(viewModel: DetailViewModel(), movieID: movie.id)) {
+                        MoviesListCell(
+                            image: URL(string: Constants.basePosters + movie.posterPath),
+                            title: movie.title,
+                            subTitle: movie.overview
+                        )
+                            .onAppear {
+                                setupViews(state: state, movie: movie)
+                            }
+                    }
                 }
                 .navigationTitle(title)
+                .searchable(text: $searchText)
+                
             } else if state == .topVoted {
                 List(viewModel.topRatedMovies) { movie in
                     MoviesListCell(
@@ -47,6 +52,7 @@ struct MoviesListView: View {
                         }
                 }
                 .navigationTitle(title)
+                .searchable(text: $searchText)
                 
             } else if state == .nowPlaying {
                 List(viewModel.nowPlayngMovies) { movie in
@@ -60,6 +66,7 @@ struct MoviesListView: View {
                         }
                 }
                 .navigationTitle(title)
+                .searchable(text: $searchText)
                 
             } else if state == .upcoming {
                 List(viewModel.upcomingMovies) { movie in
@@ -73,6 +80,7 @@ struct MoviesListView: View {
                         }
                 }
                 .navigationTitle(title)
+                .searchable(text: $searchText)
             }
         }
         .onAppear {

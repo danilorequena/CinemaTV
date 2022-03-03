@@ -11,7 +11,7 @@ struct Constants {
     //URLs
     static let apiKey = "ddf20e1d6a0147313cfd3b4ac419e373"
     static let baseUrl = "https://api.themoviedb.org/3/"
-    static let basePosters = "https://image.tmdb.org/t/p/original"
+    static let basePosters = "https://image.tmdb.org/t/p/w500"
     static let baseTrailers = "https://www.youtube.com/embed/"
     
     //Screen Titles
