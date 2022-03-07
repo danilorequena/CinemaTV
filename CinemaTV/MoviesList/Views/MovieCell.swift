@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MovieCell: View {
     let image: URL?
+//    @ObservedObject var imageLoader = ImageLoader()
     var body: some View {
         if let image = image, let imageData = try? Data(contentsOf: image), let uiImage = UIImage(data: imageData) {
             Image(uiImage: uiImage)

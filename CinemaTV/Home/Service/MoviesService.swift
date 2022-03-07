@@ -18,7 +18,9 @@ final class MoviesService: ObservableObject {
     
     class func newloadMovies(page: String, from endpoint: String) async throws -> Result<DiscoverMovie, APIServiceError> {
         
-        guard let url = URL(string: Constants.baseUrl + endpoint) else { return .failure(APIServiceError.url) }
+        guard let url = URL(string: Constants.baseUrl + endpoint) else {
+            return .failure(APIServiceError.url)
+        }
         
         var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
         

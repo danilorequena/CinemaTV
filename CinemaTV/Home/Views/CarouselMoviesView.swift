@@ -11,6 +11,7 @@ struct CarouselMoviesView: View {
     let movies: [MoviesResult]
     let title: String
     var state: MoviesState
+    var selectionIndex: Int
     var body: some View {
         VStack(alignment: .center) {
             HStack {
@@ -19,7 +20,7 @@ struct CarouselMoviesView: View {
                     .lineLimit(1)
                     .frame(width: 260, alignment: .leading)
                     
-                NavigationLink(destination: MoviesListView(title: title, state: state)) {
+                NavigationLink(destination: MoviesListView(title: title, state: state, selectionIndex: selectionIndex)) {
                     Text("ver todos")
                         .font(.subheadline)
                         .frame(width: 80, alignment: .trailing)
@@ -84,7 +85,7 @@ struct TopVotedMoviesView_Previews: PreviewProvider {
                 voteCount: 12
             )
         ],
-                           title: "Lançamentos", state: .topVoted
+                           title: "Lançamentos", state: .topVoted, selectionIndex: 0
         )
     }
 }

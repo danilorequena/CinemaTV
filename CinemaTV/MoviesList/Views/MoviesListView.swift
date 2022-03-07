@@ -15,8 +15,10 @@ enum MoviesState {
 }
 
 struct MoviesListView: View {
-    let title: String
+    @State var title: String
     let state: MoviesState
+    @State var selectionIndex: Int
+    @State private var tabs = ["Discover", "Upcoming", "Top Rated"]
     @ObservedObject private var viewModel = MoviesListViewModel()
     @State private var searchText: String = ""
     
@@ -24,87 +26,52 @@ struct MoviesListView: View {
         VStack {
             if viewModel.isLoadingPage {
                 CinemaTVProgressView()
-            } else if state == .discover {
-                List(viewModel.discoverMovies, id: \.self) { movie in
+            } else {
+                Picker("_", selection: $selectionIndex) {
+                    ForEach(0..<tabs.count) { index in
+                        Text(tabs[index])
+                            .font(.title)
+                            .bold()
+                            .tag(index)
+                    }
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .onChange(of: selectionIndex) { (_) in
+                    if selectionIndex == 0 {
+                        viewModel.loadData(endpoint: .discover)
+                        title = "Discover"
+                    } else if selectionIndex == 1 {
+                        viewModel.loadData(endpoint: .upcoming)
+                        title = "Upcoming"
+                    } else if selectionIndex == 2 {
+                        viewModel.loadData(endpoint: .toRated)
+                        title = "Melhor Avaliados"
+                    }
+                }
+                
+                List(viewModel.movies.filter{searchText.isEmpty ? true : $0.title.lowercased().localizedStandardContains(searchText.lowercased())}) { movie in
                     NavigationLink(destination: DetailView(viewModel: DetailViewModel(), movieID: movie.id)) {
                         MoviesListCell(
                             image: URL(string: Constants.basePosters + movie.posterPath),
                             title: movie.title,
                             subTitle: movie.overview
                         )
-                            .onAppear {
-                                setupViews(state: state, movie: movie)
-                            }
                     }
-                }
-                .navigationTitle(title)
-                .searchable(text: $searchText)
-                
-            } else if state == .topVoted {
-                List(viewModel.topRatedMovies) { movie in
-                    MoviesListCell(
-                        image: URL(string: Constants.basePosters + movie.posterPath),
-                        title: movie.title,
-                        subTitle: movie.overview
-                    )
-                        .onAppear {
-                            setupViews(state: state, movie: movie)
-                        }
-                }
-                .navigationTitle(title)
-                .searchable(text: $searchText)
-                
-            } else if state == .nowPlaying {
-                List(viewModel.nowPlayngMovies) { movie in
-                    MoviesListCell(
-                        image: URL(string: Constants.basePosters + movie.posterPath),
-                        title: movie.title,
-                        subTitle: movie.overview
-                    )
-                        .onAppear {
-                            setupViews(state: state, movie: movie)
-                        }
-                }
-                .navigationTitle(title)
-                .searchable(text: $searchText)
-                
-            } else if state == .upcoming {
-                List(viewModel.upcomingMovies) { movie in
-                    MoviesListCell(
-                        image: URL(string: Constants.basePosters + movie.posterPath),
-                        title: movie.title,
-                        subTitle: movie.overview
-                    )
-                        .onAppear {
-                            setupViews(state: state, movie: movie)
-                        }
                 }
                 .navigationTitle(title)
                 .searchable(text: $searchText)
             }
         }
         .onAppear {
-            viewModel.loadData(state: state)
-        }
-    }
-    
-    private func setupViews(state: MoviesState, movie: MoviesResult) {
-        switch state {
-        case .discover:
-            if movie == viewModel.discoverMovies.last {
-                viewModel.loadData(state: state)
-            }
-        case .upcoming:
-            if movie == viewModel.upcomingMovies.last {
-                viewModel.loadData(state: state)
-            }
-        case .topVoted:
-            if movie == viewModel.topRatedMovies.last {
-                viewModel.loadData(state: state)
-            }
-        case .nowPlaying:
-            if movie == viewModel.nowPlayngMovies.last {
-                viewModel.loadData(state: state)
+            switch selectionIndex {
+            case 0:
+                viewModel.loadData(endpoint: .discover)
+            case 1:
+                viewModel.loadData(endpoint: .upcoming)
+            case 2:
+                viewModel.loadData(endpoint: .toRated)
+            default:
+                break
             }
         }
     }
@@ -113,7 +80,9 @@ struct MoviesListView: View {
 struct MoviesListView_Previews: PreviewProvider {
     static var previews: some View {
         MoviesListView(
-            title: "Movies", state: .topVoted
+            title: "Movies",
+            state: .discover,
+            selectionIndex: 0
         )
     }
 }

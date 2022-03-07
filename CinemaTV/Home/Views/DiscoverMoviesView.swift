@@ -9,9 +9,16 @@ import SwiftUI
 
 struct DiscoverMoviesView: View {
     let movies: [MoviesResult]
+    var selectionIndex: Int
     var body: some View {
         VStack(alignment: .trailing) {
-            NavigationLink(destination: MoviesListView(title: "Discover", state: .discover)) {
+            NavigationLink(
+                destination: MoviesListView(
+                    title: "Discover",
+                    state: .discover,
+                    selectionIndex: selectionIndex
+                )
+            ) {
                 Text("ver todos")
                     .font(.subheadline)
                     .padding(.trailing, 16)
@@ -42,6 +49,6 @@ struct DiscoverMoviesView: View {
 
 struct DiscoverMoviesView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverMoviesView( movies: MoviesResult.stubbedMovies)
+        DiscoverMoviesView( movies: MoviesResult.stubbedMovies, selectionIndex: 0)
     }
 }
