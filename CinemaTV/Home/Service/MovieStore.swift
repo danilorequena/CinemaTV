@@ -24,13 +24,32 @@ final class MovieStore: MovieServiceProtocol {
         self.loadURLAndDecode(url: url, completion: completion)
     }
     
+    func fetchDetail(from id: Int, completion: @escaping (Result<DetailMoviesModel, MovieError>) -> ()) {
+        guard let url = URL(string: Constants.baseUrl + MoviesEndpoint.detail(movie: id).path()) else {
+            completion(.failure(.invalidEndpoint))
+            return
+        }
+        
+        let queryItems = [
+            "language" : "pt-BR",
+            "include_video" : "true",
+            "watch_region" : "pt-BR"
+        ]
+        
+        self.loadURLAndDecode(url: url, params: queryItems, completion: completion)
+    }
+    
     private func loadURLAndDecode<D: Decodable>(url: URL, params: [String : String]? = nil, completion: @escaping (Result<D, MovieError>) -> ()) {
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             completion(.failure(.invalidEndpoint))
             return
         }
         
-        var queryItems = [URLQueryItem(name: "api_key", value: Constants.apiKey)]
+        var queryItems = [
+            URLQueryItem(name: "api_key", value: Constants.apiKey),
+            URLQueryItem(name: "include_adult", value: "false"),
+            URLQueryItem(name: "region", value: Locale.current.regionCode)
+        ]
         if let params = params {
             queryItems.append(contentsOf: params.map {URLQueryItem(name: $0.key, value: $0.value)})
         }

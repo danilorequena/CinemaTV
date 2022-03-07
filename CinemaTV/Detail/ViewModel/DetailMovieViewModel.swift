@@ -30,19 +30,19 @@ final class DetailViewModel: ObservableObject {
     func fetchDetail(movieID: Int) async {
         Task.init {
             dispathGroup.enter()
-            let result = try await MoviesService.loadDetail(from: MoviesEndpoint.detail(movie: movieID).path())
-            switch result {
-            case .success(let movie):
-                self.dispathGroup.notify(queue: .main) {
-                    self.detailMovie = movie
+            let result = try await MovieStore.shared.fetchDetail(from: movieID, completion: { result in
+                switch result {
+                case .success(let movie):
+                    self.dispathGroup.notify(queue: .main) {
+                        self.detailMovie = movie
+                    }
+                    self.dispathGroup.leave()
+                    self.isLoading = false
+                case .failure(let error):
+                    print(error)
+                    self.dispathGroup.leave()
                 }
-                self.dispathGroup.leave()
-                self.isLoading = false
-                
-            case .failure(let error):
-                print(error)
-                self.dispathGroup.leave()
-            }
+            })
         }
     }
     

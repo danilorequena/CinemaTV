@@ -42,7 +42,7 @@ struct DetailView: View {
                                     
                                     CastView(castID: detail.id)
                                     
-                                    TrailersView(videoID: movieID, videoKey: viewModel.videoKey!)
+                                    TrailersView(videoID: movieID, videoKey: viewModel.videoKey ?? "")
                                         .padding(16)
                                         .frame(height: 260)
                                 }
