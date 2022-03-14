@@ -29,7 +29,7 @@ struct HomeView: View {
                             CarouselMoviesView(movies: viewModel.nowPlayngMovies, title: "Lançamentos", selectionIndex: 0)
                                 .buttonStyle(.plain)
                             
-                            CarouselMoviesView(movies: viewModel.upcomingMovies, title: "Filmes Populares", selectionIndex: 1)
+                            CarouselMoviesView(movies: viewModel.popularMovies, title: "Filmes Populares", selectionIndex: 1)
                                 .buttonStyle(.plain)
                             
                             CarouselMoviesView(movies: viewModel.topRatedMovies, title: "Melhor avaliados", selectionIndex: 2)

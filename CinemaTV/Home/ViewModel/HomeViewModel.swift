@@ -12,7 +12,7 @@ final class HomeViewModel: ObservableObject {
     var service = MoviesService()
     @Published var discoverMovies: [MoviesResult] = []
     @Published var topRatedMovies: [MoviesResult] = []
-    @Published var upcomingMovies: [MoviesResult] = []
+    @Published var popularMovies: [MoviesResult] = []
     @Published var nowPlayngMovies: [MoviesResult] = []
     @Published var isLoadingPage = true
     var currentPage = 0
@@ -37,7 +37,7 @@ final class HomeViewModel: ObservableObject {
             self.dispathGroup.leave()
             
             self.dispathGroup.enter()
-            self.getUpcomingList()
+            self.getPopularList()
             self.dispathGroup.leave()
             
             self.dispathGroup.enter()
@@ -82,29 +82,15 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
-    func getUpcomingList() {
-//        Task.init {
-//            self.dispathGroup.enter()
-//            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.upcoming.path())
-//            switch result {
-//            case .success(let movies):
-//                    self.dispathGroup.leave()
-//                    self.dispathGroup.notify(queue: .main) {
-//                        self.upcomingMovies += movies.results
-//                        self.isLoadingPage = false
-//                    }
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//                self.dispathGroup.leave()
-//            }
-//        }
-        MovieStore.shared.fetchUpcomingMovies(from: MoviesEndpoint.popular) { result in
+    func getPopularList() {
+        // chamada sem async já com novo service
+        MovieStore.shared.fetchMovies(from: MoviesEndpoint.popular) { result in
             self.dispathGroup.enter()
             switch result {
             case .success(let movies):
                 self.dispathGroup.leave()
                 self.dispathGroup.notify(queue: .main) {
-                    self.upcomingMovies = movies.results
+                    self.popularMovies = movies.results
                     self.isLoadingPage = false
                 }
             case .failure(let error):

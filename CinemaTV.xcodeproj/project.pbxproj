@@ -27,7 +27,6 @@
 		7D4224A2273821F7006236F8 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4224A1273821F7006236F8 /* MovieCell.swift */; };
 		7D4224A72738266D006236F8 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4224A62738266D006236F8 /* HomeViewModel.swift */; };
 		7DF3C920273961BB0072598F /* CarouselMoviesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF3C91F273961BB0072598F /* CarouselMoviesView.swift */; };
-		FF29FF7B27DF9E9B00C7A8B4 /* UpcomingMovies.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF29FF7A27DF9E9B00C7A8B4 /* UpcomingMovies.swift */; };
 		FF3937F727C6E3310082FF42 /* MoviesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3937F627C6E3310082FF42 /* MoviesListService.swift */; };
 		FF3937F927C6E40C0082FF42 /* MoviesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3937F827C6E40C0082FF42 /* MoviesListViewModel.swift */; };
 		FF394E3727D0FA4200FFBDFC /* discover.json in Resources */ = {isa = PBXBuildFile; fileRef = FF394E3627D0FA4200FFBDFC /* discover.json */; };
@@ -93,7 +92,6 @@
 		7D4224A1273821F7006236F8 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		7D4224A62738266D006236F8 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		7DF3C91F273961BB0072598F /* CarouselMoviesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselMoviesView.swift; sourceTree = "<group>"; };
-		FF29FF7A27DF9E9B00C7A8B4 /* UpcomingMovies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingMovies.swift; sourceTree = "<group>"; };
 		FF3937F627C6E3310082FF42 /* MoviesListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListService.swift; sourceTree = "<group>"; };
 		FF3937F827C6E40C0082FF42 /* MoviesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListViewModel.swift; sourceTree = "<group>"; };
 		FF394E3627D0FA4200FFBDFC /* discover.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = discover.json; path = ../../../../Downloads/discover.json; sourceTree = "<group>"; };
@@ -234,7 +232,6 @@
 			isa = PBXGroup;
 			children = (
 				7D42248D273811A7006236F8 /* DiscoverMovie.swift */,
-				FF29FF7A27DF9E9B00C7A8B4 /* UpcomingMovies.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -583,7 +580,6 @@
 				FF4DDD7B27C333250049CAFA /* MoviesListView.swift in Sources */,
 				FFEF0AE6275FA6F400D5593C /* TrailersView.swift in Sources */,
 				FF9157012749D15A00AF74C3 /* DetailView.swift in Sources */,
-				FF29FF7B27DF9E9B00C7A8B4 /* UpcomingMovies.swift in Sources */,
 				FF3937F727C6E3310082FF42 /* MoviesListService.swift in Sources */,
 				7D4224A2273821F7006236F8 /* MovieCell.swift in Sources */,
 				7D42249527381348006236F8 /* MoviesEndpoint.swift in Sources */,
