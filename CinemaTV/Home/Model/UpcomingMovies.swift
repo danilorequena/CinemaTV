@@ -1,34 +1,42 @@
 //
-//  Movie.swift
+//  UpcomingMovies.swift
 //  CinemaTV
 //
-//  Created by Danilo Requena on 07/11/21.
+//  Created by Danilo Requena on 14/03/22.
 //
 
 import Foundation
 
-// MARK: - Movie
-struct DiscoverMovie: Codable {
+// MARK: - UpcomingMovies
+struct UpcomingMovies: Codable {
+    let dates: Dates?
     let page: Int
     let results: [MoviesResult]
     let totalPages, totalResults: Int
 
     enum CodingKeys: String, CodingKey {
-        case page, results
+        case dates, page, results
         case totalPages = "total_pages"
         case totalResults = "total_results"
     }
 }
 
+// MARK: - Dates
+struct Dates: Codable {
+    let maximum, minimum: String
+}
+
 // MARK: - Result
-struct MoviesResult: Codable, Identifiable, Equatable, Hashable {
+struct UpcomingResult: Codable, Identifiable, Equatable, Hashable {
     let adult: Bool
     let backdropPath: String?
     let genreIDS: [Int]
     let id: Int
-    let overview: String
+    let originalLanguage: OriginalLanguage
+    let originalTitle, overview: String
     let popularity: Double
     let posterPath, releaseDate, title: String
+    let video: Bool
     let voteAverage: Double
     let voteCount: Int
 
@@ -37,13 +45,17 @@ struct MoviesResult: Codable, Identifiable, Equatable, Hashable {
         case backdropPath = "backdrop_path"
         case genreIDS = "genre_ids"
         case id
+        case originalLanguage = "original_language"
+        case originalTitle = "original_title"
         case overview, popularity
         case posterPath = "poster_path"
         case releaseDate = "release_date"
-        case title
+        case title, video
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
     }
 }
 
-
+enum OriginalLanguage: String, Codable {
+    case en = "en"
+}

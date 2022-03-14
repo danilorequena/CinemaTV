@@ -7,16 +7,8 @@
 
 import SwiftUI
 
-enum MoviesState {
-    case discover
-    case upcoming
-    case topVoted
-    case nowPlaying
-}
-
 struct MoviesListView: View {
     @State var title: String
-    let state: MoviesState
     @State var selectionIndex: Int
     @State private var tabs = ["Discover", "Upcoming", "Top Rated"]
     @ObservedObject private var viewModel = MoviesListViewModel()
@@ -81,7 +73,6 @@ struct MoviesListView_Previews: PreviewProvider {
     static var previews: some View {
         MoviesListView(
             title: "Movies",
-            state: .discover,
             selectionIndex: 0
         )
     }

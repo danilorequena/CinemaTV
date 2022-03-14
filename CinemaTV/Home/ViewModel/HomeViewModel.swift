@@ -83,16 +83,30 @@ final class HomeViewModel: ObservableObject {
     }
     
     func getUpcomingList() {
-        Task.init {
+//        Task.init {
+//            self.dispathGroup.enter()
+//            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.upcoming.path())
+//            switch result {
+//            case .success(let movies):
+//                    self.dispathGroup.leave()
+//                    self.dispathGroup.notify(queue: .main) {
+//                        self.upcomingMovies += movies.results
+//                        self.isLoadingPage = false
+//                    }
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//                self.dispathGroup.leave()
+//            }
+//        }
+        MovieStore.shared.fetchUpcomingMovies(from: MoviesEndpoint.popular) { result in
             self.dispathGroup.enter()
-            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.upcoming.path())
             switch result {
             case .success(let movies):
-                    self.dispathGroup.leave()
-                    self.dispathGroup.notify(queue: .main) {
-                        self.upcomingMovies += movies.results
-                        self.isLoadingPage = false
-                    }
+                self.dispathGroup.leave()
+                self.dispathGroup.notify(queue: .main) {
+                    self.upcomingMovies = movies.results
+                    self.isLoadingPage = false
+                }
             case .failure(let error):
                 print(error.localizedDescription)
                 self.dispathGroup.leave()

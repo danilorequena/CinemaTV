@@ -24,6 +24,15 @@ final class MovieStore: MovieServiceProtocol {
         self.loadURLAndDecode(url: url, completion: completion)
     }
     
+    func fetchUpcomingMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<UpcomingMovies, MovieError>) -> ()) {
+        guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
+            completion(.failure(.invalidEndpoint))
+            return
+        }
+        
+        self.loadURLAndDecode(url: url, completion: completion)
+    }
+    
     func fetchDetail(from id: Int, completion: @escaping (Result<DetailMoviesModel, MovieError>) -> ()) {
         guard let url = URL(string: Constants.baseUrl + MoviesEndpoint.detail(movie: id).path()) else {
             completion(.failure(.invalidEndpoint))

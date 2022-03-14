@@ -15,7 +15,6 @@ struct DiscoverMoviesView: View {
             NavigationLink(
                 destination: MoviesListView(
                     title: "Discover",
-                    state: .discover,
                     selectionIndex: selectionIndex
                 )
             ) {

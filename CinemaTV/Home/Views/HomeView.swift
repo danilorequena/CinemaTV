@@ -26,16 +26,16 @@ struct HomeView: View {
                                     }
                                 }
                             
-                            CarouselMoviesView(movies: viewModel.nowPlayngMovies, title: "Lançamentos", state: .upcoming, selectionIndex: 0)
+                            CarouselMoviesView(movies: viewModel.nowPlayngMovies, title: "Lançamentos", selectionIndex: 0)
                                 .buttonStyle(.plain)
                             
-                            CarouselMoviesView(movies: viewModel.upcomingMovies, title: "O que vem por ai", state: .nowPlaying, selectionIndex: 1)
+                            CarouselMoviesView(movies: viewModel.upcomingMovies, title: "Filmes Populares", selectionIndex: 1)
                                 .buttonStyle(.plain)
                             
-                            CarouselMoviesView(movies: viewModel.topRatedMovies, title: "Melhor avaliados", state: .topVoted, selectionIndex: 2)
+                            CarouselMoviesView(movies: viewModel.topRatedMovies, title: "Melhor avaliados", selectionIndex: 2)
                                 .buttonStyle(.plain)
                             
-                            NavigationLink(destination: MoviesListView(title: "Movies", state: .discover, selectionIndex: 0)) {
+                            NavigationLink(destination: MoviesListView(title: "Movies", selectionIndex: 0)) {
                                 VStack {
                                     Text("Ver Todos")
                                 }
