@@ -47,34 +47,63 @@ final class HomeViewModel: ObservableObject {
     }
     
     func getMoviesList() {
-        Task.init {
+//        Task.init {
+//            self.dispathGroup.enter()
+//            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.discover.path())
+//            switch result {
+//            case .success(let movies):
+//                    self.dispathGroup.leave()
+//                    self.dispathGroup.notify(queue: .main) {
+//                        self.discoverMovies += movies.results
+//                        self.isLoadingPage = false
+//                    print("Quantidade de filmes: \(self.discoverMovies.count)")
+//                }
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//        }
+        MovieStore.shared.fetchMovies(from: MoviesEndpoint.discover) { result in
             self.dispathGroup.enter()
-            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.discover.path())
             switch result {
             case .success(let movies):
-                    self.dispathGroup.leave()
-                    self.dispathGroup.notify(queue: .main) {
-                        self.discoverMovies += movies.results
-                        self.isLoadingPage = false
-                    print("Quantidade de filmes: \(self.discoverMovies.count)")
+                self.dispathGroup.leave()
+                self.dispathGroup.notify(queue: .main) {
+                    self.discoverMovies = movies.results
+                    self.isLoadingPage = false
                 }
             case .failure(let error):
                 print(error.localizedDescription)
+                self.dispathGroup.leave()
             }
         }
     }
     
     func getTopVotedList() {
-        Task.init {
+//        Task.init {
+//            self.dispathGroup.enter()
+//            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.toRated.path())
+//            switch result {
+//            case .success(let movies):
+//                    self.dispathGroup.leave()
+//                    self.dispathGroup.notify(queue: .main) {
+//                        self.topRatedMovies += movies.results
+//                        self.isLoadingPage = false
+//                    }
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//                self.dispathGroup.leave()
+//            }
+//        }
+        
+        MovieStore.shared.fetchMovies(from: MoviesEndpoint.toRated) { result in
             self.dispathGroup.enter()
-            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.toRated.path())
             switch result {
             case .success(let movies):
-                    self.dispathGroup.leave()
-                    self.dispathGroup.notify(queue: .main) {
-                        self.topRatedMovies += movies.results
-                        self.isLoadingPage = false
-                    }
+                self.dispathGroup.leave()
+                self.dispathGroup.notify(queue: .main) {
+                    self.topRatedMovies = movies.results
+                    self.isLoadingPage = false
+                }
             case .failure(let error):
                 print(error.localizedDescription)
                 self.dispathGroup.leave()
@@ -101,16 +130,30 @@ final class HomeViewModel: ObservableObject {
     }
     
     func getNowPlayngList() {
-        Task.init {
+//        Task.init {
+//            self.dispathGroup.enter()
+//            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.nowPlaying.path())
+//            switch result {
+//            case .success(let movies):
+//                    self.dispathGroup.leave()
+//                    self.dispathGroup.notify(queue: .main) {
+//                        self.nowPlayngMovies += movies.results
+//                        self.isLoadingPage = false
+//                    }
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//                self.dispathGroup.leave()
+//            }
+//        }
+        MovieStore.shared.fetchMovies(from: MoviesEndpoint.nowPlaying) { result in
             self.dispathGroup.enter()
-            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.nowPlaying.path())
             switch result {
             case .success(let movies):
-                    self.dispathGroup.leave()
-                    self.dispathGroup.notify(queue: .main) {
-                        self.nowPlayngMovies += movies.results
-                        self.isLoadingPage = false
-                    }
+                self.dispathGroup.leave()
+                self.dispathGroup.notify(queue: .main) {
+                    self.nowPlayngMovies = movies.results
+                    self.isLoadingPage = false
+                }
             case .failure(let error):
                 print(error.localizedDescription)
                 self.dispathGroup.leave()

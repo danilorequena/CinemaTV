@@ -11,10 +11,14 @@ import SwiftUI
 
 final class MoviesListViewModel: ObservableObject {
     var service = MoviesService()
-    @Published var movies: [MoviesResult] = []
+    @Published var movies = [MoviesResult]()
     @Published var isLoadingPage = true
     var currentPage = 1
     var isLastItem = false
+    
+//    init() {
+////        loadData(endpoint: <#T##MoviesEndpoint#>)
+//    }
     
     func loadData(endpoint: MoviesEndpoint) {
         loadDiscoverMovies(endpoint: endpoint)

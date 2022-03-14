@@ -12,7 +12,7 @@ struct MoviesListCell: View {
     let image: URL?
     let title: String
     let subTitle: String
-    @ObservedObject var imageLoader = ImageLoader()
+    @StateObject var imageLoader = ImageLoader()
     var body: some View {
         HStack (alignment: .top){
             let processor = DownsamplingImageProcessor(size: CGSize(width: 100, height: 120))
@@ -23,7 +23,7 @@ struct MoviesListCell: View {
                     .setProcessor(processor)
                     .loadDiskFileSynchronously()
                     .cacheMemoryOnly()
-                    .fade(duration: 0.15)
+                    .fade(duration: 0.5)
                     .frame(width: 100, height: 120)
 //                Image(uiImage: uiImage)
 //                    .resizable()
@@ -40,13 +40,11 @@ struct MoviesListCell: View {
                         .font(.subheadline)
                         .lineLimit(4)
                 }
-            } else {
-                Image(systemName: "placeholder-image")
             }
         }
-        .onAppear {
-            self.imageLoader.loadImage(with: image!)
-        }
+//        .onAppear {
+//            self.imageLoader.loadImage(with: image!)
+//        }
     }
 }
 

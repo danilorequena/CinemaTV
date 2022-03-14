@@ -21,7 +21,7 @@ final class MovieStore: MovieServiceProtocol {
             return
         }
         
-        self.loadURLAndDecode(url: url, completion: completion)
+        loadURLAndDecode(url: url, completion: completion)
     }
     
     func fetchDetail(from id: Int, completion: @escaping (Result<DetailMoviesModel, MovieError>) -> ()) {
@@ -36,7 +36,24 @@ final class MovieStore: MovieServiceProtocol {
             "watch_region" : "pt-BR"
         ]
         
-        self.loadURLAndDecode(url: url, params: queryItems, completion: completion)
+        loadURLAndDecode(url: url, params: queryItems, completion: completion)
+    }
+    
+    func fetchCast(from endpoint: String, completion: @escaping (Result<CastModel, MovieError>) -> ()) {
+        guard let url = URL(string: Constants.baseUrl + endpoint) else {
+            completion(.failure(.invalidEndpoint))
+            return
+        }
+        loadURLAndDecode(url: url, completion: completion)
+    }
+    
+    func fetchTrailer(from endpoint: String, completion: @escaping (Result<VideoModel, MovieError>) -> ()) {
+        guard let url = URL(string: Constants.baseUrl + endpoint) else {
+            completion(.failure(.invalidEndpoint))
+            return
+        }
+        
+        loadURLAndDecode(url: url, completion: completion)
     }
     
     private func loadURLAndDecode<D: Decodable>(url: URL, params: [String : String]? = nil, completion: @escaping (Result<D, MovieError>) -> ()) {

@@ -40,7 +40,7 @@ struct HomeView: View {
                                     Text("Ver Todos")
                                 }
                                 .frame(width: UIScreen.main.bounds.width - 32, height: 56)
-                                .background(.blue)
+                                .background(Color.blue)
                                 .foregroundColor(.white)
                                 .cornerRadius(8)
                             }

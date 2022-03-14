@@ -51,7 +51,7 @@ struct MoviesListView: View {
                     }
                 }
                 .navigationTitle(title)
-                .searchable(text: $searchText)
+//                .searchable(text: $searchText)
             }
         }
         .onAppear {

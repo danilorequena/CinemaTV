@@ -15,7 +15,7 @@ struct MovieCell: View {
             Image(uiImage: uiImage)
                 .resizable()
                 .scaledToFill()
-                .background(.ultraThinMaterial)
+//                .background(.ultraThinMaterial)
                 .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 .cornerRadius(16)
         } else {
