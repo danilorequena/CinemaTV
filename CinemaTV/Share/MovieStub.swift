@@ -7,9 +7,9 @@
 
 import Foundation
 
-extension MoviesResult {
-    static var stubbedMovies: [MoviesResult] {
-        let response: DiscoverMovie? = try? Bundle.main.loadAndDecodeJSON(fileName: "discover")
+extension MovieResult {
+    static var stubbedMovies: [MovieResult] {
+        let response: DiscoverMovies? = try? Bundle.main.loadAndDecodeJSON(fileName: "discover")
         return response!.results
     }
 }

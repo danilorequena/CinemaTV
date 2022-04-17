@@ -11,7 +11,7 @@ import SwiftUI
 
 final class MoviesListViewModel: ObservableObject {
     var service = MoviesService()
-    @Published var movies = [MoviesResult]()
+    @Published var movies = [MovieResult]()
     @Published var isLoadingPage = true
     var currentPage = 1
     var isLastItem = false
@@ -26,7 +26,7 @@ final class MoviesListViewModel: ObservableObject {
     func loadDiscoverMovies(endpoint: MoviesEndpoint) {
         movies = []
         isLoadingPage = true
-        MovieStore.shared.fetchMovies(from: endpoint) { result in
+        MovieStore.shared.fetchDiscoverMovies(from: endpoint) { result in
             switch result {
             case .success(let movies):
                 self.movies += movies.results

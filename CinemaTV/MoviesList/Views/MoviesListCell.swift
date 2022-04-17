@@ -12,7 +12,7 @@ struct MoviesListCell: View {
     let image: URL?
     let title: String
     let subTitle: String
-    @StateObject var imageLoader = ImageLoader()
+//    @StateObject var imageLoader = ImageLoader()
     var body: some View {
         HStack (alignment: .top){
             let processor = DownsamplingImageProcessor(size: CGSize(width: 100, height: 120))

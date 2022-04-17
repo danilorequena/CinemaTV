@@ -15,7 +15,43 @@ final class MovieStore: MovieServiceProtocol {
     private let urlSession = URLSession.shared
     private let jsonDecoder = Utils.jsonDecoder
     
-    func fetchMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<DiscoverMovie, MovieError>) -> ()) {
+    func fetchDiscoverMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<DiscoverMovies, MovieError>) -> ()) {
+        guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
+            completion(.failure(.invalidEndpoint))
+            return
+        }
+        
+        loadURLAndDecode(url: url, completion: completion)
+    }
+    
+    func fetchUpcomingMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<UpcomingMovies, MovieError>) -> ()) {
+        guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
+            completion(.failure(.invalidEndpoint))
+            return
+        }
+        
+        loadURLAndDecode(url: url, completion: completion)
+    }
+    
+    func fetchTopMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<TopVotedMovies, MovieError>) -> ()) {
+        guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
+            completion(.failure(.invalidEndpoint))
+            return
+        }
+        
+        loadURLAndDecode(url: url, completion: completion)
+    }
+    
+    func fetchNowMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<NowPlayingMovies, MovieError>) -> ()) {
+        guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
+            completion(.failure(.invalidEndpoint))
+            return
+        }
+        
+        loadURLAndDecode(url: url, completion: completion)
+    }
+    
+    func fetchPopularMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<PopularMovies, MovieError>) -> ()) {
         guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
             completion(.failure(.invalidEndpoint))
             return

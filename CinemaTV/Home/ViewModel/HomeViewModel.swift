@@ -10,10 +10,11 @@ import SwiftUI
 
 final class HomeViewModel: ObservableObject {
     var service = MoviesService()
-    @Published var discoverMovies: [MoviesResult] = []
-    @Published var topRatedMovies: [MoviesResult] = []
-    @Published var popularMovies: [MoviesResult] = []
-    @Published var nowPlayngMovies: [MoviesResult] = []
+    @Published var discoverMovies: [MovieResult] = []
+    @Published var topRatedMovies: [MovieResult] = []
+    @Published var popularMovies: [MovieResult] = []
+    @Published var nowPlayngMovies: [MovieResult] = []
+    @Published var upcomingMovies: [MovieResult] = []
     @Published var isLoadingPage = true
     var currentPage = 0
     var canloadMorePages = true
@@ -29,13 +30,17 @@ final class HomeViewModel: ObservableObject {
     func loadMoreContent() {
         DispatchQueue.main.async {
             self.dispathGroup.enter()
-            self.getNowPlayngList()
-            self.dispathGroup.leave()
-            
-            self.dispathGroup.enter()
             self.getMoviesList()
             self.dispathGroup.leave()
             
+            self.dispathGroup.enter()
+            self.getNowPlayngList()
+            self.dispathGroup.leave()
+
+            self.dispathGroup.enter()
+            self.getUpcomingList()
+            self.dispathGroup.leave()
+                        
             self.dispathGroup.enter()
             self.getPopularList()
             self.dispathGroup.leave()
@@ -43,26 +48,15 @@ final class HomeViewModel: ObservableObject {
             self.dispathGroup.enter()
             self.getTopVotedList()
             self.dispathGroup.leave()
+            
+            self.dispathGroup.enter()
+            self.hideLoading()
+            self.dispathGroup.leave()
         }
     }
     
     func getMoviesList() {
-//        Task.init {
-//            self.dispathGroup.enter()
-//            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.discover.path())
-//            switch result {
-//            case .success(let movies):
-//                    self.dispathGroup.leave()
-//                    self.dispathGroup.notify(queue: .main) {
-//                        self.discoverMovies += movies.results
-//                        self.isLoadingPage = false
-//                    print("Quantidade de filmes: \(self.discoverMovies.count)")
-//                }
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//            }
-//        }
-        MovieStore.shared.fetchMovies(from: MoviesEndpoint.discover) { result in
+        MovieStore.shared.fetchDiscoverMovies(from: MoviesEndpoint.discover) { result in
             self.dispathGroup.enter()
             switch result {
             case .success(let movies):
@@ -78,31 +72,46 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
+    func getNowPlayngList() {
+        MovieStore.shared.fetchNowMovies(from: MoviesEndpoint.nowPlaying) { result in
+            self.dispathGroup.enter()
+            switch result {
+            case .success(let movies):
+                self.dispathGroup.leave()
+                self.dispathGroup.notify(queue: .main) {
+                    self.nowPlayngMovies = movies.results
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+                self.dispathGroup.leave()
+            }
+        }
+    }
+    
+    func getUpcomingList() {
+        MovieStore.shared.fetchNowMovies(from: MoviesEndpoint.upcoming) { result in
+            self.dispathGroup.enter()
+            switch result {
+            case .success(let movies):
+                self.dispathGroup.leave()
+                self.dispathGroup.notify(queue: .main) {
+                    self.upcomingMovies = movies.results
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+                self.dispathGroup.leave()
+            }
+        }
+    }
+    
     func getTopVotedList() {
-//        Task.init {
-//            self.dispathGroup.enter()
-//            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.toRated.path())
-//            switch result {
-//            case .success(let movies):
-//                    self.dispathGroup.leave()
-//                    self.dispathGroup.notify(queue: .main) {
-//                        self.topRatedMovies += movies.results
-//                        self.isLoadingPage = false
-//                    }
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//                self.dispathGroup.leave()
-//            }
-//        }
-        
-        MovieStore.shared.fetchMovies(from: MoviesEndpoint.toRated) { result in
+        MovieStore.shared.fetchTopMovies(from: MoviesEndpoint.toRated) { result in
             self.dispathGroup.enter()
             switch result {
             case .success(let movies):
                 self.dispathGroup.leave()
                 self.dispathGroup.notify(queue: .main) {
                     self.topRatedMovies = movies.results
-                    self.isLoadingPage = false
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -112,15 +121,13 @@ final class HomeViewModel: ObservableObject {
     }
     
     func getPopularList() {
-        // chamada sem async já com novo service
-        MovieStore.shared.fetchMovies(from: MoviesEndpoint.popular) { result in
+        MovieStore.shared.fetchDiscoverMovies(from: MoviesEndpoint.popular) { result in
             self.dispathGroup.enter()
             switch result {
             case .success(let movies):
                 self.dispathGroup.leave()
                 self.dispathGroup.notify(queue: .main) {
                     self.popularMovies = movies.results
-                    self.isLoadingPage = false
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -129,35 +136,9 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
-    func getNowPlayngList() {
-//        Task.init {
-//            self.dispathGroup.enter()
-//            let result = try await MoviesService.newloadMovies(page: "\(currentPage + 1)", from: MoviesEndpoint.nowPlaying.path())
-//            switch result {
-//            case .success(let movies):
-//                    self.dispathGroup.leave()
-//                    self.dispathGroup.notify(queue: .main) {
-//                        self.nowPlayngMovies += movies.results
-//                        self.isLoadingPage = false
-//                    }
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//                self.dispathGroup.leave()
-//            }
-//        }
-        MovieStore.shared.fetchMovies(from: MoviesEndpoint.nowPlaying) { result in
-            self.dispathGroup.enter()
-            switch result {
-            case .success(let movies):
-                self.dispathGroup.leave()
-                self.dispathGroup.notify(queue: .main) {
-                    self.nowPlayngMovies = movies.results
-                    self.isLoadingPage = false
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-                self.dispathGroup.leave()
-            }
+    private func hideLoading() {
+        if !discoverMovies.isEmpty && !popularMovies.isEmpty && !topRatedMovies.isEmpty && !nowPlayngMovies.isEmpty {
+            isLoadingPage = false
         }
     }
 }

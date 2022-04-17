@@ -26,7 +26,10 @@ struct HomeView: View {
                                     }
                                 }
                             
-                            CarouselMoviesView(movies: viewModel.nowPlayngMovies, title: "Lançamentos", selectionIndex: 0)
+                            CarouselMoviesView(movies: viewModel.upcomingMovies, title: "Lançamentos", selectionIndex: 0)
+                                .buttonStyle(.plain)
+                            
+                            CarouselMoviesView(movies: viewModel.nowPlayngMovies, title: "Agora nos Cinemas", selectionIndex: 0)
                                 .buttonStyle(.plain)
                             
                             CarouselMoviesView(movies: viewModel.popularMovies, title: "Filmes Populares", selectionIndex: 1)

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CarouselMoviesView: View {
-    let movies: [MoviesResult]
+    let movies: [MovieResult]
     let title: String
     var selectionIndex: Int
     var body: some View {
@@ -34,7 +34,7 @@ struct CarouselMoviesView: View {
                             VStack(spacing: 2) {
                                 MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")))
                                     .frame(width: 180, height: 100)
-                                Text(movie.title)
+                                Text(movie.title ?? "")
                                     .font(.caption)
                                     .lineLimit(1)
                                     .frame(width: 180)
@@ -56,6 +56,6 @@ struct CarouselMoviesView: View {
 
 struct TopVotedMoviesView_Previews: PreviewProvider {
     static var previews: some View {
-        CarouselMoviesView(movies: MoviesResult.stubbedMovies, title: "Title", selectionIndex: 0)
+        CarouselMoviesView(movies: MovieResult.stubbedMovies, title: "Title", selectionIndex: 0)
     }
 }
