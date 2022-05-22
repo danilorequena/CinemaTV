@@ -28,31 +28,29 @@ final class HomeViewModel: ObservableObject {
     }
     
     func loadMoreContent() {
-        DispatchQueue.main.async {
-            self.dispathGroup.enter()
-            self.getMoviesList()
-            self.dispathGroup.leave()
-            
-            self.dispathGroup.enter()
-            self.getNowPlayngList()
-            self.dispathGroup.leave()
-
-            self.dispathGroup.enter()
-            self.getUpcomingList()
-            self.dispathGroup.leave()
-                        
-            self.dispathGroup.enter()
-            self.getPopularList()
-            self.dispathGroup.leave()
-            
-            self.dispathGroup.enter()
-            self.getTopVotedList()
-            self.dispathGroup.leave()
-            
-            self.dispathGroup.enter()
-            self.hideLoading()
-            self.dispathGroup.leave()
-        }
+        self.dispathGroup.enter()
+        self.getMoviesList()
+        self.dispathGroup.leave()
+        
+        self.dispathGroup.enter()
+        self.getNowPlayngList()
+        self.dispathGroup.leave()
+        
+        self.dispathGroup.enter()
+        self.getUpcomingList()
+        self.dispathGroup.leave()
+        
+        self.dispathGroup.enter()
+        self.getPopularList()
+        self.dispathGroup.leave()
+        
+        self.dispathGroup.enter()
+        self.getTopVotedList()
+        self.dispathGroup.leave()
+        
+        self.dispathGroup.enter()
+        self.hideLoading()
+        self.dispathGroup.leave()
     }
     
     func getMoviesList() {
@@ -137,7 +135,7 @@ final class HomeViewModel: ObservableObject {
     }
     
     private func hideLoading() {
-        if !discoverMovies.isEmpty && !popularMovies.isEmpty && !topRatedMovies.isEmpty && !nowPlayngMovies.isEmpty {
+        if !discoverMovies.isEmpty && !popularMovies.isEmpty && !topRatedMovies.isEmpty && !nowPlayngMovies.isEmpty && !upcomingMovies.isEmpty {
             isLoadingPage = false
         }
     }
