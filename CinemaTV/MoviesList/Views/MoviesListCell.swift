@@ -6,19 +6,30 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct MoviesListCell: View {
     let image: URL?
     let title: String
     let subTitle: String
+//    @StateObject var imageLoader = ImageLoader()
     var body: some View {
         HStack (alignment: .top){
+            let processor = DownsamplingImageProcessor(size: CGSize(width: 100, height: 120))
+                         |> RoundCornerImageProcessor(cornerRadius: 20)
             if let image = image, let imageData = try? Data(contentsOf: image), let uiImage = UIImage(data: imageData) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(16)
+                
+                KFImage.url(image)
+                    .setProcessor(processor)
+                    .loadDiskFileSynchronously()
+                    .cacheMemoryOnly()
+                    .fade(duration: 0.5)
                     .frame(width: 100, height: 120)
+//                Image(uiImage: uiImage)
+//                    .resizable()
+//                    .background(.ultraThinMaterial)
+//                    .cornerRadius(16)
+//                    .frame(width: 100, height: 120)
                 
                 VStack(spacing: 6) {
                     Text(title)
@@ -29,12 +40,11 @@ struct MoviesListCell: View {
                         .font(.subheadline)
                         .lineLimit(4)
                 }
-            } else {
-                Image("placeholder-image")
             }
         }
-        .background(.bar)
-        .cornerRadius(16)
+//        .onAppear {
+//            self.imageLoader.loadImage(with: image!)
+//        }
     }
 }
 

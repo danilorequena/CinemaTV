@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct CarouselMoviesView: View {
-    let movies: [MoviesResult]
+    let movies: [MovieResult]
     let title: String
-    var state: MoviesState
+    var selectionIndex: Int
     var body: some View {
         VStack(alignment: .center) {
             HStack {
@@ -19,7 +19,7 @@ struct CarouselMoviesView: View {
                     .lineLimit(1)
                     .frame(width: 260, alignment: .leading)
                     
-                NavigationLink(destination: MoviesListView(title: title, state: state)) {
+                NavigationLink(destination: MoviesListView(title: title, selectionIndex: selectionIndex)) {
                     Text("ver todos")
                         .font(.subheadline)
                         .frame(width: 80, alignment: .trailing)
@@ -34,7 +34,7 @@ struct CarouselMoviesView: View {
                             VStack(spacing: 2) {
                                 MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")))
                                     .frame(width: 180, height: 100)
-                                Text(movie.title)
+                                Text(movie.title ?? "")
                                     .font(.caption)
                                     .lineLimit(1)
                                     .frame(width: 180)
@@ -56,35 +56,6 @@ struct CarouselMoviesView: View {
 
 struct TopVotedMoviesView_Previews: PreviewProvider {
     static var previews: some View {
-        CarouselMoviesView(movies: [
-            MoviesResult(
-                backdropPath: "/g2djzUqA6mFplzC03gDk0WSyg99.jpg",
-                genreIDS: [1,2],
-                id: 1,
-                originalTitle: "",
-                overview: "",
-                popularity: 1.2,
-                posterPath: "/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg",
-                title: "Steve Jobs Steve Jobs Steve Jobs",
-                video: true,
-                voteAverage: 1.2,
-                voteCount: 12
-            ),
-            MoviesResult(
-                backdropPath: "",
-                genreIDS: [1,2],
-                id: 1,
-                originalTitle: "",
-                overview: "",
-                popularity: 1.2,
-                posterPath: "/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg",
-                title: "Steve Jobs Steve Jobs Steve Jobs",
-                video: true,
-                voteAverage: 1.2,
-                voteCount: 12
-            )
-        ],
-                           title: "Lançamentos", state: .topVoted
-        )
+        CarouselMoviesView(movies: MovieResult.stubbedMovies, title: "Title", selectionIndex: 0)
     }
 }
