@@ -21,8 +21,18 @@ struct HomeView: View {
                                 .buttonStyle(.plain)
                                 .navigationTitle("Discover")
                                 .toolbar {
-                                    Button("about") {
+                                    ToolbarItemGroup(placement: .navigationBarTrailing) {
+                                        Button {
+                                            
+                                        } label: {
+                                            Image(systemName: "magnifyingglass")
+                                        }
                                         
+                                        Button {
+                                            
+                                        } label: {
+                                            Image(systemName: "info.circle")
+                                        }
                                     }
                                 }
                             
