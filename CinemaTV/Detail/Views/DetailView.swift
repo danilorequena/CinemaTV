@@ -41,11 +41,11 @@ struct DetailView: View {
                                         }
                                         .padding()
                                         
-                                        CastView(castID: detail.id)
-                                        
                                         TrailersView(videoID: movieID, videoKey: viewModel.videoKey ?? "")
                                             .padding(16)
                                             .frame(height: 260)
+                                        
+                                        CastView(castID: detail.id)
                                     }
                                     .background(.ultraThinMaterial)
                                     .cornerRadius(16)
@@ -65,11 +65,11 @@ struct DetailView: View {
                                         }
                                         .padding()
                                         
-                                        CastView(castID: detail.id)
-                                        
                                         TrailersView(videoID: movieID, videoKey: viewModel.videoKey ?? "")
                                             .padding(16)
                                             .frame(height: 260)
+                                        
+                                        CastView(castID: detail.id)
                                     }
                                     .background(Color.gray.opacity(0.8))
                                     .cornerRadius(16)
