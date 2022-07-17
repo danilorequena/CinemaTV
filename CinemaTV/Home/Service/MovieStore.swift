@@ -92,6 +92,16 @@ final class MovieStore: MovieServiceProtocol {
         loadURLAndDecode(url: url, completion: completion)
     }
     
+    func fetchSearch(from endpoint: String, query: String, completion: @escaping (Result<SearchModel, MovieError>) -> Void) {
+        guard let url = URL(string: Constants.baseUrl + endpoint) else {
+            completion(.failure(.invalidEndpoint))
+            return
+        }
+        let queryItem = ["query" : query]
+        
+        loadURLAndDecode(url: url, params: queryItem, completion: completion)
+    }
+    
     private func loadURLAndDecode<D: Decodable>(url: URL, params: [String : String]? = nil, completion: @escaping (Result<D, MovieError>) -> ()) {
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             completion(.failure(.invalidEndpoint))
