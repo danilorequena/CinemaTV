@@ -17,17 +17,44 @@ struct HomeView: View {
                 } else {
                     ScrollView(.vertical) {
                         VStack(spacing: 32) {
-                            DiscoverMoviesView(movies: viewModel.discoverMovies)
+                            DiscoverMoviesView(movies: viewModel.discoverMovies, selectionIndex: 0)
                                 .buttonStyle(.plain)
                                 .navigationTitle("Discover")
+                                .toolbar {
+                                    ToolbarItemGroup(placement: .navigationBarTrailing) {
+                                        NavigationLink(destination: SearchView()) {
+                                            Image(systemName: "magnifyingglass")
+                                        }
+                                        
+                                        Button {
+                                            
+                                        } label: {
+                                            Image(systemName: "info.circle")
+                                        }
+                                    }
+                                }
                             
-                            CarouselMoviesView(movies: viewModel.nowPlayngMovies, title: "Lançamentos", state: .upcoming)
+                            CarouselMoviesView(movies: viewModel.upcomingMovies, title: "Em breve", selectionIndex: 0)
                                 .buttonStyle(.plain)
                             
-                            CarouselMoviesView(movies: viewModel.upcomingMovies, title: "O que vem por ai", state: .nowPlaying)
+                            CarouselMoviesView(movies: viewModel.nowPlayngMovies, title: "Agora nos Cinemas", selectionIndex: 0)
                                 .buttonStyle(.plain)
-                            CarouselMoviesView(movies: viewModel.topRatedMovies, title: "Melhor avaliados", state: .topVoted)
+                            
+                            CarouselMoviesView(movies: viewModel.popularMovies, title: "Filmes Populares", selectionIndex: 1)
                                 .buttonStyle(.plain)
+                            
+                            CarouselMoviesView(movies: viewModel.topRatedMovies, title: "Melhor avaliados", selectionIndex: 2)
+                                .buttonStyle(.plain)
+                            
+                            NavigationLink(destination: MoviesListView(title: "Movies", selectionIndex: 0)) {
+                                VStack {
+                                    Text("Ver Todos")
+                                }
+                                .frame(width: UIScreen.main.bounds.width - 32, height: 56)
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                            }
                         }
                     }
                 }

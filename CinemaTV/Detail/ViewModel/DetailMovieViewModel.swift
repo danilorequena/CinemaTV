@@ -17,68 +17,112 @@ final class DetailViewModel: ObservableObject {
     @Published var videos: [VideoResult] = []
     @Published var videoKey: String?
     
-    func loadDetails(movieID: Int) async {
+    func loadDetails(movieID: Int) {
         dispathGroup.enter()
-        await fetchDetail(movieID: movieID)
+        fetchDetail(movieID: movieID)
         dispathGroup.leave()
         
         dispathGroup.enter()
-        await fetchTrailers(movieID: movieID)
+        fetchTrailers(movieID: movieID)
         dispathGroup.leave()
     }
     
-    func fetchDetail(movieID: Int) async {
-        Task.init {
-            dispathGroup.enter()
-            let result = try await MoviesService.loadDetail(from: MoviesEndpoint.detail(movie: movieID).path())
+    func fetchDetail(movieID: Int) {
+        //        Task.init {
+        //            dispathGroup.enter()
+        //            let result = try await MovieStore.shared.fetchDetail(from: movieID, completion: { result in
+        //                switch result {
+        //                case .success(let movie):
+        //                    self.dispathGroup.notify(queue: .main) {
+        //                        self.detailMovie = movie
+        //                    }
+        //                    self.dispathGroup.leave()
+        //                    self.isLoading = false
+        //                case .failure(let error):
+        //                    print(error)
+        //                    self.dispathGroup.leave()
+        //                }
+        //            })
+        //        }
+        
+        MovieStore.shared.fetchDetail(from: movieID) { result in
+            self.dispathGroup.enter()
             switch result {
-            case .success(let movie):
-                self.dispathGroup.notify(queue: .main) {
-                    self.detailMovie = movie
-                }
+            case .success(let movies):
                 self.dispathGroup.leave()
-                self.isLoading = false
-                
+                self.dispathGroup.notify(queue: .main) {
+                    self.detailMovie = movies
+                    self.isLoading = false
+                }
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
                 self.dispathGroup.leave()
             }
         }
     }
     
-    func fetchTrailers(movieID: Int) async {
-        Task.init {
-            dispathGroup.enter()
-            let result = try await MoviesService.loadTrailer(from: MoviesEndpoint.videos(videoID: movieID).path())
+    func fetchTrailers(movieID: Int) {
+        //        Task.init {
+        //            dispathGroup.enter()
+        //            let result = try await MoviesService.loadTrailer(from: MoviesEndpoint.videos(videoID: movieID).path())
+        //            switch result {
+        //            case .success(let videos):
+        //                self.dispathGroup.notify(queue: .main) {
+        //                    let videosSorted = videos.results.filter{$0.type == "Trailer"}
+        //                    self.videos.append(contentsOf: videosSorted)
+        //                    self.videoKey = videosSorted.first?.key ?? ""
+        //                }
+        //                self.dispathGroup.leave()
+        //
+        //            case .failure(let error):
+        //                print(error)
+        //                self.dispathGroup.leave()
+        //            }
+        //        }
+        MovieStore.shared.fetchTrailer(from: MoviesEndpoint.videos(videoID: movieID).path()) { result in
+            self.dispathGroup.enter()
             switch result {
             case .success(let videos):
+                self.dispathGroup.leave()
                 self.dispathGroup.notify(queue: .main) {
                     let videosSorted = videos.results.filter{$0.type == "Trailer"}
                     self.videos.append(contentsOf: videosSorted)
                     self.videoKey = videosSorted.first?.key ?? ""
                 }
-                self.dispathGroup.leave()
-                
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
                 self.dispathGroup.leave()
             }
         }
     }
     
-    func fetchCast(movieID: Int) async {
-        Task.init {
-            dispathGroup.enter()
-            let result = try await CastService.loadCast(from: MoviesEndpoint.credits(movie: movieID).path())
+    func fetchCast(movieID: Int) {
+//        Task.init {
+//            dispathGroup.enter()
+//            let result = try await CastService.loadCast(from: MoviesEndpoint.credits(movie: movieID).path())
+//            switch result {
+//            case .success(let cast):
+//                self.dispathGroup.notify(queue: .main) {
+//                    self.cast = cast
+//                }
+//                self.dispathGroup.leave()
+//
+//            case .failure(let error):
+//                print(error)
+//                self.dispathGroup.leave()
+//            }
+//        }
+        MovieStore.shared.fetchCast(from: MoviesEndpoint.credits(movie: movieID).path()) { result in
+            self.dispathGroup.enter()
             switch result {
             case .success(let cast):
+                self.dispathGroup.leave()
                 self.dispathGroup.notify(queue: .main) {
                     self.cast = cast
+                    self.isLoading = false
                 }
-                self.dispathGroup.leave()
-                
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
                 self.dispathGroup.leave()
             }
         }

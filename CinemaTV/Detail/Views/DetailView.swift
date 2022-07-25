@@ -25,37 +25,63 @@ struct DetailView: View {
                         ScrollView {
                             Spacer(minLength: UIScreen.main.bounds.height / 2)
                             VStack {
-                                VStack(alignment: .leading, spacing: 16) {
+                                if #available(iOS 15.0, *) {
                                     VStack(alignment: .leading, spacing: 16) {
-                                        Text(detail.title)
-                                            .font(.title)
-                                            .bold()
+                                        VStack(alignment: .leading, spacing: 16) {
+                                            Text(detail.title)
+                                                .font(.title)
+                                                .bold()
+                                            
+                                            Text("Average: \(detail.voteAverage)/10")
+                                                .font(.subheadline)
+                                                .foregroundColor(Color.blue)
+                                            
+                                            Text(detail.overview)
+                                                .font(.headline)
+                                        }
+                                        .padding()
                                         
-                                        Text("Average: \(detail.voteAverage.formatted())/10")
-                                            .font(.subheadline)
-                                            .foregroundColor(.indigo)
+                                        TrailersView(videoID: movieID, videoKey: viewModel.videoKey ?? "")
+                                            .padding(16)
+                                            .frame(height: 260)
                                         
-                                        Text(detail.overview)
-                                            .font(.headline)
+                                        CastView(castID: detail.id)
                                     }
-                                    .padding()
-                                    
-                                    CastView(castID: detail.id)
-                                    
-                                    TrailersView(videoID: movieID, videoKey: viewModel.videoKey!)
-                                        .padding(16)
-                                        .frame(height: 260)
+                                    .background(.ultraThinMaterial)
+                                    .cornerRadius(16)
+                                } else {
+                                    VStack(alignment: .leading, spacing: 16) {
+                                        VStack(alignment: .leading, spacing: 16) {
+                                            Text(detail.title)
+                                                .font(.title)
+                                                .bold()
+                                            
+                                            Text("Average: \(detail.voteAverage)/10")
+                                                .font(.subheadline)
+                                                .foregroundColor(Color.blue)
+                                            
+                                            Text(detail.overview)
+                                                .font(.headline)
+                                        }
+                                        .padding()
+                                        
+                                        TrailersView(videoID: movieID, videoKey: viewModel.videoKey ?? "")
+                                            .padding(16)
+                                            .frame(height: 260)
+                                        
+                                        CastView(castID: detail.id)
+                                    }
+                                    .background(Color.gray.opacity(0.8))
+                                    .cornerRadius(16)
                                 }
-                                .background(.ultraThinMaterial)
-                                .cornerRadius(16)
                             }
                         }
                     }
                 }
             }
             .edgesIgnoringSafeArea(.top)
-            .task {
-                await viewModel.loadDetails(movieID: movieID ?? 0)
+            .onAppear {
+                viewModel.loadDetails(movieID: movieID ?? 0)
             }
         }
     }

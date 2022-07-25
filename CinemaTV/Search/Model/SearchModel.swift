@@ -1,16 +1,16 @@
 //
-//  Movie.swift
+//  SearchModel.swift
 //  CinemaTV
 //
-//  Created by Danilo Requena on 07/11/21.
+//  Created by Danilo Requena on 17/07/22.
 //
 
 import Foundation
 
-// MARK: - DiscoverMovies
-struct DiscoverMovies: Codable {
+// MARK: - SearchModel
+struct SearchModel: Codable {
     let page: Int
-    let results: [MovieResult]
+    let results: [SearchResult]
     let totalPages, totalResults: Int
 
     enum CodingKeys: String, CodingKey {
@@ -21,7 +21,7 @@ struct DiscoverMovies: Codable {
 }
 
 // MARK: - Result
-struct MovieResult: Codable, Identifiable {
+struct SearchResult: Codable, Identifiable {
     let adult: Bool?
     let backdropPath: String?
     let genreIDS: [Int]?

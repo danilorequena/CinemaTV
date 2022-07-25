@@ -31,8 +31,8 @@ struct CastView: View {
                         }
                     }
                 }
-                .task {
-                    await viewModel.fetchCast(movieID: castID ?? 0)
+                .onAppear {
+                    viewModel.fetchCast(movieID: castID ?? 0)
                 }
             }
         }
