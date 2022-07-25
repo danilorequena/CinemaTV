@@ -8,19 +8,29 @@
 import Foundation
 
 final class SearchViewModel: ObservableObject {
-    var service = MoviesService()
+    let service: MovieStore
     var isLoading = true
-    @Published var searchModel: SearchModel?
+    @Published var movies = [SearchResult]()
     
-    func loadResults(movie: String) {
-        MovieStore.shared.fetchSearch(from: MoviesEndpoint.searchMovie.path(), query: movie) { result in
+    init(service: MovieStore = MovieStore.shared) {
+        self.service = service
+    }
+    
+    func loadResults(searchText: String) {
+        self.movies = []
+        self.isLoading = false
+        
+        self.isLoading = true
+        MovieStore.shared.fetchSearch(from: MoviesEndpoint.searchMovie.path(), query: searchText) { [weak self] (result) in
+            guard let self = self else { return }
+            self.isLoading = false
             switch result {
             case .success(let movies):
-                //TODO: - Montar a estrutura de receber os filmes
-                print("success")
+                DispatchQueue.main.async {
+                    self.movies = movies.results
+                }
             case .failure(let error):
-                //TODO: - Montar a tela de empty e error
-                print("deu ruim")
+                print(error)
             }
         }
     }

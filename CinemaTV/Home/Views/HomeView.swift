@@ -22,9 +22,7 @@ struct HomeView: View {
                                 .navigationTitle("Discover")
                                 .toolbar {
                                     ToolbarItemGroup(placement: .navigationBarTrailing) {
-                                        Button {
-                                            
-                                        } label: {
+                                        NavigationLink(destination: SearchView()) {
                                             Image(systemName: "magnifyingglass")
                                         }
                                         
