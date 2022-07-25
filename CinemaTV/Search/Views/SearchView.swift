@@ -14,8 +14,12 @@ struct SearchView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(self.viewModel.movies.filter { self.searchText.isEmpty ? true : $0.title.contains(self.searchText)}) { movies in
-                    Text(movies.title)
+                ForEach(self.viewModel.movies.filter { self.searchText.isEmpty ? true : $0.title.contains(self.searchText)}) { movie in
+                    MoviesListCell(
+                        image: URL(string: Constants.basePosters + (movie.posterPath ?? "")),
+                        title: movie.title,
+                        subTitle: movie.overview ?? ""
+                    )
                 }
             }
             .searchable(text: self.$searchText)
