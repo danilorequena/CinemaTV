@@ -28,7 +28,7 @@ final class MoviesListService {
         var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
         
         components?.queryItems = [
-            URLQueryItem(name: "api_key", value: Constants.apiKey),
+            URLQueryItem(name: "api_key", value: Constants.apikey),
             URLQueryItem(name: "language", value: Locale.preferredLanguages[0]),
             URLQueryItem(name: "region", value: Locale.current.regionCode),
             URLQueryItem(name: "include_adult", value: "false"),

@@ -20,7 +20,7 @@ struct MoviesListView: View {
                 CinemaTVProgressView()
             } else {
                 Picker("_", selection: $selectionIndex) {
-                    ForEach(0..<tabs.count) { index in
+                    ForEach(0..<3) { index in
                         Text(tabs[index])
                             .font(.title)
                             .bold()
