@@ -34,7 +34,7 @@ struct CarouselMoviesView: View {
                             VStack(spacing: 2) {
                                 MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")))
                                     .frame(width: 180, height: 100)
-                                Text(movie.title ?? "")
+                                Text(movie.title)
                                     .font(.caption)
                                     .lineLimit(1)
                                     .frame(width: 180)
