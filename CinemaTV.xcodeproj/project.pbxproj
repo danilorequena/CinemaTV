@@ -39,6 +39,7 @@
 		FF4DDD7D27C335F60049CAFA /* MoviesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4DDD7C27C335F60049CAFA /* MoviesListCell.swift */; };
 		FF6496AC280C89AB001BC28F /* UpcomingMovies.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6496AB280C89AB001BC28F /* UpcomingMovies.swift */; };
 		FF6496AE280C8B38001BC28F /* NowPlayingMovies.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6496AD280C8B38001BC28F /* NowPlayingMovies.swift */; };
+		FF74128E2895CF9900A79C7C /* TMDB.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF74128D2895CF9900A79C7C /* TMDB.plist */; };
 		FF77FCE82884569A00F0872B /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77FCE72884569A00F0872B /* SearchModel.swift */; };
 		FF77FCEA28845A2100F0872B /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77FCE928845A2100F0872B /* SearchViewModel.swift */; };
 		FF77FCEC288568A400F0872B /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77FCEB288568A400F0872B /* SearchView.swift */; };
@@ -110,6 +111,7 @@
 		FF4DDD7C27C335F60049CAFA /* MoviesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListCell.swift; sourceTree = "<group>"; };
 		FF6496AB280C89AB001BC28F /* UpcomingMovies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingMovies.swift; sourceTree = "<group>"; };
 		FF6496AD280C8B38001BC28F /* NowPlayingMovies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingMovies.swift; sourceTree = "<group>"; };
+		FF74128D2895CF9900A79C7C /* TMDB.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = TMDB.plist; sourceTree = "<group>"; };
 		FF77FCE72884569A00F0872B /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
 		FF77FCE928845A2100F0872B /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		FF77FCEB288568A400F0872B /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 		7D42245A273810E1006236F8 /* CinemaTV */ = {
 			isa = PBXGroup;
 			children = (
+				FF74128C2895CF5F00A79C7C /* Resources */,
 				FF394E3E27D10AA700FFBDFC /* Bindings */,
 				FFEF0ADE275FA63700D5593C /* Components */,
 				FFEF0AD8275E8D9B00D5593C /* Utils */,
@@ -332,6 +335,14 @@
 				FF394E3F27D10AC300FFBDFC /* ImageLoader.swift */,
 			);
 			path = Bindings;
+			sourceTree = "<group>";
+		};
+		FF74128C2895CF5F00A79C7C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FF74128D2895CF9900A79C7C /* TMDB.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		FF89E7F52884502A00C8B800 /* Search */ = {
@@ -591,6 +602,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF74128E2895CF9900A79C7C /* TMDB.plist in Resources */,
 				7D422463273810E2006236F8 /* Preview Assets.xcassets in Resources */,
 				7D422460273810E2006236F8 /* Assets.xcassets in Resources */,
 			);
