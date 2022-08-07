@@ -21,7 +21,7 @@ struct DiscoverMovies: Codable {
 }
 
 // MARK: - Result
-struct MovieResult: Codable, Identifiable {
+struct MovieResult: Codable, Identifiable, Hashable {
     let adult: Bool?
     let backdropPath: String?
     let genreIDS: [Int]?
