@@ -26,11 +26,13 @@ struct SearchView: View {
                     }
                 }
             }
-            .searchable(text: self.$searchText, placement: .toolbar)
-            .navigationTitle("Search")
-            .onChange(of: self.searchText, perform: { newQuery in
-                self.viewModel.loadResults(searchText: newQuery)
-            })
+            .searchable(text: self.$searchText, placement: .automatic)
+            .onSubmit(of: .search) {
+                if isSearching && searchText.isEmpty {
+                    dismissSearch()
+                }
+                self.viewModel.loadResults(searchText: searchText)
+            }
         }
     }
 }
