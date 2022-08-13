@@ -13,7 +13,7 @@ struct CinemaTVApp: App {
 
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            AppView()
         }
     }
 }

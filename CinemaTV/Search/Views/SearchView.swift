@@ -14,25 +14,23 @@ struct SearchView: View {
     @Environment(\.dismissSearch) var dismissSearch
     
     var body: some View {
+        //        List(self.viewModel.movies.filter { self.searchText.isEmpty ? true : $0.title.contains(self.searchText)}) { movie in
         NavigationView {
-            List {
-                ForEach(self.viewModel.movies.filter { self.searchText.isEmpty ? true : $0.title.contains(self.searchText)}) { movie in
-                    VStack(alignment: .leading) {
-                        MoviesListCell(
-                            image: URL(string: Constants.basePosters + (movie.posterPath ?? "")),
-                            title: movie.title,
-                            subTitle: movie.overview ?? ""
-                        )
-                    }
-                }
+            List(self.viewModel.movies) { movie in
+                MoviesListCell(
+                    image: URL(string: Constants.basePosters + (movie.posterPath ?? "")),
+                    title: movie.title,
+                    subTitle: movie.overview ?? ""
+                )
             }
-            .searchable(text: self.$searchText, placement: .automatic)
-            .onSubmit(of: .search) {
-                if isSearching && searchText.isEmpty {
-                    dismissSearch()
-                }
-                self.viewModel.loadResults(searchText: searchText)
+            .navigationTitle("Search")
+        }
+        .searchable(text: self.$searchText)
+        .onSubmit(of: .search) {
+            if isSearching && searchText.isEmpty {
+                dismissSearch()
             }
+            self.viewModel.loadResults(searchText: searchText)
         }
     }
 }
