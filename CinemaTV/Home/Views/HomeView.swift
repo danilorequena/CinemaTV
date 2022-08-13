@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
     var body: some View {
-        NavigationView{
+        NavigationView {
             Group {
                 if viewModel.isLoadingPage {
                     CinemaTVProgressView()
@@ -19,20 +19,6 @@ struct HomeView: View {
                         VStack(spacing: 32) {
                             DiscoverMoviesView(movies: viewModel.discoverMovies, selectionIndex: 0)
                                 .buttonStyle(.plain)
-                                .navigationTitle("Discover")
-                                .toolbar {
-                                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-                                        NavigationLink(destination: SearchView()) {
-                                            Image(systemName: "magnifyingglass")
-                                        }
-                                        
-                                        Button {
-                                            
-                                        } label: {
-                                            Image(systemName: "info.circle")
-                                        }
-                                    }
-                                }
                             
                             CarouselMoviesView(movies: viewModel.upcomingMovies, title: "Em breve", selectionIndex: 0)
                                 .buttonStyle(.plain)
@@ -56,6 +42,16 @@ struct HomeView: View {
                                 .cornerRadius(8)
                             }
                         }
+                    }
+                }
+            }
+            .navigationTitle("Discover")
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "info.circle")
                     }
                 }
             }
