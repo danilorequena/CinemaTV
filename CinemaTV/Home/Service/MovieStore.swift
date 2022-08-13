@@ -110,8 +110,8 @@ final class MovieStore: MovieServiceProtocol {
         
         var queryItems = [
             URLQueryItem(name: "api_key", value: Constants.apikey),
-            URLQueryItem(name: "include_adult", value: "false"),
-            URLQueryItem(name: "region", value: Locale.current.regionCode)
+            URLQueryItem(name: "include_adult", value: "false")
+//            URLQueryItem(name: "region", value: Locale.current.regionCode)
         ]
         if let params = params {
             queryItems.append(contentsOf: params.map {URLQueryItem(name: $0.key, value: $0.value)})
