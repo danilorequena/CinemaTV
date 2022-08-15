@@ -7,6 +7,7 @@
 
 import WidgetKit
 import SwiftUI
+import Kingfisher
 
 struct Model: TimelineEntry, Decodable {
     var date: Date
@@ -98,16 +99,21 @@ struct CinemaTVWidgetView: View {
     var data: Model
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
-            Text("Widget")
+            Text("Upcoming")
                 .font(.title)
                 .fontWeight(.bold)
+                .padding(.leading, 16)
             
             HStack(alignment: .top, spacing: 16) {
-                ForEach(data.widgetData.prefix(4), id: \.self) { value in
-                    AsyncImage(url: URL(string: Constants.basePosters + value.poster_path))
+                ForEach(data.widgetData.prefix(3), id: \.self) { value in
+                    KFImage(URL(string: Constants.basePosters + value.poster_path))
+                        .resizable()
+                        .cornerRadius(8)
                 }
             }
+            .padding(.horizontal, 16)
         }
+        .padding(.vertical, 4)
     }
 }
 
