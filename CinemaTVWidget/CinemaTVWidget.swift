@@ -130,11 +130,11 @@ struct CinemaTVWidgetView: View {
 @main
 struct MainWidget: Widget {
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "Upcoming", provider: Provider()) { data in
+        StaticConfiguration(kind: "Comming Soon", provider: Provider()) { data in
             CinemaTVWidgetView(data: data)
         }
-        .description("Upcoming")
-        .configurationDisplayName("Upcomings")
+        .description("Comming Soon")
+        .configurationDisplayName("Comming Soon")
         .supportedFamilies([.systemMedium])
     }
 }
