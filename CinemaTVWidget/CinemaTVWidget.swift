@@ -7,6 +7,7 @@
 
 import WidgetKit
 import SwiftUI
+import Kingfisher
 
 struct Model: TimelineEntry, Decodable {
     var date: Date
@@ -54,18 +55,18 @@ struct Provider: TimelineProvider {
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<Model>) -> Void) {
-//        MovieStore.shared.fetchNowMovies(from: .upcoming) { result in
-//            switch result {
-//            case .success(let movies):
-//                let date = Date()
-//                let data = Model(date: date, widgetData: movies.results)
-//                let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: date)
-//                let timeline = Timeline(entries: [data], policy: .after(nextUpdate!))
-//                completion(timeline)
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
+        //        MovieStore.shared.fetchNowMovies(from: .upcoming) { result in
+        //            switch result {
+        //            case .success(let movies):
+        //                let date = Date()
+        //                let data = Model(date: date, widgetData: movies.results)
+        //                let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: date)
+        //                let timeline = Timeline(entries: [data], policy: .after(nextUpdate!))
+        //                completion(timeline)
+        //            case .failure(let error):
+        //                print(error)
+        //            }
+        //        }
         getData { (modelData) in
             let date = Date()
             let data = Model(date: date, widgetData: modelData.results)
@@ -97,17 +98,32 @@ struct Provider: TimelineProvider {
 struct CinemaTVWidgetView: View {
     var data: Model
     var body: some View {
-        VStack(alignment: .leading, spacing: 15) {
-            Text("Widget")
-                .font(.title)
-                .fontWeight(.bold)
-            
-            HStack(alignment: .top, spacing: 16) {
-                ForEach(data.widgetData.prefix(4), id: \.self) { value in
-                    AsyncImage(url: URL(string: Constants.basePosters + value.poster_path))
+        ZStack {
+            VStack(alignment: .leading, spacing: 15) {
+                Text("Comming Soon")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding(.leading, 16)
+                    .foregroundColor(.white)
+                
+                HStack(alignment: .top, spacing: 16) {
+                    ForEach(data.widgetData.prefix(3), id: \.self) { value in
+                        KFImage(URL(string: Constants.basePosters + value.poster_path))
+                            .resizable()
+                            .cornerRadius(8)
+                    }
                 }
+                .padding(.horizontal, 16)
             }
+            .padding(.vertical, 4)
         }
+        .background(
+            LinearGradient(
+                colors: [.purple, .black],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        )
     }
 }
 
