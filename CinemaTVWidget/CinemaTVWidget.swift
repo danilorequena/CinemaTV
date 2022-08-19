@@ -100,7 +100,7 @@ struct CinemaTVWidgetView: View {
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 15) {
-                Text("Upcoming")
+                Text("Comming Soon")
                     .font(.title)
                     .fontWeight(.bold)
                     .padding(.leading, 16)
