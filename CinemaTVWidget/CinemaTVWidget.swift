@@ -35,6 +35,16 @@ struct Provider: TimelineProvider {
                     id: 0,
                     title: "title",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
+                ),
+                MovieResultModel(
+                    id: 0,
+                    title: "title",
+                    poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
+                ),
+                MovieResultModel(
+                    id: 0,
+                    title: "title",
+                    poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 )
             ]
         )
@@ -44,6 +54,16 @@ struct Provider: TimelineProvider {
         let loadingData = Model(
             date: Date(),
             widgetData: [
+                MovieResultModel(
+                    id: 0,
+                    title: "title",
+                    poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
+                ),
+                MovieResultModel(
+                    id: 0,
+                    title: "title",
+                    poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
+                ),
                 MovieResultModel(
                     id: 0,
                     title: "title",
@@ -70,7 +90,7 @@ struct Provider: TimelineProvider {
         getData { (modelData) in
             let date = Date()
             let data = Model(date: date, widgetData: modelData.results)
-            let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: date)
+            let nextUpdate = Calendar.current.date(byAdding: .minute, value: 5, to: date)
             let timeline = Timeline(entries: [data], policy: .after(nextUpdate!))
             completion(timeline)
         }
@@ -86,7 +106,7 @@ struct Provider: TimelineProvider {
             }
             
             do {
-                let jsonData = try JSONDecoder().decode(MovieModel.self, from: data!)
+                let jsonData = try Utils.jsonDecoder.decode(MovieModel.self, from: data!)
                 completion(jsonData)
             } catch {
                 print(err)

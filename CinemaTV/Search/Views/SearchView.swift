@@ -23,9 +23,15 @@ struct SearchView: View {
                     subTitle: movie.overview ?? ""
                 )
             }
+            .id(UUID())
             .navigationTitle("Search")
         }
         .searchable(text: self.$searchText)
+        .onChange(of: searchText, perform: { _ in
+            if searchText.isEmpty {
+                self.viewModel.movies.removeAll()
+            }
+        })
         .onSubmit(of: .search) {
             if isSearching && searchText.isEmpty {
                 dismissSearch()

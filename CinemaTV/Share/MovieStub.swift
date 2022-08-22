@@ -20,7 +20,7 @@ extension Bundle {
             return nil
         }
         let data = try Data(contentsOf: url)
-        let jsonDecoder = JSONDecoder()
+        let jsonDecoder = Utils.jsonDecoder
         let decodedModel = try jsonDecoder.decode(D.self, from: data)
         return decodedModel
     }
