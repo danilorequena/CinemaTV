@@ -10,7 +10,8 @@ import SwiftUI
 
 final class DetailViewModel: ObservableObject {
     var service = MoviesService()
-    var isLoading = true
+    var isDetailLoading = true
+    var isCastLoading = true
     @Published var detailMovie: DetailMoviesModel?
     @Published var cast: CastModel?
     @Published var dispathGroup = DispatchGroup()
@@ -52,7 +53,7 @@ final class DetailViewModel: ObservableObject {
                 self.dispathGroup.leave()
                 self.dispathGroup.notify(queue: .main) {
                     self.detailMovie = movies
-                    self.isLoading = false
+                    self.isDetailLoading = false
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -119,7 +120,7 @@ final class DetailViewModel: ObservableObject {
                 self.dispathGroup.leave()
                 self.dispathGroup.notify(queue: .main) {
                     self.cast = cast
-                    self.isLoading = false
+                    self.isCastLoading = false
                 }
             case .failure(let error):
                 print(error.localizedDescription)
