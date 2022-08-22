@@ -49,7 +49,7 @@ final class MoviesListService {
                 if response.statusCode == 200 {
                     guard let data = data else { return }
                     do {
-                        let movies = try JSONDecoder().decode(T.self, from: data)
+                        let movies = try Utils.jsonDecoder.decode(T.self, from: data)
                         complitionHandler(.success(movies))
                         print("FetchOK")
                     } catch let jsonErr {
