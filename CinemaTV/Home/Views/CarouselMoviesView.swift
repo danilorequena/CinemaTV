@@ -12,43 +12,47 @@ struct CarouselMoviesView: View {
     let title: String
     var selectionIndex: Int
     var body: some View {
-        VStack(alignment: .center) {
-            HStack {
-                Text(title)
-                    .font(.system(.headline, design: .rounded))
-                    .lineLimit(1)
-                    .frame(width: 260, alignment: .leading)
-                    
-                NavigationLink(destination: MoviesListView(title: title, selectionIndex: selectionIndex)) {
-                    Text("ver todos")
-                        .font(.subheadline)
-                        .frame(width: 80, alignment: .trailing)
-                }
-            }
-            .frame(width: UIScreen.main.bounds.width)
-            
-            ScrollView(.horizontal, showsIndicators: false) {
+        if movies.isEmpty {
+            CinemaTVProgressView()
+        } else {
+            VStack(alignment: .center) {
                 HStack {
-                    ForEach(movies) { movie in
-                        NavigationLink(destination: DetailView(movieID: movie.id)) {
-                            VStack(spacing: 2) {
-                                MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")))
-                                    .frame(width: 180, height: 100)
-                                Text(movie.title)
-                                    .font(.caption)
-                                    .lineLimit(1)
-                                    .frame(width: 180)
-                            }
-                            .buttonStyle(.plain)
-                        }
+                    Text(title)
+                        .font(.system(.headline, design: .rounded))
+                        .lineLimit(1)
+                        .frame(width: 260, alignment: .leading)
+                        
+                    NavigationLink(destination: MoviesListView(title: title, selectionIndex: selectionIndex)) {
+                        Text("ver todos")
+                            .font(.subheadline)
+                            .frame(width: 80, alignment: .trailing)
                     }
                 }
-                .padding(.init(
-                    top: 0,
-                    leading: 16,
-                    bottom: 0,
-                    trailing: 0
-                ))
+                .frame(width: UIScreen.main.bounds.width)
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        ForEach(movies) { movie in
+                            NavigationLink(destination: DetailView(movieID: movie.id)) {
+                                VStack(spacing: 2) {
+                                    MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")))
+                                        .frame(width: 180, height: 100)
+                                    Text(movie.title)
+                                        .font(.caption)
+                                        .lineLimit(1)
+                                        .frame(width: 180)
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                    }
+                    .padding(.init(
+                        top: 0,
+                        leading: 16,
+                        bottom: 0,
+                        trailing: 0
+                    ))
+                }
             }
         }
     }
