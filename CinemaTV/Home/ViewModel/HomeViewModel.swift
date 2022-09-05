@@ -17,119 +17,127 @@ final class HomeViewModel: ObservableObject {
     @Published var upcomingMovies: [MovieResult] = []
     @Published var isLoadingPage = true
     var currentPage = 0
-    var canloadMorePages = true
     @Published var dispathGroup = DispatchGroup()
-    @State private var isLoading = true
     var perPage = 20
     var isLastItem = false
     
     init() {
-        loadMoreContent()
+//        loadMoreContent()
     }
     
     func loadMoreContent() {
-        self.dispathGroup.enter()
-        self.getMoviesList()
-        self.dispathGroup.leave()
-        
-        self.dispathGroup.enter()
-        self.getNowPlayngList()
-        self.dispathGroup.leave()
-        
-        self.dispathGroup.enter()
-        self.getUpcomingList()
-        self.dispathGroup.leave()
-        
-        self.dispathGroup.enter()
-        self.getPopularList()
-        self.dispathGroup.leave()
-        
-        self.dispathGroup.enter()
-        self.getTopVotedList()
-        self.dispathGroup.leave()
-        
-        self.dispathGroup.enter()
-        self.hideLoading()
-        self.dispathGroup.leave()
+//        self.dispathGroup.enter()
+//        self.getMoviesList()
+//        self.dispathGroup.leave()
+//        
+//        self.dispathGroup.enter()
+//        self.getNowPlayngList()
+//        self.dispathGroup.leave()
+//        
+//        self.dispathGroup.enter()
+//        self.getUpcomingList()
+//        self.dispathGroup.leave()
+//        
+//        self.dispathGroup.enter()
+//        self.getPopularList()
+//        self.dispathGroup.leave()
+//        
+//        self.dispathGroup.enter()
+//        self.getTopVotedList()
+//        self.dispathGroup.leave()
+//        
+//        self.dispathGroup.enter()
+//        self.hideLoading()
+//        self.dispathGroup.leave()
     }
     
-    func getMoviesList() {
-        MovieStore.shared.fetchDiscoverMovies(from: MoviesEndpoint.discover) { result in
-            self.dispathGroup.enter()
-            switch result {
-            case .success(let movies):
-                self.dispathGroup.leave()
-                self.dispathGroup.notify(queue: .main) {
-                    self.discoverMovies = movies.results
-                    self.isLoadingPage = false
+    func getMoviesList() async {
+        Task {
+            MovieStore.shared.fetchDiscoverMovies(from: MoviesEndpoint.discover) { result in
+                self.dispathGroup.enter()
+                switch result {
+                case .success(let movies):
+                    self.dispathGroup.leave()
+                    self.dispathGroup.notify(queue: .main) {
+                        self.discoverMovies = movies.results
+                        self.isLoadingPage = false
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.dispathGroup.leave()
                 }
-            case .failure(let error):
-                print(error.localizedDescription)
-                self.dispathGroup.leave()
             }
         }
     }
     
-    func getNowPlayngList() {
-        MovieStore.shared.fetchNowMovies(from: MoviesEndpoint.nowPlaying) { result in
-            self.dispathGroup.enter()
-            switch result {
-            case .success(let movies):
-                self.dispathGroup.leave()
-                self.dispathGroup.notify(queue: .main) {
-                    self.nowPlayngMovies = movies.results
+    func getNowPlayngList() async {
+        Task {
+            MovieStore.shared.fetchNowMovies(from: MoviesEndpoint.nowPlaying) { result in
+                self.dispathGroup.enter()
+                switch result {
+                case .success(let movies):
+                    self.dispathGroup.leave()
+                    self.dispathGroup.notify(queue: .main) {
+                        self.nowPlayngMovies = movies.results
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.dispathGroup.leave()
                 }
-            case .failure(let error):
-                print(error.localizedDescription)
-                self.dispathGroup.leave()
             }
         }
     }
     
-    func getUpcomingList() {
-        MovieStore.shared.fetchNowMovies(from: MoviesEndpoint.upcoming) { result in
-            self.dispathGroup.enter()
-            switch result {
-            case .success(let movies):
-                self.dispathGroup.leave()
-                self.dispathGroup.notify(queue: .main) {
-                    self.upcomingMovies = movies.results
+    func getUpcomingList() async {
+        Task {
+            MovieStore.shared.fetchNowMovies(from: MoviesEndpoint.upcoming) { result in
+                self.dispathGroup.enter()
+                switch result {
+                case .success(let movies):
+                    self.dispathGroup.leave()
+                    self.dispathGroup.notify(queue: .main) {
+                        self.upcomingMovies = movies.results
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.dispathGroup.leave()
                 }
-            case .failure(let error):
-                print(error.localizedDescription)
-                self.dispathGroup.leave()
             }
         }
     }
     
-    func getTopVotedList() {
-        MovieStore.shared.fetchTopMovies(from: MoviesEndpoint.toRated) { result in
-            self.dispathGroup.enter()
-            switch result {
-            case .success(let movies):
-                self.dispathGroup.leave()
-                self.dispathGroup.notify(queue: .main) {
-                    self.topRatedMovies = movies.results
+    func getTopVotedList() async {
+        Task {
+            MovieStore.shared.fetchTopMovies(from: MoviesEndpoint.toRated) { result in
+                self.dispathGroup.enter()
+                switch result {
+                case .success(let movies):
+                    self.dispathGroup.leave()
+                    self.dispathGroup.notify(queue: .main) {
+                        self.topRatedMovies = movies.results
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.dispathGroup.leave()
                 }
-            case .failure(let error):
-                print(error.localizedDescription)
-                self.dispathGroup.leave()
             }
         }
     }
     
-    func getPopularList() {
-        MovieStore.shared.fetchDiscoverMovies(from: MoviesEndpoint.popular) { result in
-            self.dispathGroup.enter()
-            switch result {
-            case .success(let movies):
-                self.dispathGroup.leave()
-                self.dispathGroup.notify(queue: .main) {
-                    self.popularMovies = movies.results
+    func getPopularList() async {
+        Task {
+            MovieStore.shared.fetchDiscoverMovies(from: MoviesEndpoint.popular) { result in
+                self.dispathGroup.enter()
+                switch result {
+                case .success(let movies):
+                    self.dispathGroup.leave()
+                    self.dispathGroup.notify(queue: .main) {
+                        self.popularMovies = movies.results
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.dispathGroup.leave()
                 }
-            case .failure(let error):
-                print(error.localizedDescription)
-                self.dispathGroup.leave()
             }
         }
     }
