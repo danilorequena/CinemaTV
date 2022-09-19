@@ -16,7 +16,7 @@ struct MoviesListCell: View {
             AsyncImage(url: image) { image in
                 image.resizable()
             } placeholder: {
-                ProgressView()
+                Image("placeholder-image")
             }
             .frame(width: 100, height: 120)
             .cornerRadius(16)
@@ -38,7 +38,7 @@ struct MoviesListCell_Previews: PreviewProvider {
     static var previews: some View {
         MoviesListCell(
             image: URL(
-                string: "\(Constants.basePosters)/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg"
+                string: "\(Constants.basePosters)/qAZ0pzat24kLdO3o8ejmbLxyOac."
             ),
             title: "Steve Jobs",
             subTitle: "Três momentos importantes da vida do inventor, empresário e magnata Steve Jobs: os bastidores do lançamento do computador Macintosh, em 1984; da empresa NeXT, doze anos depois e do iPod, no ano de 2001."

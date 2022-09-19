@@ -67,7 +67,6 @@ final class MovieStore: MovieServiceProtocol {
         }
         
         let queryItems = [
-            "language" : "pt-BR",
             "include_video" : "true",
             "watch_region" : "pt-BR"
         ]
@@ -103,6 +102,8 @@ final class MovieStore: MovieServiceProtocol {
     }
     
     private func loadURLAndDecode<D: Decodable>(url: URL, params: [String : String]? = nil, completion: @escaping (Result<D, MovieError>) -> ()) {
+        guard let language = Locale.current.languageCode else { return }
+        guard let region = Locale.current.regionCode else { return }
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             completion(.failure(.invalidEndpoint))
             return
@@ -110,8 +111,9 @@ final class MovieStore: MovieServiceProtocol {
         
         var queryItems = [
             URLQueryItem(name: "api_key", value: Constants.apikey),
+            URLQueryItem(name: "language", value: "\(language)-\(region)"),
+            URLQueryItem(name: "region", value: region),
             URLQueryItem(name: "include_adult", value: "false")
-//            URLQueryItem(name: "region", value: Locale.current.regionCode)
         ]
         if let params = params {
             queryItems.append(contentsOf: params.map {URLQueryItem(name: $0.key, value: $0.value)})
