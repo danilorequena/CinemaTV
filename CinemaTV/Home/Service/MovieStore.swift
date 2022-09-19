@@ -10,7 +10,7 @@ import Foundation
 final class MovieStore: MovieServiceProtocol {
     static let shared = MovieStore()
     
-    private init() {}
+    init() {}
     
     private let urlSession = URLSession.shared
     private let jsonDecoder = Utils.jsonDecoder

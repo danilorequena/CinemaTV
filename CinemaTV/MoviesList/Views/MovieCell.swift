@@ -9,18 +9,15 @@ import SwiftUI
 
 struct MovieCell: View {
     let image: URL?
-//    @ObservedObject var imageLoader = ImageLoader()
     var body: some View {
-        if let image = image, let imageData = try? Data(contentsOf: image), let uiImage = UIImage(data: imageData) {
-            Image(uiImage: uiImage)
-                .resizable()
-                .scaledToFill()
-//                .background(.ultraThinMaterial)
-                .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                .cornerRadius(16)
-        } else {
-            Image("placeholder-image")
+        AsyncImage(url: image) { image in
+            image.resizable()
+        } placeholder: {
+            ProgressView()
         }
+        .scaledToFill()
+        .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .cornerRadius(16)
     }
 }
 
