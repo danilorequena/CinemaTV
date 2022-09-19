@@ -52,6 +52,6 @@ struct DiscoverMoviesView: View {
 
 struct DiscoverMoviesView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverMoviesView(movies: MovieResult.stubbedMovies, selectionIndex: 0)
+        DiscoverMoviesView(movies: MovieResult.stubbedMovies(), selectionIndex: 0)
     }
 }

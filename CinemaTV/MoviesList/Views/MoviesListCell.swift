@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 struct MoviesListCell: View {
     let image: URL?
@@ -14,25 +13,22 @@ struct MoviesListCell: View {
     let subTitle: String
     var body: some View {
         HStack (alignment: .top){
-            let processor = DownsamplingImageProcessor(size: CGSize(width: 100, height: 120))
-                         |> RoundCornerImageProcessor(cornerRadius: 20)
-            if let image = image, let _ = try? Data(contentsOf: image) {
-                KFImage.url(image)
-                    .setProcessor(processor)
-                    .loadDiskFileSynchronously()
-                    .cacheMemoryOnly()
-                    .fade(duration: 0.5)
-                    .frame(width: 100, height: 120)
-                
-                VStack(spacing: 6) {
-                    Text(title)
-                        .frame(width: 200)
-                        .font(.title3)
-                        .lineLimit(1)
-                    Text(subTitle)
-                        .font(.subheadline)
-                        .lineLimit(4)
-                }
+            AsyncImage(url: image) { image in
+                image.resizable()
+            } placeholder: {
+                ProgressView()
+            }
+            .frame(width: 100, height: 120)
+            .cornerRadius(16)
+            
+            VStack(spacing: 6) {
+                Text(title)
+                    .frame(width: 200)
+                    .font(.title3)
+                    .lineLimit(1)
+                Text(subTitle)
+                    .font(.subheadline)
+                    .lineLimit(4)
             }
         }
     }

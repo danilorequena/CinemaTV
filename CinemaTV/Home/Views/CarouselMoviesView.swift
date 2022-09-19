@@ -60,6 +60,10 @@ struct CarouselMoviesView: View {
 
 struct TopVotedMoviesView_Previews: PreviewProvider {
     static var previews: some View {
-        CarouselMoviesView(movies: MovieResult.stubbedMovies, title: "Title", selectionIndex: 0)
+        CarouselMoviesView(
+            movies: MovieResult.stubbedMovies(),
+            title: "Title",
+            selectionIndex: 0
+        )
     }
 }
