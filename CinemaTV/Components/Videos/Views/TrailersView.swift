@@ -22,8 +22,8 @@ struct TrailersView: View {
                     .cornerRadius(16)
         }
         .background(Color.clear)
-        .onAppear {
-             viewModel.fetchTrailers(movieID: videoID ?? 0)
+        .task {
+             await viewModel.fetchTrailers(movieID: videoID ?? 0)
         }
     }
 }
