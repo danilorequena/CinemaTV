@@ -6,18 +6,26 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct MovieCell: View {
     let image: URL?
     var body: some View {
-        AsyncImage(url: image) { image in
-            image.resizable()
-        } placeholder: {
-            ProgressView()
-        }
-        .scaledToFill()
-        .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
-        .cornerRadius(16)
+//        AsyncImage(url: image) { image in
+//            image.resizable()
+//        } placeholder: {
+//            ProgressView()
+//        }
+//        .scaledToFill()
+//        .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
+//        .cornerRadius(16)
+        KFImage(image)
+            .resizable()
+            .retry(maxCount: 3, interval: .seconds(5))
+            .cacheOriginalImage()
+            .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .cornerRadius(16)
+            .scaledToFill()
     }
 }
 

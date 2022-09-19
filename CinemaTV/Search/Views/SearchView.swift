@@ -14,7 +14,6 @@ struct SearchView: View {
     @Environment(\.dismissSearch) var dismissSearch
     
     var body: some View {
-        //        List(self.viewModel.movies.filter { self.searchText.isEmpty ? true : $0.title.contains(self.searchText)}) { movie in
         NavigationView {
             List(self.viewModel.movies) { movie in
                 MoviesListCell(
