@@ -21,6 +21,22 @@ final class SearchViewModel: ObservableObject {
         self.isLoading = false
         
         self.isLoading = true
+        
+//        Task {
+//            service.fetchSearch(from: MoviesEndpoint.searchMovie.path(), query: searchText) { [weak self] (result) in
+//                guard let self = self else { return }
+//                self.isLoading = false
+//                switch result {
+//                case .success(let movies):
+//                    DispatchQueue.main.async {
+//                        self.movies = movies.results
+//                    }
+//                case .failure(let error):
+//                    print(error)
+//                }
+//            }
+//        }
+        
         MovieStore.shared.fetchSearch(from: MoviesEndpoint.searchMovie.path(), query: searchText) { [weak self] (result) in
             guard let self = self else { return }
             self.isLoading = false
