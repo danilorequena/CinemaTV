@@ -60,8 +60,8 @@ struct DetailView: View {
                 }
             }
             .edgesIgnoringSafeArea(.top)
-            .onAppear {
-                viewModel.loadDetails(movieID: movieID ?? 0)
+            .task {
+                await viewModel.loadDetails(movieID: movieID ?? 0)
             }
         }
     }
