@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 final class HomeViewModel: ObservableObject {
-    var service = MoviesService()
+    var service: MovieServiceProtocol
     @Published var discoverMovies: [MovieResult] = []
     @Published var topRatedMovies: [MovieResult] = []
     @Published var popularMovies: [MovieResult] = []
@@ -21,39 +21,13 @@ final class HomeViewModel: ObservableObject {
     var perPage = 20
     var isLastItem = false
     
-    init() {
-//        loadMoreContent()
-    }
-    
-    func loadMoreContent() {
-//        self.dispathGroup.enter()
-//        self.getMoviesList()
-//        self.dispathGroup.leave()
-//        
-//        self.dispathGroup.enter()
-//        self.getNowPlayngList()
-//        self.dispathGroup.leave()
-//        
-//        self.dispathGroup.enter()
-//        self.getUpcomingList()
-//        self.dispathGroup.leave()
-//        
-//        self.dispathGroup.enter()
-//        self.getPopularList()
-//        self.dispathGroup.leave()
-//        
-//        self.dispathGroup.enter()
-//        self.getTopVotedList()
-//        self.dispathGroup.leave()
-//        
-//        self.dispathGroup.enter()
-//        self.hideLoading()
-//        self.dispathGroup.leave()
+    init(service: MovieServiceProtocol = MovieStore()) {
+        self.service = service
     }
     
     func getMoviesList() async {
         Task {
-            MovieStore.shared.fetchDiscoverMovies(from: MoviesEndpoint.discover) { result in
+            service.fetchDiscoverMovies(from: MoviesEndpoint.discover) { result in
                 self.dispathGroup.enter()
                 switch result {
                 case .success(let movies):
@@ -72,7 +46,7 @@ final class HomeViewModel: ObservableObject {
     
     func getNowPlayngList() async {
         Task {
-            MovieStore.shared.fetchNowMovies(from: MoviesEndpoint.nowPlaying) { result in
+            service.fetchNowMovies(from: MoviesEndpoint.nowPlaying) { result in
                 self.dispathGroup.enter()
                 switch result {
                 case .success(let movies):
@@ -90,7 +64,7 @@ final class HomeViewModel: ObservableObject {
     
     func getUpcomingList() async {
         Task {
-            MovieStore.shared.fetchNowMovies(from: MoviesEndpoint.upcoming) { result in
+            service.fetchNowMovies(from: MoviesEndpoint.upcoming) { result in
                 self.dispathGroup.enter()
                 switch result {
                 case .success(let movies):
@@ -108,7 +82,7 @@ final class HomeViewModel: ObservableObject {
     
     func getTopVotedList() async {
         Task {
-            MovieStore.shared.fetchTopMovies(from: MoviesEndpoint.toRated) { result in
+            service.fetchTopMovies(from: MoviesEndpoint.toRated) { result in
                 self.dispathGroup.enter()
                 switch result {
                 case .success(let movies):
@@ -126,7 +100,7 @@ final class HomeViewModel: ObservableObject {
     
     func getPopularList() async {
         Task {
-            MovieStore.shared.fetchDiscoverMovies(from: MoviesEndpoint.popular) { result in
+            service.fetchDiscoverMovies(from: MoviesEndpoint.popular) { result in
                 self.dispathGroup.enter()
                 switch result {
                 case .success(let movies):

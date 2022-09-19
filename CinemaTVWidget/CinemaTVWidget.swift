@@ -139,7 +139,7 @@ struct CinemaTVWidgetView: View {
         }
         .background(
             LinearGradient(
-                colors: [.purple, .black],
+                colors: [.black, .gray],
                 startPoint: .top,
                 endPoint: .bottom
             )
