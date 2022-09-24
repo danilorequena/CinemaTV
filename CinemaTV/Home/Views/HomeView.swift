@@ -20,33 +20,33 @@ struct HomeView: View {
                                 await viewModel.getMoviesList()
                             }
                         
-                        CarouselMoviesView(movies: viewModel.upcomingMovies, title: "Em breve", selectionIndex: 0)
+                        CarouselMoviesView(movies: viewModel.upcomingMovies, title: LC.soon.text, selectionIndex: 0)
                             .buttonStyle(.plain)
                             .task {
                                 await viewModel.getUpcomingList()
                             }
                         
-                        CarouselMoviesView(movies: viewModel.nowPlayngMovies, title: "Agora nos Cinemas", selectionIndex: 0)
+                        CarouselMoviesView(movies: viewModel.nowPlayngMovies, title: LC.onCine.text, selectionIndex: 0)
                             .buttonStyle(.plain)
                             .task {
                                 await viewModel.getNowPlayngList()
                             }
                         
-                        CarouselMoviesView(movies: viewModel.popularMovies, title: "Filmes Populares", selectionIndex: 1)
+                        CarouselMoviesView(movies: viewModel.popularMovies, title: LC.popular.text, selectionIndex: 1)
                             .buttonStyle(.plain)
                             .task {
                                 await viewModel.getPopularList()
                             }
                         
-                        CarouselMoviesView(movies: viewModel.topRatedMovies, title: "Melhor avaliados", selectionIndex: 2)
+                        CarouselMoviesView(movies: viewModel.topRatedMovies, title: LC.rated.text, selectionIndex: 2)
                             .buttonStyle(.plain)
                             .task {
                                 await viewModel.getTopVotedList()
                             }
                         
-                        NavigationLink(destination: MoviesListView(title: "Movies", selectionIndex: 0)) {
+                        NavigationLink(destination: MoviesListView(title: LC.movies.text, selectionIndex: 0)) {
                             VStack {
-                                Text("Ver Todos")
+                                Text(LC.seeAll.text)
                             }
                             .frame(width: UIScreen.main.bounds.width - 32, height: 56)
                             .background(Color.blue)
@@ -56,7 +56,7 @@ struct HomeView: View {
                     }
                 }
             }
-            .navigationTitle("Discover")
+            .navigationTitle(LC.discover.text)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button {

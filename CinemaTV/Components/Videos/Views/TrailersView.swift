@@ -8,14 +8,16 @@
 import SwiftUI
 import AVKit
 import WebKit
+import Foundation
 
 struct TrailersView: View {
     let viewModel = DetailViewModel()
     let videoID: Int?
     let videoKey: String
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Trailer")
+            Text(LC.trailer.text)
                 .font(.title2)
                 .foregroundColor(.primary)
                 VideosView(videoID: String(videoKey))
