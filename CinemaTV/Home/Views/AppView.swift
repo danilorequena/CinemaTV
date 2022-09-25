@@ -13,7 +13,13 @@ struct AppView: View {
             HomeView()
                 .tabItem {
                     Image(systemName: "house")
-                    Text("Discover")
+                    Text("Movies")
+                }
+            
+            TVShowHomeView()
+                .tabItem {
+                    Image(systemName: "play.tv")
+                    Text("TV Shows")
                 }
             
             SearchView()

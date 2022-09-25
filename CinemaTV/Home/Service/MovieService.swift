@@ -8,13 +8,13 @@
 import Foundation
 
 protocol MovieServiceProtocol: AnyObject {
-    func fetchDiscoverMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<DiscoverMovies, MovieError>) -> Void)
-    func fetchTopMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<TopVotedMovies, MovieError>) -> Void)
-    func fetchUpcomingMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<UpcomingMovies, MovieError>) -> Void)
-    func fetchNowMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<NowPlayingMovies, MovieError>) -> Void)
-    func fetchPopularMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<PopularMovies, MovieError>) -> Void)
-    func fetchDetail(from ID: Int, completion: @escaping (Result<DetailMoviesModel, MovieError>) -> Void)
-    func fetchCast(from endpoint: String, completion: @escaping (Result<CastModel, MovieError>) -> Void)
-    func fetchTrailer(from endpoint: String, completion: @escaping (Result<VideoModel, MovieError>) -> Void)
-    func fetchSearch(from endpoint: String, query: String, completion: @escaping (Result<SearchModel, MovieError>) -> Void)
+    func fetchDiscoverMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<DiscoverMovies, RequestError>) -> Void)
+    func fetchTopMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<TopVotedMovies, RequestError>) -> Void)
+    func fetchUpcomingMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<UpcomingMovies, RequestError>) -> Void)
+    func fetchNowMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<NowPlayingMovies, RequestError>) -> Void)
+    func fetchPopularMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<PopularMovies, RequestError>) -> Void)
+    func fetchDetail(from ID: Int, completion: @escaping (Result<DetailMoviesModel, RequestError>) -> Void)
+    func fetchCast(from endpoint: String, completion: @escaping (Result<CastModel, RequestError>) -> Void)
+    func fetchTrailer(from endpoint: String, completion: @escaping (Result<VideoModel, RequestError>) -> Void)
+    func fetchSearch(from endpoint: String, query: String, completion: @escaping (Result<SearchModel, RequestError>) -> Void)
 }
