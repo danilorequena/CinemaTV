@@ -13,7 +13,8 @@ struct CinemaTVProgressView: View {
     var body: some View {
         VStack(spacing: 10) {
             ProgressView()
-            Text(LC.trailer.text)
+            Text(LC.loading.text)
+                .font(.caption)
         }
         .frame(width: 100, height: 100)
         .background(.ultraThinMaterial)

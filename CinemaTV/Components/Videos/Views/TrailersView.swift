@@ -8,7 +8,6 @@
 import SwiftUI
 import AVKit
 import WebKit
-import Foundation
 
 struct TrailersView: View {
     let viewModel = DetailViewModel()

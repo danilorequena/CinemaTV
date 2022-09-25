@@ -12,16 +12,20 @@ typealias LC = LocalizedConstants
 
 enum LocalizedConstants: String {
     
+    //MARK: - TrailerView
     case trailer
     
     //MARK: - HomeView
     case soon
-    case onCine
+    case nowPlaying
     case popular
     case rated
     case movies
     case seeAll
     case discover
+    
+    //MARK: - CinemaTVProgressView
+    case loading
     
     var text: String {
         return rawValue.localized(.presentation)

@@ -26,7 +26,7 @@ struct HomeView: View {
                                 await viewModel.getUpcomingList()
                             }
                         
-                        CarouselMoviesView(movies: viewModel.nowPlayngMovies, title: LC.onCine.text, selectionIndex: 0)
+                        CarouselMoviesView(movies: viewModel.nowPlayngMovies, title: LC.nowPlaying.text, selectionIndex: 0)
                             .buttonStyle(.plain)
                             .task {
                                 await viewModel.getNowPlayngList()
