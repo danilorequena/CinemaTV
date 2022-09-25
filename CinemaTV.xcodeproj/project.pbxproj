@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09A7709F28DFAA3D0015147C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 09A770A128DFAA3D0015147C /* Localizable.strings */; };
+		09A770A428DFB0320015147C /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E6E2E328DF959C00E7E856 /* String+.swift */; };
+		09A770A528DFB03A0015147C /* Bundle+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E6E2E528DF962000E7E856 /* Bundle+.swift */; };
+		09A770A628DFB03E0015147C /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E6E2E728DF964500E7E856 /* Constant.swift */; };
+		09A770A728DFB0480015147C /* LocalizedConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E6E2E928DF969D00E7E856 /* LocalizedConstants.swift */; };
+		09E6E2E428DF959C00E7E856 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E6E2E328DF959C00E7E856 /* String+.swift */; };
+		09E6E2E628DF962000E7E856 /* Bundle+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E6E2E528DF962000E7E856 /* Bundle+.swift */; };
+		09E6E2E828DF964500E7E856 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E6E2E728DF964500E7E856 /* Constant.swift */; };
+		09E6E2EA28DF969D00E7E856 /* LocalizedConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E6E2E928DF969D00E7E856 /* LocalizedConstants.swift */; };
 		7D42245C273810E1006236F8 /* CinemaTVApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D42245B273810E1006236F8 /* CinemaTVApp.swift */; };
 		7D42245E273810E1006236F8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D42245D273810E1006236F8 /* ContentView.swift */; };
 		7D422460273810E2006236F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D42245F273810E2006236F8 /* Assets.xcassets */; };
@@ -146,6 +155,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		09A770A028DFAA3D0015147C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		09A770A328DFAC160015147C /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		09E6E2E328DF959C00E7E856 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		09E6E2E528DF962000E7E856 /* Bundle+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+.swift"; sourceTree = "<group>"; };
+		09E6E2E728DF964500E7E856 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		09E6E2E928DF969D00E7E856 /* LocalizedConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedConstants.swift; sourceTree = "<group>"; };
 		7D422458273810E1006236F8 /* CinemaTV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CinemaTV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D42245B273810E1006236F8 /* CinemaTVApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CinemaTVApp.swift; sourceTree = "<group>"; };
 		7D42245D273810E1006236F8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -249,6 +264,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09E6E2E028DF954E00E7E856 /* LocalizedStrings */ = {
+			isa = PBXGroup;
+			children = (
+				09A770A128DFAA3D0015147C /* Localizable.strings */,
+				09E6E2E328DF959C00E7E856 /* String+.swift */,
+				09E6E2E928DF969D00E7E856 /* LocalizedConstants.swift */,
+				09E6E2E528DF962000E7E856 /* Bundle+.swift */,
+				09E6E2E728DF964500E7E856 /* Constant.swift */,
+			);
+			path = LocalizedStrings;
+			sourceTree = "<group>";
+		};
 		7D42244F273810E1006236F8 = {
 			isa = PBXGroup;
 			children = (
@@ -275,6 +302,7 @@
 		7D42245A273810E1006236F8 /* CinemaTV */ = {
 			isa = PBXGroup;
 			children = (
+				09E6E2E028DF954E00E7E856 /* LocalizedStrings */,
 				FF74128C2895CF5F00A79C7C /* Resources */,
 				FF394E3E27D10AA700FFBDFC /* Bindings */,
 				FFEF0ADE275FA63700D5593C /* Components */,
@@ -770,6 +798,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"pt-BR",
 			);
 			mainGroup = 7D42244F273810E1006236F8;
 			packageReferences = (
@@ -792,6 +821,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09A7709F28DFAA3D0015147C /* Localizable.strings in Resources */,
 				FF74128E2895CF9900A79C7C /* TMDB.plist in Resources */,
 				7D422463273810E2006236F8 /* Preview Assets.xcassets in Resources */,
 				7D422460273810E2006236F8 /* Assets.xcassets in Resources */,
@@ -847,17 +877,20 @@
 				FF84C79C275135A10098193C /* CastModel.swift in Sources */,
 				FF6496AE280C8B38001BC28F /* NowPlayingMovies.swift in Sources */,
 				FF4D52C8280CA74500EBEFD3 /* PopularMovies.swift in Sources */,
+				09E6E2E428DF959C00E7E856 /* String+.swift in Sources */,
 				FF4DDD7D27C335F60049CAFA /* MoviesListCell.swift in Sources */,
 				FF84C79E275138510098193C /* CastStub.swift in Sources */,
 				FF29E58F28DA1BE80042DFAF /* TVShowHomeView.swift in Sources */,
 				FF9156FF2749CC3500AF74C3 /* DetailMovieViewModel.swift in Sources */,
 				FF84717927628F74007B57D9 /* VideosView.swift in Sources */,
 				7D4224972738136E006236F8 /* MoviesService.swift in Sources */,
+				09E6E2E628DF962000E7E856 /* Bundle+.swift in Sources */,
 				7D4224A027381E83006236F8 /* MovieStub.swift in Sources */,
 				FF29E58728DA122E0042DFAF /* DiscoverTVShow.swift in Sources */,
 				FF3937F927C6E40C0082FF42 /* MoviesListViewModel.swift in Sources */,
 				7D42249B273814D8006236F8 /* HomeView.swift in Sources */,
 				7D422465273810E2006236F8 /* Persistence.swift in Sources */,
+				09E6E2E828DF964500E7E856 /* Constant.swift in Sources */,
 				FF84C79A27512B980098193C /* CastView.swift in Sources */,
 				FF84C7A027513B5D0098193C /* CastCell.swift in Sources */,
 				FF394E3B27D1010500FFBDFC /* MovieStore.swift in Sources */,
@@ -873,6 +906,7 @@
 				FF058F7728A7E77D00125FB2 /* AppView.swift in Sources */,
 				7D42248E273811A7006236F8 /* DiscoverMovie.swift in Sources */,
 				7D42249127381255006236F8 /* Constants.swift in Sources */,
+				09E6E2EA28DF969D00E7E856 /* LocalizedConstants.swift in Sources */,
 				FF394E3927D0FE7400FFBDFC /* MovieService.swift in Sources */,
 				7D42249E27381DB5006236F8 /* DiscoverMoviesView.swift in Sources */,
 				FF7412A12895D66000A79C7C /* CinemaTVWidget.intentdefinition in Sources */,
@@ -902,16 +936,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09A770A728DFB0480015147C /* LocalizedConstants.swift in Sources */,
 				FF7412B12895D6FA00A79C7C /* MovieStore.swift in Sources */,
 				FF7412B82895D82500A79C7C /* CinemaTVProgressView.swift in Sources */,
 				FF7412AB2895D6FA00A79C7C /* Constants.swift in Sources */,
 				FF7412D02895D8C400A79C7C /* CastView.swift in Sources */,
 				FF7412A92895D6FA00A79C7C /* MovieService.swift in Sources */,
 				FF7412CC2895D8A200A79C7C /* MoviesListService.swift in Sources */,
+				09A770A528DFB03A0015147C /* Bundle+.swift in Sources */,
 				FF7412B22895D6FA00A79C7C /* MovieStub.swift in Sources */,
 				FF7412BF2895D84C00A79C7C /* DetailMovieViewModel.swift in Sources */,
 				FF7412BD2895D84C00A79C7C /* PopularMovies.swift in Sources */,
 				FF7412B62895D7E900A79C7C /* CastModel.swift in Sources */,
+				09A770A428DFB0320015147C /* String+.swift in Sources */,
 				FF7412C62895D86B00A79C7C /* VideosView.swift in Sources */,
 				FF7412CE2895D8A200A79C7C /* MovieCell.swift in Sources */,
 				FF7412C02895D84C00A79C7C /* NowPlayingMovies.swift in Sources */,
@@ -927,6 +964,7 @@
 				FF7412C72895D87C00A79C7C /* ImageLoader.swift in Sources */,
 				FF7412CF2895D8A200A79C7C /* MoviesListCell.swift in Sources */,
 				FF7412AF2895D6FA00A79C7C /* APIServiceError.swift in Sources */,
+				09A770A628DFB03E0015147C /* Constant.swift in Sources */,
 				FF7412BC2895D84C00A79C7C /* DetailMoviesModel.swift in Sources */,
 				FF7412AD2895D6FA00A79C7C /* MoviesService.swift in Sources */,
 				FF7412C42895D86B00A79C7C /* TrailersView.swift in Sources */,
@@ -960,11 +998,24 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		09A770A128DFAA3D0015147C /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				09A770A028DFAA3D0015147C /* en */,
+				09A770A328DFAC160015147C /* pt-BR */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		7D42247F273810E2006236F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -1026,6 +1077,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";

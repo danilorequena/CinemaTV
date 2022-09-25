@@ -1,0 +1,14 @@
+//TrailerView
+"trailer" = "Trailer";
+
+//HomeView
+"soon" = "Soon";
+"nowPlaying" = "Now on Cinemas";
+"popular" = "Popular Movies";
+"rated" = "Highly Rated";
+"movies" = "Movies";
+"seeAll" = "See All";
+"discover" = "Discover";
+
+//CinemaTVProgressView
+"loading" = "loading";
