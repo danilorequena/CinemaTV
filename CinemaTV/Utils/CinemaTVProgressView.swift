@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import Foundation
+import UIKit
 
 struct CinemaTVProgressView: View {
     var body: some View {
         VStack(spacing: 10) {
             ProgressView()
-            Text("carregando")
+            Text(LC.loading.text)
                 .font(.caption)
         }
         .frame(width: 100, height: 100)
