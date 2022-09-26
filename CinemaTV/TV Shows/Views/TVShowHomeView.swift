@@ -17,11 +17,25 @@ struct TVShowHomeView: View {
                         DiscoverMoviesView(movies: viewModel.discoverTVShows, selectionIndex: 0)
                             .buttonStyle(.plain)
                             .task {
-                                await viewModel.getDiscoverTVShowsList()
+                                await viewModel.getData(with: .discover)
+                            }
+                        
+                        CarouselMoviesView(
+                            data: viewModel.nowTVShows,
+                            title: LC.onTheAir.text,
+                            selectionIndex: 0,
+                            isLightBackground: false
+                        )
+                            .buttonStyle(.plain)
+                            .task {
+                                await viewModel.getData(with: .nowPlaying)
                             }
                     }
                 }
+                
             }
+            .background(Gradient(colors: [.gray, .black]))
+            .navigationTitle(LC.tvShows.text)
         }
     }
 }

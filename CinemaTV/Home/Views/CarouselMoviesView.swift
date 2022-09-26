@@ -8,22 +8,25 @@
 import SwiftUI
 
 struct CarouselMoviesView: View {
-    let movies: [MovieResult]
+    let data: [MoviesTVShowResult]
     let title: String
     var selectionIndex: Int
+    let isLightBackground: Bool
     var body: some View {
-        if movies.isEmpty {
+        if data.isEmpty {
             CinemaTVProgressView()
         } else {
             VStack(alignment: .center) {
                 HStack {
                     Text(title)
+                        .foregroundColor(isLightBackground ? .black : .gray)
                         .font(.system(.headline, design: .rounded))
                         .lineLimit(1)
                         .frame(width: 260, alignment: .leading)
                         
                     NavigationLink(destination: MoviesListView(title: title, selectionIndex: selectionIndex)) {
-                        Text("ver todos")
+                        Text(LC.seeAll.text)
+                            .foregroundColor(isLightBackground ? .black : .gray)
                             .font(.subheadline)
                             .frame(width: 80, alignment: .trailing)
                     }
@@ -32,12 +35,12 @@ struct CarouselMoviesView: View {
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
-                        ForEach(movies) { movie in
+                        ForEach(data) { movie in
                             NavigationLink(destination: DetailView(movieID: movie.id)) {
                                 VStack(spacing: 2) {
                                     MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")))
                                         .frame(width: 180, height: 100)
-                                    Text(movie.title)
+                                    Text((movie.title ?? movie.name) ?? "")
                                         .font(.caption)
                                         .lineLimit(1)
                                         .frame(width: 180)
@@ -61,9 +64,10 @@ struct CarouselMoviesView: View {
 struct TopVotedMoviesView_Previews: PreviewProvider {
     static var previews: some View {
         CarouselMoviesView(
-            movies: MovieResult.stubbedMovies(),
+            data: MoviesTVShowResult.stubbedMovies(),
             title: "Title",
-            selectionIndex: 0
+            selectionIndex: 0,
+            isLightBackground: false
         )
     }
 }

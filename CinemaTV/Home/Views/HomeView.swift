@@ -17,31 +17,31 @@ struct HomeView: View {
                         DiscoverMoviesView(movies: viewModel.discoverMovies, selectionIndex: 0)
                             .buttonStyle(.plain)
                             .task {
-                                await viewModel.getMoviesList()
+                                await viewModel.getAllData(with: .discover)
                             }
                         
-                        CarouselMoviesView(movies: viewModel.upcomingMovies, title: LC.soon.text, selectionIndex: 0)
+                        CarouselMoviesView(data: viewModel.upcomingMovies, title: LC.soon.text, selectionIndex: 0, isLightBackground: true)
                             .buttonStyle(.plain)
                             .task {
-                                await viewModel.getUpcomingList()
+                                await viewModel.getAllData(with: .upcoming)
                             }
                         
-                        CarouselMoviesView(movies: viewModel.nowPlayngMovies, title: LC.nowPlaying.text, selectionIndex: 0)
+                        CarouselMoviesView(data: viewModel.nowPlayngMovies, title: LC.nowPlaying.text, selectionIndex: 0, isLightBackground: true)
                             .buttonStyle(.plain)
                             .task {
-                                await viewModel.getNowPlayngList()
+                                await viewModel.getAllData(with: .nowPlaying)
                             }
                         
-                        CarouselMoviesView(movies: viewModel.popularMovies, title: LC.popular.text, selectionIndex: 1)
+                        CarouselMoviesView(data: viewModel.popularMovies, title: LC.popular.text, selectionIndex: 1, isLightBackground: true)
                             .buttonStyle(.plain)
                             .task {
-                                await viewModel.getPopularList()
+                                await viewModel.getAllData(with: .popular)
                             }
                         
-                        CarouselMoviesView(movies: viewModel.topRatedMovies, title: LC.rated.text, selectionIndex: 2)
+                        CarouselMoviesView(data: viewModel.topRatedMovies, title: LC.rated.text, selectionIndex: 2, isLightBackground: true)
                             .buttonStyle(.plain)
                             .task {
-                                await viewModel.getTopVotedList()
+                                await viewModel.getAllData(with: .toRated)
                             }
                         
                         NavigationLink(destination: MoviesListView(title: LC.movies.text, selectionIndex: 0)) {

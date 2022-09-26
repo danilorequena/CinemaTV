@@ -11,7 +11,7 @@ import SwiftUI
 
 final class MoviesListViewModel: ObservableObject {
     var service = MoviesService()
-    @Published var movies = [MovieResult]()
+    @Published var movies = [MoviesTVShowResult]()
     @Published var isLoadingPage = true
     var currentPage = 1
     var isLastItem = false

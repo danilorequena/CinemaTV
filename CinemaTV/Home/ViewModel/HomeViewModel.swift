@@ -10,11 +10,11 @@ import SwiftUI
 
 final class HomeViewModel: ObservableObject {
     var service: MovieServiceProtocol
-    @Published var discoverMovies: [MovieResult] = []
-    @Published var topRatedMovies: [MovieResult] = []
-    @Published var popularMovies: [MovieResult] = []
-    @Published var nowPlayngMovies: [MovieResult] = []
-    @Published var upcomingMovies: [MovieResult] = []
+    @Published var discoverMovies: [MoviesTVShowResult] = []
+    @Published var topRatedMovies: [MoviesTVShowResult] = []
+    @Published var popularMovies: [MoviesTVShowResult] = []
+    @Published var nowPlayngMovies: [MoviesTVShowResult] = []
+    @Published var upcomingMovies: [MoviesTVShowResult] = []
     @Published var isLoadingPage = true
     var currentPage = 0
     @Published var dispathGroup = DispatchGroup()
@@ -25,16 +25,15 @@ final class HomeViewModel: ObservableObject {
         self.service = service
     }
     
-    func getMoviesList() async {
+    func getAllData(with enpoint: MoviesEndpoint) async {
         Task {
-            service.fetchDiscoverMovies(from: MoviesEndpoint.discover) { result in
+            service.fetchDiscoverMovies(from: enpoint) { result in
                 self.dispathGroup.enter()
                 switch result {
                 case .success(let movies):
                     self.dispathGroup.leave()
                     self.dispathGroup.notify(queue: .main) {
-                        self.discoverMovies = movies.results
-                        self.isLoadingPage = false
+                        self.handleData(endpoint: enpoint, movies: movies)
                     }
                 case .failure(let error):
                     print(error.localizedDescription)
@@ -44,75 +43,25 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
-    func getNowPlayngList() async {
-        Task {
-            service.fetchNowMovies(from: MoviesEndpoint.nowPlaying) { result in
-                self.dispathGroup.enter()
-                switch result {
-                case .success(let movies):
-                    self.dispathGroup.leave()
-                    self.dispathGroup.notify(queue: .main) {
-                        self.nowPlayngMovies = movies.results
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    self.dispathGroup.leave()
-                }
-            }
-        }
-    }
-    
-    func getUpcomingList() async {
-        Task {
-            service.fetchNowMovies(from: MoviesEndpoint.upcoming) { result in
-                self.dispathGroup.enter()
-                switch result {
-                case .success(let movies):
-                    self.dispathGroup.leave()
-                    self.dispathGroup.notify(queue: .main) {
-                        self.upcomingMovies = movies.results
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    self.dispathGroup.leave()
-                }
-            }
-        }
-    }
-    
-    func getTopVotedList() async {
-        Task {
-            service.fetchTopMovies(from: MoviesEndpoint.toRated) { result in
-                self.dispathGroup.enter()
-                switch result {
-                case .success(let movies):
-                    self.dispathGroup.leave()
-                    self.dispathGroup.notify(queue: .main) {
-                        self.topRatedMovies = movies.results
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    self.dispathGroup.leave()
-                }
-            }
-        }
-    }
-    
-    func getPopularList() async {
-        Task {
-            service.fetchDiscoverMovies(from: MoviesEndpoint.popular) { result in
-                self.dispathGroup.enter()
-                switch result {
-                case .success(let movies):
-                    self.dispathGroup.leave()
-                    self.dispathGroup.notify(queue: .main) {
-                        self.popularMovies = movies.results
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    self.dispathGroup.leave()
-                }
-            }
+    private func handleData(endpoint: MoviesEndpoint, movies: DiscoverMovies) {
+        switch endpoint {
+        case .discover:
+            self.discoverMovies = movies.results
+            self.isLoadingPage = false
+        case .nowPlaying:
+            self.nowPlayngMovies = movies.results
+            self.isLoadingPage = false
+        case .popular:
+            self.popularMovies = movies.results
+            self.isLoadingPage = false
+        case .upcoming:
+            self.upcomingMovies = movies.results
+            self.isLoadingPage = false
+        case .toRated:
+            self.topRatedMovies = movies.results
+            self.isLoadingPage = false
+        default:
+            break
         }
     }
     

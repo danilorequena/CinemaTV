@@ -11,7 +11,7 @@ import Foundation
 struct UpcomingMovies: Codable {
     let dates: Dates
     let page: Int
-    let results: [MovieResult]
+    let results: [MoviesTVShowResult]
     let totalPages, totalResults: Int
 
     enum CodingKeys: String, CodingKey {

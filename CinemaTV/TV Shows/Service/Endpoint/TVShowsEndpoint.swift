@@ -27,7 +27,7 @@ enum TVShowsEndpoint {
         case .upcoming:
             return "movie/upcoming"
         case .nowPlaying:
-            return "movie/now_playing"
+            return "tv/on_the_air"
         case let .detail(movie):
             return "movie/\(String(movie))"
         case let .credits(movie):

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DiscoverMoviesView: View {
-    let movies: [MovieResult]
+    let movies: [MoviesTVShowResult]
     var selectionIndex: Int
     var body: some View {
         if movies.isEmpty {
@@ -21,7 +21,7 @@ struct DiscoverMoviesView: View {
                         selectionIndex: selectionIndex
                     )
                 ) {
-                    Text("ver todos")
+                    Text(LC.seeAll.text)
                         .font(.subheadline)
                         .padding(.trailing, 16)
                 }
@@ -52,6 +52,6 @@ struct DiscoverMoviesView: View {
 
 struct DiscoverMoviesView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverMoviesView(movies: MovieResult.stubbedMovies(), selectionIndex: 0)
+        DiscoverMoviesView(movies: MoviesTVShowResult.stubbedMovies(), selectionIndex: 0)
     }
 }

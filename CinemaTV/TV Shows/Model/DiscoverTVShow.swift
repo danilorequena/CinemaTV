@@ -15,7 +15,7 @@ import Foundation
 // MARK: - DiscoverTVShow
 struct DiscoverTVShow: Codable {
     let page: Int?
-    let results: [MovieResult]?
+    let results: [MoviesTVShowResult]?
     let totalPages, totalResults: Int?
 
     enum CodingKeys: String, CodingKey {

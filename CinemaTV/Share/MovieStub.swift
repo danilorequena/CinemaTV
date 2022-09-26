@@ -7,10 +7,10 @@
 
 import Foundation
 
-extension MovieResult {
-    static func stubbedMovies() -> [MovieResult] {
+extension MoviesTVShowResult {
+    static func stubbedMovies() -> [MoviesTVShowResult] {
         [
-            MovieResult(
+            MoviesTVShowResult(
                 adult: false,
                 backdropPath: "2RSirqZG949GuRwN38MYCIGG4Od.jpg",
                 genreIDS: [53],
@@ -23,9 +23,11 @@ extension MovieResult {
                 title: "Fall",
                 video: false,
                 voteAverage: 7.4,
-                voteCount: 658
+                voteCount: 658,
+                name: "",
+                originalName: ""
             ),
-            MovieResult(
+            MoviesTVShowResult(
                 adult: false,
                 backdropPath: "2RSirqZG949GuRwN38MYCIGG4Od.jpg",
                 genreIDS: [53],
@@ -38,9 +40,11 @@ extension MovieResult {
                 title: "Fall",
                 video: false,
                 voteAverage: 7.4,
-                voteCount: 658
+                voteCount: 658,
+                name: "",
+                originalName: ""
             ),
-            MovieResult(
+            MoviesTVShowResult(
                 adult: false,
                 backdropPath: "2RSirqZG949GuRwN38MYCIGG4Od.jpg",
                 genreIDS: [53],
@@ -53,7 +57,9 @@ extension MovieResult {
                 title: "Fall",
                 video: false,
                 voteAverage: 7.4,
-                voteCount: 658
+                voteCount: 658,
+                name: "",
+                originalName: ""
             )
         ]
     }
