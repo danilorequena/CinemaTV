@@ -8,6 +8,11 @@
 import Foundation
 import SwiftUI
 
+enum MovieORTVShow {
+    case movie
+    case tvShow
+}
+
 final class DetailViewModel: ObservableObject {
     var service = MoviesService()
     var newService: MovieServiceProtocol
@@ -23,19 +28,31 @@ final class DetailViewModel: ObservableObject {
         self.newService = newService
     }
     
-    func loadDetails(movieID: Int) async {
-        dispathGroup.enter()
-        await fetchDetail(movieID: movieID)
-        dispathGroup.leave()
-        
-        dispathGroup.enter()
-        await fetchTrailers(movieID: movieID)
-        dispathGroup.leave()
+    func loadDetails(ID: Int, state: MovieORTVShow) async {
+        switch state {
+        case .movie:
+            dispathGroup.enter()
+            await fetchDetail(movieID: ID)
+            dispathGroup.leave()
+            
+            dispathGroup.enter()
+            await fetchTrailers(movieID: ID)
+            dispathGroup.leave()
+            
+        case .tvShow:
+            dispathGroup.enter()
+            await fetchTVShowDetail(tvShowID: ID)
+            dispathGroup.leave()
+            
+            dispathGroup.enter()
+            await fetchTrailers(movieID: ID)
+            dispathGroup.leave()
+        }
     }
     
     func fetchDetail(movieID: Int) async {
         Task {
-            newService.fetchDetail(from: movieID) { result in
+            newService.fetchDetail(from: MoviesEndpoint.detail(movie: movieID).path()) { result in
                 switch result {
                 case .success(let detail):
                     self.detailMovie = detail
@@ -60,6 +77,20 @@ final class DetailViewModel: ObservableObject {
 //                self.dispathGroup.leave()
 //            }
 //        }
+    }
+    
+    func fetchTVShowDetail(tvShowID: Int) async {
+        Task {
+            newService.fetchDetail(from: MoviesEndpoint.detailTVShow(tvShow: tvShowID).path()) { result in
+                switch result {
+                case .success(let detail):
+                    self.detailMovie = detail
+                    self.isDetailLoading = false
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
     }
     
     func fetchTrailers(movieID: Int) async {

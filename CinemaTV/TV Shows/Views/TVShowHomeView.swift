@@ -8,40 +8,34 @@
 import SwiftUI
 
 struct TVShowHomeView: View {
+    @Environment(\.colorScheme) var colorScheme
     @StateObject private var viewModel = TVShowViewModel()
     var body: some View {
         NavigationView {
-            Group {
-                ScrollView(.vertical) {
-                    VStack(spacing: 32) {
-                        DiscoverMoviesView(movies: viewModel.discoverTVShows, selectionIndex: 0)
-                            .buttonStyle(.plain)
-                            .task {
-                                await viewModel.getData(with: .discover)
-                            }
-                        
-                        CarouselMoviesView(
-                            data: viewModel.nowTVShows,
-                            title: LC.onTheAir.text,
-                            selectionIndex: 0,
-                            isLightBackground: false
-                        )
-                            .buttonStyle(.plain)
-                            .task {
-                                await viewModel.getData(with: .nowPlaying)
-                            }
-                    }
+            if colorScheme == .dark {
+                Group {
+                    TVShowView()
                 }
-                
-            }
-            .background(Gradient(colors: [.gray, .black]))
+                .background(Gradient(colors: [.gray, .black]))
             .navigationTitle(LC.tvShows.text)
+            } else {
+                Group {
+                    TVShowView()
+                }
+                .background(Gradient(colors: [.gray, .white]))
+            .navigationTitle(LC.tvShows.text)
+            }
         }
     }
 }
 
 struct TVShowHomeView_Previews: PreviewProvider {
     static var previews: some View {
-        TVShowHomeView()
+        Group {
+            TVShowHomeView()
+                .preferredColorScheme(.light)
+            TVShowHomeView()
+                .preferredColorScheme(.dark)
+        }
     }
 }

@@ -41,10 +41,9 @@ struct MoviesListView: View {
                     }
                 }
                 
-//                List(viewModel.movies.filter{searchText.isEmpty ? true : $0.title.lowercased().localizedStandardContains(searchText.lowercased())}) { movie in
                 List(viewModel.movies) { movie in
                     // Se eu incluir o NavigationLink ele fica com aquela travadinha
-                    NavigationLink(destination: DetailView(viewModel: DetailViewModel(), movieID: movie.id)) {
+                    NavigationLink(destination: DetailView(id: movie.id, state: .movie)) {
                         MoviesListCell(
                             image: URL(string: Constants.basePosters + (movie.posterPath ?? "")),
                             title: (movie.title ?? movie.name) ?? "" ,
@@ -53,7 +52,7 @@ struct MoviesListView: View {
                     }
                 }
                 .navigationTitle(title)
-//                .searchable(text: $searchText)
+                .searchable(text: $searchText)
             }
         }
         .onAppear {
