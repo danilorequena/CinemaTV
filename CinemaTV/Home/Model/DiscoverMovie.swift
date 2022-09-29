@@ -10,7 +10,7 @@ import Foundation
 // MARK: - DiscoverMovies
 struct DiscoverMovies: Codable {
     let page: Int
-    let results: [MovieResult]
+    let results: [MoviesTVShowResult]
     let totalPages, totalResults: Int
 
     enum CodingKeys: String, CodingKey {
@@ -21,7 +21,7 @@ struct DiscoverMovies: Codable {
 }
 
 // MARK: - Result
-struct MovieResult: Codable, Identifiable, Hashable {
+struct MoviesTVShowResult: Codable, Identifiable, Hashable {
     let adult: Bool?
     let backdropPath: String?
     let genreIDS: [Int]?
@@ -30,10 +30,12 @@ struct MovieResult: Codable, Identifiable, Hashable {
     let popularity: Double?
     let posterPath: String?
     let releaseDate: String?
-    let title: String
+    let title: String?
     let video: Bool?
     let voteAverage: Double?
     let voteCount: Int?
+    let name: String?
+    let originalName: String?
 
     enum CodingKeys: String, CodingKey {
         case adult
@@ -44,8 +46,9 @@ struct MovieResult: Codable, Identifiable, Hashable {
         case overview, popularity
         case posterPath = "poster_path"
         case releaseDate = "release_date"
-        case title, video
+        case title, video, name
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
+        case originalName = "original_name"
     }
 }

@@ -16,7 +16,7 @@ enum APIServiceError: Error {
     case invalidJSON
 }
 
-enum MovieError: Error, CustomNSError {
+enum RequestError: Error, CustomNSError {
     case apiError
     case invalidEndpoint
     case invalidResponse

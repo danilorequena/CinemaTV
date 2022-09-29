@@ -1,7 +1,7 @@
-//TrailerView
+// MARK: - Trailer
 "trailer" = "Trailer";
 
-//HomeView
+// MARK: - MoviesHome
 "soon" = "Em breve";
 "nowPlaying" = "Agora nos cinemas";
 "popular" = "Filmes Populares";
@@ -9,6 +9,10 @@
 "movies" = "Filmes";
 "seeAll" = "Ver Todos";
 "discover" = "Descubra";
+"tvShows" = "Séries";
 
-//CinemaTVProgressView
+// MARK: - TVShowsHome
+"onTheAir" = "No ar";
+
+// MARK: -CinemaTVProgressView
 "loading" = "carregando";
