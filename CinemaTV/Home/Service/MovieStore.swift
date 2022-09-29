@@ -15,7 +15,7 @@ final class MovieStore: MovieServiceProtocol {
     private let urlSession = URLSession.shared
     private let jsonDecoder = Utils.jsonDecoder
     
-    func fetchDiscoverMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<DiscoverMovies, MovieError>) -> ()) {
+    func fetchDiscoverMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<DiscoverMovies, RequestError>) -> ()) {
         guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
             completion(.failure(.invalidEndpoint))
             return
@@ -24,7 +24,7 @@ final class MovieStore: MovieServiceProtocol {
         loadURLAndDecode(url: url, completion: completion)
     }
     
-    func fetchUpcomingMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<UpcomingMovies, MovieError>) -> ()) {
+    func fetchUpcomingMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<UpcomingMovies, RequestError>) -> ()) {
         guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
             completion(.failure(.invalidEndpoint))
             return
@@ -33,7 +33,7 @@ final class MovieStore: MovieServiceProtocol {
         loadURLAndDecode(url: url, completion: completion)
     }
     
-    func fetchTopMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<TopVotedMovies, MovieError>) -> ()) {
+    func fetchTopMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<TopVotedMovies, RequestError>) -> ()) {
         guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
             completion(.failure(.invalidEndpoint))
             return
@@ -42,7 +42,7 @@ final class MovieStore: MovieServiceProtocol {
         loadURLAndDecode(url: url, completion: completion)
     }
     
-    func fetchNowMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<NowPlayingMovies, MovieError>) -> ()) {
+    func fetchNowMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<NowPlayingMovies, RequestError>) -> ()) {
         guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
             completion(.failure(.invalidEndpoint))
             return
@@ -51,7 +51,7 @@ final class MovieStore: MovieServiceProtocol {
         loadURLAndDecode(url: url, completion: completion)
     }
     
-    func fetchPopularMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<PopularMovies, MovieError>) -> ()) {
+    func fetchPopularMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<PopularMovies, RequestError>) -> ()) {
         guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
             completion(.failure(.invalidEndpoint))
             return
@@ -60,7 +60,7 @@ final class MovieStore: MovieServiceProtocol {
         loadURLAndDecode(url: url, completion: completion)
     }
     
-    func fetchDetail(from id: Int, completion: @escaping (Result<DetailMoviesModel, MovieError>) -> ()) {
+    func fetchDetail(from id: Int, completion: @escaping (Result<DetailMoviesModel, RequestError>) -> ()) {
         guard let url = URL(string: Constants.baseUrl + MoviesEndpoint.detail(movie: id).path()) else {
             completion(.failure(.invalidEndpoint))
             return
@@ -74,7 +74,7 @@ final class MovieStore: MovieServiceProtocol {
         loadURLAndDecode(url: url, params: queryItems, completion: completion)
     }
     
-    func fetchCast(from endpoint: String, completion: @escaping (Result<CastModel, MovieError>) -> ()) {
+    func fetchCast(from endpoint: String, completion: @escaping (Result<CastModel, RequestError>) -> ()) {
         guard let url = URL(string: Constants.baseUrl + endpoint) else {
             completion(.failure(.invalidEndpoint))
             return
@@ -82,7 +82,7 @@ final class MovieStore: MovieServiceProtocol {
         loadURLAndDecode(url: url, completion: completion)
     }
     
-    func fetchTrailer(from endpoint: String, completion: @escaping (Result<VideoModel, MovieError>) -> ()) {
+    func fetchTrailer(from endpoint: String, completion: @escaping (Result<VideoModel, RequestError>) -> ()) {
         guard let url = URL(string: Constants.baseUrl + endpoint) else {
             completion(.failure(.invalidEndpoint))
             return
@@ -91,7 +91,7 @@ final class MovieStore: MovieServiceProtocol {
         loadURLAndDecode(url: url, completion: completion)
     }
     
-    func fetchSearch(from endpoint: String, query: String, completion: @escaping (Result<SearchModel, MovieError>) -> Void) {
+    func fetchSearch(from endpoint: String, query: String, completion: @escaping (Result<SearchModel, RequestError>) -> Void) {
         guard let url = URL(string: Constants.baseUrl + endpoint) else {
             completion(.failure(.invalidEndpoint))
             return
@@ -101,7 +101,7 @@ final class MovieStore: MovieServiceProtocol {
         loadURLAndDecode(url: url, params: queryItem, completion: completion)
     }
     
-    private func loadURLAndDecode<D: Decodable>(url: URL, params: [String : String]? = nil, completion: @escaping (Result<D, MovieError>) -> ()) {
+    private func loadURLAndDecode<D: Decodable>(url: URL, params: [String : String]? = nil, completion: @escaping (Result<D, RequestError>) -> ()) {
         guard let language = Locale.current.languageCode else { return }
         guard let region = Locale.current.regionCode else { return }
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
@@ -152,7 +152,7 @@ final class MovieStore: MovieServiceProtocol {
         }.resume()
     }
     
-    private func executeCompletionHandler<D: Decodable>(with result: Result<D, MovieError>, completion: @escaping (Result<D, MovieError>) -> ()) {
+    private func executeCompletionHandler<D: Decodable>(with result: Result<D, RequestError>, completion: @escaping (Result<D, RequestError>) -> ()) {
         DispatchQueue.main.async {
             completion(result)
         }

@@ -23,6 +23,10 @@ enum LocalizedConstants: String {
     case movies
     case seeAll
     case discover
+    case tvShows
+    
+    //MARK: - TVShowsHome
+    case onTheAir
     
     //MARK: - CinemaTVProgressView
     case loading
