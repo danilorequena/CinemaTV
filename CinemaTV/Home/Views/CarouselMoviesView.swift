@@ -19,14 +19,14 @@ struct CarouselMoviesView: View {
             VStack(alignment: .center) {
                 HStack {
                     Text(title)
-                        .foregroundColor(isLightBackground ? .black : .gray)
+//                        .foregroundColor(isLightBackground ? .black : .gray)
                         .font(.system(.headline, design: .rounded))
                         .lineLimit(1)
                         .frame(width: 260, alignment: .leading)
                         
                     NavigationLink(destination: MoviesListView(title: title, selectionIndex: selectionIndex)) {
                         Text(LC.seeAll.text)
-                            .foregroundColor(isLightBackground ? .black : .gray)
+//                            .foregroundColor(isLightBackground ? .black : .gray)
                             .font(.subheadline)
                             .frame(width: 80, alignment: .trailing)
                     }
@@ -36,7 +36,7 @@ struct CarouselMoviesView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(data) { movie in
-                            NavigationLink(destination: DetailView(movieID: movie.id)) {
+                            NavigationLink(destination: DetailView(id: movie.id, state: .movie)) {
                                 VStack(spacing: 2) {
                                     MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")))
                                         .frame(width: 180, height: 100)

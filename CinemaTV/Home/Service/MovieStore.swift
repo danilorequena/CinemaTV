@@ -60,18 +60,13 @@ final class MovieStore: MovieServiceProtocol {
         loadURLAndDecode(url: url, completion: completion)
     }
     
-    func fetchDetail(from id: Int, completion: @escaping (Result<DetailMoviesModel, RequestError>) -> ()) {
-        guard let url = URL(string: Constants.baseUrl + MoviesEndpoint.detail(movie: id).path()) else {
+    func fetchDetail(from endpoint: String, completion: @escaping (Result<DetailMoviesModel, RequestError>) -> ()) {
+        guard let url = URL(string: Constants.baseUrl + endpoint) else {
             completion(.failure(.invalidEndpoint))
             return
         }
         
-        let queryItems = [
-            "include_video" : "true",
-            "watch_region" : "pt-BR"
-        ]
-        
-        loadURLAndDecode(url: url, params: queryItems, completion: completion)
+        loadURLAndDecode(url: url, completion: completion)
     }
     
     func fetchCast(from endpoint: String, completion: @escaping (Result<CastModel, RequestError>) -> ()) {

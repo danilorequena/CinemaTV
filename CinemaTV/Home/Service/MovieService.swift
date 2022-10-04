@@ -13,7 +13,7 @@ protocol MovieServiceProtocol: AnyObject {
     func fetchUpcomingMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<UpcomingMovies, RequestError>) -> Void)
     func fetchNowMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<NowPlayingMovies, RequestError>) -> Void)
     func fetchPopularMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<PopularMovies, RequestError>) -> Void)
-    func fetchDetail(from ID: Int, completion: @escaping (Result<DetailMoviesModel, RequestError>) -> Void)
+    func fetchDetail(from endpoint: String, completion: @escaping (Result<DetailMoviesModel, RequestError>) -> ())
     func fetchCast(from endpoint: String, completion: @escaping (Result<CastModel, RequestError>) -> Void)
     func fetchTrailer(from endpoint: String, completion: @escaping (Result<VideoModel, RequestError>) -> Void)
     func fetchSearch(from endpoint: String, query: String, completion: @escaping (Result<SearchModel, RequestError>) -> Void)
