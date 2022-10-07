@@ -14,5 +14,8 @@
 // MARK: - TVShowsHome
 "onTheAir" = "No ar";
 
-// MARK: -CinemaTVProgressView
+// MARK: - CinemaTVProgressView
 "loading" = "carregando";
+
+// MARK: - Details
+"recommendations" = "Recomendações";

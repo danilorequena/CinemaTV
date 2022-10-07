@@ -24,9 +24,18 @@ final class TVShowStore: TVShowServiceProtocol {
         loadURLAndDecode(url: url, completion: completion)
     }
     
+    func fetchRecommendations(from endpoint: TVShowsEndpoint, completion: @escaping (Result<DiscoverTVShow, RequestError>) -> Void) {
+        guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
+            completion(.failure(.invalidEndpoint))
+            return
+        }
+        
+        loadURLAndDecode(url: url, completion: completion)
+    }
+    
     private func loadURLAndDecode<D: Decodable>(url: URL, params: [String : String]? = nil, completion: @escaping (Result<D, RequestError>) -> ()) {
-        guard let language = Locale.current.languageCode else { return }
-        guard let region = Locale.current.regionCode else { return }
+        guard let language = Locale.current.language.languageCode?.identifier else { return }
+        guard let region = Locale.current.language.region?.identifier else { return }
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             completion(.failure(.invalidEndpoint))
             return
