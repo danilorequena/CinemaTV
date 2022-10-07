@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct DetailView: View {
+    var id: Int?
+    var state: MovieORTVShow
     @ObservedObject var viewModel = DetailViewModel()
-    var movieID: Int?
     
     var body: some View {
         VStack {
@@ -46,7 +47,7 @@ struct DetailView: View {
                                     }
                                     .padding()
                                     
-                                    TrailersView(videoID: movieID, videoKey: viewModel.videoKey ?? "")
+                                    TrailersView(videoID: id, videoKey: viewModel.videoKey ?? "")
                                         .padding(16)
                                         .frame(height: 260)
                                     
@@ -61,7 +62,7 @@ struct DetailView: View {
             }
             .edgesIgnoringSafeArea(.top)
             .task {
-                await viewModel.loadDetails(movieID: movieID ?? 0)
+                await viewModel.loadDetails(ID: id ?? 0, state: state)
             }
         }
     }
@@ -69,6 +70,6 @@ struct DetailView: View {
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView(movieID: 19404)
+        DetailView(id: 19404, state: .movie)
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 enum TVShowsEndpoint {
     case popular, toRated, upcoming, nowPlaying, latest
-    case detail(movie: Int), recommended(movie: Int), similar(movie: Int)
+    case detail(tvShowID: Int), recommended(movie: Int), similar(movie: Int)
     case credits(movie: Int), review(movie: Int), videos(videoID: Int)
     case searchMovie, searchKeyword
     case genres
@@ -28,8 +28,8 @@ enum TVShowsEndpoint {
             return "movie/upcoming"
         case .nowPlaying:
             return "tv/on_the_air"
-        case let .detail(movie):
-            return "movie/\(String(movie))"
+        case let .detail(tvShow):
+            return "tv/\(String(tvShow))"
         case let .credits(movie):
             return "movie/\(String(movie))/credits"
         case let .review(movie):

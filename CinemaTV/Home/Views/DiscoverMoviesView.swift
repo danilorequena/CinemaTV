@@ -17,11 +17,12 @@ struct DiscoverMoviesView: View {
             VStack(alignment: .trailing) {
                 NavigationLink(
                     destination: MoviesListView(
-                        title: "Discover",
+                        title: LC.discover.text,
                         selectionIndex: selectionIndex
                     )
                 ) {
                     Text(LC.seeAll.text)
+//                        .foregroundColor(.white)
                         .font(.subheadline)
                         .padding(.trailing, 16)
                 }
@@ -29,7 +30,7 @@ struct DiscoverMoviesView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 20) {
                         ForEach(movies) { movie in
-                            NavigationLink(destination: DetailView(movieID: movie.id)) {
+                            NavigationLink(destination: DetailView(id: movie.id, state: .movie)) {
                                 GeometryReader { proxy in
                                     MovieCell(image: URL(string: Constants.basePosters + (movie.posterPath ?? "")))
                                         .rotation3DEffect(Angle(degrees: (Double(proxy.frame(in: .global).minX) - 40) / -20), axis: (x: 0, y: 10.0, z: 0))

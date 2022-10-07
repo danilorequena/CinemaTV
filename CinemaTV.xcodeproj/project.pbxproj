@@ -100,6 +100,7 @@
 		FF77FCE82884569A00F0872B /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77FCE72884569A00F0872B /* SearchModel.swift */; };
 		FF77FCEA28845A2100F0872B /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77FCE928845A2100F0872B /* SearchViewModel.swift */; };
 		FF77FCEC288568A400F0872B /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77FCEB288568A400F0872B /* SearchView.swift */; };
+		FF7DC22328E6318B00B5FEC5 /* MoviesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7DC22228E6318B00B5FEC5 /* MoviesView.swift */; };
 		FF84717927628F74007B57D9 /* VideosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF84717827628F74007B57D9 /* VideosView.swift */; };
 		FF84C79A27512B980098193C /* CastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF84C79927512B980098193C /* CastView.swift */; };
 		FF84C79C275135A10098193C /* CastModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF84C79B275135A10098193C /* CastModel.swift */; };
@@ -108,6 +109,7 @@
 		FF9156FA2749C94600AF74C3 /* DetailMoviesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9156F92749C94600AF74C3 /* DetailMoviesModel.swift */; };
 		FF9156FF2749CC3500AF74C3 /* DetailMovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9156FE2749CC3500AF74C3 /* DetailMovieViewModel.swift */; };
 		FF9157012749D15A00AF74C3 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9157002749D15A00AF74C3 /* DetailView.swift */; };
+		FFAD66C328E622D500A08320 /* TVShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAD66C228E622D500A08320 /* TVShowView.swift */; };
 		FFC3FBC32895F6B0000E379E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FFC3FBC22895F6B0000E379E /* Kingfisher */; };
 		FFC3FBC42895F727000E379E /* TMDB.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF74128D2895CF9900A79C7C /* TMDB.plist */; };
 		FFEF0ADA275E8F1600D5593C /* CinemaTVProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF0AD9275E8F1600D5593C /* CinemaTVProgressView.swift */; };
@@ -215,6 +217,7 @@
 		FF77FCE72884569A00F0872B /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
 		FF77FCE928845A2100F0872B /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		FF77FCEB288568A400F0872B /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		FF7DC22228E6318B00B5FEC5 /* MoviesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesView.swift; sourceTree = "<group>"; };
 		FF84717827628F74007B57D9 /* VideosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideosView.swift; sourceTree = "<group>"; };
 		FF84C79927512B980098193C /* CastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastView.swift; sourceTree = "<group>"; };
 		FF84C79B275135A10098193C /* CastModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastModel.swift; sourceTree = "<group>"; };
@@ -223,6 +226,7 @@
 		FF9156F92749C94600AF74C3 /* DetailMoviesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMoviesModel.swift; sourceTree = "<group>"; };
 		FF9156FE2749CC3500AF74C3 /* DetailMovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMovieViewModel.swift; sourceTree = "<group>"; };
 		FF9157002749D15A00AF74C3 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		FFAD66C228E622D500A08320 /* TVShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowView.swift; sourceTree = "<group>"; };
 		FFEF0AD9275E8F1600D5593C /* CinemaTVProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CinemaTVProgressView.swift; sourceTree = "<group>"; };
 		FFEF0AE5275FA6F400D5593C /* TrailersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailersView.swift; sourceTree = "<group>"; };
 		FFEF0AEB275FBBF700D5593C /* VideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoModel.swift; sourceTree = "<group>"; };
@@ -363,6 +367,7 @@
 			children = (
 				7D42245D273810E1006236F8 /* ContentView.swift */,
 				7D42249A273814D8006236F8 /* HomeView.swift */,
+				FF7DC22228E6318B00B5FEC5 /* MoviesView.swift */,
 				7D42249D27381DB5006236F8 /* DiscoverMoviesView.swift */,
 				7DF3C91F273961BB0072598F /* CarouselMoviesView.swift */,
 				FF058F7628A7E77D00125FB2 /* AppView.swift */,
@@ -437,6 +442,7 @@
 			isa = PBXGroup;
 			children = (
 				FF29E58E28DA1BE80042DFAF /* TVShowHomeView.swift */,
+				FFAD66C228E622D500A08320 /* TVShowView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -883,6 +889,7 @@
 				FF29E58F28DA1BE80042DFAF /* TVShowHomeView.swift in Sources */,
 				FF9156FF2749CC3500AF74C3 /* DetailMovieViewModel.swift in Sources */,
 				FF84717927628F74007B57D9 /* VideosView.swift in Sources */,
+				FF7DC22328E6318B00B5FEC5 /* MoviesView.swift in Sources */,
 				7D4224972738136E006236F8 /* MoviesService.swift in Sources */,
 				09E6E2E628DF962000E7E856 /* Bundle+.swift in Sources */,
 				7D4224A027381E83006236F8 /* MovieStub.swift in Sources */,
@@ -901,6 +908,7 @@
 				7D42245C273810E1006236F8 /* CinemaTVApp.swift in Sources */,
 				FF29E58B28DA12F70042DFAF /* TVShowStore.swift in Sources */,
 				FFEF0AEC275FBBF700D5593C /* VideoModel.swift in Sources */,
+				FFAD66C328E622D500A08320 /* TVShowView.swift in Sources */,
 				FFEF0ADA275E8F1600D5593C /* CinemaTVProgressView.swift in Sources */,
 				FF29E58D28DA17E50042DFAF /* TVShowViewModel.swift in Sources */,
 				FF058F7728A7E77D00125FB2 /* AppView.swift in Sources */,
