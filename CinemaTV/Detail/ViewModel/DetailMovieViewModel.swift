@@ -16,16 +16,24 @@ enum MovieORTVShow {
 final class DetailViewModel: ObservableObject {
     var service = MoviesService()
     var newService: MovieServiceProtocol
+    var tvShowService: TVShowServiceProtocol
     var isDetailLoading = true
     var isCastLoading = true
     @Published var detailMovie: DetailMoviesModel?
+    @Published var detailTVShow: DetailTVShow?
     @Published var cast: CastModel?
+    @Published var tvShowsRecommendations: DiscoverTVShow?
+    @Published var moviesRecommendations: DiscoverMovies?
     @Published var dispathGroup = DispatchGroup()
     @Published var videos: [VideoResult] = []
     @Published var videoKey: String?
     
-    init(newService: MovieServiceProtocol = MovieStore.shared) {
+    init(
+        newService: MovieServiceProtocol = MovieStore.shared,
+        tvShowService: TVShowServiceProtocol = TVShowStore.shared
+    ) {
         self.newService = newService
+        self.tvShowService = tvShowService
     }
     
     func loadDetails(ID: Int, state: MovieORTVShow) async {
@@ -39,6 +47,14 @@ final class DetailViewModel: ObservableObject {
             await fetchTrailers(movieID: ID)
             dispathGroup.leave()
             
+            dispathGroup.enter()
+            await fetchCast(id: ID, state: state)
+            dispathGroup.leave()
+            
+            dispathGroup.enter()
+            await fetchRecommendations(id: ID, state: .movie)
+            dispathGroup.leave()
+            
         case .tvShow:
             dispathGroup.enter()
             await fetchTVShowDetail(tvShowID: ID)
@@ -47,16 +63,27 @@ final class DetailViewModel: ObservableObject {
             dispathGroup.enter()
             await fetchTrailers(movieID: ID)
             dispathGroup.leave()
+            
+            dispathGroup.enter()
+            await fetchCast(id: ID, state: state)
+            dispathGroup.leave()
+            
+            dispathGroup.enter()
+            await fetchRecommendations(id: ID, state: .tvShow)
+            dispathGroup.leave()
         }
     }
     
     func fetchDetail(movieID: Int) async {
         Task {
             newService.fetchDetail(from: MoviesEndpoint.detail(movie: movieID).path()) { result in
+                self.dispathGroup.enter()
                 switch result {
                 case .success(let detail):
-                    self.detailMovie = detail
-                    self.isDetailLoading = false
+                    DispatchQueue.main.async {
+                        self.detailMovie = detail
+                        self.isDetailLoading = false
+                    }
                 case .failure(let error):
                     print(error)
                 }
@@ -81,11 +108,14 @@ final class DetailViewModel: ObservableObject {
     
     func fetchTVShowDetail(tvShowID: Int) async {
         Task {
-            newService.fetchDetail(from: MoviesEndpoint.detailTVShow(tvShow: tvShowID).path()) { result in
+            newService.fetchTVShowDetail(from: MoviesEndpoint.detailTVShow(tvShow: tvShowID).path()) { result in
+                self.dispathGroup.enter()
                 switch result {
                 case .success(let detail):
-                    self.detailMovie = detail
-                    self.isDetailLoading = false
+                    DispatchQueue.main.async {
+                        self.detailTVShow = detail
+                        self.isDetailLoading = false
+                    }
                 case .failure(let error):
                     print(error)
                 }
@@ -123,15 +153,65 @@ final class DetailViewModel: ObservableObject {
 //        }
     }
     
-    func fetchCast(movieID: Int) async {
-        Task {
-            newService.fetchCast(from: MoviesEndpoint.credits(movie: movieID).path()) { result in
-                switch result {
-                case .success(let cast):
-                    self.cast = cast
-                    self.isCastLoading = false
-                case .failure(let error):
-                    print(error)
+    func fetchRecommendations(id: Int, state: MovieORTVShow) async {
+        switch state {
+        case .movie:
+            Task {
+                newService.fetchRecommendations(from: MoviesEndpoint.recommended(movie: id)) { result in
+                    switch result {
+                    case .success(let recommendations):
+                        DispatchQueue.main.async {
+                            self.moviesRecommendations = recommendations
+                        }
+                    case .failure(let failure):
+                        print(failure)
+                    }
+                }
+            }
+        case .tvShow:
+            Task {
+                tvShowService.fetchRecommendations(from: TVShowsEndpoint.recommendations(tvShowID: id)) { result in
+                    switch result {
+                    case .success(let recommendations):
+                        DispatchQueue.main.async {
+                            self.tvShowsRecommendations = recommendations
+                        }
+                    case .failure(let failure):
+                        print(failure)
+                    }
+                }
+            }
+        }
+    }
+    
+    func fetchCast(id: Int, state: MovieORTVShow) async {
+        switch state {
+        case .movie:
+            Task {
+                newService.fetchCast(from: MoviesEndpoint.credits(movie: id).path()) { result in
+                    switch result {
+                    case .success(let cast):
+                        DispatchQueue.main.async {
+                            self.cast = cast
+                            self.isCastLoading = false
+                        }
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+            }
+        case .tvShow:
+            Task {
+                newService.fetchCast(from: TVShowsEndpoint.credits(tvShow: id).path()) { result in
+                    switch result {
+                    case .success(let cast):
+                        DispatchQueue.main.async {
+                            self.cast = cast
+                            self.isCastLoading = false
+                        }
+                    case .failure(let error):
+                        print(error)
+                    }
                 }
             }
         }

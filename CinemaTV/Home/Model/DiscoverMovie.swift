@@ -9,9 +9,9 @@ import Foundation
 
 // MARK: - DiscoverMovies
 struct DiscoverMovies: Codable {
-    let page: Int
+    let page: Int?
     let results: [MoviesTVShowResult]
-    let totalPages, totalResults: Int
+    let totalPages, totalResults: Int?
 
     enum CodingKeys: String, CodingKey {
         case page, results
@@ -46,7 +46,8 @@ struct MoviesTVShowResult: Codable, Identifiable, Hashable {
         case overview, popularity
         case posterPath = "poster_path"
         case releaseDate = "release_date"
-        case title, video, name
+        case title, video
+        case name
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
         case originalName = "original_name"

@@ -31,6 +31,9 @@ enum LocalizedConstants: String {
     //MARK: - CinemaTVProgressView
     case loading
     
+    // MARK: - Details
+    case recommendations
+    
     var text: String {
         return rawValue.localized(.presentation)
     }

@@ -16,3 +16,6 @@
 
 // MARK: - CinemaTVProgressView
 "loading" = "loading";
+
+// MARK: - Details
+"recommendations" = "Recommendations";

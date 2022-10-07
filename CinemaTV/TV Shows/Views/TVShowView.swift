@@ -12,7 +12,7 @@ struct TVShowView: View {
     var body: some View {
         ScrollView(.vertical) {
             VStack(spacing: 32) {
-                DiscoverMoviesView(movies: viewModel.discoverTVShows, selectionIndex: 0)
+                DiscoverMoviesView(state: .tvShow, movies: viewModel.discoverTVShows, selectionIndex: 0)
                     .buttonStyle(.plain)
                     .task {
                         await viewModel.getData(with: .discover)
