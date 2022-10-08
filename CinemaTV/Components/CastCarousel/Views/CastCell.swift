@@ -6,33 +6,19 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 struct CastCell: View {
     let image: URL?
     let name: String?
     var body: some View {
         VStack(spacing: 2) {
-//            KFImage.url(image)
-//                .placeholder {
-//                    Circle().fill(Color.gray)
-//                        .frame(width: 60, height: 60)
-//                }
-//                .resizable()
-//                .setProcessor(ResizingImageProcessor(referenceSize: CGSize(width: 60 * UIScreen.main.scale, height: 60 * UIScreen.main.scale), mode: .aspectFit))
-//                .onFailure({ _ in
-//                    Image("placeholder-image")
-//                        .frame(width: 60, height: 60)
-//                        .scaledToFill()
-//                        .clipShape(Circle())
-//                })
-//                .scaledToFill()
-//                .clipShape(Circle())
-//                .frame(width: 60, height: 60)
             AsyncImage(url: image) { image in
                 image.resizable()
             } placeholder: {
-                ProgressView()
+                Image("placeholder-image")
+                    .resizable()
+                    .clipShape(Circle())
+                    .scaledToFill()
             }
             .scaledToFill()
             .clipShape(Circle())

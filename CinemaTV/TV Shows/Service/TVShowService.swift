@@ -9,4 +9,5 @@ import Foundation
 
 protocol TVShowServiceProtocol: AnyObject {
     func fetchDiscoverTVShows(from endpoint: TVShowsEndpoint, completion: @escaping (Result<DiscoverTVShow, RequestError>) -> Void)
+    func fetchRecommendations(from endpoint: TVShowsEndpoint, completion: @escaping (Result<DiscoverTVShow, RequestError>) -> Void)
 }

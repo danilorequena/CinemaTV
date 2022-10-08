@@ -69,11 +69,29 @@ final class MovieStore: MovieServiceProtocol {
         loadURLAndDecode(url: url, completion: completion)
     }
     
+    func fetchTVShowDetail(from endpoint: String, completion: @escaping (Result<DetailTVShow, RequestError>) -> ()) {
+        guard let url = URL(string: Constants.baseUrl + endpoint) else {
+            completion(.failure(.invalidEndpoint))
+            return
+        }
+        
+        loadURLAndDecode(url: url, completion: completion)
+    }
+    
     func fetchCast(from endpoint: String, completion: @escaping (Result<CastModel, RequestError>) -> ()) {
         guard let url = URL(string: Constants.baseUrl + endpoint) else {
             completion(.failure(.invalidEndpoint))
             return
         }
+        loadURLAndDecode(url: url, completion: completion)
+    }
+    
+    func fetchRecommendations(from endpoint: MoviesEndpoint, completion: @escaping (Result<DiscoverMovies, RequestError>) -> Void) {
+        guard let url = URL(string: Constants.baseUrl + endpoint.path()) else {
+            completion(.failure(.invalidEndpoint))
+            return
+        }
+        
         loadURLAndDecode(url: url, completion: completion)
     }
     
@@ -97,8 +115,8 @@ final class MovieStore: MovieServiceProtocol {
     }
     
     private func loadURLAndDecode<D: Decodable>(url: URL, params: [String : String]? = nil, completion: @escaping (Result<D, RequestError>) -> ()) {
-        guard let language = Locale.current.languageCode else { return }
-        guard let region = Locale.current.regionCode else { return }
+        guard let language = Locale.current.language.languageCode?.identifier else { return }
+        guard let region = Locale.current.language.region?.identifier else { return }
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             completion(.failure(.invalidEndpoint))
             return

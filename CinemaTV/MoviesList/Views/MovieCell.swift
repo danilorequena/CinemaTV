@@ -31,6 +31,11 @@ struct MovieCell: View {
 
 struct MovieCell_Previews: PreviewProvider {
     static var previews: some View {
-        MovieCell(image: URL(string: "\(Constants.basePosters)/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg"))
+        MovieCell(
+            image: URL(
+                string: "\(Constants.basePosters)/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg"
+            )
+        )
+        .previewLayout(.fixed(width: 246, height: 460))
     }
 }
