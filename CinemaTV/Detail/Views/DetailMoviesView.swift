@@ -35,11 +35,11 @@ struct DetailMoviesView: View {
                                                 .font(.title)
                                                 .bold()
                                             
-                                            Text("Release Date: \(detail.releaseDate.formatString()).")
+                                            Text(LC.releaseDate.text + detail.releaseDate.formatString())
                                                 .font(.subheadline)
                                                 .foregroundColor(Color.blue)
                                             
-                                            Text("Average: \(detail.voteAverage.description)/10")
+                                            Text(LC.average.text + "\(detail.voteAverage.description)/10")
                                                 .font(.subheadline)
                                                 .foregroundColor(Color.blue)
                                         }
