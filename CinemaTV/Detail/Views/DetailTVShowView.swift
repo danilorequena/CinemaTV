@@ -40,7 +40,9 @@ struct DetailTVShowView: View {
                                     CastView(state: .tvShow, castData: cast)
                                 }
                                 
-                                RecommendationsView(data: viewModel.tvShowsRecommendations?.results ?? [], title: LC.recommendations.text)
+                                CarouselInDetailView(data: viewModel.tvShowsRecommendations?.results ?? [], title: LC.recommendations.text)
+                                
+                                CarouselInDetailView(data: viewModel.tvShowsSimilars?.results ?? [], title: LC.similars.text)
                             }
                             .background(.ultraThinMaterial)
                             .cornerRadius(16)
