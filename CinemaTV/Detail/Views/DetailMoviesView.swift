@@ -35,11 +35,11 @@ struct DetailMoviesView: View {
                                                 .font(.title)
                                                 .bold()
                                             
-                                            Text("Release Date: \(detail.releaseDate).")
+                                            Text(LC.releaseDate.text + detail.releaseDate.formatString())
                                                 .font(.subheadline)
                                                 .foregroundColor(Color.blue)
                                             
-                                            Text("Average: \(detail.voteAverage.formatted())/10")
+                                            Text(LC.average.text + "\(detail.voteAverage.description)/10")
                                                 .font(.subheadline)
                                                 .foregroundColor(Color.blue)
                                         }
@@ -53,8 +53,14 @@ struct DetailMoviesView: View {
                                         .padding(16)
                                         .frame(height: 260)
                                     
-                                    CastView(state: .movie, data: viewModel.cast?.cast ?? [])
-                                    RecommendationsView(data: viewModel.moviesRecommendations?.results ?? [], title: "Recommendations")
+                                    if let cast = viewModel.cast?.cast {
+                                        CastView(
+                                            state: .movie,
+                                            castData: cast
+                                        )
+                                    }
+                                    
+                                    RecommendationsView(data: viewModel.moviesRecommendations?.results ?? [], title: LC.recommendations.text)
                                 }
                                 .background(.ultraThinMaterial)
                                 .cornerRadius(16)

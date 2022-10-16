@@ -114,6 +114,16 @@ final class MovieStore: MovieServiceProtocol {
         loadURLAndDecode(url: url, params: queryItem, completion: completion)
     }
     
+    func fetchMultiSearch(from endpoint: String, query: String, completion: @escaping (Result<MultiSearch, RequestError>) -> Void) {
+        guard let url = URL(string: Constants.baseUrl + endpoint) else {
+            completion(.failure(.invalidEndpoint))
+            return
+        }
+        let queryItem = ["query" : query]
+        
+        loadURLAndDecode(url: url, params: queryItem, completion: completion)
+    }
+    
     private func loadURLAndDecode<D: Decodable>(url: URL, params: [String : String]? = nil, completion: @escaping (Result<D, RequestError>) -> ()) {
         guard let language = Locale.current.language.languageCode?.identifier else { return }
         guard let region = Locale.current.language.region?.identifier else { return }

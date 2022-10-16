@@ -33,6 +33,8 @@ enum LocalizedConstants: String {
     
     // MARK: - Details
     case recommendations
+    case releaseDate
+    case average
     
     var text: String {
         return rawValue.localized(.presentation)

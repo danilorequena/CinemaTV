@@ -11,9 +11,11 @@ enum MoviesEndpoint {
     case popular, toRated, upcoming, nowPlaying, latest
     case detail(movie: Int), recommended(movie: Int), similar(movie: Int), detailTVShow(tvShow: Int)
     case credits(movie: Int), review(movie: Int), videos(videoID: Int)
-    case searchMovie, searchKeyword
+    case searchMovie, searchKeyword, multiSearch
     case genres
     case discover
+    case person(id: Int)
+    case creditByPerson(id: Int)
     case watchProviders(movieID: Int)
     
     func path() -> String {
@@ -42,6 +44,8 @@ enum MoviesEndpoint {
             return "movie/\(String(movie))/recommendations"
         case let .similar(movie):
             return "movie/\(String(movie))/similar"
+        case .multiSearch:
+            return "search/multi"
         case .searchMovie:
             return "search/movie"
         case .searchKeyword:
@@ -50,6 +54,10 @@ enum MoviesEndpoint {
             return "genre/movie/list"
         case .discover:
             return "discover/movie"
+        case .person(let id):
+            return "person/\(String(id))"
+        case .creditByPerson(let id):
+            return "person/\(String(id))/movie_credits"
         case let .watchProviders(movieID):
             return "movie/\(String(movieID))/watch/providers"
         }
