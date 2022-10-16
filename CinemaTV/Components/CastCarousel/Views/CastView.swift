@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CastView: View {
     let state: MovieORTVShow
-    var data: [CastList]
+    var castData: [CastList]
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Casting")
@@ -19,14 +20,18 @@ struct CastView: View {
             
             ScrollView(.horizontal) {
                 HStack(spacing: 10) {
-                    ForEach(data) { character in
-                        CastCell(
-                            image: URL(string: Constants.basePosters + (character.profilePath ?? "")),
-                            name: character.name
-                        )
-                        .frame(width: 60, height: 76)
-                        .padding(.bottom, 20)
-                        .padding(.leading, 10)
+                    ForEach(castData) { character in
+                        NavigationLink {
+                            PersonView(id: character.id ?? 0)
+                        } label: {
+                            CastCell(
+                                image: URL(string: Constants.basePosters + (character.profilePath ?? "")),
+                                name: character.name
+                            )
+                            .frame(width: 60, height: 76)
+                            .padding(.bottom, 20)
+                            .padding(.leading, 10)
+                        }
                     }
                 }
             }
@@ -37,10 +42,15 @@ struct CastView: View {
 struct CastView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            CastView(state: .movie, data: CastModel.stubArray())
+            CastView(
+                state: .movie,
+                castData: CastModel.stubArray()
+            )
                 .previewLayout(.fixed(width: 340, height: 100))
-            CastView(state: .tvShow, data: CastModel.stubArray())
-                .previewLayout(.fixed(width: 340, height: 100))
+            CastView(
+                state: .tvShow,
+                castData: CastModel.stubArray()
+            )
         }
     }
 }

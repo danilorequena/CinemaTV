@@ -12,31 +12,31 @@ struct MoviesView: View {
     var body: some View {
         ScrollView(.vertical) {
             VStack(spacing: 32) {
-                DiscoverMoviesView(state: .movie, movies: viewModel.discoverMovies, selectionIndex: 0)
+                DiscoverView(state: .movie, movies: viewModel.discoverMovies, selectionIndex: 0)
                     .buttonStyle(.plain)
                     .task {
                         await viewModel.getAllData(with: .discover)
                     }
                 
-                CarouselMoviesView(data: viewModel.upcomingMovies, title: LC.soon.text, selectionIndex: 0, isLightBackground: false)
+                DefaultCarouselView(data: viewModel.upcomingMovies, title: LC.soon.text, selectionIndex: 0, isLightBackground: false, state: .movie)
                     .buttonStyle(.plain)
                     .task {
                         await viewModel.getAllData(with: .upcoming)
                     }
                 
-                CarouselMoviesView(data: viewModel.nowPlayngMovies, title: LC.nowPlaying.text, selectionIndex: 0, isLightBackground: false)
+                DefaultCarouselView(data: viewModel.nowPlayngMovies, title: LC.nowPlaying.text, selectionIndex: 0, isLightBackground: false, state: .movie)
                     .buttonStyle(.plain)
                     .task {
                         await viewModel.getAllData(with: .nowPlaying)
                     }
                 
-                CarouselMoviesView(data: viewModel.popularMovies, title: LC.popular.text, selectionIndex: 1, isLightBackground: false)
+                DefaultCarouselView(data: viewModel.popularMovies, title: LC.popular.text, selectionIndex: 1, isLightBackground: false, state: .movie)
                     .buttonStyle(.plain)
                     .task {
                         await viewModel.getAllData(with: .popular)
                     }
                 
-                CarouselMoviesView(data: viewModel.topRatedMovies, title: LC.rated.text, selectionIndex: 2, isLightBackground: false)
+                DefaultCarouselView(data: viewModel.topRatedMovies, title: LC.rated.text, selectionIndex: 2, isLightBackground: false, state: .movie)
                     .buttonStyle(.plain)
                     .task {
                         await viewModel.getAllData(with: .toRated)

@@ -9,17 +9,18 @@ import SwiftUI
 
 struct SearchView: View {
     @ObservedObject var viewModel = SearchViewModel()
+    @State var data = [SearchResult]()
     @State var searchText = ""
     @Environment(\.isSearching) var isSearching
     @Environment(\.dismissSearch) var dismissSearch
     
     var body: some View {
         NavigationView {
-            List(self.viewModel.movies) { movie in
+            List(self.viewModel.multiResults) { result in
                 MoviesListCell(
-                    image: URL(string: Constants.basePosters + (movie.posterPath ?? "")),
-                    title: movie.title,
-                    subTitle: movie.overview ?? ""
+                    image: URL(string: Constants.basePosters + (result.posterPath ?? "")),
+                    title: result.title ?? "",
+                    subTitle: result.overview ?? ""
                 )
             }
             .id(UUID())
@@ -28,14 +29,14 @@ struct SearchView: View {
         .searchable(text: self.$searchText)
         .onChange(of: searchText, perform: { _ in
             if searchText.isEmpty {
-                self.viewModel.movies.removeAll()
+                self.viewModel.multiResults.removeAll()
             }
         })
         .onSubmit(of: .search) {
             if isSearching && searchText.isEmpty {
                 dismissSearch()
             }
-            self.viewModel.loadResults(searchText: searchText)
+            self.viewModel.loadMultiResults(searchText: searchText)
         }
     }
 }
