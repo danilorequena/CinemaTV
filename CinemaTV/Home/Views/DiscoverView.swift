@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DiscoverMoviesView: View {
+struct DiscoverView: View {
     let state: MovieORTVShow
     let movies: [MoviesTVShowResult]
     var selectionIndex: Int
@@ -53,7 +53,7 @@ struct DiscoverMoviesView: View {
 
 struct DiscoverMoviesView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverMoviesView(
+        DiscoverView(
             state: .movie,
             movies: MoviesTVShowResult.stubbedMovies(),
             selectionIndex: 0

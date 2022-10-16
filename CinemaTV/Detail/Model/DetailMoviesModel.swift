@@ -41,3 +41,15 @@ struct Genre: Codable {
     let name: String
 }
 
+extension DetailMoviesModel: CustomStringConvertible {
+    var description: String {
+            let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+            formatter.maximumFractionDigits = 2
+
+            let number = NSNumber(floatLiteral: voteAverage)
+            let formattedValue = formatter.string(from: number)!
+        return formattedValue
+        }
+}
+

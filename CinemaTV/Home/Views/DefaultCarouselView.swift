@@ -7,11 +7,12 @@
 
 import SwiftUI
 
-struct CarouselMoviesView: View {
+struct DefaultCarouselView: View {
     let data: [MoviesTVShowResult]
     let title: String
     var selectionIndex: Int
     let isLightBackground: Bool
+    let state: MovieORTVShow
     var body: some View {
         if data.isEmpty {
             CinemaTVProgressView()
@@ -19,14 +20,12 @@ struct CarouselMoviesView: View {
             VStack(alignment: .center) {
                 HStack {
                     Text(title)
-//                        .foregroundColor(isLightBackground ? .black : .gray)
                         .font(.system(.headline, design: .rounded))
                         .lineLimit(1)
                         .frame(width: 260, alignment: .leading)
                         
                     NavigationLink(destination: MoviesListView(title: title, selectionIndex: selectionIndex)) {
                         Text(LC.seeAll.text)
-//                            .foregroundColor(isLightBackground ? .black : .gray)
                             .font(.subheadline)
                             .frame(width: 80, alignment: .trailing)
                     }
@@ -36,7 +35,7 @@ struct CarouselMoviesView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(data) { movie in
-                            NavigationLink(destination: DetailView(id: movie.id, state: .movie)) {
+                            NavigationLink(destination: DetailView(id: movie.id, state: state)) {
                                 VStack(spacing: 2) {
                                     MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")))
                                         .frame(width: 180, height: 100)
@@ -63,11 +62,12 @@ struct CarouselMoviesView: View {
 
 struct TopVotedMoviesView_Previews: PreviewProvider {
     static var previews: some View {
-        CarouselMoviesView(
+        DefaultCarouselView(
             data: MoviesTVShowResult.stubbedMovies(),
             title: "Title",
             selectionIndex: 0,
-            isLightBackground: false
+            isLightBackground: false,
+            state: .movie
         )
     }
 }

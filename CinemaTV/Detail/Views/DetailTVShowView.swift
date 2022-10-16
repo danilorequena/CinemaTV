@@ -36,12 +36,9 @@ struct DetailTVShowView: View {
                                     .padding(16)
                                     .frame(height: 260)
                                 
-                                CastView(state: .tvShow, data: viewModel.cast?.cast ?? [])
-//                                NavigationLink("Casting") {
-//                                    CastListView(castList: viewModel.cast?.cast ?? [])
-//                                }
-//                                .padding(.leading, 16)
-//                                .foregroundColor(colorScheme == .light ? .black : .white)
+                                if let cast = viewModel.cast?.cast {
+                                    CastView(state: .tvShow, castData: cast)
+                                }
                                 
                                 RecommendationsView(data: viewModel.tvShowsRecommendations?.results ?? [], title: LC.recommendations.text)
                             }
@@ -50,32 +47,6 @@ struct DetailTVShowView: View {
                             .padding(.horizontal, 16)
                         }
                     }
-                    //                    VStack {
-                    //                        Spacer(minLength: UIScreen.main.bounds.height / 2)
-                    //                        List {
-                    //                            KFImage.url(URL(string: Constants.basePosters + (detail.backdropPath ?? String())))
-                    //                                .placeholder {
-                    //                                    Circle().fill(Color.gray)
-                    //                                        .frame(width: 60, height: 60)
-                    //                                }
-                    //                                .resizable()
-                    //                                .scaledToFill()
-                    //                                .cornerRadius(16)
-                    //                            InformationDetailView(detailInfos: detail)
-                    //                                .background(Gradient(colors: [.gray, .black]))
-                    //                            TrailersView(videoID: id, videoKey: viewModel.videoKey ?? "")
-                    //                                .padding(16)
-                    //                                .frame(height: 260)
-                    //                            NavigationLink("Casting") {
-                    //                                CastListView(castList: viewModel.cast?.cast ?? [])
-                    //                            }
-                    //                            RecommendationsView(data: viewModel.recommendations?.results ?? [], title: LC.recommendations.text)
-                    //
-                    //                        }
-                    //                        .listStyle(.plain)
-                    //                        .backgroundStyle(.ultraThinMaterial)
-                    //                    }
-                    //                    .backgroundStyle(.ultraThinMaterial)
                 }
             }
         }
@@ -95,7 +66,7 @@ struct InformationDetailView: View {
                     .font(.title)
                     .bold()
                 
-                Text("Release Date: \(detailInfos.firstAirDate ?? "").")
+                Text("Release Date: \(detailInfos.firstAirDate?.formatString() ?? "").")
                     .font(.subheadline)
                     .foregroundColor(Color.blue)
                 

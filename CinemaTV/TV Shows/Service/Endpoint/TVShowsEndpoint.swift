@@ -15,6 +15,8 @@ enum TVShowsEndpoint {
     case searchMovie, searchKeyword
     case genres
     case discover
+    case person(id: Int)
+    case creditByPerson(id: Int)
     case watchProviders(movieID: Int)
     
     func path() -> String {
@@ -49,6 +51,10 @@ enum TVShowsEndpoint {
             return "search/keyword"
         case .genres:
             return "genre/movie/list"
+        case .person(let id):
+            return "person/\(String(id))"
+        case .creditByPerson(let id):
+            return "person/\(String(id))/tv_credits"
         case .discover:
             return "discover/tv"
         case let .watchProviders(movieID):

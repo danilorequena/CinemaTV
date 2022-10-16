@@ -12,17 +12,18 @@ struct TVShowView: View {
     var body: some View {
         ScrollView(.vertical) {
             VStack(spacing: 32) {
-                DiscoverMoviesView(state: .tvShow, movies: viewModel.discoverTVShows, selectionIndex: 0)
+                DiscoverView(state: .tvShow, movies: viewModel.discoverTVShows, selectionIndex: 0)
                     .buttonStyle(.plain)
                     .task {
                         await viewModel.getData(with: .discover)
                     }
                 
-                CarouselMoviesView(
+                DefaultCarouselView(
                     data: viewModel.nowTVShows,
                     title: LC.onTheAir.text,
                     selectionIndex: 0,
-                    isLightBackground: false
+                    isLightBackground: false,
+                    state: .tvShow
                 )
                 .buttonStyle(.plain)
                 .task {
