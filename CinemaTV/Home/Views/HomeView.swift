@@ -19,11 +19,10 @@ struct HomeView: View {
                 .navigationTitle(LC.discover.text)
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        Button {
-                            
-                        } label: {
-                            Image(systemName: "info.circle")
-                        }
+                        NavigationLink(
+                            destination: WantWatch(),
+                            label: {Image(systemName: "info.circle")}
+                        )
                     }
                 }
             } else {
@@ -34,11 +33,10 @@ struct HomeView: View {
                 .navigationTitle(LC.discover.text)
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        Button {
-                            
-                        } label: {
-                            Image(systemName: "info.circle")
-                        }
+                        NavigationLink(
+                            destination: WantWatch(),
+                            label: {Image(systemName: "info.circle")}
+                        )
                     }
                 }
             }
