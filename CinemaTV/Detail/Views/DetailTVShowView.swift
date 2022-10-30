@@ -40,6 +40,10 @@ struct DetailTVShowView: View {
                                     CastView(state: .tvShow, castData: cast)
                                 }
                                 
+                                if let seasons = viewModel.detailTVShow?.seasons {
+                                    SeasonsCollectionView(data: seasons, title: "Seasons")
+                                }
+                                
                                 RecommendationsView(data: viewModel.tvShowsRecommendations?.results ?? [], title: LC.recommendations.text)
                             }
                             .background(.ultraThinMaterial)
