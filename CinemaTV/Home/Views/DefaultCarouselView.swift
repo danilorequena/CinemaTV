@@ -44,7 +44,10 @@ struct DefaultCarouselView: View {
                                         .lineLimit(1)
                                         .frame(width: 180)
                                 }
+                                .padding(.bottom, 4)
                                 .buttonStyle(.plain)
+                                .background(.ultraThinMaterial.opacity(0.8))
+                                .cornerRadius(16)
                             }
                         }
                     }

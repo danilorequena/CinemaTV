@@ -9,11 +9,13 @@ import SwiftUI
 
 @main
 struct CinemaTVApp: App {
-    let persistenceController = PersistenceController.shared
+//    let persistenceController = PersistenceController.shared
+    @StateObject private var dataController = DataController()
 
     var body: some Scene {
         WindowGroup {
             AppView()
+                .environment(\.managedObjectContext, dataController.container.viewContext)
         }
     }
 }
