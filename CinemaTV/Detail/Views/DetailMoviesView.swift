@@ -60,7 +60,9 @@ struct DetailMoviesView: View {
                                         )
                                     }
                                     
-                                    RecommendationsView(data: viewModel.moviesRecommendations?.results ?? [], title: LC.recommendations.text)
+                                    CarouselInDetailView(data: viewModel.moviesRecommendations?.results ?? [], title: LC.recommendations.text)
+                                    
+                                    CarouselInDetailView(data: viewModel.moviesSimilars?.results ?? [], title: LC.similars.text)
                                 }
                                 .background(.ultraThinMaterial)
                                 .cornerRadius(16)

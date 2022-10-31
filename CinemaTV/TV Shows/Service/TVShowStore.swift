@@ -24,7 +24,25 @@ final class TVShowStore: TVShowServiceProtocol {
         loadURLAndDecode(url: url, completion: completion)
     }
     
+    func fetchPopTVShows(from endpoint: TVShowsEndpoint, completion: @escaping (Result<DiscoverTVShow, RequestError>) -> ()) {
+        guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
+            completion(.failure(.invalidEndpoint))
+            return
+        }
+        
+        loadURLAndDecode(url: url, completion: completion)
+    }
+    
     func fetchRecommendations(from endpoint: TVShowsEndpoint, completion: @escaping (Result<DiscoverTVShow, RequestError>) -> Void) {
+        guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
+            completion(.failure(.invalidEndpoint))
+            return
+        }
+        
+        loadURLAndDecode(url: url, completion: completion)
+    }
+    
+    func fetchSimilars(from endpoint: TVShowsEndpoint, completion: @escaping (Result<DiscoverTVShow, RequestError>) -> Void) {
         guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
             completion(.failure(.invalidEndpoint))
             return

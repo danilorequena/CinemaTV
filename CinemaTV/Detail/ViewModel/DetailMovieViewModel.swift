@@ -24,6 +24,8 @@ final class DetailViewModel: ObservableObject {
     @Published var cast: CastModel?
     @Published var tvShowsRecommendations: DiscoverTVShow?
     @Published var moviesRecommendations: DiscoverMovies?
+    @Published var tvShowsSimilars: DiscoverTVShow?
+    @Published var moviesSimilars: DiscoverMovies?
     @Published var dispathGroup = DispatchGroup()
     @Published var videos: [VideoResult] = []
     @Published var videoKey: String?
@@ -55,6 +57,10 @@ final class DetailViewModel: ObservableObject {
             await fetchRecommendations(id: ID, state: .movie)
             dispathGroup.leave()
             
+            dispathGroup.enter()
+            await fetchSimilars(id: ID, state: .movie)
+            dispathGroup.leave()
+            
         case .tvShow:
             dispathGroup.enter()
             await fetchTVShowDetail(tvShowID: ID)
@@ -70,6 +76,10 @@ final class DetailViewModel: ObservableObject {
             
             dispathGroup.enter()
             await fetchRecommendations(id: ID, state: .tvShow)
+            dispathGroup.leave()
+            
+            dispathGroup.enter()
+            await fetchSimilars(id: ID, state: .tvShow)
             dispathGroup.leave()
         }
     }
@@ -175,6 +185,37 @@ final class DetailViewModel: ObservableObject {
                     case .success(let recommendations):
                         DispatchQueue.main.async {
                             self.tvShowsRecommendations = recommendations
+                        }
+                    case .failure(let failure):
+                        print(failure)
+                    }
+                }
+            }
+        }
+    }
+    
+    func fetchSimilars(id: Int, state: MovieORTVShow) async {
+        switch state {
+        case .movie:
+            Task {
+                newService.fetchSimilars(from: MoviesEndpoint.similar(movie: id)) { result in
+                    switch result {
+                    case .success(let similars):
+                        DispatchQueue.main.async {
+                            self.moviesSimilars = similars
+                        }
+                    case .failure(let failure):
+                        print(failure)
+                    }
+                }
+            }
+        case .tvShow:
+            Task {
+                tvShowService.fetchSimilars(from: TVShowsEndpoint.similar(movie: id)) { result in
+                    switch result {
+                    case .success(let similars):
+                        DispatchQueue.main.async {
+                            self.tvShowsSimilars = similars
                         }
                     case .failure(let failure):
                         print(failure)

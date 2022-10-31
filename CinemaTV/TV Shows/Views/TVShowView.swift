@@ -29,6 +29,18 @@ struct TVShowView: View {
                 .task {
                     await viewModel.getData(with: .nowPlaying)
                 }
+                
+                DefaultCarouselView(
+                    data: viewModel.popTVShows,
+                    title: LC.popTVShows.text,
+                    selectionIndex: 0,
+                    isLightBackground: false,
+                    state: .tvShow
+                )
+                .buttonStyle(.plain)
+                .task {
+                    await viewModel.getData(with: .popular)
+                }
             }
         }
     }
