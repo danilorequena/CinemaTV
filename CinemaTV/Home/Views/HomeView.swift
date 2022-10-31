@@ -21,7 +21,18 @@ struct HomeView: View {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
                         NavigationLink(
                             destination: WantWatch(),
-                            label: {Image(systemName: "info.circle")}
+                            label: {
+                                Image(systemName: "bookmark.fill")
+                                    .foregroundColor(.yellow)
+                            }
+                        )
+                        
+                        NavigationLink(
+                            destination: WantWatch(),
+                            label: {
+                                Image(systemName: "info.circle")
+                                    .foregroundColor(.white)
+                            }
                         )
                     }
                 }
@@ -35,7 +46,18 @@ struct HomeView: View {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
                         NavigationLink(
                             destination: WantWatch(),
-                            label: {Image(systemName: "info.circle")}
+                            label: {
+                                Image(systemName: "bookmark.fill")
+                                    .foregroundColor(.secondary)
+                            }
+                        )
+                        
+                        NavigationLink(
+                            destination: WantWatch(),
+                            label: {
+                                Image(systemName: "info.circle")
+                                    .foregroundColor(.black)
+                            }
                         )
                     }
                 }

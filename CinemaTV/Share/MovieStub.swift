@@ -12,7 +12,7 @@ extension MoviesTVShowResult {
         [
             MoviesTVShowResult(
                 adult: false,
-                backdropPath: "2RSirqZG949GuRwN38MYCIGG4Od.jpg",
+                backdropPath: "/2RSirqZG949GuRwN38MYCIGG4Od.jpg",
                 genreIDS: [53],
                 id: 985939,
                 originalTitle: "Fall",
@@ -29,7 +29,7 @@ extension MoviesTVShowResult {
             ),
             MoviesTVShowResult(
                 adult: false,
-                backdropPath: "2RSirqZG949GuRwN38MYCIGG4Od.jpg",
+                backdropPath: "/2RSirqZG949GuRwN38MYCIGG4Od.jpg",
                 genreIDS: [53],
                 id: 985939,
                 originalTitle: "Fall",
@@ -46,7 +46,7 @@ extension MoviesTVShowResult {
             ),
             MoviesTVShowResult(
                 adult: false,
-                backdropPath: "2RSirqZG949GuRwN38MYCIGG4Od.jpg",
+                backdropPath: "/2RSirqZG949GuRwN38MYCIGG4Od.jpg",
                 genreIDS: [53],
                 id: 985939,
                 originalTitle: "Fall",

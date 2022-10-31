@@ -34,26 +34,27 @@ struct DetailMoviesView: View {
                                 VStack(alignment: .leading, spacing: 16) {
                                     VStack(alignment: .leading, spacing: 16) {
                                         VStack(alignment: .leading, spacing: 4) {
-                                            HStack {
+                                            HStack(spacing: 16) {
                                                 Text(detail.title)
                                                     .font(.title)
-                                                .bold()
+                                                    .bold()
                                                 
                                                 Button {
                                                     let movie = Movies(context: moc)
                                                     movie.id = Int64(detail.id)
                                                     movie.name = detail.title
+                                                    movie.overview = detail.overview
                                                     movie.profilePath = detail.posterPath
                                                     try? moc.save()
                                                     
                                                     buttonMarkDisabled = true
                                                 } label: {
                                                     HStack {
-                                                        Image(systemName: "bookmark")
-                                                            .foregroundColor(buttonMarkDisabled ? .gray : .pink)
+                                                        Image(systemName: "bookmark.fill")
+                                                            .foregroundColor(buttonMarkDisabled ? .gray : .yellow)
                                                         
                                                         Text("Want Watch")
-                                                            .foregroundColor(.pink)
+                                                            .foregroundColor(.black)
                                                     }
                                                     .padding(8)
                                                     .background(.ultraThinMaterial.opacity(0.2))

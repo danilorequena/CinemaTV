@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct WantWatch: View {
     @FetchRequest(sortDescriptors: []) var movies: FetchedResults<Movies>
@@ -16,16 +17,23 @@ struct WantWatch: View {
             if !movies.isEmpty {
                 VStack {
                     Button {
-                        
+                        //TODO: - Ver uma forma de apagar com batchUpdate
+                        deleteAllData(entity: "Movies")
                     } label: {
                         Text("Limpar lista")
                     }
                     
                     List {
-                        ForEach(movies) { movie in
-                            Text(movie.name ?? "Unknow")
+                        Section(header: Text("Movies")) {
+                            ForEach(movies) { movie in
+                                MoviesListCell(
+                                    image: URL(string: Constants.basePosters + (movie.profilePath ?? "")),
+                                    title: movie.name ?? "",
+                                    subTitle: movie.overview ?? ""
+                                )
+                            }
+                            .onDelete(perform: deleteMovies)
                         }
-                        .onDelete(perform: deleteMovies)
                     }
                     
                     
@@ -52,6 +60,14 @@ struct WantWatch: View {
         }
         
         try? moc.save()
+    }
+    
+    func deleteAllData(entity: String)
+    {
+        let ReqVar = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+        let DelAllReqVar = NSBatchDeleteRequest(fetchRequest: ReqVar)
+        do { try moc.execute(DelAllReqVar) }
+        catch { print(error) }
     }
 }
 
