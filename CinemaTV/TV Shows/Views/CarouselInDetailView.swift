@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RecommendationsView: View {
+struct CarouselInDetailView: View {
     let viewModel = DetailViewModel()
     let data: [MoviesTVShowResult]
     let title: String
@@ -62,7 +62,7 @@ struct RecommendationsView: View {
 
 struct RecommendationsView_Previews: PreviewProvider {
     static var previews: some View {
-        RecommendationsView(
+        CarouselInDetailView(
             data: MoviesTVShowResult.stubbedMovies(),
             title: "Title"
         )

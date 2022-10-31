@@ -95,6 +95,15 @@ final class MovieStore: MovieServiceProtocol {
         loadURLAndDecode(url: url, completion: completion)
     }
     
+    func fetchSimilars(from endpoint: MoviesEndpoint, completion: @escaping (Result<DiscoverMovies, RequestError>) -> Void) {
+        guard let url = URL(string: Constants.baseUrl + endpoint.path()) else {
+            completion(.failure(.invalidEndpoint))
+            return
+        }
+        
+        loadURLAndDecode(url: url, completion: completion)
+    }
+    
     func fetchTrailer(from endpoint: String, completion: @escaping (Result<VideoModel, RequestError>) -> ()) {
         guard let url = URL(string: Constants.baseUrl + endpoint) else {
             completion(.failure(.invalidEndpoint))

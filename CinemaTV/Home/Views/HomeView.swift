@@ -19,11 +19,21 @@ struct HomeView: View {
                 .navigationTitle(LC.discover.text)
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        Button {
-                            
-                        } label: {
-                            Image(systemName: "info.circle")
-                        }
+                        NavigationLink(
+                            destination: WantWatch(),
+                            label: {
+                                Image(systemName: "bookmark.fill")
+                                    .foregroundColor(.yellow)
+                            }
+                        )
+                        
+                        NavigationLink(
+                            destination: WantWatch(),
+                            label: {
+                                Image(systemName: "info.circle")
+                                    .foregroundColor(.white)
+                            }
+                        )
                     }
                 }
             } else {
@@ -34,11 +44,21 @@ struct HomeView: View {
                 .navigationTitle(LC.discover.text)
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        Button {
-                            
-                        } label: {
-                            Image(systemName: "info.circle")
-                        }
+                        NavigationLink(
+                            destination: WantWatch(),
+                            label: {
+                                Image(systemName: "bookmark.fill")
+                                    .foregroundColor(.secondary)
+                            }
+                        )
+                        
+                        NavigationLink(
+                            destination: WantWatch(),
+                            label: {
+                                Image(systemName: "info.circle")
+                                    .foregroundColor(.black)
+                            }
+                        )
                     }
                 }
             }
