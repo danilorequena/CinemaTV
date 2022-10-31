@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct DetailMoviesView: View {
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(sortDescriptors: []) var movies: FetchedResults<Movies>
+    @State private var buttonMarkDisabled = false
     var state: MovieORTVShow
     @ObservedObject var viewModel = DetailViewModel()
     var id: Int?
@@ -31,17 +34,42 @@ struct DetailMoviesView: View {
                                 VStack(alignment: .leading, spacing: 16) {
                                     VStack(alignment: .leading, spacing: 16) {
                                         VStack(alignment: .leading, spacing: 4) {
-                                            Text(detail.title)
-                                                .font(.title)
-                                                .bold()
+                                            HStack(spacing: 16) {
+                                                Text(detail.title)
+                                                    .font(.title)
+                                                    .bold()
+                                                
+                                                Button {
+                                                    let movie = Movies(context: moc)
+                                                    movie.id = Int64(detail.id)
+                                                    movie.name = detail.title
+                                                    movie.overview = detail.overview
+                                                    movie.profilePath = detail.posterPath
+                                                    try? moc.save()
+                                                    
+                                                    buttonMarkDisabled = true
+                                                } label: {
+                                                    HStack {
+                                                        Image(systemName: "bookmark.fill")
+                                                            .foregroundColor(buttonMarkDisabled ? .gray : .yellow)
+                                                        
+                                                        Text("Want Watch")
+                                                            .foregroundColor(.black)
+                                                    }
+                                                    .padding(8)
+                                                    .background(.ultraThinMaterial.opacity(0.2))
+                                                    .cornerRadius(32)
+                                                }
+                                                .disabled(buttonMarkDisabled)
+                                            }
                                             
                                             Text(LC.releaseDate.text + detail.releaseDate.formatString())
                                                 .font(.subheadline)
-                                                .foregroundColor(Color.blue)
+                                                .foregroundColor(.black)
                                             
                                             Text(LC.average.text + "\(detail.voteAverage.description)/10")
                                                 .font(.subheadline)
-                                                .foregroundColor(Color.blue)
+                                                .foregroundColor(.black)
                                         }
                                         
                                         Text(detail.overview)
@@ -60,7 +88,9 @@ struct DetailMoviesView: View {
                                         )
                                     }
                                     
-                                    RecommendationsView(data: viewModel.moviesRecommendations?.results ?? [], title: LC.recommendations.text)
+                                    CarouselInDetailView(data: viewModel.moviesRecommendations?.results ?? [], title: LC.recommendations.text)
+                                    
+                                    CarouselInDetailView(data: viewModel.moviesSimilars?.results ?? [], title: LC.similars.text)
                                 }
                                 .background(.ultraThinMaterial)
                                 .cornerRadius(16)
@@ -73,6 +103,14 @@ struct DetailMoviesView: View {
         .edgesIgnoringSafeArea(.top)
         .task {
             await viewModel.loadDetails(ID: id ?? 0, state: state)
+        }
+    }
+}
+
+struct DetailMoviesView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            DetailMoviesView(state: .movie, id: 287)
         }
     }
 }

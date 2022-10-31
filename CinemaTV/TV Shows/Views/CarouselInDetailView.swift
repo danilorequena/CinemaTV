@@ -1,18 +1,16 @@
 //
-//  TopVotedMoviesView.swift
+//  RecommendationsView.swift
 //  CinemaTV
 //
-//  Created by Danilo Requena on 08/11/21.
+//  Created by Danilo Requena on 03/10/22.
 //
 
 import SwiftUI
 
-struct DefaultCarouselView: View {
+struct CarouselInDetailView: View {
+    let viewModel = DetailViewModel()
     let data: [MoviesTVShowResult]
     let title: String
-    var selectionIndex: Int
-    let isLightBackground: Bool
-    let state: MovieORTVShow
     var body: some View {
         if data.isEmpty {
             CinemaTVProgressView()
@@ -22,38 +20,37 @@ struct DefaultCarouselView: View {
                     Text(title)
                         .font(.system(.headline, design: .rounded))
                         .lineLimit(1)
-                        .frame(width: 260, alignment: .leading)
-                        
-                    NavigationLink(destination: MoviesListView(title: title, selectionIndex: selectionIndex)) {
-                        Text(LC.seeAll.text)
-                            .font(.subheadline)
-                            .frame(width: 80, alignment: .trailing)
-                    }
+                        .frame(width: UIScreen.main.bounds.width, alignment: .leading)
+                        .padding(.leading, 16)
                 }
-                .frame(width: UIScreen.main.bounds.width)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(data) { movie in
-                            NavigationLink(destination: DetailView(id: movie.id, state: state)) {
+                            NavigationLink(destination: DetailView(id: movie.id, state: .movie)) {
                                 VStack(spacing: 2) {
-                                    MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")))
-                                        .frame(width: 180, height: 100)
+                                    AsyncImage(url: URL(string: Constants.basePosters + (movie.posterPath ?? ""))) { image in
+                                        image
+                                            .resizable()
+                                            .cornerRadius(16)
+                                            .scaledToFit()
+                                            .frame(width: 200, height: 240)
+                                    } placeholder: {
+                                        ProgressView()
+                                    }
+
                                     Text((movie.title ?? movie.name) ?? "")
                                         .font(.caption)
                                         .lineLimit(1)
                                         .frame(width: 180)
                                 }
-                                .padding(.bottom, 4)
                                 .buttonStyle(.plain)
-                                .background(.ultraThinMaterial.opacity(0.8))
-                                .cornerRadius(16)
                             }
                         }
                     }
                     .padding(.init(
                         top: 0,
-                        leading: 16,
+                        leading: 8,
                         bottom: 0,
                         trailing: 0
                     ))
@@ -63,14 +60,12 @@ struct DefaultCarouselView: View {
     }
 }
 
-struct TopVotedMoviesView_Previews: PreviewProvider {
+struct RecommendationsView_Previews: PreviewProvider {
     static var previews: some View {
-        DefaultCarouselView(
+        CarouselInDetailView(
             data: MoviesTVShowResult.stubbedMovies(),
-            title: "Title",
-            selectionIndex: 0,
-            isLightBackground: false,
-            state: .movie
+            title: "Title"
         )
     }
 }
+

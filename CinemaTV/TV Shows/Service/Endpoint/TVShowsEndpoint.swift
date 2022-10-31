@@ -44,7 +44,7 @@ enum TVShowsEndpoint {
         case let .recommended(movie):
             return "movie/\(String(movie))/recommendations"
         case let .similar(movie):
-            return "movie/\(String(movie))/similar"
+            return "tv/\(String(movie))/similar"
         case .searchMovie:
             return "search/movie"
         case .searchKeyword:

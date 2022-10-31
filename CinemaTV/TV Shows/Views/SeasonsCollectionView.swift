@@ -1,15 +1,15 @@
 //
-//  RecommendationsView.swift
+//  SeasonsCollectionView.swift
 //  CinemaTV
 //
-//  Created by Danilo Requena on 03/10/22.
+//  Created by Danilo Requena on 30/10/22.
 //
 
 import SwiftUI
 
-struct RecommendationsView: View {
+struct SeasonsCollectionView: View {
     let viewModel = DetailViewModel()
-    let data: [MoviesTVShowResult]
+    let data: [Season]
     let title: String
     var body: some View {
         if data.isEmpty {
@@ -39,7 +39,7 @@ struct RecommendationsView: View {
                                         ProgressView()
                                     }
 
-                                    Text((movie.title ?? movie.name) ?? "")
+                                    Text(movie.name ?? "")
                                         .font(.caption)
                                         .lineLimit(1)
                                         .frame(width: 180)
@@ -60,10 +60,10 @@ struct RecommendationsView: View {
     }
 }
 
-struct RecommendationsView_Previews: PreviewProvider {
+struct SeasonsCollectionView_Previews: PreviewProvider {
     static var previews: some View {
-        RecommendationsView(
-            data: MoviesTVShowResult.stubbedMovies(),
+        SeasonsCollectionView(
+            data: Season.mockArray(),
             title: "Title"
         )
     }

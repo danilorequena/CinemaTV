@@ -13,6 +13,7 @@
 
 // MARK: - TVShowsHome
 "onTheAir" = "No ar";
+"popTVShows" = "Séries Populares";
 
 // MARK: - CinemaTVProgressView
 "loading" = "carregando";
@@ -21,3 +22,4 @@
 "releaseDate" = "Data de lançamento: ";
 "average" = "Média: ";
 "recommendations" = "Recomendações";
+"similars" = "Similares";
