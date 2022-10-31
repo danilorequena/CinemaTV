@@ -40,6 +40,10 @@ struct DetailTVShowView: View {
                                     CastView(state: .tvShow, castData: cast)
                                 }
                                 
+                                if let seasons  = viewModel.detailTVShow?.seasons {
+                                    SeasonsCollectionView(data: seasons, title: "Seasons")
+                                }
+                                
                                 CarouselInDetailView(data: viewModel.tvShowsRecommendations?.results ?? [], title: LC.recommendations.text)
                                 
                                 CarouselInDetailView(data: viewModel.tvShowsSimilars?.results ?? [], title: LC.similars.text)

@@ -29,7 +29,7 @@ struct DetailTVShow: Codable, Identifiable {
 //    let popularity: Double?
     let posterPath: String?
 //    let productionCompanies, productionCountries: [JSONAny]?
-//    let seasons: [Season]?
+    let seasons: [Season]?
 //    let spokenLanguages: [JSONAny]?
 //    let status, tagline, type: String?
     let voteAverage: Double?
@@ -60,7 +60,7 @@ struct DetailTVShow: Codable, Identifiable {
         case posterPath = "poster_path"
 //        case productionCompanies = "production_companies"
 //        case productionCountries = "production_countries"
-//        case seasons
+        case seasons
 //        case spokenLanguages = "spoken_languages"
 //        case status, tagline, type
         case voteAverage = "vote_average"
@@ -111,14 +111,14 @@ struct Season: Codable, Identifiable {
     let airDate: String?
     let episodeCount, id: Int?
     let name, overview: String?
-//    let posterPath: JSONNull?
+    let posterPath: String?
     let seasonNumber: Int?
 
     enum CodingKeys: String, CodingKey {
         case airDate = "air_date"
         case episodeCount = "episode_count"
         case id, name, overview
-//        case posterPath = "poster_path"
+        case posterPath = "poster_path"
         case seasonNumber = "season_number"
     }
 }
