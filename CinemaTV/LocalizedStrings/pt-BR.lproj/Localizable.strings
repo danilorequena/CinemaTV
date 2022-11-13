@@ -23,3 +23,7 @@
 "average" = "Média: ";
 "recommendations" = "Recomendações";
 "similars" = "Similares";
+
+// MARK: - About
+"abouTheAppTitle" = "Sobre o App";
+"abouTheAppMessage" = "Este app usa API do TMDB para exibir as infos sobre os filmes e Séries e todas as imagens.";
