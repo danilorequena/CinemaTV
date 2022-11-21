@@ -9,8 +9,7 @@ import SwiftUI
 
 @main
 struct CinemaTVApp: App {
-//    let persistenceController = PersistenceController.shared
-    @StateObject private var dataController = DataController()
+    private var dataController = DataController.shared
 
     var body: some Scene {
         WindowGroup {

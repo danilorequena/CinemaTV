@@ -9,11 +9,16 @@ import SwiftUI
 
 struct DetailMoviesView: View {
     @Environment(\.managedObjectContext) var moc
-    @FetchRequest(sortDescriptors: []) var movies: FetchedResults<Movies>
+    @FetchRequest(sortDescriptors: []) var movies: FetchedResults<MoviesToWatch>
+    @Environment(\.managedObjectContext) var mocWatched
+    @FetchRequest(sortDescriptors: []) var moviesWatched: FetchedResults<MoviesWatched>
     @State private var buttonMarkDisabled = false
+    @State private var buttonCheckDisabled = false
     var state: MovieORTVShow
     @ObservedObject var viewModel = DetailViewModel()
     var id: Int?
+    @State var coreDataManager = CoreDataManager.sharedManager
+    
     var body: some View {
         VStack {
             if viewModel.isDetailLoading && viewModel.isCastLoading {
@@ -40,12 +45,14 @@ struct DetailMoviesView: View {
                                                     .bold()
                                                 
                                                 Button {
-                                                    let movie = Movies(context: moc)
+                                                    let movie = MoviesToWatch(context: moc)
                                                     movie.id = Int64(detail.id)
                                                     movie.name = detail.title
                                                     movie.overview = detail.overview
                                                     movie.profilePath = detail.posterPath
                                                     try? moc.save()
+                                                    
+//                                                    coreDataManager.saveContext()
                                                     
                                                     buttonMarkDisabled = true
                                                 } label: {
@@ -53,14 +60,37 @@ struct DetailMoviesView: View {
                                                         Image(systemName: "bookmark.fill")
                                                             .foregroundColor(buttonMarkDisabled ? .gray : .yellow)
                                                         
-                                                        Text("Want Watch")
+                                                        Text("Watch")
+                                                            .foregroundColor(.black)
+                                                    }
+                                                    .padding(8)
+                                                    .background(.ultraThinMaterial.opacity(0.2))
+                                                    .cornerRadius(16)
+                                                }
+                                                .disabled(buttonMarkDisabled)
+                                                
+                                                Button {
+                                                    let movie = MoviesWatched(context: mocWatched)
+                                                    movie.id = Int64(detail.id)
+                                                    movie.name = detail.title
+                                                    movie.overview = detail.overview
+                                                    movie.profilePath = detail.posterPath
+                                                    try? mocWatched.save()
+                                                    
+                                                    buttonCheckDisabled = true
+                                                } label: {
+                                                    HStack {
+                                                        Image(systemName: "checkmark")
+                                                            .foregroundColor(buttonCheckDisabled ? .gray : .green)
+                                                        
+                                                        Text("Watched")
                                                             .foregroundColor(.black)
                                                     }
                                                     .padding(8)
                                                     .background(.ultraThinMaterial.opacity(0.2))
                                                     .cornerRadius(32)
                                                 }
-                                                .disabled(buttonMarkDisabled)
+                                                .disabled(buttonCheckDisabled)
                                             }
                                             
                                             Text(LC.releaseDate.text + detail.releaseDate.formatString())
