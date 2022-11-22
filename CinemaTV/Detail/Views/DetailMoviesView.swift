@@ -45,20 +45,19 @@ struct DetailMoviesView: View {
                                                     .bold()
                                                 
                                                 Button {
-                                                    let movie = MoviesToWatch(context: moc)
-                                                    movie.id = Int64(detail.id)
-                                                    movie.name = detail.title
-                                                    movie.overview = detail.overview
-                                                    movie.profilePath = detail.posterPath
-                                                    try? moc.save()
-                                                    
-//                                                    coreDataManager.saveContext()
-                                                    
-                                                    buttonMarkDisabled = true
+                                                    if !verifyIfExists(id: detail.id, verifyIn: .toWatch) {
+                                                        let movie = MoviesToWatch(context: moc)
+                                                        movie.id = Int64(detail.id)
+                                                        movie.name = detail.title
+                                                        movie.overview = detail.overview
+                                                        movie.profilePath = detail.posterPath
+                                                        try? moc.save()
+                                                        buttonMarkDisabled = true
+                                                    }
                                                 } label: {
                                                     HStack {
                                                         Image(systemName: "bookmark.fill")
-                                                            .foregroundColor(buttonMarkDisabled ? .gray : .yellow)
+                                                            .foregroundColor(verifyIfExists(id: detail.id, verifyIn: .toWatch) ? .gray : .yellow)
                                                         
                                                         Text("Watch")
                                                             .foregroundColor(.black)
@@ -67,21 +66,23 @@ struct DetailMoviesView: View {
                                                     .background(.ultraThinMaterial.opacity(0.2))
                                                     .cornerRadius(16)
                                                 }
-                                                .disabled(buttonMarkDisabled)
+                                                .disabled(verifyIfExists(id: detail.id, verifyIn: .toWatch))
                                                 
                                                 Button {
-                                                    let movie = MoviesWatched(context: mocWatched)
-                                                    movie.id = Int64(detail.id)
-                                                    movie.name = detail.title
-                                                    movie.overview = detail.overview
-                                                    movie.profilePath = detail.posterPath
-                                                    try? mocWatched.save()
-                                                    
-                                                    buttonCheckDisabled = true
+                                                    if !verifyIfExists(id: detail.id, verifyIn: .wached) {
+                                                        let movie = MoviesWatched(context: mocWatched)
+                                                        movie.id = Int64(detail.id)
+                                                        movie.name = detail.title
+                                                        movie.overview = detail.overview
+                                                        movie.profilePath = detail.posterPath
+                                                        try? mocWatched.save()
+                                                        
+                                                        buttonCheckDisabled = true
+                                                    }
                                                 } label: {
                                                     HStack {
                                                         Image(systemName: "checkmark")
-                                                            .foregroundColor(buttonCheckDisabled ? .gray : .green)
+                                                            .foregroundColor(verifyIfExists(id: detail.id, verifyIn: .wached) ? .gray : .green)
                                                         
                                                         Text("Watched")
                                                             .foregroundColor(.black)
@@ -90,7 +91,7 @@ struct DetailMoviesView: View {
                                                     .background(.ultraThinMaterial.opacity(0.2))
                                                     .cornerRadius(32)
                                                 }
-                                                .disabled(buttonCheckDisabled)
+                                                .disabled(verifyIfExists(id: detail.id, verifyIn: .wached))
                                             }
                                             
                                             Text(LC.releaseDate.text + detail.releaseDate.formatString())
@@ -133,6 +134,20 @@ struct DetailMoviesView: View {
         .edgesIgnoringSafeArea(.top)
         .task {
             await viewModel.loadDetails(ID: id ?? 0, state: state)
+        }
+    }
+    enum DataBase {
+        case toWatch
+        case wached
+    }
+    private func verifyIfExists(id: Int, verifyIn: DataBase) -> Bool {
+        switch verifyIn {
+        case .toWatch:
+            let exist = movies.contains(where: {$0.id == id})
+            return exist
+        case .wached:
+            let exist = moviesWatched.contains(where: {$0.id == id})
+            return exist
         }
     }
 }
