@@ -62,6 +62,8 @@
 		FF4D52CC280CA88800EBEFD3 /* TopVotedMovies.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D52CB280CA88800EBEFD3 /* TopVotedMovies.swift */; };
 		FF4DDD7B27C333250049CAFA /* MoviesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4DDD7A27C333250049CAFA /* MoviesListView.swift */; };
 		FF4DDD7D27C335F60049CAFA /* MoviesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4DDD7C27C335F60049CAFA /* MoviesListCell.swift */; };
+		FF5C570C292E5F6800A7DC78 /* DetailCoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5C570B292E5F6800A7DC78 /* DetailCoreView.swift */; };
+		FF5C570D292E5F6800A7DC78 /* DetailCoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5C570B292E5F6800A7DC78 /* DetailCoreView.swift */; };
 		FF6496AC280C89AB001BC28F /* UpcomingMovies.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6496AB280C89AB001BC28F /* UpcomingMovies.swift */; };
 		FF6496AE280C8B38001BC28F /* NowPlayingMovies.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6496AD280C8B38001BC28F /* NowPlayingMovies.swift */; };
 		FF74128E2895CF9900A79C7C /* TMDB.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF74128D2895CF9900A79C7C /* TMDB.plist */; };
@@ -71,7 +73,7 @@
 		FF74129E2895D66000A79C7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF74129D2895D66000A79C7C /* Assets.xcassets */; };
 		FF7412A02895D66000A79C7C /* CinemaTVWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = FF74129C2895D65F00A79C7C /* CinemaTVWidget.intentdefinition */; };
 		FF7412A12895D66000A79C7C /* CinemaTVWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = FF74129C2895D65F00A79C7C /* CinemaTVWidget.intentdefinition */; };
-		FF7412A42895D66000A79C7C /* CinemaTVWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FF7412932895D65F00A79C7C /* CinemaTVWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FF7412A42895D66000A79C7C /* CinemaTVWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = FF7412932895D65F00A79C7C /* CinemaTVWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FF7412A92895D6FA00A79C7C /* MovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF394E3827D0FE7400FFBDFC /* MovieService.swift */; };
 		FF7412AB2895D6FA00A79C7C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D42249027381255006236F8 /* Constants.swift */; };
 		FF7412AD2895D6FA00A79C7C /* MoviesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4224962738136E006236F8 /* MoviesService.swift */; };
@@ -188,15 +190,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		FF7412A52895D66000A79C7C /* Embed App Extensions */ = {
+		FF7412A52895D66000A79C7C /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				FF7412A42895D66000A79C7C /* CinemaTVWidgetExtension.appex in Embed App Extensions */,
+				FF7412A42895D66000A79C7C /* CinemaTVWidgetExtension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -252,6 +254,7 @@
 		FF4D52CB280CA88800EBEFD3 /* TopVotedMovies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopVotedMovies.swift; sourceTree = "<group>"; };
 		FF4DDD7A27C333250049CAFA /* MoviesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListView.swift; sourceTree = "<group>"; };
 		FF4DDD7C27C335F60049CAFA /* MoviesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListCell.swift; sourceTree = "<group>"; };
+		FF5C570B292E5F6800A7DC78 /* DetailCoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCoreView.swift; sourceTree = "<group>"; };
 		FF6496AB280C89AB001BC28F /* UpcomingMovies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingMovies.swift; sourceTree = "<group>"; };
 		FF6496AD280C8B38001BC28F /* NowPlayingMovies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingMovies.swift; sourceTree = "<group>"; };
 		FF74128D2895CF9900A79C7C /* TMDB.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = TMDB.plist; sourceTree = "<group>"; };
@@ -680,6 +683,7 @@
 			isa = PBXGroup;
 			children = (
 				FF9157002749D15A00AF74C3 /* DetailView.swift */,
+				FF5C570B292E5F6800A7DC78 /* DetailCoreView.swift */,
 				FF7DC22B28EB144600B5FEC5 /* DetailTVShowView.swift */,
 				FF7DC22E28EB177300B5FEC5 /* DetailMoviesView.swift */,
 			);
@@ -853,7 +857,7 @@
 				7D422454273810E1006236F8 /* Sources */,
 				7D422455273810E1006236F8 /* Frameworks */,
 				7D422456273810E1006236F8 /* Resources */,
-				FF7412A52895D66000A79C7C /* Embed App Extensions */,
+				FF7412A52895D66000A79C7C /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -932,7 +936,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1310;
+				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					7D422457273810E1006236F8 = {
 						CreatedOnToolsVersion = 13.1;
@@ -1085,6 +1089,7 @@
 				7D42248E273811A7006236F8 /* DiscoverMovie.swift in Sources */,
 				FFC8245228F234D40035D4BA /* PersonViewModel.swift in Sources */,
 				7D42249127381255006236F8 /* Constants.swift in Sources */,
+				FF5C570C292E5F6800A7DC78 /* DetailCoreView.swift in Sources */,
 				09E6E2EA28DF969D00E7E856 /* LocalizedConstants.swift in Sources */,
 				FF394E3927D0FE7400FFBDFC /* MovieService.swift in Sources */,
 				7D42249E27381DB5006236F8 /* DiscoverView.swift in Sources */,
@@ -1118,6 +1123,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				09A770A728DFB0480015147C /* LocalizedConstants.swift in Sources */,
+				FF5C570D292E5F6800A7DC78 /* DetailCoreView.swift in Sources */,
 				FF7412B12895D6FA00A79C7C /* MovieStore.swift in Sources */,
 				FF7412B82895D82500A79C7C /* CinemaTVProgressView.swift in Sources */,
 				FF7412AB2895D6FA00A79C7C /* Constants.swift in Sources */,
