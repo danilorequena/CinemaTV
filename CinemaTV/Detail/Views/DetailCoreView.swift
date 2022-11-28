@@ -41,21 +41,13 @@ struct DetailCoreView: View {
                                             .bold()
                                         
                                         Button {
-                                            if !verifyIfExists(id: detail.id, verifyIn: .toWatch) {
-                                                let movie = MoviesToWatch(context: moc)
-                                                movie.id = Int64(detail.id)
-                                                movie.name = detail.title
-                                                movie.overview = detail.overview
-                                                movie.profilePath = detail.posterPath
-                                                try? moc.save()
-                                                buttonMarkDisabled = true
-                                            }
+                                            saveData(with: detail, isWatched: false)
                                         } label: {
                                             HStack {
                                                 Image(systemName: "bookmark.fill")
                                                     .foregroundColor(verifyIfExists(id: detail.id, verifyIn: .toWatch) ? .gray : .yellow)
                                                 
-                                                Text("Watch")
+                                                Text(LC.watchButton.text)
                                                     .foregroundColor(.black)
                                             }
                                             .padding(8)
@@ -65,22 +57,13 @@ struct DetailCoreView: View {
                                         .disabled(verifyIfExists(id: detail.id, verifyIn: .toWatch))
                                         
                                         Button {
-                                            if !verifyIfExists(id: detail.id, verifyIn: .wached) {
-                                                let movie = MoviesWatched(context: mocWatched)
-                                                movie.id = Int64(detail.id)
-                                                movie.name = detail.title
-                                                movie.overview = detail.overview
-                                                movie.profilePath = detail.posterPath
-                                                try? mocWatched.save()
-                                                
-                                                buttonCheckDisabled = true
-                                            }
+                                            saveData(with: detail, isWatched: true)
                                         } label: {
                                             HStack {
                                                 Image(systemName: "checkmark")
                                                     .foregroundColor(verifyIfExists(id: detail.id, verifyIn: .wached) ? .gray : .green)
                                                 
-                                                Text("Watched")
+                                                Text(LC.watchedButton.text)
                                                     .foregroundColor(.black)
                                             }
                                             .padding(8)
@@ -90,11 +73,11 @@ struct DetailCoreView: View {
                                         .disabled(verifyIfExists(id: detail.id, verifyIn: .wached))
                                     }
                                     
-                                    Text(LC.releaseDate.text + detail.releaseDate.formatString())
+                                    Text(LC.releaseDate.text + detail.releaseDateFormatted)
                                         .font(.subheadline)
                                         .foregroundColor(.black)
                                     
-                                    Text(LC.average.text + "\(detail.voteAverage.description)/10")
+                                    Text(LC.average.text + detail.voteAverageFormatted)
                                         .font(.subheadline)
                                         .foregroundColor(.black)
                                 }
@@ -122,6 +105,32 @@ struct DetailCoreView: View {
                         .background(.ultraThinMaterial)
                         .cornerRadius(16)
                     }
+                }
+            }
+        }
+    }
+    
+    private func saveData(with detailData: DetailMoviesModel, isWatched: Bool) {
+        if !verifyIfExists(id: detailData.id, verifyIn: .toWatch) {
+            if !isWatched {
+                let movie = MoviesToWatch(context: moc)
+                movie.id = Int64(detailData.id)
+                movie.name = detailData.title
+                movie.overview = detailData.overview
+                movie.profilePath = detailData.posterPath
+                try? moc.save()
+                
+                buttonCheckDisabled = true
+            } else {
+                if !verifyIfExists(id: detailData.id, verifyIn: .wached) {
+                    let movie = MoviesWatched(context: mocWatched)
+                    movie.id = Int64(detailData.id)
+                    movie.name = detailData.title
+                    movie.overview = detailData.overview
+                    movie.profilePath = detailData.posterPath
+                    try? mocWatched.save()
+                    
+                    buttonCheckDisabled = true
                 }
             }
         }
