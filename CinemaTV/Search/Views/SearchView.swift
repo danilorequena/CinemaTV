@@ -15,7 +15,7 @@ struct SearchView: View {
     @Environment(\.dismissSearch) var dismissSearch
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List(self.viewModel.multiResults) { result in
                 MoviesListCell(
                     image: URL(string: Constants.basePosters + (result.posterPath ?? "")),

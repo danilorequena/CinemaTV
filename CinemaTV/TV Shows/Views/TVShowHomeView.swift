@@ -11,7 +11,7 @@ struct TVShowHomeView: View {
     @Environment(\.colorScheme) var colorScheme
     @StateObject private var viewModel = TVShowViewModel()
     var body: some View {
-        NavigationView {
+        NavigationStack {
             if colorScheme == .dark {
                 Group {
                     TVShowView()

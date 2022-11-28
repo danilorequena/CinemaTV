@@ -37,6 +37,8 @@ enum LocalizedConstants: String {
     case similars
     case releaseDate
     case average
+    case watchButton
+    case watchedButton
     
     var text: String {
         return rawValue.localized(.presentation)

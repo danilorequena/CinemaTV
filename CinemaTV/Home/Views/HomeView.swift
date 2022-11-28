@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @Environment(\.colorScheme) var colorScheme
     var body: some View {
-        NavigationView {
+        NavigationStack {
             if colorScheme == .dark {
                 Group {
                     MoviesView()
@@ -20,7 +20,7 @@ struct HomeView: View {
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
                         NavigationLink(
-                            destination: WantWatch(),
+                            destination: WantWatchView(),
                             label: {
                                 Image(systemName: "bookmark.fill")
                                     .foregroundColor(.yellow)
@@ -28,7 +28,7 @@ struct HomeView: View {
                         )
                         
                         NavigationLink(
-                            destination: WantWatch(),
+                            destination: WantWatchView(),
                             label: {
                                 Image(systemName: "info.circle")
                                     .foregroundColor(.white)
@@ -45,7 +45,7 @@ struct HomeView: View {
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
                         NavigationLink(
-                            destination: WantWatch(),
+                            destination: WantWatchView(),
                             label: {
                                 Image(systemName: "bookmark.fill")
                                     .foregroundColor(.secondary)
@@ -53,7 +53,7 @@ struct HomeView: View {
                         )
                         
                         NavigationLink(
-                            destination: WantWatch(),
+                            destination: WantWatchView(),
                             label: {
                                 Image(systemName: "info.circle")
                                     .foregroundColor(.black)

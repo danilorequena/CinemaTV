@@ -33,6 +33,14 @@ struct DetailMoviesModel: Codable, Identifiable {
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
     }
+    
+    var voteAverageFormatted: String {
+        String(format: "%.1f", voteAverage) + "/10"
+    }
+    
+    var releaseDateFormatted: String {
+        releaseDate.formatString()
+    }
 }
 
 // MARK: - Genre
