@@ -98,6 +98,18 @@ struct DetailCoreView: View {
                                 )
                             }
                             
+                            if let flatrateData = viewModel.flatrateProviders {
+                                WatchProvidersView(title: "Streaming", state: .movie, providersData: flatrateData)
+                            }
+                            
+                            if let rentData = viewModel.rentProviders {
+                                WatchProvidersView(title: "Alugue", state: .movie, providersData: rentData)
+                            }
+                            
+                            if let buyData = viewModel.buyProviders {
+                                WatchProvidersView(title: "Compre", state: .movie, providersData: buyData)
+                            }
+                            
                             CarouselInDetailView(data: viewModel.moviesRecommendations?.results ?? [], title: LC.recommendations.text)
                             
                             CarouselInDetailView(data: viewModel.moviesSimilars?.results ?? [], title: LC.similars.text)
@@ -145,5 +157,11 @@ struct DetailCoreView: View {
             let exist = moviesWatched.contains(where: {$0.id == id})
             return exist
         }
+    }
+    
+    private func setWatchProviders(with data: WatchProviders) -> [WatchProvider] {
+        let providers = data.results?.br?.flatrate ?? []
+        
+        return providers
     }
 }

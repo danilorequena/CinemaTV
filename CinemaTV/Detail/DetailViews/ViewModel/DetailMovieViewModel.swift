@@ -22,6 +22,9 @@ final class DetailViewModel: ObservableObject {
     @Published var detailMovie: DetailMoviesModel?
     @Published var detailTVShow: DetailTVShow?
     @Published var cast: CastModel?
+    @Published var flatrateProviders = [WatchProvider]()
+    @Published var rentProviders = [WatchProvider]()
+    @Published var buyProviders = [WatchProvider]()
     @Published var tvShowsRecommendations: DiscoverTVShow?
     @Published var moviesRecommendations: DiscoverMovies?
     @Published var tvShowsSimilars: DiscoverTVShow?
@@ -51,6 +54,10 @@ final class DetailViewModel: ObservableObject {
             
             dispathGroup.enter()
             await fetchCast(id: ID, state: state)
+            dispathGroup.leave()
+            
+            dispathGroup.enter()
+            await fetchWatchProviders(id: ID, state: .movie)
             dispathGroup.leave()
             
             dispathGroup.enter()
@@ -270,5 +277,41 @@ final class DetailViewModel: ObservableObject {
 //                self.dispathGroup.leave()
 //            }
 //        }
+    }
+    
+    func fetchWatchProviders(id: Int, state: MovieORTVShow) async {
+        switch state {
+        case .movie:
+            Task {
+                newService.fetchDetailWatchProviders(from: MoviesEndpoint.watchProviders(movieID: id).path()) { result in
+                    switch result {
+                    case .success(let providers):
+                        DispatchQueue.main.async {
+                            self.flatrateProviders = providers.results?.br?.flatrate ?? []
+                            self.rentProviders = providers.results?.br?.rent ?? []
+                            self.buyProviders = providers.results?.br?.buy ?? []
+                            self.isCastLoading = false
+                        }
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+        case .tvShow:
+//            Task {
+//                newService.fetchCast(from: TVShowsEndpoint.credits(tvShow: id).path()) { result in
+//                    switch result {
+//                    case .success(let cast):
+//                        DispatchQueue.main.async {
+//                            self.cast = cast
+//                            self.isCastLoading = false
+//                        }
+//                    case .failure(let error):
+//                        print(error)
+//                    }
+//                }
+//            }
+            break
+        }
     }
 }

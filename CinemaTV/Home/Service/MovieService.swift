@@ -21,4 +21,5 @@ protocol MovieServiceProtocol: AnyObject {
     func fetchTrailer(from endpoint: String, completion: @escaping (Result<VideoModel, RequestError>) -> Void)
     func fetchSearch(from endpoint: String, query: String, completion: @escaping (Result<SearchModel, RequestError>) -> Void)
     func fetchMultiSearch(from endpoint: String, query: String, completion: @escaping (Result<MultiSearch, RequestError>) -> Void)
+    func fetchDetailWatchProviders(from endpoint: String, completion: @escaping (Result<WatchProviders, RequestError>) -> ())
 }
