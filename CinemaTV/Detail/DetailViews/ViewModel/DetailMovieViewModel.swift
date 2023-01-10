@@ -22,9 +22,7 @@ final class DetailViewModel: ObservableObject {
     @Published var detailMovie: DetailMoviesModel?
     @Published var detailTVShow: DetailTVShow?
     @Published var cast: CastModel?
-    @Published var flatrateProviders = [WatchProvider]()
-    @Published var rentProviders = [WatchProvider]()
-    @Published var buyProviders = [WatchProvider]()
+    @Published var providers: ProvidersData?
     @Published var tvShowsRecommendations: DiscoverTVShow?
     @Published var moviesRecommendations: DiscoverMovies?
     @Published var tvShowsSimilars: DiscoverTVShow?
@@ -287,9 +285,7 @@ final class DetailViewModel: ObservableObject {
                     switch result {
                     case .success(let providers):
                         DispatchQueue.main.async {
-                            self.flatrateProviders = providers.results?.br?.flatrate ?? []
-                            self.rentProviders = providers.results?.br?.rent ?? []
-                            self.buyProviders = providers.results?.br?.buy ?? []
+                            self.providers = providers.results?.br
                             self.isCastLoading = false
                         }
                     case .failure(let error):

@@ -98,17 +98,12 @@ struct DetailCoreView: View {
                                 )
                             }
                             
-                            if let flatrateData = viewModel.flatrateProviders {
-                                WatchProvidersView(title: "Streaming", state: .movie, providersData: flatrateData)
-                            }
+                            ProvidersView(data: viewModel.providers?.flatrate ?? [], title: "Streaming", link: viewModel.providers?.link ?? "")
                             
-                            if let rentData = viewModel.rentProviders {
-                                WatchProvidersView(title: "Alugue", state: .movie, providersData: rentData)
-                            }
+                            ProvidersView(data: viewModel.providers?.rent ?? [], title: "Rent", link: viewModel.providers?.link ?? "")
                             
-                            if let buyData = viewModel.buyProviders {
-                                WatchProvidersView(title: "Compre", state: .movie, providersData: buyData)
-                            }
+                            ProvidersView(data: viewModel.providers?.buy ?? [], title: "Buy", link: viewModel.providers?.link ?? "")
+                            
                             
                             CarouselInDetailView(data: viewModel.moviesRecommendations?.results ?? [], title: LC.recommendations.text)
                             

@@ -43,15 +43,12 @@ struct WatchProvidersView: View {
 struct WatchProvidersView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            CastView(
+            WatchProvidersView(
+                title: "Providers",
                 state: .movie,
-                castData: CastModel.stubArray()
+                providersData: WatchProvider.mockArray()
             )
                 .previewLayout(.fixed(width: 340, height: 100))
-            CastView(
-                state: .tvShow,
-                castData: CastModel.stubArray()
-            )
         }
     }
 }
