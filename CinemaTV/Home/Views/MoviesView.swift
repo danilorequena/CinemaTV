@@ -18,19 +18,19 @@ struct MoviesView: View {
                         await viewModel.getAllData(with: .discover)
                     }
                 
-                DefaultCarouselView(data: viewModel.upcomingMovies, title: LC.soon.text, selectionIndex: 0, isLightBackground: false, state: .movie)
+                DefaultCarouselView(data: viewModel.upcomingMovies, title: LC.soon.text, selectionIndex: 1, isLightBackground: false, state: .movie)
                     .buttonStyle(.plain)
                     .task {
                         await viewModel.getAllData(with: .upcoming)
                     }
                 
-                DefaultCarouselView(data: viewModel.nowPlayngMovies, title: LC.nowPlaying.text, selectionIndex: 0, isLightBackground: false, state: .movie)
+                DefaultCarouselView(data: viewModel.nowPlayngMovies, title: LC.nowPlaying.text, selectionIndex: 2, isLightBackground: false, state: .movie)
                     .buttonStyle(.plain)
                     .task {
                         await viewModel.getAllData(with: .nowPlaying)
                     }
                 
-                DefaultCarouselView(data: viewModel.popularMovies, title: LC.popular.text, selectionIndex: 1, isLightBackground: false, state: .movie)
+                DefaultCarouselView(data: viewModel.popularMovies, title: LC.popular.text, selectionIndex: 2, isLightBackground: false, state: .movie)
                     .buttonStyle(.plain)
                     .task {
                         await viewModel.getAllData(with: .popular)

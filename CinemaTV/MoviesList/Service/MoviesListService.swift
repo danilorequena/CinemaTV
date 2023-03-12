@@ -30,10 +30,10 @@ final class MoviesListService {
         components?.queryItems = [
             URLQueryItem(name: "api_key", value: Constants.apikey),
             URLQueryItem(name: "language", value: Locale.preferredLanguages[0]),
-            URLQueryItem(name: "region", value: Locale.current.regionCode),
+            URLQueryItem(name: "region", value: Locale.current.language.region?.identifier),
             URLQueryItem(name: "include_adult", value: "false"),
             URLQueryItem(name: "include_video", value: "true"),
-            URLQueryItem(name: "watch_region", value: Locale.current.regionCode),
+            URLQueryItem(name: "watch_region", value: Locale.current.language.region?.identifier),
             URLQueryItem(name: "page", value: page)
         ]
         var request = URLRequest(url: (components?.url)!)
