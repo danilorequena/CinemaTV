@@ -15,13 +15,15 @@ final class MovieStore: MovieServiceProtocol {
     private let urlSession = URLSession.shared
     private let jsonDecoder = Utils.jsonDecoder
     
-    func fetchDiscoverMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<DiscoverMovies, RequestError>) -> ()) {
+    func fetchDiscoverMovies(from endpoint: MoviesEndpoint, page: String, completion: @escaping (Result<DiscoverMovies, RequestError>) -> ()) {
         guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
             completion(.failure(.invalidEndpoint))
             return
         }
         
-        loadURLAndDecode(url: url, completion: completion)
+        let params = ["page" : page]
+        
+        loadURLAndDecode(url: url, params: params, completion: completion)
     }
     
     func fetchUpcomingMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<UpcomingMovies, RequestError>) -> ()) {

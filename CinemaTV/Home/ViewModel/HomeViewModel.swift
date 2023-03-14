@@ -27,7 +27,7 @@ final class HomeViewModel: ObservableObject {
     
     func getAllData(with enpoint: MoviesEndpoint) async {
         Task {
-            service.fetchDiscoverMovies(from: enpoint) { result in
+            service.fetchDiscoverMovies(from: enpoint, page: String(1)) { result in
                 self.dispathGroup.enter()
                 switch result {
                 case .success(let movies):
