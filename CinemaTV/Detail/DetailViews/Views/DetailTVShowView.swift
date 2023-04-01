@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 struct DetailTVShowView: View {
     var state: MovieORTVShow
@@ -19,12 +18,12 @@ struct DetailTVShowView: View {
                 if viewModel.isDetailLoading && viewModel.isCastLoading {
                     CinemaTVProgressView()
                 } else {
-                    KFImage.url(URL(string: Constants.basePosters + (detail.posterPath ?? String())))
-                        .placeholder {
-                            Circle().fill(Color.gray)
-                                .frame(width: 60, height: 60)
-                        }
-                        .resizable()
+                    AsyncImage(url: URL(string: Constants.basePosters + (detail.posterPath ?? String())))
+//                        .placeholder {
+//                            Circle().fill(Color.gray)
+//                                .frame(width: 60, height: 60)
+//                        }
+//                        .resizable()
                     
                     ScrollView(.vertical, showsIndicators: false) {
                         Spacer(minLength: UIScreen.main.bounds.height / 2)

@@ -13,7 +13,7 @@ struct ProvidersView: View {
     let link: String
     var body: some View {
         VStack {
-            if let data = data, !data.isEmpty {
+            if !data.isEmpty {
                 VStack(alignment: .leading) {
                     Text(title)
                     ScrollView(.horizontal) {
