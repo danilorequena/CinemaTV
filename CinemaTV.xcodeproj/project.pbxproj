@@ -141,7 +141,6 @@
 		FFB68A0A28FDDD3B002D5888 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D422464273810E2006236F8 /* Persistence.swift */; };
 		FFB68A0E28FDDDF8002D5888 /* WantWatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB68A0D28FDDDF8002D5888 /* WantWatchView.swift */; };
 		FFB68A1028FDDE23002D5888 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB68A0728FDCC18002D5888 /* DataController.swift */; };
-		FFC3FBC32895F6B0000E379E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FFC3FBC22895F6B0000E379E /* Kingfisher */; };
 		FFC3FBC42895F727000E379E /* TMDB.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF74128D2895CF9900A79C7C /* TMDB.plist */; };
 		FFC8244428F1C2220035D4BA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC8244328F1C2220035D4BA /* String+Extension.swift */; };
 		FFC8244528F1C3DA0035D4BA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC8244328F1C2220035D4BA /* String+Extension.swift */; };
@@ -166,7 +165,6 @@
 		FFEEEED928EC834A00B1CF77 /* CastListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEEEED828EC834A00B1CF77 /* CastListView.swift */; };
 		FFEEEEDA28EC834B00B1CF77 /* CastListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEEEED828EC834A00B1CF77 /* CastListView.swift */; };
 		FFEF0ADA275E8F1600D5593C /* CinemaTVProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF0AD9275E8F1600D5593C /* CinemaTVProgressView.swift */; };
-		FFEF0ADD275EAEF700D5593C /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FFEF0ADC275EAEF700D5593C /* Kingfisher */; };
 		FFEF0AE6275FA6F400D5593C /* TrailersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF0AE5275FA6F400D5593C /* TrailersView.swift */; };
 		FFEF0AEC275FBBF700D5593C /* VideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF0AEB275FBBF700D5593C /* VideoModel.swift */; };
 		FFFB2A0E28F8534E00822923 /* PersonStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFB2A0D28F8534E00822923 /* PersonStub.swift */; };
@@ -319,7 +317,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FFEF0ADD275EAEF700D5593C /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,7 +338,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FFC3FBC32895F6B0000E379E /* Kingfisher in Frameworks */,
 				FF7412982895D65F00A79C7C /* SwiftUI.framework in Frameworks */,
 				FF7412962895D65F00A79C7C /* WidgetKit.framework in Frameworks */,
 			);
@@ -898,7 +894,6 @@
 			);
 			name = CinemaTV;
 			packageProductDependencies = (
-				FFEF0ADC275EAEF700D5593C /* Kingfisher */,
 			);
 			productName = CinemaTV;
 			productReference = 7D422458273810E1006236F8 /* CinemaTV.app */;
@@ -954,7 +949,6 @@
 			);
 			name = CinemaTVWidgetExtension;
 			packageProductDependencies = (
-				FFC3FBC22895F6B0000E379E /* Kingfisher */,
 			);
 			productName = CinemaTVWidgetExtension;
 			productReference = FF7412932895D65F00A79C7C /* CinemaTVWidgetExtension.appex */;
@@ -997,7 +991,6 @@
 			);
 			mainGroup = 7D42244F273810E1006236F8;
 			packageReferences = (
-				FFEF0ADB275EAEF700D5593C /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 7D422459273810E1006236F8 /* Products */;
 			projectDirPath = "";
@@ -1662,30 +1655,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		FFEF0ADB275EAEF700D5593C /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		FFC3FBC22895F6B0000E379E /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FFEF0ADB275EAEF700D5593C /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
-		};
-		FFEF0ADC275EAEF700D5593C /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FFEF0ADB275EAEF700D5593C /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		7D422466273810E2006236F8 /* CinemaTV.xcdatamodeld */ = {

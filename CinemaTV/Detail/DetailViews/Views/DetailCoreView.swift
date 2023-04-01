@@ -92,22 +92,28 @@ struct DetailCoreView: View {
                                 .frame(height: 260)
                             
                             if let cast = viewModel.cast?.cast {
-                                CastView(
-                                    state: .movie,
-                                    castData: cast
-                                )
+                                CastView(state: .movie, castData: cast)
                             }
                             
-                            ProvidersView(data: viewModel.providers?.flatrate ?? [], title: "Streaming", link: viewModel.providers?.link ?? "")
+                            if let flatrate = viewModel.providers?.flatrate {
+                                ProvidersView(data: flatrate, title: "Streaming", link: viewModel.providers?.link ?? "")
+                            }
                             
-                            ProvidersView(data: viewModel.providers?.rent ?? [], title: "Rent", link: viewModel.providers?.link ?? "")
+                            if let rent = viewModel.providers?.rent {
+                                ProvidersView(data: rent, title: "Rent", link: viewModel.providers?.link ?? "")
+                            }
                             
-                            ProvidersView(data: viewModel.providers?.buy ?? [], title: "Buy", link: viewModel.providers?.link ?? "")
+                            if let buy = viewModel.providers?.buy {
+                                ProvidersView(data: buy, title: "Buy", link: viewModel.providers?.link ?? "")
+                            }
                             
+                            if let recommendations = viewModel.moviesRecommendations?.results {
+                                CarouselInDetailView(data: recommendations, title: LC.recommendations.text)
+                            }
                             
-                            CarouselInDetailView(data: viewModel.moviesRecommendations?.results ?? [], title: LC.recommendations.text)
-                            
-                            CarouselInDetailView(data: viewModel.moviesSimilars?.results ?? [], title: LC.similars.text)
+                            if let similars = viewModel.moviesSimilars?.results {
+                                CarouselInDetailView(data: similars, title: LC.similars.text)
+                            }
                         }
                         .background(.ultraThinMaterial)
                         .cornerRadius(16)

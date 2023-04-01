@@ -7,7 +7,6 @@
 
 import WidgetKit
 import SwiftUI
-import Kingfisher
 
 struct Model: TimelineEntry, Decodable {
     var date: Date
@@ -128,8 +127,7 @@ struct CinemaTVWidgetView: View {
                 
                 HStack(alignment: .top, spacing: 16) {
                     ForEach(data.widgetData.prefix(3), id: \.self) { value in
-                        KFImage(URL(string: Constants.basePosters + value.poster_path))
-                            .resizable()
+                        AsyncImage(url: URL(string: Constants.basePosters + value.poster_path))
                             .cornerRadius(8)
                     }
                 }
