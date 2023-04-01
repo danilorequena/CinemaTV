@@ -16,22 +16,17 @@ final class MoviesListViewModel: ObservableObject {
     var currentPage = 1
     var isLastItem = false
     
-//    init() {
-////        loadData(endpoint: <#T##MoviesEndpoint#>)
-//    }
-    
     func loadData(endpoint: MoviesEndpoint) {
         loadDiscoverMovies(endpoint: endpoint)
     }
+    
     func loadDiscoverMovies(endpoint: MoviesEndpoint) {
-        movies = []
         isLoadingPage = true
-        MovieStore.shared.fetchDiscoverMovies(from: endpoint) { result in
+        MovieStore.shared.fetchDiscoverMovies(from: endpoint, page: String(currentPage)) { result in
             switch result {
             case .success(let movies):
-                self.movies += movies.results
+                self.movies.append(contentsOf: movies.results)
                 self.isLoadingPage = false
-                self.currentPage += 1
                 print("Quantidade de filmes: \(self.movies.count)")
                 print("pagina: \(self.currentPage)")
                 
@@ -39,5 +34,26 @@ final class MoviesListViewModel: ObservableObject {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    @MainActor
+    func loadMoreMovies() {
+        currentPage += 1
+        MovieStore.shared.fetchDiscoverMovies(from: .discover, page: String(currentPage)) { result in
+            switch result {
+            case .success(let movies):
+                self.movies.append(contentsOf: movies.results)
+                self.isLoadingPage = false
+                print("Quantidade de filmes: \(self.movies.count)")
+                print("pagina: \(self.currentPage)")
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func hasReachedEnd(of movie: MoviesTVShowResult) -> Bool {
+        movies.last?.id == movie.id
     }
 }

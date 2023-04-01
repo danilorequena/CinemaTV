@@ -42,13 +42,19 @@ struct MoviesListView: View {
                 }
                 
                 List(viewModel.movies) { movie in
-                    // Se eu incluir o NavigationLink ele fica com aquela travadinha
                     NavigationLink(destination: DetailView(id: movie.id, state: .movie)) {
                         MoviesListCell(
                             image: URL(string: Constants.basePosters + (movie.posterPath ?? "")),
                             title: (movie.title ?? movie.name) ?? "" ,
                             subTitle: movie.overview ?? ""
                         )
+                        .onAppear {
+                            if viewModel.hasReachedEnd(of: movie) {
+                                DispatchQueue.main.async {
+                                    viewModel.loadMoreMovies()
+                                }
+                            }
+                        }
                     }
                 }
                 .navigationTitle(title)

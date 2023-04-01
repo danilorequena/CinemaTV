@@ -8,7 +8,7 @@
 import Foundation
 
 protocol MovieServiceProtocol: AnyObject {
-    func fetchDiscoverMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<DiscoverMovies, RequestError>) -> Void)
+    func fetchDiscoverMovies(from endpoint: MoviesEndpoint, page: String, completion: @escaping (Result<DiscoverMovies, RequestError>) -> Void)
     func fetchTopMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<TopVotedMovies, RequestError>) -> Void)
     func fetchUpcomingMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<UpcomingMovies, RequestError>) -> Void)
     func fetchNowMovies(from endpoint: MoviesEndpoint, completion: @escaping (Result<NowPlayingMovies, RequestError>) -> Void)
@@ -21,4 +21,5 @@ protocol MovieServiceProtocol: AnyObject {
     func fetchTrailer(from endpoint: String, completion: @escaping (Result<VideoModel, RequestError>) -> Void)
     func fetchSearch(from endpoint: String, query: String, completion: @escaping (Result<SearchModel, RequestError>) -> Void)
     func fetchMultiSearch(from endpoint: String, query: String, completion: @escaping (Result<MultiSearch, RequestError>) -> Void)
+    func fetchDetailWatchProviders(from endpoint: String, completion: @escaping (Result<WatchProviders, RequestError>) -> ())
 }
