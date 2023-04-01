@@ -14,6 +14,10 @@ struct WantWatchView: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.managedObjectContext) var mocWatched
     
+    var counter: Double {
+        moviesWatched.reduce(0) { $0 + $1.counter }
+    }
+    
     var body: some View {
         VStack {
             if !movies.isEmpty || !moviesWatched.isEmpty {
@@ -30,6 +34,7 @@ struct WantWatchView: View {
                             .onDelete(perform: deleteMovies)
                         }
                         
+                        Text(minutesToHoursAndMinutes(Int(counter)))
                         Section(header: Text("Movies Watched")) {
                             ForEach(moviesWatched) { movie in
                                 MoviesListCell(
@@ -46,6 +51,11 @@ struct WantWatchView: View {
                 Text("Lista Vazia")
             }
         }
+    }
+    
+    func minutesToHoursAndMinutes(_ minutes: Int) -> String {
+        let string = "Você já assistiu \(minutes / 60) horas e \(minutes % 60) minutos de conteudo na sua vida!"
+        return string
     }
     
     func deleteMovies(at offsets: IndexSet) {
