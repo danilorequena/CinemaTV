@@ -19,6 +19,7 @@ struct DetailMoviesModel: Codable, Identifiable {
     let video: Bool
     let voteAverage: Double
     let voteCount: Int
+    let runtime: Int
 
     enum CodingKeys: String, CodingKey {
         case backdropPath = "backdrop_path"
@@ -26,7 +27,7 @@ struct DetailMoviesModel: Codable, Identifiable {
         case imdbID = "imdb_id"
         case originalLanguage = "original_language"
         case originalTitle = "original_title"
-        case overview, popularity
+        case overview, popularity, runtime
         case posterPath = "poster_path"
         case releaseDate = "release_date"
         case status, tagline, title, video
