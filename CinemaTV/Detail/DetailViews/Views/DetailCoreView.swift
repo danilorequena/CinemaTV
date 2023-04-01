@@ -141,6 +141,7 @@ struct DetailCoreView: View {
                     movie.name = detailData.title
                     movie.overview = detailData.overview
                     movie.profilePath = detailData.posterPath
+                    movie.counter = Double(detailData.runtime)
                     try? mocWatched.save()
                     
                     buttonCheckDisabled = true
