@@ -79,6 +79,8 @@ struct WantWatchView: View {
 
 struct WantWatch_Previews: PreviewProvider {
     static var previews: some View {
+        let dataController = DataController.shared
         WantWatchView()
+            .environment(\.managedObjectContext, dataController.container.viewContext)
     }
 }

@@ -21,6 +21,8 @@ final class MoviesListViewModel: ObservableObject {
     }
     
     func loadDiscoverMovies(endpoint: MoviesEndpoint) {
+        movies.removeAll()
+        currentPage = 1
         isLoadingPage = true
         MovieStore.shared.fetchDiscoverMovies(from: endpoint, page: String(currentPage)) { result in
             switch result {
