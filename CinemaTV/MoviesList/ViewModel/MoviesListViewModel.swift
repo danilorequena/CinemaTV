@@ -13,6 +13,7 @@ final class MoviesListViewModel: ObservableObject {
     var service = MoviesService()
     @Published var movies = [MoviesTVShowResult]()
     @Published var isLoadingPage = true
+    @Published var endpointToLoadMore: MoviesEndpoint?
     var currentPage = 1
     var isLastItem = false
     
@@ -41,7 +42,7 @@ final class MoviesListViewModel: ObservableObject {
     @MainActor
     func loadMoreMovies() {
         currentPage += 1
-        MovieStore.shared.fetchDiscoverMovies(from: .discover, page: String(currentPage)) { result in
+        MovieStore.shared.fetchDiscoverMovies(from: endpointToLoadMore ?? .discover, page: String(currentPage)) { result in
             switch result {
             case .success(let movies):
                 self.movies.append(contentsOf: movies.results)
