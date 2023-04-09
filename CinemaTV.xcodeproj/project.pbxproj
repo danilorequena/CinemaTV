@@ -70,6 +70,8 @@
 		FF4DB811296E03E500842BB3 /* ProvidersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4DB80F296E03E500842BB3 /* ProvidersView.swift */; };
 		FF4DDD7B27C333250049CAFA /* MoviesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4DDD7A27C333250049CAFA /* MoviesListView.swift */; };
 		FF4DDD7D27C335F60049CAFA /* MoviesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4DDD7C27C335F60049CAFA /* MoviesListCell.swift */; };
+		FF51481529E2514F000A20EB /* WatchedTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF51481429E2514F000A20EB /* WatchedTagView.swift */; };
+		FF51481629E25271000A20EB /* WatchedTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF51481429E2514F000A20EB /* WatchedTagView.swift */; };
 		FF5C570C292E5F6800A7DC78 /* DetailCoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5C570B292E5F6800A7DC78 /* DetailCoreView.swift */; };
 		FF5C570D292E5F6800A7DC78 /* DetailCoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5C570B292E5F6800A7DC78 /* DetailCoreView.swift */; };
 		FF6496AC280C89AB001BC28F /* UpcomingMovies.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6496AB280C89AB001BC28F /* UpcomingMovies.swift */; };
@@ -264,6 +266,7 @@
 		FF4DB80F296E03E500842BB3 /* ProvidersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvidersView.swift; sourceTree = "<group>"; };
 		FF4DDD7A27C333250049CAFA /* MoviesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListView.swift; sourceTree = "<group>"; };
 		FF4DDD7C27C335F60049CAFA /* MoviesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListCell.swift; sourceTree = "<group>"; };
+		FF51481429E2514F000A20EB /* WatchedTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedTagView.swift; sourceTree = "<group>"; };
 		FF5C570B292E5F6800A7DC78 /* DetailCoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCoreView.swift; sourceTree = "<group>"; };
 		FF6496AB280C89AB001BC28F /* UpcomingMovies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingMovies.swift; sourceTree = "<group>"; };
 		FF6496AD280C8B38001BC28F /* NowPlayingMovies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingMovies.swift; sourceTree = "<group>"; };
@@ -628,6 +631,14 @@
 			path = WatchProviders;
 			sourceTree = "<group>";
 		};
+		FF51481329E25128000A20EB /* WatchedTag */ = {
+			isa = PBXGroup;
+			children = (
+				FF51481429E2514F000A20EB /* WatchedTagView.swift */,
+			);
+			path = WatchedTag;
+			sourceTree = "<group>";
+		};
 		FF74128C2895CF5F00A79C7C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -817,6 +828,7 @@
 		FFEF0ADE275FA63700D5593C /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				FF51481329E25128000A20EB /* WatchedTag */,
 				FFEF0AE3275FA6D600D5593C /* Videos */,
 				FFEF0ADF275FA65D00D5593C /* CastCarousel */,
 			);
@@ -1122,6 +1134,7 @@
 				09E6E2EA28DF969D00E7E856 /* LocalizedConstants.swift in Sources */,
 				FF394E3927D0FE7400FFBDFC /* MovieService.swift in Sources */,
 				7D42249E27381DB5006236F8 /* DiscoverView.swift in Sources */,
+				FF51481529E2514F000A20EB /* WatchedTagView.swift in Sources */,
 				FF7412A12895D66000A79C7C /* CinemaTVWidget.intentdefinition in Sources */,
 				FF4D52CC280CA88800EBEFD3 /* TopVotedMovies.swift in Sources */,
 				FF29E58528DA10E60042DFAF /* TVShowsEndpoint.swift in Sources */,
@@ -1181,6 +1194,7 @@
 				FF7412C62895D86B00A79C7C /* VideosView.swift in Sources */,
 				FF31A21A28FB50500031F45D /* ShowsByPersonCollectionView.swift in Sources */,
 				FF7412CE2895D8A200A79C7C /* MovieCell.swift in Sources */,
+				FF51481629E25271000A20EB /* WatchedTagView.swift in Sources */,
 				FFC8245628F2382D0035D4BA /* Person.swift in Sources */,
 				FF7412C02895D84C00A79C7C /* NowPlayingMovies.swift in Sources */,
 				FF7412C52895D86B00A79C7C /* VideoModel.swift in Sources */,
