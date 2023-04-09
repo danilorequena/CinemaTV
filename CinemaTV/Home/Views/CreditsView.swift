@@ -15,12 +15,13 @@ struct CreditsView: View {
                 .foregroundColor(.accentColor)
                 .padding(.vertical)
                 .scaledToFill()
-            Link(LC.creditsName.text, destination: URL(string: "https://www.themoviedb.org")!)
+            if let url = URL(string: "https://www.themoviedb.org") {
+                Link(LC.creditsName.text, destination: url)
                 .font(.title3)
                 .fontWeight(.medium)
                 .multilineTextAlignment(.center)
                 .underline()
-                .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+                .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)}
             Text(LC.creditsParagraph.text)
                 .fontWeight(.medium)
                 .multilineTextAlignment(.leading)
