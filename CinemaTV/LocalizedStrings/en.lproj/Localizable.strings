@@ -25,3 +25,7 @@
 "similars" = "Similars";
 "watchButton" = "To Watch";
 "watchedButton" = "Watched";
+
+// MARK: - Widget
+"commingSoon" = "CinemaTV - Comming Soon";
+"commingSoonDescription" = "This Widget shows the first 3 movies that will be released soon.";

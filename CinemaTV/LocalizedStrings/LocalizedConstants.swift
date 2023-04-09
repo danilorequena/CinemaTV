@@ -40,6 +40,10 @@ enum LocalizedConstants: String {
     case watchButton
     case watchedButton
     
+    // MARK: - Widget
+    case commingSoon
+    case commingSoonDescription
+    
     var text: String {
         return rawValue.localized(.presentation)
     }

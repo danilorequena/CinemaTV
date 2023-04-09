@@ -25,3 +25,7 @@
 "similars" = "Similares";
 "watchButton" = "Assistir";
 "watchedButton" = "Assistido";
+
+// MARK: - Widget
+"commingSoon" = "CinemaTV - Em breve";
+"commingSoonDescription" = "Esse Widget mostra os 3 primeiros filmes que estrearão em breve.";
