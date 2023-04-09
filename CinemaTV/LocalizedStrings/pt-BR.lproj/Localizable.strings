@@ -26,6 +26,10 @@
 "watchButton" = "Assistir";
 "watchedButton" = "Assistido";
 
+//MARK: - Credits
+"creditsName" = "The Move Data Base (TMDB)";
+"creditsParagraph" = " Os dados de filmes e séries disponibilizados dento do CinemaTV, como posters, descrição, notas, elenco e suas fotos são fornecidas pela API do TMDB.\n\n Apesar do CinemaTV utilizar a API do TMBD, ele não é endossado/certificado pelo mesmo.";
+
 // MARK: - Widget
 "commingSoon" = "CinemaTV - Em breve";
 "commingSoonDescription" = "Esse Widget mostra os 3 primeiros filmes que estrearão em breve.";
