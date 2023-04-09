@@ -13,7 +13,7 @@ struct WatchedTagView: View {
         if watched {
             HStack(spacing: 8) {
                 Image(systemName: "checkmark.seal.fill")
-                Text("Assistido")
+                Text(LC.watchedTag.text)
             }
             .padding(8)
             .background(.thinMaterial)
