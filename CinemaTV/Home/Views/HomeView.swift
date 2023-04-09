@@ -28,7 +28,7 @@ struct HomeView: View {
                         )
                         
                         NavigationLink(
-                            destination: WantWatchView(),
+                            destination: CreditsView(),
                             label: {
                                 Image(systemName: "info.circle")
                                     .foregroundColor(.white)
@@ -53,7 +53,7 @@ struct HomeView: View {
                         )
                         
                         NavigationLink(
-                            destination: WantWatchView(),
+                            destination: CreditsView(),
                             label: {
                                 Image(systemName: "info.circle")
                                     .foregroundColor(.black)
