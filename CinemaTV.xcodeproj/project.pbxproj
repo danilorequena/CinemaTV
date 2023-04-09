@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09520E7A29DE0CD80028A778 /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09520E7929DE0CD80028A778 /* CreditsView.swift */; };
 		09A7709F28DFAA3D0015147C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 09A770A128DFAA3D0015147C /* Localizable.strings */; };
 		09A770A428DFB0320015147C /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E6E2E328DF959C00E7E856 /* String+.swift */; };
 		09A770A528DFB03A0015147C /* Bundle+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E6E2E528DF962000E7E856 /* Bundle+.swift */; };
@@ -210,6 +211,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		09520E7929DE0CD80028A778 /* CreditsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
 		09A770A028DFAA3D0015147C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		09A770A328DFAC160015147C /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		09E6E2E328DF959C00E7E856 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
@@ -448,6 +450,7 @@
 			children = (
 				7D42245D273810E1006236F8 /* ContentView.swift */,
 				7D42249A273814D8006236F8 /* HomeView.swift */,
+				09520E7929DE0CD80028A778 /* CreditsView.swift */,
 				FF7DC22228E6318B00B5FEC5 /* MoviesView.swift */,
 				7D42249D27381DB5006236F8 /* DiscoverView.swift */,
 				7DF3C91F273961BB0072598F /* DefaultCarouselView.swift */,
@@ -1067,6 +1070,7 @@
 				7D42249C2738150E006236F8 /* APIServiceError.swift in Sources */,
 				FF77FCEA28845A2100F0872B /* SearchViewModel.swift in Sources */,
 				FFDDE93328EB64C30045998E /* DiscoverTVShow.swift in Sources */,
+				09520E7A29DE0CD80028A778 /* CreditsView.swift in Sources */,
 				7D422468273810E2006236F8 /* CinemaTV.xcdatamodeld in Sources */,
 				FF00325429181CEC00A268E4 /* CoreDataManager.swift in Sources */,
 				FF3EA32D294655B700763A77 /* WatchProvidersView.swift in Sources */,

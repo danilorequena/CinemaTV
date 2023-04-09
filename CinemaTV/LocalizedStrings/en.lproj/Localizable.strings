@@ -25,3 +25,7 @@
 "similars" = "Similars";
 "watchButton" = "To Watch";
 "watchedButton" = "Watched";
+
+//MARK: - Credits
+"creditsName" = "The Move Data Base (TMDB)";
+"creditsParagraph" = " The data of films and series made available within Cinema, such as posters, description, notes, cast and their photos are provided by the TMDB API.\n\n Although CinemaTV uses the TMBD API, it isn't endorsed/certified by the TMDB.";
