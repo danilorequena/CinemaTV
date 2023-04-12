@@ -24,6 +24,7 @@ enum LocalizedConstants: String {
     case seeAll
     case discover
     case tvShows
+    case watchedTag
     
     //MARK: - TVShowsHome
     case onTheAir

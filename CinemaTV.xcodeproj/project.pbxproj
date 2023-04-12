@@ -71,6 +71,8 @@
 		FF4DB811296E03E500842BB3 /* ProvidersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4DB80F296E03E500842BB3 /* ProvidersView.swift */; };
 		FF4DDD7B27C333250049CAFA /* MoviesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4DDD7A27C333250049CAFA /* MoviesListView.swift */; };
 		FF4DDD7D27C335F60049CAFA /* MoviesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4DDD7C27C335F60049CAFA /* MoviesListCell.swift */; };
+		FF51481529E2514F000A20EB /* WatchedTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF51481429E2514F000A20EB /* WatchedTagView.swift */; };
+		FF51481629E25271000A20EB /* WatchedTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF51481429E2514F000A20EB /* WatchedTagView.swift */; };
 		FF51480629E0E33A000A20EB /* WidgetMediumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF51480429E0E2DA000A20EB /* WidgetMediumView.swift */; };
 		FF51480A29E0E3A8000A20EB /* WidgetEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF51480829E0E39A000A20EB /* WidgetEntry.swift */; };
 		FF51480D29E0E708000A20EB /* WidgetSmallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF51480B29E0E6E6000A20EB /* WidgetSmallView.swift */; };
@@ -271,6 +273,7 @@
 		FF4DB80F296E03E500842BB3 /* ProvidersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvidersView.swift; sourceTree = "<group>"; };
 		FF4DDD7A27C333250049CAFA /* MoviesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListView.swift; sourceTree = "<group>"; };
 		FF4DDD7C27C335F60049CAFA /* MoviesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListCell.swift; sourceTree = "<group>"; };
+		FF51481429E2514F000A20EB /* WatchedTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedTagView.swift; sourceTree = "<group>"; };
 		FF51480429E0E2DA000A20EB /* WidgetMediumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetMediumView.swift; sourceTree = "<group>"; };
 		FF51480829E0E39A000A20EB /* WidgetEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetEntry.swift; sourceTree = "<group>"; };
 		FF51480B29E0E6E6000A20EB /* WidgetSmallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSmallView.swift; sourceTree = "<group>"; };
@@ -640,6 +643,14 @@
 			path = WatchProviders;
 			sourceTree = "<group>";
 		};
+		FF51481329E25128000A20EB /* WatchedTag */ = {
+			isa = PBXGroup;
+			children = (
+				FF51481429E2514F000A20EB /* WatchedTagView.swift */,
+			);
+			path = WatchedTag;
+			sourceTree = "<group>";
+		};
 		FF51480329E0E2BE000A20EB /* WidgetViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -849,6 +860,7 @@
 		FFEF0ADE275FA63700D5593C /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				FF51481329E25128000A20EB /* WatchedTag */,
 				FFEF0AE3275FA6D600D5593C /* Videos */,
 				FFEF0ADF275FA65D00D5593C /* CastCarousel */,
 			);
@@ -1156,6 +1168,7 @@
 				09E6E2EA28DF969D00E7E856 /* LocalizedConstants.swift in Sources */,
 				FF394E3927D0FE7400FFBDFC /* MovieService.swift in Sources */,
 				7D42249E27381DB5006236F8 /* DiscoverView.swift in Sources */,
+				FF51481529E2514F000A20EB /* WatchedTagView.swift in Sources */,
 				FF7412A12895D66000A79C7C /* CinemaTVWidget.intentdefinition in Sources */,
 				FF4D52CC280CA88800EBEFD3 /* TopVotedMovies.swift in Sources */,
 				FF29E58528DA10E60042DFAF /* TVShowsEndpoint.swift in Sources */,
@@ -1215,6 +1228,7 @@
 				FF7412C62895D86B00A79C7C /* VideosView.swift in Sources */,
 				FF31A21A28FB50500031F45D /* ShowsByPersonCollectionView.swift in Sources */,
 				FF7412CE2895D8A200A79C7C /* MovieCell.swift in Sources */,
+				FF51481629E25271000A20EB /* WatchedTagView.swift in Sources */,
 				FFC8245628F2382D0035D4BA /* Person.swift in Sources */,
 				FF7412C02895D84C00A79C7C /* NowPlayingMovies.swift in Sources */,
 				FF7412C52895D86B00A79C7C /* VideoModel.swift in Sources */,

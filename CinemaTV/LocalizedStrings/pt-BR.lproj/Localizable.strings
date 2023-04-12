@@ -10,6 +10,7 @@
 "seeAll" = "Ver Todos";
 "discover" = "Descubra";
 "tvShows" = "Séries";
+"watchedTag" = "Assistido";
 
 // MARK: - TVShowsHome
 "onTheAir" = "No ar";
