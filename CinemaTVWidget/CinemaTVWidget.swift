@@ -8,64 +8,49 @@
 import WidgetKit
 import SwiftUI
 
-struct Model: TimelineEntry, Decodable {
-    var date: Date
-    var widgetData: [MovieResultModel]
-}
-
-struct MovieModel: Codable {
-    let results: [MovieResultModel]
-}
-
-struct MovieResultModel: Codable, Hashable, Identifiable {
-    let id: Int
-    let title: String
-    let poster_path: String
-}
-
 struct Provider: TimelineProvider {
-    typealias Entry = Model
+    typealias Entry = WidgetEntry
     
-    func placeholder(in context: Context) -> Model {
-        return Model(
+    func placeholder(in context: Context) -> WidgetEntry {
+        return WidgetEntry(
             date: Date(),
             widgetData: [
                 MovieResultModel(
                     id: 0,
-                    title: "title",
+                    title: "Dr Strange",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 ),
                 MovieResultModel(
                     id: 0,
-                    title: "title",
+                    title: "Dr Strange",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 ),
                 MovieResultModel(
                     id: 0,
-                    title: "title",
+                    title: "Dr Strange",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 )
             ]
         )
     }
     
-    func getSnapshot(in context: Context, completion: @escaping (Model) -> Void) {
-        let loadingData = Model(
+    func getSnapshot(in context: Context, completion: @escaping (WidgetEntry) -> Void) {
+        let loadingData = WidgetEntry(
             date: Date(),
             widgetData: [
                 MovieResultModel(
                     id: 0,
-                    title: "title",
+                    title: "Dr Strange",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 ),
                 MovieResultModel(
                     id: 0,
-                    title: "title",
+                    title: "Steve Jobs",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 ),
                 MovieResultModel(
                     id: 0,
-                    title: "title",
+                    title: "Iron man",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 )
             ]
@@ -73,22 +58,10 @@ struct Provider: TimelineProvider {
         completion(loadingData)
     }
     
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Model>) -> Void) {
-        //        MovieStore.shared.fetchNowMovies(from: .upcoming) { result in
-        //            switch result {
-        //            case .success(let movies):
-        //                let date = Date()
-        //                let data = Model(date: date, widgetData: movies.results)
-        //                let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: date)
-        //                let timeline = Timeline(entries: [data], policy: .after(nextUpdate!))
-        //                completion(timeline)
-        //            case .failure(let error):
-        //                print(error)
-        //            }
-        //        }
+    func getTimeline(in context: Context, completion: @escaping (Timeline<WidgetEntry>) -> Void) {
         getData { (modelData) in
             let date = Date()
-            let data = Model(date: date, widgetData: modelData.results)
+            let data = WidgetEntry(date: date, widgetData: modelData.results)
             let nextUpdate = Calendar.current.date(byAdding: .minute, value: 5, to: date)
             let timeline = Timeline(entries: [data], policy: .after(nextUpdate!))
             completion(timeline)
@@ -114,63 +87,57 @@ struct Provider: TimelineProvider {
     }
 }
 
-struct CinemaTVWidgetView: View {
-    var data: Model
-    var body: some View {
-        ZStack {
-            VStack(alignment: .leading, spacing: 15) {
-                Text("Comming Soon")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding(.leading, 16)
-                    .foregroundColor(.white)
-                
-                HStack(alignment: .top, spacing: 16) {
-                    ForEach(data.widgetData.prefix(3), id: \.self) { value in
-                        AsyncImage(url: URL(string: Constants.basePosters + value.poster_path))
-                            .cornerRadius(8)
-                    }
-                }
-                .padding(.horizontal, 16)
-            }
-            .padding(.vertical, 4)
-        }
-        .background(
-            LinearGradient(
-                colors: [.black, .gray],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-        )
+@main
+struct BundleWidgets: WidgetBundle {
+    var body: some Widget {
+        MainWidget()
     }
 }
 
-@main
 struct MainWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: "Comming Soon", provider: Provider()) { data in
             CinemaTVWidgetView(data: data)
         }
-        .description("Comming Soon")
-        .configurationDisplayName("Comming Soon")
-        .supportedFamilies([.systemMedium])
+        .configurationDisplayName(LC.commingSoon.text)
+        .description(LC.commingSoonDescription.text)
+        .supportedFamilies([.systemMedium, .systemSmall, .accessoryRectangular])
     }
 }
 
-struct UpcomingWidget_Previews: PreviewProvider {
-    static var previews: some View {
-        CinemaTVWidgetView(data: Model(
-            date: Date(),
-            widgetData: Array(
-                repeating: MovieResultModel(
-                    id: 0,
-                    title: "title",
-                    poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
-                ),
-                count: 6
+struct CinemaTVWidgetView: View {
+    var data: WidgetEntry
+    @Environment(\.widgetFamily) var size
+    var body: some View {
+        ZStack {
+            switch size {
+            case .systemSmall:
+                WidgetSmallView(data: data)
+            case .systemMedium:
+                WidgetMediumView(data: data)
+            case .accessoryRectangular:
+                AccessoryRetangularWidgetView(data: data)
+            @unknown default:
+                WidgetSmallView(data: data)
+            }
+        }
+    }
+    
+    struct UpcomingWidget_Previews: PreviewProvider {
+        static var previews: some View {
+            CinemaTVWidgetView(data: WidgetEntry(
+                date: Date(),
+                widgetData: Array(
+                    repeating: MovieResultModel(
+                        id: 0,
+                        title: "title",
+                        poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
+                    ),
+                    count: 6
+                )
             )
-        )
-        )
-        .previewContext(WidgetPreviewContext(family: .systemMedium))
+            )
+            .previewContext(WidgetPreviewContext(family: WidgetFamily.systemMedium))
+        }
     }
 }

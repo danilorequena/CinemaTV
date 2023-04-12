@@ -30,12 +30,15 @@ struct MoviesListView: View {
                 .pickerStyle(SegmentedPickerStyle())
                 .onChange(of: selectionIndex) { (_) in
                     if selectionIndex == 0 {
+                        viewModel.endpointToLoadMore = .discover
                         viewModel.loadData(endpoint: .discover)
                         title = "Discover"
                     } else if selectionIndex == 1 {
+                        viewModel.endpointToLoadMore = .upcoming
                         viewModel.loadData(endpoint: .upcoming)
                         title = "Upcoming"
                     } else if selectionIndex == 2 {
+                        viewModel.endpointToLoadMore = .toRated
                         viewModel.loadData(endpoint: .toRated)
                         title = "Melhor Avaliados"
                     }
@@ -64,10 +67,13 @@ struct MoviesListView: View {
         .onAppear {
             switch selectionIndex {
             case 0:
+                viewModel.endpointToLoadMore = .discover
                 viewModel.loadData(endpoint: .discover)
             case 1:
+                viewModel.endpointToLoadMore = .upcoming
                 viewModel.loadData(endpoint: .upcoming)
             case 2:
+                viewModel.endpointToLoadMore = .toRated
                 viewModel.loadData(endpoint: .toRated)
             default:
                 break
