@@ -13,6 +13,7 @@ struct MoviesListView: View {
     @State private var tabs = ["Discover", "Upcoming", "Top Rated"]
     @ObservedObject private var viewModel = MoviesListViewModel()
     @State private var searchText: String = ""
+    @State private var fetched = true
     
     var body: some View {
         VStack {
@@ -65,19 +66,25 @@ struct MoviesListView: View {
             }
         }
         .onAppear {
-            switch selectionIndex {
-            case 0:
-                viewModel.endpointToLoadMore = .discover
-                viewModel.loadData(endpoint: .discover)
-            case 1:
-                viewModel.endpointToLoadMore = .upcoming
-                viewModel.loadData(endpoint: .upcoming)
-            case 2:
-                viewModel.endpointToLoadMore = .toRated
-                viewModel.loadData(endpoint: .toRated)
-            default:
-                break
-            }
+            getData(index: selectionIndex, wasFeched: fetched)
+        }
+    }
+    
+    private func getData(index: Int, wasFeched: Bool) {
+        guard wasFeched else { return }
+        switch index {
+        case 0:
+            viewModel.endpointToLoadMore = .discover
+            viewModel.loadData(endpoint: .discover)
+            fetched = false
+        case 1:
+            viewModel.endpointToLoadMore = .upcoming
+            viewModel.loadData(endpoint: .upcoming)
+            fetched = false
+        default:
+            viewModel.endpointToLoadMore = .toRated
+            viewModel.loadData(endpoint: .toRated)
+            fetched = false
         }
     }
 }

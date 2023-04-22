@@ -10,6 +10,7 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     typealias Entry = WidgetEntry
+    let service = MovieStore.shared
     
     func placeholder(in context: Context) -> WidgetEntry {
         return WidgetEntry(
