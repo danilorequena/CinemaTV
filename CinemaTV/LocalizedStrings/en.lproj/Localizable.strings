@@ -10,6 +10,7 @@
 "seeAll" = "See All";
 "discover" = "Discover";
 "tvShows" = "TV Shows";
+"watchedTag" = "Watched";
 
 // MARK: - TVShowsHome
 "onTheAir" = "On The Air";

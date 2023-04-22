@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct DefaultCarouselView: View {
+    @FetchRequest(sortDescriptors: []) var moviesWatched: FetchedResults<MoviesWatched>
+    
     let data: [MoviesTVShowResult]
     let title: String
     var selectionIndex: Int
@@ -37,7 +39,7 @@ struct DefaultCarouselView: View {
                         ForEach(data) { movie in
                             NavigationLink(destination: DetailView(id: movie.id, state: state)) {
                                 VStack(spacing: 2) {
-                                    MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")))
+                                    MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")), watched: moviesWatched.contains { $0.id == movie.id ?? 0 })
                                         .frame(width: 180, height: 100)
                                     Text((movie.title ?? movie.name) ?? "")
                                         .font(.caption)

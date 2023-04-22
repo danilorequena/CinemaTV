@@ -9,22 +9,20 @@ import SwiftUI
 
 struct MovieCell: View {
     let image: URL?
+    let watched: Bool
     var body: some View {
-        AsyncImage(url: image) { image in
-            image.resizable()
-        } placeholder: {
-            ProgressView()
+        ZStack(alignment: .bottom) {
+            AsyncImage(url: image) { image in
+                image.resizable()
+            } placeholder: {
+                ProgressView()
+            }
+            .scaledToFill()
+            .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .cornerRadius(16)
+            
+            WatchedTagView(watched: watched)
         }
-        .scaledToFill()
-        .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
-        .cornerRadius(16)
-//        KFImage(image)
-//            .resizable()
-//            .retry(maxCount: 3, interval: .seconds(5))
-//            .cacheOriginalImage()
-//            .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
-//            .cornerRadius(16)
-//            .scaledToFill()
     }
 }
 
@@ -33,7 +31,8 @@ struct MovieCell_Previews: PreviewProvider {
         MovieCell(
             image: URL(
                 string: "\(Constants.basePosters)/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg"
-            )
+            ),
+            watched: true
         )
         .previewLayout(.fixed(width: 246, height: 460))
     }
