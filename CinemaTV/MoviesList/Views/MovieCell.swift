@@ -18,7 +18,7 @@ struct MovieCell: View {
                 ProgressView()
             }
             .scaledToFill()
-            .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .mask(RoundedRectangle(cornerRadius: 30, style: .continuous))
             .cornerRadius(16)
             
             WatchedTagView(watched: watched)
