@@ -22,13 +22,13 @@ enum TVShowsEndpoint {
     func path() -> String {
         switch self {
         case .popular:
-            return "movie/popular"
+            return "tv/popular"
         case .latest:
-            return "movie/latest"
+            return "tv/latest"
         case .toRated:
-            return "movie/top_rated"
+            return "tv/top_rated"
         case .upcoming:
-            return "movie/upcoming"
+            return "tv/upcoming"
         case .nowPlaying:
             return "tv/on_the_air"
         case let .detail(tvShow):

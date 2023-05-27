@@ -62,7 +62,8 @@ final class TVShowStore: TVShowServiceProtocol {
         var queryItems = [
             URLQueryItem(name: "api_key", value: Constants.apikey),
             URLQueryItem(name: "language", value: "\(language)-\(region)"),
-            URLQueryItem(name: "region", value: region),
+            URLQueryItem(name: "timezone", value: region),
+            URLQueryItem(name: "with_origin_country", value: "US"),
             URLQueryItem(name: "include_adult", value: "false")
         ]
         if let params = params {
