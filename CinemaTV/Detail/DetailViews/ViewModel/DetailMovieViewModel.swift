@@ -59,15 +59,13 @@ final class DetailViewModel: ObservableObject {
     
     @MainActor
     func fetchDetail(movieID: Int) async {
-        Task {
-            newService.fetchDetail(from: MoviesEndpoint.detail(movie: movieID).path()) { result in
-                switch result {
-                case .success(let detail):
-                    self.detailMovie = detail
-                    self.isDetailLoading = false
-                case .failure(let error):
-                    print(error)
-                }
+        newService.fetchDetail(from: MoviesEndpoint.detail(movie: movieID).path()) { result in
+            switch result {
+            case .success(let detail):
+                self.detailMovie = detail
+                self.isDetailLoading = false
+            case .failure(let error):
+                print(error)
             }
         }
     }

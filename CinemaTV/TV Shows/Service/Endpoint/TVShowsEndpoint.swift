@@ -18,6 +18,7 @@ enum TVShowsEndpoint {
     case person(id: Int)
     case creditByPerson(id: Int)
     case watchProviders(movieID: Int)
+    case season(seasonID: Int, seasonNumber: Int)
     
     func path() -> String {
         switch self {
@@ -59,6 +60,8 @@ enum TVShowsEndpoint {
             return "discover/tv"
         case let .watchProviders(movieID):
             return "movie/\(String(movieID))/watch/providers"
+        case let .season(seasonID, seasonNumber):
+            return "tv/\(seasonID)/season/\(seasonNumber)"
         }
     }
 }

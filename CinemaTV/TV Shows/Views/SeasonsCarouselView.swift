@@ -27,7 +27,10 @@ struct SeasonsCarouselView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(data) { tvShow in
-                            NavigationLink(destination: DetailView(id: tvShow.id, state: .tvShow)) {
+                            NavigationLink(destination: DetailSeasonView(
+                                seasonID: tvShow.id ?? 0,
+                                seasonNumber: tvShow.seasonNumber ?? 0
+                            )) {
                                 VStack(spacing: 2) {
                                     AsyncImage(url: URL(string: Constants.basePosters + (tvShow.posterPath ?? ""))) { image in
                                         image
