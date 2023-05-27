@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SeasonsCollectionView: View {
+struct SeasonsCarouselView: View {
     let viewModel = DetailViewModel()
     let data: [Season]
     let title: String
@@ -26,10 +26,10 @@ struct SeasonsCollectionView: View {
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
-                        ForEach(data) { movie in
-                            NavigationLink(destination: DetailView(id: movie.id, state: .movie)) {
+                        ForEach(data) { tvShow in
+                            NavigationLink(destination: DetailView(id: tvShow.id, state: .tvShow)) {
                                 VStack(spacing: 2) {
-                                    AsyncImage(url: URL(string: Constants.basePosters + (movie.posterPath ?? ""))) { image in
+                                    AsyncImage(url: URL(string: Constants.basePosters + (tvShow.posterPath ?? ""))) { image in
                                         image
                                             .resizable()
                                             .cornerRadius(16)
@@ -39,7 +39,7 @@ struct SeasonsCollectionView: View {
                                         ProgressView()
                                     }
 
-                                    Text(movie.name ?? "")
+                                    Text(tvShow.name ?? "")
                                         .font(.caption)
                                         .lineLimit(1)
                                         .frame(width: 180)
@@ -60,9 +60,9 @@ struct SeasonsCollectionView: View {
     }
 }
 
-struct SeasonsCollectionView_Previews: PreviewProvider {
+struct SeasonsCarouselView_Previews: PreviewProvider {
     static var previews: some View {
-        SeasonsCollectionView(
+        SeasonsCarouselView(
             data: Season.mockArray(),
             title: "Title"
         )
