@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SeasonsCarouselView: View {
-    let viewModel = DetailViewModel()
+    let seriesID: Int
     let data: [Season]
     let title: String
     var body: some View {
@@ -28,8 +28,10 @@ struct SeasonsCarouselView: View {
                     HStack {
                         ForEach(data) { tvShow in
                             NavigationLink(destination: DetailSeasonView(
-                                seasonID: tvShow.id ?? 0,
-                                seasonNumber: tvShow.seasonNumber ?? 0
+                                viewModel: SeasonViewModel(
+                                    tvShowID: seriesID,
+                                    tvshowSeasonNumber: tvShow.seasonNumber ?? 0
+                                )
                             )) {
                                 VStack(spacing: 2) {
                                     AsyncImage(url: URL(string: Constants.basePosters + (tvShow.posterPath ?? ""))) { image in
@@ -66,6 +68,7 @@ struct SeasonsCarouselView: View {
 struct SeasonsCarouselView_Previews: PreviewProvider {
     static var previews: some View {
         SeasonsCarouselView(
+            seriesID: 94997,
             data: Season.mockArray(),
             title: "Title"
         )

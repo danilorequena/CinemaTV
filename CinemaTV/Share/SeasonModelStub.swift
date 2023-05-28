@@ -25,41 +25,41 @@ extension SeasonModel {
                     showID: 1234,
                     stillPath: "",
                     voteAverage: 1.2,
-                    voteCount: 12,
-                    crew: [
-                        CrewModel(
-                            job: "",
-                            department: "",
-                            creditID: "1234",
-                            adult: false,
-                            gender: 2,
-                            id: 12345,
-                            knownForDepartment: "",
-                            name: "NAme",
-                            originalName: "Original Name",
-                            popularity: 12,
-                            profilePath: "/obyikiv6rf8hgwUKJKRJdMT3YEK.jpg",
-                            character: "Name",
-                            order: 1
-                        )
-                    ],
-                    guestStars: [
-                        CrewModel(
-                            job: "",
-                            department: "",
-                            creditID: "1234",
-                            adult: false,
-                            gender: 2,
-                            id: 12345,
-                            knownForDepartment: "",
-                            name: "NAme",
-                            originalName: "Original Name",
-                            popularity: 12,
-                            profilePath: "/obyikiv6rf8hgwUKJKRJdMT3YEK.jpg",
-                            character: "Name",
-                            order: 1
-                        )
-                    ]
+                    voteCount: 12
+//                    crew: [
+//                        CrewModel(
+//                            job: "",
+//                            department: "",
+//                            creditID: "1234",
+//                            adult: false,
+//                            gender: 2,
+//                            id: 12345,
+//                            knownForDepartment: "",
+//                            name: "NAme",
+//                            originalName: "Original Name",
+//                            popularity: 12,
+//                            profilePath: "/obyikiv6rf8hgwUKJKRJdMT3YEK.jpg",
+//                            character: "Name",
+//                            order: 1
+//                        )
+//                    ],
+//                    guestStars: [
+//                        CrewModel(
+//                            job: "",
+//                            department: "",
+//                            creditID: "1234",
+//                            adult: false,
+//                            gender: 2,
+//                            id: 12345,
+//                            knownForDepartment: "",
+//                            name: "NAme",
+//                            originalName: "Original Name",
+//                            popularity: 12,
+//                            profilePath: "/obyikiv6rf8hgwUKJKRJdMT3YEK.jpg",
+//                            character: "Name",
+//                            order: 1
+//                        )
+//                    ]
                 )
             ],
             name: "Name",

@@ -8,27 +8,32 @@
 import SwiftUI
 
 struct DetailSeasonView: View {
-    var seasonID: Int
-    var seasonNumber: Int
-    var viewModel = SeasonViewModel()
+    @ObservedObject var viewModel: SeasonViewModel
     var body: some View {
         ZStack {
-            AsyncImage(url: URL(string: Constants.basePosters + (viewModel.data?.posterPath ?? ""))) { image in
-                image
-                    .resizable()
-            } placeholder: {
-                Image("placeholder-image")
+            VStack {
+                AsyncImage(url: URL(string: Constants.basePosters + (viewModel.data?.posterPath ?? ""))) { image in
+                    image
+                        .resizable()
+                } placeholder: {
+                    Image("placeholder-image")
+                }
             }
         }
-        .ignoresSafeArea()
+        .ignoresSafeArea(.all, edges: .top)
         .task {
-            await viewModel.loadSeasonDetail(with: seasonID, and: seasonNumber)
+            await viewModel.loadSeasonDetail()
         }
     }
 }
 
 struct DetailSeasonView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailSeasonView(seasonID: 60735, seasonNumber: 1)
+        DetailSeasonView(
+            viewModel: SeasonViewModel(
+                tvShowID: 60735,
+                tvshowSeasonNumber: 1
+            )
+        )
     }
 }

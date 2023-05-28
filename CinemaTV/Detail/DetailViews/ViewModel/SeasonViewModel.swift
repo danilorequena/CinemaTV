@@ -7,21 +7,32 @@
 
 import Foundation
 
-final class SeasonViewModel {
-    let service = SeasonService()
-    
+final class SeasonViewModel: ObservableObject {
     @Published var data: SeasonModel?
     
+    let service: SeasonService
+    let tvShowID: Int
+    let tvshowSeasonNumber: Int
+    
+    init(
+        service: SeasonService = SeasonService(),
+        tvShowID: Int,
+        tvshowSeasonNumber: Int
+    ) {
+        self.service = service
+        self.tvShowID = tvShowID
+        self.tvshowSeasonNumber = tvshowSeasonNumber
+    }
+    
     @MainActor
-    func loadSeasonDetail(with seasonID: Int, and seasonNumber: Int) async {
-        service.fetchSeasonDetail(from: .season(seasonID: seasonID, seasonNumber: seasonNumber)) { result in
+    func loadSeasonDetail() async {
+        service.fetchSeasonDetail(from: .season(seasonID: tvShowID, seasonNumber: tvshowSeasonNumber)) { result in
             switch result {
             case .success(let data):
                 self.data = data
             case .failure(let failure):
-                print(failure)
+                print(failure.localizedDescription)
             }
         }
     }
-    
 }

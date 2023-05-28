@@ -28,14 +28,14 @@ struct SeasonModel: Codable {
 
 // MARK: - Episode
 struct Episode: Codable {
-    let airDate: String
-    let episodeNumber, id: Int
-    let name, overview, productionCode: String
-    let runtime, seasonNumber, showID: Int
-    let stillPath: String
-    let voteAverage: Double
-    let voteCount: Int
-    let crew, guestStars: [CrewModel]
+    let airDate: String?
+    let episodeNumber, id: Int?
+    let name, overview, productionCode: String?
+    let runtime, seasonNumber, showID: Int?
+    let stillPath: String?
+    let voteAverage: Double?
+    let voteCount: Int?
+//    let crew, guestStars: [CrewModel]
 
     enum CodingKeys: String, CodingKey {
         case airDate = "air_date"
@@ -48,8 +48,8 @@ struct Episode: Codable {
         case stillPath = "still_path"
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
-        case crew
-        case guestStars = "guest_stars"
+//        case crew
+//        case guestStars = "guest_stars"
     }
 }
 
