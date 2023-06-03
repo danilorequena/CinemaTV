@@ -10,7 +10,7 @@ import SwiftUI
 struct DetailTVShowView: View {
     var state: MovieORTVShow
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var viewModel = DetailViewModel()
+    @StateObject var viewModel = DetailViewModel()
     var id: Int?
     var body: some View {
         ZStack {

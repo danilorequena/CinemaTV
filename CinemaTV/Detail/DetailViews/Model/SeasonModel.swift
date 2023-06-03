@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - SeasonModel
-struct SeasonModel: Codable {
+struct SeasonModel: Codable, Identifiable {
     let id, airDate: String
     let episodes: [Episode]
     let name, overview: String
@@ -27,7 +27,7 @@ struct SeasonModel: Codable {
 }
 
 // MARK: - Episode
-struct Episode: Codable {
+struct Episode: Codable, Identifiable {
     let airDate: String?
     let episodeNumber, id: Int?
     let name, overview, productionCode: String?
