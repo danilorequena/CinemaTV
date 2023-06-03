@@ -13,30 +13,36 @@ struct DetailSeasonView: View {
         ZStack {
             if let data = viewModel.data {
                 VStack {
-                    HStack {
-                        AsyncImage(url: URL(string: Constants.basePosters + (data.posterPath))) { image in
-                            image
-                                .resizable()
-                                .frame(width: 120, height: 180)
-                                .cornerRadius(16)
-                        } placeholder: {
-                            Image("placeholder-image")
-                                .resizable()
-                                .frame(width: 120, height: 180)
-                                .cornerRadius(16)
+                    List {
+                        Section {
+                            HStack {
+                                AsyncImage(url: URL(string: Constants.basePosters + (data.posterPath))) { image in
+                                    image
+                                        .resizable()
+                                        .frame(width: 120, height: 180)
+                                        .cornerRadius(16)
+                                } placeholder: {
+                                    Image("placeholder-image")
+                                        .resizable()
+                                        .frame(width: 120, height: 180)
+                                        .cornerRadius(16)
+                                }
+                                
+                                VStack{
+                                    Text(data.name)
+                                    Text(data.overview)
+                                        .lineLimit(8)
+                                }
+                            }
+                            .padding(.horizontal, 10)
                         }
                         
-                        VStack{
-                            Text(data.name)
-                            Text(data.overview)
-                                .lineLimit(8)
-                        }
-                    }
-                    .padding(.horizontal, 10)
-                    
-                    List(data.episodes) { episode in
-                        DisclosureGroup(episode.name ?? "") {
-                            Text(episode.overview ?? "")
+                        Section("episodes") {
+                            ForEach(data.episodes) { episode in
+                                DisclosureGroup(episode.name ?? "") {
+                                    Text(episode.overview ?? "")
+                                }
+                            }
                         }
                     }
                 }
