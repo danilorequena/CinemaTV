@@ -9,39 +9,38 @@ import SwiftUI
 
 struct DetailSeasonView: View {
     @StateObject var viewModel: SeasonViewModel
+    @State private var isOn = false
     var body: some View {
-        ZStack {
+        VStack {
             if let data = viewModel.data {
-                VStack {
-                    List {
-                        Section {
-                            HStack {
-                                AsyncImage(url: URL(string: Constants.basePosters + (data.posterPath))) { image in
-                                    image
-                                        .resizable()
-                                        .frame(width: 120, height: 180)
-                                        .cornerRadius(16)
-                                } placeholder: {
-                                    Image("placeholder-image")
-                                        .resizable()
-                                        .frame(width: 120, height: 180)
-                                        .cornerRadius(16)
-                                }
-                                
-                                VStack{
-                                    Text(data.name)
-                                    Text(data.overview)
-                                        .lineLimit(8)
-                                }
+                List {
+                    Section {
+                        HStack {
+                            AsyncImage(url: URL(string: Constants.basePosters + (data.posterPath))) { image in
+                                image
+                                    .resizable()
+                                    .frame(width: 120, height: 180)
+                                    .cornerRadius(16)
+                            } placeholder: {
+                                Image("placeholder-image")
+                                    .resizable()
+                                    .frame(width: 120, height: 180)
+                                    .cornerRadius(16)
                             }
-                            .padding(.horizontal, 10)
+                            
+                            VStack{
+                                Text(data.name)
+                                Text(data.overview)
+                                    .lineLimit(8)
+                            }
                         }
-                        
-                        Section("episodes") {
-                            ForEach(data.episodes) { episode in
-                                DisclosureGroup(episode.name ?? "") {
-                                    Text(episode.overview ?? "")
-                                }
+                        .padding(.horizontal, 10)
+                    }
+                    
+                    Section("episodes") {
+                        ForEach(data.episodes) { episode in
+                            DisclosureGroup(episode.name ?? "") {
+                                Text(episode.overview ?? "")
                             }
                         }
                     }
