@@ -9,12 +9,10 @@ import SwiftUI
 
 @main
 struct CinemaTVApp: App {
-    private var dataController = DataController.shared
-
     var body: some Scene {
         WindowGroup {
             AppView()
-                .environment(\.managedObjectContext, dataController.container.viewContext)
         }
+        .modelContainer(for: [MoviesWatched.self, MoviesToWatch.self])
     }
 }

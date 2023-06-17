@@ -153,9 +153,10 @@ final class MovieStore: MovieServiceProtocol {
         }
         
         var queryItems = [
-            URLQueryItem(name: "api_key", value: Constants.apikey),
-            URLQueryItem(name: "language", value: "\(language)-\(region)"),
-            URLQueryItem(name: "region", value: region),
+            //TODO: - Arrumar isso aqui
+//            URLQueryItem(name: "api_key", value: Constants.apikey),
+//            URLQueryItem(name: "language", value: "\(language)-\(region)"),
+//            URLQueryItem(name: "region", value: region),
             URLQueryItem(name: "include_adult", value: "false")
         ]
         if let params = params {
@@ -169,7 +170,11 @@ final class MovieStore: MovieServiceProtocol {
             return
         }
         
-        urlSession.dataTask(with: finalURL) { [weak self] data, response, error in
+        var request = URLRequest(url: finalURL, cachePolicy: .useProtocolCachePolicy)
+        request.addValue("application/json", forHTTPHeaderField: "accept")
+        request.addValue(Constants.auth, forHTTPHeaderField: "Authorization")
+        
+        urlSession.dataTask(with: request) { [weak self] data, response, error in
             guard let self = self else { return }
             if error != nil {
                 self.executeCompletionHandler(with: .failure(.apiError), completion: completion)
