@@ -68,8 +68,6 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        let dataController = DataController.shared
         HomeView()
-            .environment(\.managedObjectContext, dataController.container.viewContext)
     }
 }

@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>auth</key>
+	<string>&quot;Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZGYyMGUxZDZhMDE0NzMxM2NmZDNiNGFjNDE5ZTM3MyIsInN1YiI6IjVlN2Q3MDZiMTA5ZGVjMjEzYzAyZDA3ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.kgZWEPcKGQdPNkqVfw_TxAPmICtgx_nBone6linIiK4&quot;</string>
 	<key>API_KEY</key>
 	<string>ddf20e1d6a0147313cfd3b4ac419e373</string>
 </dict>
