@@ -27,7 +27,6 @@ final class DetailViewModel: ObservableObject {
     @Published var moviesRecommendations: DiscoverMovies?
     @Published var tvShowsSimilars: DiscoverTVShow?
     @Published var moviesSimilars: DiscoverMovies?
-    @Published var dispathGroup = DispatchGroup()
     @Published var videos: [VideoResult] = []
     @Published var videoKey: String?
     
@@ -49,7 +48,6 @@ final class DetailViewModel: ObservableObject {
             await fetchWatchProviders(id: ID, state: .movie)
             await fetchRecommendations(id: ID, state: .movie)
             await fetchSimilars(id: ID, state: .movie)
-            
         case .tvShow:
             await fetchTVShowDetail(tvShowID: ID)
             await fetchTrailers(movieID: ID)
@@ -61,17 +59,13 @@ final class DetailViewModel: ObservableObject {
     
     @MainActor
     func fetchDetail(movieID: Int) async {
-        Task {
-            newService.fetchDetail(from: MoviesEndpoint.detail(movie: movieID).path()) { result in
-                switch result {
-                case .success(let detail):
-                    DispatchQueue.main.async {
-                        self.detailMovie = detail
-                        self.isDetailLoading = false
-                    }
-                case .failure(let error):
-                    print(error)
-                }
+        newService.fetchDetail(from: MoviesEndpoint.detail(movie: movieID).path()) { result in
+            switch result {
+            case .success(let detail):
+                self.detailMovie = detail
+                self.isDetailLoading = false
+            case .failure(let error):
+                print(error)
             }
         }
     }
@@ -82,10 +76,8 @@ final class DetailViewModel: ObservableObject {
             newService.fetchTVShowDetail(from: MoviesEndpoint.detailTVShow(tvShow: tvShowID).path()) { result in
                 switch result {
                 case .success(let detail):
-                    DispatchQueue.main.async {
-                        self.detailTVShow = detail
-                        self.isDetailLoading = false
-                    }
+                    self.detailTVShow = detail
+                    self.isDetailLoading = false
                 case .failure(let error):
                     print(error)
                 }
@@ -118,7 +110,6 @@ final class DetailViewModel: ObservableObject {
                     switch result {
                     case .success(let recommendations):
                         self.moviesRecommendations = recommendations
-                        
                     case .failure(let failure):
                         print(failure)
                     }
@@ -130,7 +121,6 @@ final class DetailViewModel: ObservableObject {
                     switch result {
                     case .success(let recommendations):
                         self.tvShowsRecommendations = recommendations
-                        
                     case .failure(let failure):
                         print(failure)
                     }
@@ -148,7 +138,6 @@ final class DetailViewModel: ObservableObject {
                     switch result {
                     case .success(let similars):
                         self.moviesSimilars = similars
-                        
                     case .failure(let failure):
                         print(failure)
                     }
@@ -160,7 +149,6 @@ final class DetailViewModel: ObservableObject {
                     switch result {
                     case .success(let similars):
                         self.tvShowsSimilars = similars
-                        
                     case .failure(let failure):
                         print(failure)
                     }
@@ -209,7 +197,6 @@ final class DetailViewModel: ObservableObject {
                     case .success(let providers):
                         self.providers = providers.results?.br
                         self.isCastLoading = false
-                        
                     case .failure(let error):
                         print(error.localizedDescription)
                     }
