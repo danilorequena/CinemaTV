@@ -143,8 +143,6 @@
 		FF9156FF2749CC3500AF74C3 /* DetailMovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9156FE2749CC3500AF74C3 /* DetailMovieViewModel.swift */; };
 		FF9157012749D15A00AF74C3 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9157002749D15A00AF74C3 /* DetailView.swift */; };
 		FFAD66C328E622D500A08320 /* TVShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAD66C228E622D500A08320 /* TVShowView.swift */; };
-		FFB68A0528FDCB26002D5888 /* MovieModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FFB68A0328FDCB25002D5888 /* MovieModel.xcdatamodeld */; };
-		FFB68A0928FDD182002D5888 /* MovieModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FFB68A0328FDCB25002D5888 /* MovieModel.xcdatamodeld */; };
 		FFB68A0E28FDDDF8002D5888 /* WantWatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB68A0D28FDDDF8002D5888 /* WantWatchView.swift */; };
 		FFC3FBC42895F727000E379E /* TMDB.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF74128D2895CF9900A79C7C /* TMDB.plist */; };
 		FFC8244428F1C2220035D4BA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC8244328F1C2220035D4BA /* String+Extension.swift */; };
@@ -303,7 +301,6 @@
 		FFAD66C228E622D500A08320 /* TVShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowView.swift; sourceTree = "<group>"; };
 		FFB68A0128FDA7AB002D5888 /* CinemaTV.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CinemaTV.entitlements; sourceTree = "<group>"; };
 		FFB68A0228FDAAC8002D5888 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		FFB68A0428FDCB26002D5888 /* MovieModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MovieModel.xcdatamodel; sourceTree = "<group>"; };
 		FFB68A0D28FDDDF8002D5888 /* WantWatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantWatchView.swift; sourceTree = "<group>"; };
 		FFC8244328F1C2220035D4BA /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		FFC8244928F22C300035D4BA /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
@@ -662,7 +659,6 @@
 				7D42245F273810E2006236F8 /* Assets.xcassets */,
 				7D42245B273810E1006236F8 /* CinemaTVApp.swift */,
 				FF74128D2895CF9900A79C7C /* TMDB.plist */,
-				FFB68A0328FDCB25002D5888 /* MovieModel.xcdatamodeld */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1092,7 +1088,6 @@
 				FF394E4027D10AC300FFBDFC /* ImageLoader.swift in Sources */,
 				FFEEEED928EC834A00B1CF77 /* CastListView.swift in Sources */,
 				FF77FCEC288568A400F0872B /* SearchView.swift in Sources */,
-				FFB68A0528FDCB26002D5888 /* MovieModel.xcdatamodeld in Sources */,
 				7D42249C2738150E006236F8 /* APIServiceError.swift in Sources */,
 				FF77FCEA28845A2100F0872B /* SearchViewModel.swift in Sources */,
 				FFDDE93328EB64C30045998E /* DiscoverTVShow.swift in Sources */,
@@ -1219,7 +1214,6 @@
 				FF7DC22D28EB16BB00B5FEC5 /* DetailTVShowView.swift in Sources */,
 				FF4DB80E296DC51D00842BB3 /* ProvidersStub.swift in Sources */,
 				FF7412B32895D6FA00A79C7C /* CastStub.swift in Sources */,
-				FFB68A0928FDD182002D5888 /* MovieModel.xcdatamodeld in Sources */,
 				FF7412B72895D82500A79C7C /* Utils.swift in Sources */,
 				FF7DC22A28EAFADD00B5FEC5 /* DetailTVShow.swift in Sources */,
 				FF51480D29E0E708000A20EB /* WidgetSmallView.swift in Sources */,
@@ -1689,19 +1683,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		FFB68A0328FDCB25002D5888 /* MovieModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				FFB68A0428FDCB26002D5888 /* MovieModel.xcdatamodel */,
-			);
-			currentVersion = FFB68A0428FDCB26002D5888 /* MovieModel.xcdatamodel */;
-			path = MovieModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 7D422450273810E1006236F8 /* Project object */;
 }
