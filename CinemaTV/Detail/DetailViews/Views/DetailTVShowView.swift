@@ -10,7 +10,7 @@ import SwiftUI
 struct DetailTVShowView: View {
     var state: MovieORTVShow
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var viewModel = DetailViewModel()
+    @StateObject var viewModel = DetailViewModel()
     var id: Int?
     var body: some View {
         ZStack {
@@ -18,14 +18,15 @@ struct DetailTVShowView: View {
                 if viewModel.isDetailLoading && viewModel.isCastLoading {
                     CinemaTVProgressView()
                 } else {
-                    AsyncImage(url: URL(string: Constants.basePosters + (detail.posterPath ?? String())))
-//                        .placeholder {
-//                            Circle().fill(Color.gray)
-//                                .frame(width: 60, height: 60)
-//                        }
-//                        .resizable()
+                    AsyncImage(url: URL(string: Constants.basePosters + (detail.posterPath ?? String()))) { image in
+                        image
+                            .resizable()
+                    } placeholder: {
+                        Image("placeholder-image")
+                    }
                     
-                    ScrollView(.vertical, showsIndicators: false) {
+                    
+                    ScrollView {
                         Spacer(minLength: UIScreen.main.bounds.height / 2)
                         VStack {
                             VStack(alignment: .leading, spacing: 16) {
@@ -39,18 +40,18 @@ struct DetailTVShowView: View {
                                     CastView(state: .tvShow, castData: cast)
                                 }
                                 
-                                if let seasons  = viewModel.detailTVShow?.seasons {
-                                    SeasonsCollectionView(data: seasons, title: "Seasons")
+                                if let seasons = viewModel.detailTVShow?.seasons,
+                                   let seriesID = viewModel.detailTVShow?.id {
+                                    SeasonsCarouselView(seriesID: seriesID, data: seasons, title: "Seasons")
                                 }
                                 
                                 CarouselInDetailView(data: viewModel.tvShowsRecommendations?.results ?? [], title: LC.recommendations.text)
                                 
                                 CarouselInDetailView(data: viewModel.tvShowsSimilars?.results ?? [], title: LC.similars.text)
                             }
-                            .background(.ultraThinMaterial)
-                            .cornerRadius(16)
-                            .padding(.horizontal, 16)
                         }
+                        .background(.ultraThinMaterial)
+                        .cornerRadius(16)
                     }
                 }
             }

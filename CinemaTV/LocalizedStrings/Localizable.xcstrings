@@ -148,6 +148,9 @@
         }
       }
     },
+    "episodes" : {
+
+    },
     "Lista Vazia" : {
       "localizations" : {
         "pt-BR" : {
@@ -496,6 +499,12 @@
           }
         }
       }
+    },
+    "Você já assistiu 10 horas e 12 minutos de séries na sua vida!!!" : {
+
+    },
+    "Você já consumiu um total de 100 horas de conteudo!!!" : {
+
     },
     "Want Watch" : {
       "localizations" : {
