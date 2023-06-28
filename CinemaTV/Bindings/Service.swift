@@ -1,57 +1,17 @@
 //
-//  TVShowStore.swift
+//  Service.swift
 //  CinemaTV
 //
-//  Created by Danilo Requena on 20/09/22.
+//  Created by Danilo Requena on 27/05/23.
 //
 
 import Foundation
 
-final class TVShowStore: TVShowServiceProtocol {
-    static let shared = TVShowStore()
-    
-    init() {}
-    
+class Service {
     private let urlSession = URLSession.shared
     private let jsonDecoder = Utils.jsonDecoder
     
-    func fetchDiscoverTVShows(from endpoint: TVShowsEndpoint, completion: @escaping (Result<DiscoverTVShow, RequestError>) -> ()) {
-        guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
-            completion(.failure(.invalidEndpoint))
-            return
-        }
-        
-        loadURLAndDecode(url: url, completion: completion)
-    }
-    
-    func fetchPopTVShows(from endpoint: TVShowsEndpoint, completion: @escaping (Result<DiscoverTVShow, RequestError>) -> ()) {
-        guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
-            completion(.failure(.invalidEndpoint))
-            return
-        }
-        
-        loadURLAndDecode(url: url, completion: completion)
-    }
-    
-    func fetchRecommendations(from endpoint: TVShowsEndpoint, completion: @escaping (Result<DiscoverTVShow, RequestError>) -> Void) {
-        guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
-            completion(.failure(.invalidEndpoint))
-            return
-        }
-        
-        loadURLAndDecode(url: url, completion: completion)
-    }
-    
-    func fetchSimilars(from endpoint: TVShowsEndpoint, completion: @escaping (Result<DiscoverTVShow, RequestError>) -> Void) {
-        guard let url = URL(string: "\(Constants.baseUrl)\(endpoint.path())") else {
-            completion(.failure(.invalidEndpoint))
-            return
-        }
-        
-        loadURLAndDecode(url: url, completion: completion)
-    }
-    
-    private func loadURLAndDecode<D: Decodable>(url: URL, params: [String : String]? = nil, completion: @escaping (Result<D, RequestError>) -> ()) {
+    public func loadURLAndDecode<D: Decodable>(url: URL, params: [String : String]? = nil, completion: @escaping (Result<D, RequestError>) -> ()) {
         guard let language = Locale.current.language.languageCode?.identifier else { return }
         guard let region = Locale.current.language.region?.identifier else { return }
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
@@ -62,8 +22,7 @@ final class TVShowStore: TVShowServiceProtocol {
         var queryItems = [
             URLQueryItem(name: "api_key", value: Constants.apikey),
             URLQueryItem(name: "language", value: "\(language)-\(region)"),
-            URLQueryItem(name: "timezone", value: region),
-            URLQueryItem(name: "with_origin_country", value: "US"),
+            URLQueryItem(name: "region", value: region),
             URLQueryItem(name: "include_adult", value: "false")
         ]
         if let params = params {

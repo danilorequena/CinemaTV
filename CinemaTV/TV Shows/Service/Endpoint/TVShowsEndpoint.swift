@@ -18,17 +18,18 @@ enum TVShowsEndpoint {
     case person(id: Int)
     case creditByPerson(id: Int)
     case watchProviders(movieID: Int)
+    case season(seasonID: Int, seasonNumber: Int)
     
     func path() -> String {
         switch self {
         case .popular:
-            return "movie/popular"
+            return "tv/popular"
         case .latest:
-            return "movie/latest"
+            return "tv/latest"
         case .toRated:
-            return "movie/top_rated"
+            return "tv/top_rated"
         case .upcoming:
-            return "movie/upcoming"
+            return "tv/upcoming"
         case .nowPlaying:
             return "tv/on_the_air"
         case let .detail(tvShow):
@@ -59,6 +60,8 @@ enum TVShowsEndpoint {
             return "discover/tv"
         case let .watchProviders(movieID):
             return "movie/\(String(movieID))/watch/providers"
+        case let .season(seasonID, seasonNumber):
+            return "tv/\(seasonID)/season/\(seasonNumber)"
         }
     }
 }

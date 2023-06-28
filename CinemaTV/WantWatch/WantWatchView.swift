@@ -22,6 +22,40 @@ struct WantWatchView: View {
         VStack {
             if !movies.isEmpty || !moviesWatched.isEmpty {
                 VStack {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            VStack {
+                                Text(minutesToHoursAndMinutes(Int(counter)))
+                                    .font(.headline)
+                            }
+                            .padding()
+                            .background(.ultraThinMaterial)
+                            .cornerRadius(16)
+                            .frame(width: 200, height: 100)
+                            
+                            //TODO: - Aqui ficará o counter de séries
+                            VStack {
+                                Text("Você já assistiu 10 horas e 12 minutos de séries na sua vida!!!")
+                                    .font(.headline)
+                            }
+                            .padding()
+                            .background(.ultraThinMaterial)
+                            .cornerRadius(16)
+                            .frame(width: 200, height: 100)
+                            
+                            //TODO: - Aqui ficará o counter de Totel de conteudo
+                            VStack {
+                                Text("Você já consumiu um total de 100 horas de conteudo!!!")
+                                    .font(.headline)
+                            }
+                            .padding()
+                            .background(.ultraThinMaterial)
+                            .cornerRadius(16)
+                            .frame(width: 200, height: 100)
+                        }
+                        .padding(.horizontal)
+                    }
+                    
                     List {
                         Section(header: Text("Want Watch")) {
                             ForEach(movies) { movie in
@@ -34,7 +68,6 @@ struct WantWatchView: View {
                             .onDelete(perform: deleteMovies)
                         }
                         
-                        Text(minutesToHoursAndMinutes(Int(counter)))
                         Section(header: Text("Movies Watched")) {
                             ForEach(moviesWatched) { movie in
                                 MoviesListCell(
@@ -54,7 +87,7 @@ struct WantWatchView: View {
     }
     
     func minutesToHoursAndMinutes(_ minutes: Int) -> String {
-        let string = "Você já assistiu \(minutes / 60) horas e \(minutes % 60) minutos de conteudo na sua vida!"
+        let string = "Você já assistiu \(minutes / 60) horas e \(minutes % 60) minutos de filmes na sua vida!"
         return string
     }
     
