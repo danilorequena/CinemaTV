@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct DiscoverView: View {
+    @Environment(\.horizontalSizeClass) private var sizeClass
     @Query var moviesWatched: [MoviesWatched]
     
     let state: MovieORTVShow
@@ -30,26 +31,33 @@ struct DiscoverView: View {
                         .padding(.trailing, 16)
                 }
                 
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 20) {
+                ScrollView(.horizontal) {
+                    HStack {
                         ForEach(movies) { movie in
                             NavigationLink(destination: DetailView(id: movie.id, state: state)) {
-                                GeometryReader { proxy in
-                                    MovieCell(image: URL(string: Constants.basePosters + (movie.posterPath ?? "")), watched: moviesWatched.contains{ $0.id ?? 0 == movie.id ?? 0})
-                                        .rotation3DEffect(Angle(degrees: (Double(proxy.frame(in: .global).minX) - 40) / -20), axis: (x: 0, y: 10.0, z: 0))
-                                }
-                                .frame(width: 246, height: 150)
+                                MovieCell(image: URL(string: Constants.basePosters + (movie.posterPath ?? "")), watched: moviesWatched.contains{ $0.id ?? 0 == movie.id ?? 0})
+                                    .scrollTransition(axis: .horizontal) { content, phase in
+                                        content
+                                            .scaleEffect(
+                                                x: phase.isIdentity ? 1.0 : 0.80,
+                                                y: phase.isIdentity ? 1.0 : 0.80
+                                            )
+                                    }
+                                    .aspectRatio(contentMode: .fit)
+                                    .containerRelativeFrame(
+                                        .horizontal,
+                                        count: sizeClass == .regular ? 2 : 1,
+                                        spacing: 10
+                                    )
                             }
                         }
                     }
-                    .padding(.top, 10)
-                    .padding(.trailing, 40)
-                    .padding(.leading, 40)
-                    .padding(.bottom, 40)
-                    Spacer()
+                    .scrollTargetLayout()
                 }
+                .contentMargins(.horizontal, 20)
+                .scrollTargetBehavior(.paging)
+                .scrollIndicators(.hidden)
             }
-            .frame(width: UIScreen.main.bounds.width, height: 460)
         }
     }
 }
@@ -58,7 +66,7 @@ struct DiscoverMoviesView_Previews: PreviewProvider {
     static var previews: some View {
         DiscoverView(
             state: .movie,
-            movies: MoviesTVShowResult.stubbedMovies(),
+            movies: MoviesTVShowResult.stubbedJsonsMovies,
             selectionIndex: 0
         )
     }
