@@ -26,7 +26,7 @@ struct MultiSearchResult: Codable, Identifiable {
     let backdropPath: String?
     let genreIDS: [Int]?
     let id: Int?
-    let mediaType: MediaType?
+    let mediaType: String?
     let originalTitle, overview: String?
     let popularity: Double?
     let posterPath, releaseDate, title: String?
@@ -42,7 +42,6 @@ struct MultiSearchResult: Codable, Identifiable {
         case backdropPath = "backdrop_path"
         case genreIDS = "genre_ids"
         case id
-        case mediaType = "media_type"
         case originalTitle = "original_title"
         case overview, popularity
         case posterPath = "poster_path"
@@ -52,13 +51,9 @@ struct MultiSearchResult: Codable, Identifiable {
         case voteCount = "vote_count"
         case firstAirDate = "first_air_date"
         case name
+        case mediaType = "media_type"
         case originCountry = "origin_country"
         case originalName = "original_name"
     }
-}
-
-enum MediaType: String, Codable {
-    case movie = "movie"
-    case tv = "tv"
 }
 
