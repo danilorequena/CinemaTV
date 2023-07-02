@@ -388,7 +388,6 @@
 		7D42244F273810E1006236F8 = {
 			isa = PBXGroup;
 			children = (
-				FFEEEED828EC834A00B1CF77 /* CastListView.swift */,
 				7D42245A273810E1006236F8 /* CinemaTV */,
 				7D422470273810E2006236F8 /* CinemaTVTests */,
 				7D42247A273810E2006236F8 /* CinemaTVUITests */,
@@ -412,6 +411,8 @@
 		7D42245A273810E1006236F8 /* CinemaTV */ = {
 			isa = PBXGroup;
 			children = (
+				FFFD13A12A51124D0089B299 /* macOS */,
+				FFFD13A02A5111E70089B299 /* iOS_ipadOS */,
 				FFB68A0628FDCBFE002D5888 /* LocalData */,
 				FFB68A0228FDAAC8002D5888 /* Info.plist */,
 				FFB68A0128FDA7AB002D5888 /* CinemaTV.entitlements */,
@@ -422,13 +423,6 @@
 				FFEF0ADE275FA63700D5593C /* Components */,
 				FFEF0AD8275E8D9B00D5593C /* Utils */,
 				7D42248F27381247006236F8 /* Share */,
-				7D42248A2738117B006236F8 /* Home */,
-				FF29E57E28DA100E0042DFAF /* TV Shows */,
-				FF9156F42749C6FC00AF74C3 /* Detail */,
-				FFC8244628F22C080035D4BA /* Person */,
-				FF89E7F52884502A00C8B800 /* Search */,
-				FF3937F227C6E2AA0082FF42 /* MoviesList */,
-				FFB68A0C28FDDD71002D5888 /* WantWatch */,
 				7D422461273810E2006236F8 /* Preview Content */,
 			);
 			path = CinemaTV;
@@ -774,6 +768,7 @@
 		FF9156F52749C71500AF74C3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FFEEEED828EC834A00B1CF77 /* CastListView.swift */,
 				FF9157002749D15A00AF74C3 /* DetailView.swift */,
 				FF5C570B292E5F6800A7DC78 /* DetailCoreView.swift */,
 				FF4DB80F296E03E500842BB3 /* ProvidersView.swift */,
@@ -943,6 +938,27 @@
 				FFEF0AEB275FBBF700D5593C /* VideoModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		FFFD13A02A5111E70089B299 /* iOS_ipadOS */ = {
+			isa = PBXGroup;
+			children = (
+				FF89E7F52884502A00C8B800 /* Search */,
+				FFB68A0C28FDDD71002D5888 /* WantWatch */,
+				FF3937F227C6E2AA0082FF42 /* MoviesList */,
+				FFC8244628F22C080035D4BA /* Person */,
+				FF9156F42749C6FC00AF74C3 /* Detail */,
+				FF29E57E28DA100E0042DFAF /* TV Shows */,
+				7D42248A2738117B006236F8 /* Home */,
+			);
+			path = iOS_ipadOS;
+			sourceTree = "<group>";
+		};
+		FFFD13A12A51124D0089B299 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = macOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1481,9 +1497,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.danilorequena.CinemaTV;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1520,9 +1537,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.danilorequena.CinemaTV;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
