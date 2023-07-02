@@ -12,61 +12,78 @@ extension MoviesTVShowResult {
         [
             MoviesTVShowResult(
                 adult: false,
-                backdropPath: "/2RSirqZG949GuRwN38MYCIGG4Od.jpg",
-                genreIDS: [53],
-                id: 985939,
-                originalTitle: "Fall",
-                overview: "For best friends Becky and Hunter, life is all about conquering fears and pushing limits. But after they climb 2,000 feet to the top of a remote, abandoned radio tower, they find themselves stranded with no way down. Now Becky and Hunter’s expert climbing skills will be put to the ultimate test as they desperately fight to survive the elements, a lack of supplies, and vertigo-inducing heights",
-                popularity: 9320.962,
-                posterPath: "9f5sIJEgvUpFv0ozfA6TurG4j22.jpg",
-                releaseDate: "2022-08-11",
-                title: "Fall",
-                video: false,
-                voteAverage: 7.4,
-                voteCount: 658,
-                name: "",
-                originalName: ""
+                backdropPath: "/7gKI9hpEMcZUQpNgKrkDzJpbnNS.jpg",
+                genreIDS: [1,2,3],
+                id: 200,
+                originalTitle: "Steve Jobs",
+                overview: "Steve Jobs",
+                popularity: 1.0,
+                posterPath: "/7gKI9hpEMcZUQpNgKrkDzJpbnNS.jpg",
+                releaseDate: "02/02/2023",
+                title: "Steve Jobs",
+                video: true,
+                voteAverage: 2.2,
+                voteCount: 2,
+                name: "Steve Jobs",
+                originalName: "Steve Jobs"
             ),
             MoviesTVShowResult(
                 adult: false,
-                backdropPath: "/2RSirqZG949GuRwN38MYCIGG4Od.jpg",
-                genreIDS: [53],
-                id: 985939,
-                originalTitle: "Fall",
-                overview: "For best friends Becky and Hunter, life is all about conquering fears and pushing limits. But after they climb 2,000 feet to the top of a remote, abandoned radio tower, they find themselves stranded with no way down. Now Becky and Hunter’s expert climbing skills will be put to the ultimate test as they desperately fight to survive the elements, a lack of supplies, and vertigo-inducing heights",
-                popularity: 9320.962,
-                posterPath: "9f5sIJEgvUpFv0ozfA6TurG4j22.jpg",
-                releaseDate: "2022-08-11",
-                title: "Fall",
-                video: false,
-                voteAverage: 7.4,
-                voteCount: 658,
-                name: "",
-                originalName: ""
+                backdropPath: "/7gKI9hpEMcZUQpNgKrkDzJpbnNS.jpg",
+                genreIDS: [1,2,3],
+                id: 200,
+                originalTitle: "Steve Jobs",
+                overview: "Steve Jobs",
+                popularity: 1.0,
+                posterPath: "/7gKI9hpEMcZUQpNgKrkDzJpbnNS.jpg",
+                releaseDate: "02/02/2023",
+                title: "Steve Jobs",
+                video: true,
+                voteAverage: 2.2,
+                voteCount: 2,
+                name: "Steve Jobs",
+                originalName: "Steve Jobs"
             ),
             MoviesTVShowResult(
                 adult: false,
-                backdropPath: "/2RSirqZG949GuRwN38MYCIGG4Od.jpg",
-                genreIDS: [53],
-                id: 985939,
-                originalTitle: "Fall",
-                overview: "For best friends Becky and Hunter, life is all about conquering fears and pushing limits. But after they climb 2,000 feet to the top of a remote, abandoned radio tower, they find themselves stranded with no way down. Now Becky and Hunter’s expert climbing skills will be put to the ultimate test as they desperately fight to survive the elements, a lack of supplies, and vertigo-inducing heights",
-                popularity: 9320.962,
-                posterPath: "9f5sIJEgvUpFv0ozfA6TurG4j22.jpg",
-                releaseDate: "2022-08-11",
-                title: "Fall",
-                video: false,
-                voteAverage: 7.4,
-                voteCount: 658,
-                name: "",
-                originalName: ""
+                backdropPath: "/7gKI9hpEMcZUQpNgKrkDzJpbnNS.jpg",
+                genreIDS: [1,2,3],
+                id: 200,
+                originalTitle: "Steve Jobs",
+                overview: "Steve Jobs",
+                popularity: 1.0,
+                posterPath: "/7gKI9hpEMcZUQpNgKrkDzJpbnNS.jpg",
+                releaseDate: "02/02/2023",
+                title: "Steve Jobs",
+                video: true,
+                voteAverage: 2.2,
+                voteCount: 2,
+                name: "Steve Jobs",
+                originalName: "Steve Jobs"
+            ),
+            MoviesTVShowResult(
+                adult: false,
+                backdropPath: "/7gKI9hpEMcZUQpNgKrkDzJpbnNS.jpg",
+                genreIDS: [1,2,3],
+                id: 200,
+                originalTitle: "Steve Jobs",
+                overview: "Steve Jobs",
+                popularity: 1.0,
+                posterPath: "/7gKI9hpEMcZUQpNgKrkDzJpbnNS.jpg",
+                releaseDate: "02/02/2023",
+                title: "Steve Jobs",
+                video: true,
+                voteAverage: 2.2,
+                voteCount: 2,
+                name: "Steve Jobs",
+                originalName: "Steve Jobs"
             )
         ]
     }
-//    static var stubbedMovies: [MovieResult] {
-//        let response: DiscoverMovies? = try? Bundle.main.loadAndDecodeJSON(fileName: "discover")
-//        return response!.results
-//    }
+    static var stubbedJsonsMovies: [MoviesTVShowResult] {
+        let response: DiscoverMovies? = try? Bundle.main.loadAndDecodeJSON(fileName: "discover")
+        return response!.results
+    }
 }
 
 extension Bundle {
