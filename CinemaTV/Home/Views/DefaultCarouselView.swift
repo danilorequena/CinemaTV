@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct DefaultCarouselView: View {
+    @Environment(\.horizontalSizeClass) private var sizeClass
     @Query var moviesWatched: [MoviesWatched]
     
     let data: [MoviesTVShowResult]
@@ -35,18 +36,24 @@ struct DefaultCarouselView: View {
                 }
                 .frame(width: UIScreen.main.bounds.width)
                 
-                ScrollView(.horizontal, showsIndicators: false) {
+                ScrollView(.horizontal) {
                     HStack {
                         ForEach(data) { movie in
                             NavigationLink(destination: DetailView(id: movie.id, state: state)) {
                                 VStack(spacing: 2) {
                                     MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")), watched: moviesWatched.contains { $0.id ?? 0 == movie.id ?? 0 })
-                                        .frame(width: 180, height: 100)
+                                    
                                     Text((movie.title ?? movie.name) ?? "")
                                         .font(.caption)
                                         .lineLimit(1)
                                         .frame(width: 180)
                                 }
+                                .containerRelativeFrame(
+                                    .horizontal,
+                                    count: sizeClass == .regular ? 2 : 1,
+                                    spacing: 10
+                                )
+                                .aspectRatio(contentMode: .fit)
                                 .padding(.bottom, 4)
                                 .buttonStyle(.plain)
                                 .background(.ultraThinMaterial.opacity(0.8))
@@ -54,13 +61,10 @@ struct DefaultCarouselView: View {
                             }
                         }
                     }
-                    .padding(.init(
-                        top: 0,
-                        leading: 16,
-                        bottom: 0,
-                        trailing: 0
-                    ))
+                    .scrollTargetLayout()
                 }
+                .contentMargins(.horizontal, 20)
+                .scrollIndicators(.hidden)
             }
         }
     }
@@ -69,7 +73,7 @@ struct DefaultCarouselView: View {
 struct TopVotedMoviesView_Previews: PreviewProvider {
     static var previews: some View {
         DefaultCarouselView(
-            data: MoviesTVShowResult.stubbedMovies(),
+            data: MoviesTVShowResult.stubbedJsonsMovies,
             title: "Title",
             selectionIndex: 0,
             isLightBackground: false,
