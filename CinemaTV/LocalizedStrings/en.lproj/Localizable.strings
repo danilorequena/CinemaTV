@@ -26,6 +26,7 @@
 "similars" = "Similars";
 "watchButton" = "To Watch";
 "watchedButton" = "Watched";
+"addFavorites" = "Add";
 
 //MARK: - Credits
 "creditsName" = "The Move Data Base (TMDB)";

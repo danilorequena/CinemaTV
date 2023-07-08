@@ -22,7 +22,7 @@ struct CastCell: View {
             }
             .scaledToFill()
             .clipShape(Circle())
-            .frame(width: 60, height: 60)
+            .frame(width: 80, height: 80)
             
             Text(name ?? "")
                 .multilineTextAlignment(.leading)
@@ -34,5 +34,6 @@ struct CastCell: View {
 struct CastCell_Previews: PreviewProvider {
     static var previews: some View {
         CastCell(image: URL(string: "\(Constants.basePosters)/iAr3NRkU9KuPX7jI9ePPeq7zVsc.jpg"), name: "Name").previewLayout(.fixed(width: 100, height: 100))
+            .previewLayout(.fixed(width: 340, height: 120))
     }
 }
