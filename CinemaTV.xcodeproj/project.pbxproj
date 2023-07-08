@@ -67,6 +67,7 @@
 		FF31A21A28FB50500031F45D /* ShowsByPersonCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF31A21828FB38580031F45D /* ShowsByPersonCollectionView.swift */; };
 		FF31A21C28FB847D0031F45D /* MultiSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF31A21B28FB847D0031F45D /* MultiSearch.swift */; };
 		FF31A21D28FB85E20031F45D /* MultiSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF31A21B28FB847D0031F45D /* MultiSearch.swift */; };
+		FF322C1C2A59F8010010878F /* WidgetLargeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF322C1B2A59F8010010878F /* WidgetLargeView.swift */; };
 		FF3937F727C6E3310082FF42 /* MoviesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3937F627C6E3310082FF42 /* MoviesListService.swift */; };
 		FF3937F927C6E40C0082FF42 /* MoviesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3937F827C6E40C0082FF42 /* MoviesListViewModel.swift */; };
 		FF394E3927D0FE7400FFBDFC /* MovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF394E3827D0FE7400FFBDFC /* MovieService.swift */; };
@@ -280,6 +281,7 @@
 		FF31A21428FB35200031F45D /* CreditByPersonStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditByPersonStub.swift; sourceTree = "<group>"; };
 		FF31A21828FB38580031F45D /* ShowsByPersonCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowsByPersonCollectionView.swift; sourceTree = "<group>"; };
 		FF31A21B28FB847D0031F45D /* MultiSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSearch.swift; sourceTree = "<group>"; };
+		FF322C1B2A59F8010010878F /* WidgetLargeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetLargeView.swift; sourceTree = "<group>"; };
 		FF3937F627C6E3310082FF42 /* MoviesListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListService.swift; sourceTree = "<group>"; };
 		FF3937F827C6E40C0082FF42 /* MoviesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListViewModel.swift; sourceTree = "<group>"; };
 		FF394E3827D0FE7400FFBDFC /* MovieService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieService.swift; sourceTree = "<group>"; };
@@ -682,6 +684,7 @@
 				FF51480B29E0E6E6000A20EB /* WidgetSmallView.swift */,
 				FF51480429E0E2DA000A20EB /* WidgetMediumView.swift */,
 				FF51480F29E0F166000A20EB /* AccessoryRetangularWidgetView.swift */,
+				FF322C1B2A59F8010010878F /* WidgetLargeView.swift */,
 			);
 			path = WidgetViews;
 			sourceTree = "<group>";
@@ -1297,6 +1300,7 @@
 				FF7412BE2895D84C00A79C7C /* DetailView.swift in Sources */,
 				FF51480A29E0E3A8000A20EB /* WidgetEntry.swift in Sources */,
 				FFC8244528F1C3DA0035D4BA /* String+Extension.swift in Sources */,
+				FF322C1C2A59F8010010878F /* WidgetLargeView.swift in Sources */,
 				FF7412CD2895D8A200A79C7C /* MoviesListViewModel.swift in Sources */,
 				FF7412B42895D6FA00A79C7C /* MoviesEndpoint.swift in Sources */,
 				FF74129B2895D65F00A79C7C /* CinemaTVWidget.swift in Sources */,

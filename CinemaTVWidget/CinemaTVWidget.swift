@@ -19,16 +19,19 @@ struct Provider: TimelineProvider {
                 MovieResultModel(
                     id: 0,
                     title: "Dr Strange",
+                    description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 ),
                 MovieResultModel(
                     id: 0,
                     title: "Dr Strange",
+                    description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 ),
                 MovieResultModel(
                     id: 0,
                     title: "Dr Strange",
+                    description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 )
             ]
@@ -42,16 +45,19 @@ struct Provider: TimelineProvider {
                 MovieResultModel(
                     id: 0,
                     title: "Dr Strange",
+                    description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 ),
                 MovieResultModel(
                     id: 0,
                     title: "Steve Jobs",
+                    description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 ),
                 MovieResultModel(
                     id: 0,
                     title: "Iron man",
+                    description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 )
             ]
@@ -102,7 +108,14 @@ struct MainWidget: Widget {
         }
         .configurationDisplayName(LC.commingSoon.text)
         .description(LC.commingSoonDescription.text)
-        .supportedFamilies([.systemMedium, .systemSmall, .accessoryRectangular])
+        .supportedFamilies(
+            [
+                .systemMedium,
+                .systemSmall,
+                .systemLarge,
+                .accessoryRectangular
+            ]
+        )
     }
 }
 
@@ -118,6 +131,8 @@ struct CinemaTVWidgetView: View {
                 WidgetMediumView(data: data)
             case .accessoryRectangular:
                 AccessoryRetangularWidgetView(data: data)
+            case .systemLarge:
+                WidgetLargeView(data: data)
             @unknown default:
                 WidgetSmallView(data: data)
             }
@@ -132,13 +147,14 @@ struct CinemaTVWidgetView: View {
                     repeating: MovieResultModel(
                         id: 0,
                         title: "title",
+                        description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
                         poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                     ),
                     count: 6
                 )
             )
             )
-            .previewContext(WidgetPreviewContext(family: WidgetFamily.systemMedium))
+            .previewContext(WidgetPreviewContext(family: WidgetFamily.systemLarge))
         }
     }
 }
