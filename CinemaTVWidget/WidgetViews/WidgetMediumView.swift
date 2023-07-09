@@ -38,12 +38,12 @@ struct WidgetMediumView: View {
             .padding(.horizontal, 8)
             .padding(.bottom, 4)
         }
-        .background(
+        .containerBackground(for: .widget) {
             LinearGradient(
                 colors: [.black, .gray],
                 startPoint: .top,
                 endPoint: .bottom
             )
-        )
+        }
     }
 }

@@ -38,13 +38,13 @@ struct WidgetSmallView: View {
             .padding(.horizontal, 24)
             .padding(.bottom, 8)
         }
-        .background(
+        .containerBackground(for: .widget) {
             LinearGradient(
                 colors: [.black, .gray],
                 startPoint: .top,
                 endPoint: .bottom
             )
-        )
+        }
     }
 }
 
