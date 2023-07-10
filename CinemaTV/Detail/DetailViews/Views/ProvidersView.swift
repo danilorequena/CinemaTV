@@ -14,8 +14,12 @@ struct ProvidersView: View {
     var body: some View {
         VStack {
             if !data.isEmpty {
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 10) {
                     Text(title)
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                        .padding(.horizontal, 10)
+                    
                     ScrollView(.horizontal) {
                         HStack(spacing: 10) {
                             ForEach(data) { provider in
@@ -25,13 +29,13 @@ struct ProvidersView: View {
                                         image: URL(string: Constants.basePosters + (provider.logoPath ?? "")),
                                         name: provider.providerName
                                     )
-                                    .frame(width: 60, height: 76)
+                                    .fixedSize(horizontal: true, vertical: false)
                                 }
                             }
                         }
+                        .padding(.leading, 10)
                     }
                 }
-                .padding()
             } else {
                 #warning("Retirar isso, e desaparecer com essa view, caso venha vazio")
                 Text("No data")

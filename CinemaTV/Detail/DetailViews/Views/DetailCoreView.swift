@@ -31,93 +31,84 @@ struct DetailCoreView: View {
                 
                 ScrollView {
                     Spacer(minLength: UIScreen.main.bounds.height / 2)
-                    VStack {
+                    VStack(alignment: .leading, spacing: 16) {
                         VStack(alignment: .leading, spacing: 16) {
-                            VStack(alignment: .leading, spacing: 16) {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    HStack(spacing: 16) {
-                                        Text(detail.title)
-                                            .font(.title)
-                                            .bold()
-                                        
-                                        Button {
-                                            saveData(with: detail, isWatched: false)
-                                        } label: {
-                                            HStack {
-                                                Image(systemName: "bookmark.fill")
-                                                    .foregroundColor(verifyIfExists(id: detail.id, verifyIn: .toWatch) ? .gray : .yellow)
-                                                
-                                                Text(LC.watchButton.text)
-                                                    .foregroundColor(.black)
-                                            }
-                                            .padding(8)
-                                            .background(.ultraThinMaterial.opacity(0.2))
-                                            .cornerRadius(16)
+                            VStack(alignment: .leading, spacing: 4) {
+                                HStack(spacing: 16) {
+                                    Text(detail.title)
+                                        .font(.title)
+                                        .bold()
+                                    Spacer()
+                                    Menu {
+                                        Button("Want to Watch") {saveData(with: detail, isWatched: false) }
+                                        Button("Watched") {saveData(with: detail, isWatched: true) }
+                                            .disabled(verifyIfExists(id: detail.id, verifyIn: .wached))
+                                    } label: {
+                                        HStack {
+                                            Image(systemName: "bookmark.fill")
+                                                .foregroundColor(verifyIfExists(id: detail.id, verifyIn: .toWatch) ? .gray : .pink)
+                                            
+                                            Text(LC.addFavorites.text)
+                                                .foregroundColor(.black)
                                         }
-                                        .disabled(verifyIfExists(id: detail.id, verifyIn: .toWatch))
-                                        
-                                        Button {
-                                            saveData(with: detail, isWatched: true)
-                                        } label: {
-                                            HStack {
-                                                Image(systemName: "checkmark")
-                                                    .foregroundColor(verifyIfExists(id: detail.id, verifyIn: .wached) ? .gray : .green)
-                                                
-                                                Text(LC.watchedButton.text)
-                                                    .foregroundColor(.black)
-                                            }
-                                            .padding(8)
-                                            .background(.ultraThinMaterial.opacity(0.2))
-                                            .cornerRadius(32)
-                                        }
-                                        .disabled(verifyIfExists(id: detail.id, verifyIn: .wached))
+                                        .padding(8)
+                                        .background(.ultraThinMaterial.opacity(0.2))
+                                        .cornerRadius(16)
                                     }
-                                    
-                                    Text(LC.releaseDate.text + detail.releaseDateFormatted)
-                                        .font(.subheadline)
-                                        .foregroundColor(.black)
-                                    
-                                    Text(LC.average.text + detail.voteAverageFormatted)
-                                        .font(.subheadline)
-                                        .foregroundColor(.black)
+                                    .padding(.horizontal, 16)
                                 }
                                 
-                                Text(detail.overview)
-                                    .font(.headline)
-                            }
-                            .padding()
-                            
-                            TrailersView(videoID: id, videoKey: viewModel.videoKey ?? "")
-                                .padding(16)
-                                .frame(height: 260)
-                            
-                            if let cast = viewModel.cast?.cast {
-                                CastView(state: .movie, castData: cast)
+                                Text(LC.releaseDate.text + detail.releaseDateFormatted)
+                                    .font(.subheadline)
+                                    .foregroundColor(.black)
+                                
+                                Text(LC.average.text + detail.voteAverageFormatted)
+                                    .font(.subheadline)
+                                    .foregroundColor(.black)
                             }
                             
-                            if let flatrate = viewModel.providers?.flatrate {
-                                ProvidersView(data: flatrate, title: "Streaming", link: viewModel.providers?.link ?? "")
-                            }
-                            
-                            if let rent = viewModel.providers?.rent {
-                                ProvidersView(data: rent, title: "Rent", link: viewModel.providers?.link ?? "")
-                            }
-                            
-                            if let buy = viewModel.providers?.buy {
-                                ProvidersView(data: buy, title: "Buy", link: viewModel.providers?.link ?? "")
-                            }
-                            
-                            if let recommendations = viewModel.moviesRecommendations?.results {
-                                CarouselInDetailView(data: recommendations, title: LC.recommendations.text)
-                            }
-                            
-                            if let similars = viewModel.moviesSimilars?.results {
-                                CarouselInDetailView(data: similars, title: LC.similars.text)
-                            }
+                            Text(detail.overview)
+                                .font(.headline)
                         }
-                        .background(.ultraThinMaterial)
-                        .cornerRadius(16)
+                        .padding()
+                        
+                        TrailersView(videoID: id, videoKey: viewModel.videoKey ?? "")
+                            .padding(16)
+                            .frame(height: 260)
+                        
+                        if let cast = viewModel.cast?.cast {
+                            CastView(state: .movie, castData: cast)
+                                .padding(.leading, 10)
+                        }
+                        
+                        if let flatrate = viewModel.providers?.flatrate {
+                            ProvidersView(data: flatrate, title: "Streaming", link: viewModel.providers?.link ?? "")
+                                .padding(.leading, 10)
+
+                        }
+                        
+                        if let rent = viewModel.providers?.rent {
+                            ProvidersView(data: rent, title: "Rent", link: viewModel.providers?.link ?? "")
+                                .padding(.leading, 10)
+                        }
+                        
+                        if let buy = viewModel.providers?.buy {
+                            ProvidersView(data: buy, title: "Buy", link: viewModel.providers?.link ?? "")
+                                .padding(.leading, 10)
+                        }
+                        
+                        if let recommendations = viewModel.moviesRecommendations?.results {
+                            CarouselInDetailView(data: recommendations, title: LC.recommendations.text)
+                                .padding(.leading, 10)
+                        }
+                        
+                        if let similars = viewModel.moviesSimilars?.results {
+                            CarouselInDetailView(data: similars, title: LC.similars.text)
+                                .padding(.leading, 10)
+                        }
                     }
+                    .background(.ultraThinMaterial)
+                    .cornerRadius(16)
                 }
             }
         }
@@ -165,5 +156,16 @@ struct DetailCoreView: View {
         let providers = data.results?.br?.flatrate ?? []
         
         return providers
+    }
+    
+    func placeOrder() { }
+    func adjustOrder() { }
+    func cancelOrder() { }
+}
+struct DetailCoreView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            DetailMoviesView(state: .movie, id: 287)
+        }
     }
 }
