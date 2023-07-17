@@ -192,6 +192,8 @@
 		FFEF0AEC275FBBF700D5593C /* VideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF0AEB275FBBF700D5593C /* VideoModel.swift */; };
 		FFFB2A0E28F8534E00822923 /* PersonStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFB2A0D28F8534E00822923 /* PersonStub.swift */; };
 		FFFB2A0F28F8549B00822923 /* PersonStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFB2A0D28F8534E00822923 /* PersonStub.swift */; };
+		FFFC45442A64C54C009F9D74 /* SwiftData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFFC45432A64C54C009F9D74 /* SwiftData.framework */; };
+		FFFC45452A64C55E009F9D74 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF7412972895D65F00A79C7C /* SwiftUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -347,6 +349,7 @@
 		FFEF0AE5275FA6F400D5593C /* TrailersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailersView.swift; sourceTree = "<group>"; };
 		FFEF0AEB275FBBF700D5593C /* VideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoModel.swift; sourceTree = "<group>"; };
 		FFFB2A0D28F8534E00822923 /* PersonStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonStub.swift; sourceTree = "<group>"; };
+		FFFC45432A64C54C009F9D74 /* SwiftData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftData.framework; path = System/Library/Frameworks/SwiftData.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -354,6 +357,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFFC45452A64C55E009F9D74 /* SwiftUI.framework in Frameworks */,
+				FFFC45442A64C54C009F9D74 /* SwiftData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -721,6 +726,7 @@
 		FF7412942895D65F00A79C7C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FFFC45432A64C54C009F9D74 /* SwiftData.framework */,
 				FF7412952895D65F00A79C7C /* WidgetKit.framework */,
 				FF7412972895D65F00A79C7C /* SwiftUI.framework */,
 			);
@@ -1414,7 +1420,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1470,7 +1476,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1501,7 +1507,7 @@
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1540,7 +1546,7 @@
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1667,7 +1673,7 @@
 				INFOPLIST_FILE = CinemaTVWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = CinemaTVWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1696,7 +1702,7 @@
 				INFOPLIST_FILE = CinemaTVWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = CinemaTVWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
