@@ -18,6 +18,7 @@ struct DetailCoreView: View {
     
     @State private var buttonMarkDisabled = false
     @State private var buttonCheckDisabled = false
+    @State private var addButtonTitle = LC.addFavorites.text
     
     var body: some View {
         ZStack {
@@ -40,22 +41,27 @@ struct DetailCoreView: View {
                                         .bold()
                                     Spacer()
                                     Menu {
-                                        Button("Want to Watch") {saveData(with: detail, isWatched: false) }
-                                        Button("Watched") {saveData(with: detail, isWatched: true) }
-                                            .disabled(verifyIfExists(id: detail.id, verifyIn: .wached))
+                                        Button("Want to Watch") {
+                                            saveData(with: detail, isWatched: false)
+                                        }
+                                        .disabled(verifyIfExists(id: detail.id, verifyIn: .toWatch))
+                                        
+                                        Button("Watched") {
+                                            saveData(with: detail, isWatched: true)
+                                        }
+                                        .disabled(verifyIfExists(id: detail.id, verifyIn: .wached))
+                                        
                                     } label: {
                                         HStack {
-                                            Image(systemName: "bookmark.fill")
-                                                .foregroundColor(verifyIfExists(id: detail.id, verifyIn: .toWatch) ? .gray : .pink)
-                                            
-                                            Text(LC.addFavorites.text)
-                                                .foregroundColor(.black)
+//                                            Text(verifyIfExists(id: detail.id, verifyIn: .toWatch) ? "Added" : addButtonTitle)
+//                                                .foregroundColor(verifyIfExists(id: detail.id, verifyIn: .wached) ? .gray : .black)
+                                            ButtonFavorites(id: detail.id)
                                         }
-                                        .padding(8)
-                                        .background(.ultraThinMaterial.opacity(0.2))
-                                        .cornerRadius(16)
+                                        .padding(.horizontal, 16)
+                                        .padding(.vertical, 4)
+                                        .background(.ultraThinMaterial.opacity(0.8))
+                                        .cornerRadius(8)
                                     }
-                                    .padding(.horizontal, 16)
                                 }
                                 
                                 Text(LC.releaseDate.text + detail.releaseDateFormatted)
@@ -66,14 +72,16 @@ struct DetailCoreView: View {
                                     .font(.subheadline)
                                     .foregroundColor(.black)
                             }
+                            .padding(.horizontal, 10)
                             
                             Text(detail.overview)
                                 .font(.headline)
+                                .padding(.horizontal, 10)
                         }
                         .padding()
                         
                         TrailersView(videoID: id, videoKey: viewModel.videoKey ?? "")
-                            .padding(16)
+                            .padding(.horizontal, 16)
                             .frame(height: 260)
                         
                         if let cast = viewModel.cast?.cast {
@@ -81,21 +89,23 @@ struct DetailCoreView: View {
                                 .padding(.leading, 10)
                         }
                         
-                        if let flatrate = viewModel.providers?.flatrate {
-                            ProvidersView(data: flatrate, title: "Streaming", link: viewModel.providers?.link ?? "")
-                                .padding(.leading, 10)
-
-                        }
+                        ProvidersWatchView(
+                            title: "Streaming",
+                            providers: viewModel.providers?.flatrate,
+                            link: viewModel.providers?.link ?? ""
+                        )
                         
-                        if let rent = viewModel.providers?.rent {
-                            ProvidersView(data: rent, title: "Rent", link: viewModel.providers?.link ?? "")
-                                .padding(.leading, 10)
-                        }
+                        ProvidersWatchView(
+                            title: "Rent",
+                            providers: viewModel.providers?.rent,
+                            link: viewModel.providers?.link ?? ""
+                        )
                         
-                        if let buy = viewModel.providers?.buy {
-                            ProvidersView(data: buy, title: "Buy", link: viewModel.providers?.link ?? "")
-                                .padding(.leading, 10)
-                        }
+                        ProvidersWatchView(
+                            title: "Buy",
+                            providers: viewModel.providers?.buy,
+                            link: viewModel.providers?.link ?? ""
+                        )
                         
                         if let recommendations = viewModel.moviesRecommendations?.results {
                             CarouselInDetailView(data: recommendations, title: LC.recommendations.text)
@@ -111,6 +121,25 @@ struct DetailCoreView: View {
                     .cornerRadius(16)
                 }
             }
+        }
+    }
+    
+    @ViewBuilder
+    private func ButtonFavorites(id: Int) -> some View {
+        if !verifyIfExists(id: id, verifyIn: .wached) {
+            Text(verifyIfExists(id: id, verifyIn: .toWatch) ? "Added" : addButtonTitle)
+                .foregroundColor(verifyIfExists(id: id, verifyIn: .toWatch) ? .gray : .black)
+        } else {
+            Text("Watched")
+                .foregroundColor(.gray)
+        }
+    }
+    
+    @ViewBuilder
+    private func ProvidersWatchView(title: String, providers: [WatchProvider]?, link: String) -> some View {
+        if let providers = providers {
+            ProvidersView(data: providers, title: title, link: link)
+                .padding(.leading, 10)
         }
     }
     
@@ -157,10 +186,6 @@ struct DetailCoreView: View {
         
         return providers
     }
-    
-    func placeOrder() { }
-    func adjustOrder() { }
-    func cancelOrder() { }
 }
 struct DetailCoreView_Previews: PreviewProvider {
     static var previews: some View {

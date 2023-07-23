@@ -53,3 +53,10 @@ struct MoviesTVShowResult: Codable, Identifiable, Hashable {
         case originalName = "original_name"
     }
 }
+
+extension DiscoverMovies {
+        static var stubbedMovies: MoviesTVShowResult {
+            let response: DiscoverMovies? = try? Bundle.main.loadAndDecodeJSON(fileName: "movie_tvshow")
+            return response!.results.first!
+        }
+}

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MoviesView: View {
     @StateObject private var viewModel = HomeViewModel()
+    
     var body: some View {
         ScrollView(.vertical) {
             VStack(spacing: 32) {

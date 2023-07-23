@@ -29,7 +29,7 @@ struct ProvidersView: View {
                                         image: URL(string: Constants.basePosters + (provider.logoPath ?? "")),
                                         name: provider.providerName
                                     )
-                                    .fixedSize(horizontal: true, vertical: false)
+                                    .frame(width: 100, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                                 }
                             }
                         }
@@ -44,3 +44,33 @@ struct ProvidersView: View {
         }
     }
 }
+
+struct ProvidersView_Previews: PreviewProvider {
+    static var previews: some View {
+        ProvidersView(
+            data: [
+                WatchProvider(
+                    logoPath: "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+                    id: 123,
+                    providerName: "bla bla bla bla bla bla ",
+                    displayPriority: 1
+                ),
+                WatchProvider(
+                    logoPath: "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+                    id: 123,
+                    providerName: "bla bla",
+                    displayPriority: 2
+                ),
+                WatchProvider(
+                    logoPath: "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+                    id: 123,
+                    providerName: "bla bla",
+                    displayPriority: 3
+                )
+            ],
+            title: "title",
+            link: "www.apple.com"
+        )
+    }
+}
+
