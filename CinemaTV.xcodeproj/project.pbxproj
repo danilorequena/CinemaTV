@@ -18,7 +18,6 @@
 		09E6E2E828DF964500E7E856 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E6E2E728DF964500E7E856 /* Constant.swift */; };
 		09E6E2EA28DF969D00E7E856 /* LocalizedConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E6E2E928DF969D00E7E856 /* LocalizedConstants.swift */; };
 		7D42245C273810E1006236F8 /* CinemaTVApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D42245B273810E1006236F8 /* CinemaTVApp.swift */; };
-		7D42245E273810E1006236F8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D42245D273810E1006236F8 /* ContentView.swift */; };
 		7D422460273810E2006236F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D42245F273810E2006236F8 /* Assets.xcassets */; };
 		7D422463273810E2006236F8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D422462273810E2006236F8 /* Preview Assets.xcassets */; };
 		7D422465273810E2006236F8 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D422464273810E2006236F8 /* Persistence.swift */; };
@@ -241,7 +240,6 @@
 		09E6E2E928DF969D00E7E856 /* LocalizedConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedConstants.swift; sourceTree = "<group>"; };
 		7D422458273810E1006236F8 /* CinemaTV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CinemaTV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D42245B273810E1006236F8 /* CinemaTVApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CinemaTVApp.swift; sourceTree = "<group>"; };
-		7D42245D273810E1006236F8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7D42245F273810E2006236F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7D422462273810E2006236F8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7D422464273810E2006236F8 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -485,7 +483,6 @@
 		7D42248B2738118A006236F8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7D42245D273810E1006236F8 /* ContentView.swift */,
 				7D42249A273814D8006236F8 /* HomeView.swift */,
 				09520E7929DE0CD80028A778 /* CreditsView.swift */,
 				FF7DC22228E6318B00B5FEC5 /* MoviesView.swift */,
@@ -1186,7 +1183,6 @@
 				FF3EA3282946518500763A77 /* WatchProviders.swift in Sources */,
 				FF394E3B27D1010500FFBDFC /* MovieStore.swift in Sources */,
 				FF9156FA2749C94600AF74C3 /* DetailMoviesModel.swift in Sources */,
-				7D42245E273810E1006236F8 /* ContentView.swift in Sources */,
 				FFC8244A28F22C300035D4BA /* Person.swift in Sources */,
 				7D4224A72738266D006236F8 /* HomeViewModel.swift in Sources */,
 				FF29E58928DA129A0042DFAF /* TVShowService.swift in Sources */,

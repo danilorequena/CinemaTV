@@ -11,63 +11,42 @@ struct HomeView: View {
     @Environment(\.colorScheme) var colorScheme
     var body: some View {
         NavigationStack {
-            if colorScheme == .dark {
-                Group {
-                    MoviesView()
-                }
-                .background(Gradient(colors: [.gray, .black]))
-                .navigationTitle(LC.discover.text)
-                .toolbar {
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        NavigationLink(
-                            destination: WantWatchView(),
-                            label: {
-                                Image(systemName: "bookmark.fill")
-                                    .foregroundColor(.yellow)
-                            }
-                        )
-                        
-                        NavigationLink(
-                            destination: CreditsView(),
-                            label: {
-                                Image(systemName: "info.circle")
-                                    .foregroundColor(.white)
-                            }
-                        )
-                    }
-                }
-            } else {
-                Group {
-                    MoviesView()
-                }
-                .background(Gradient(colors: [.gray, .white]))
-                .navigationTitle(LC.discover.text)
-                .toolbar {
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        NavigationLink(
-                            destination: WantWatchView(),
-                            label: {
-                                Image(systemName: "bookmark.fill")
-                                    .foregroundColor(.secondary)
-                            }
-                        )
-                        
-                        NavigationLink(
-                            destination: CreditsView(),
-                            label: {
-                                Image(systemName: "info.circle")
-                                    .foregroundColor(.black)
-                            }
-                        )
-                    }
+            Group {
+                MoviesView()
+            }
+            .background(Gradient(colors: colorScheme == .dark ? [.gray, .black] : [.gray, .white]))
+            .navigationTitle(LC.discover.text)
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    NavigationLink(
+                        destination: WantWatchView(),
+                        label: {
+                            Image(systemName: "bookmark.fill")
+                                .foregroundColor(colorScheme == .light ? .yellow : .black)
+                        }
+                    )
+                    
+                    NavigationLink(
+                        destination: CreditsView(),
+                        label: {
+                            Image(systemName: "info.circle")
+                                .foregroundColor(colorScheme == .light ? .white : .secondary)
+                        }
+                    )
                 }
             }
         }
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
+#Preview {
         HomeView()
-    }
+            .modelContainer(for: [MoviesWatched.self, MoviesToWatch.self])
+            .preferredColorScheme(.light)
+}
+
+#Preview {
+        HomeView()
+            .modelContainer(for: [MoviesWatched.self, MoviesToWatch.self])
+            .preferredColorScheme(.dark)
 }

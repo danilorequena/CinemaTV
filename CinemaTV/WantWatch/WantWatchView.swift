@@ -110,8 +110,7 @@ struct WantWatchView: View {
     }
 }
 
-struct WantWatch_Previews: PreviewProvider {
-    static var previews: some View {
-        WantWatchView()
-    }
+#Preview {
+    WantWatchView()
+        .modelContainer(for: [MoviesWatched.self, MoviesToWatch.self])
 }

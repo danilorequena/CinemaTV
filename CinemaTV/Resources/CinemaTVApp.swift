@@ -17,3 +17,8 @@ struct CinemaTVApp: App {
         .modelContainer(for: [MoviesWatched.self, MoviesToWatch.self])
     }
 }
+
+#Preview {
+    AppView()
+        .preferredColorScheme(.light)
+}
