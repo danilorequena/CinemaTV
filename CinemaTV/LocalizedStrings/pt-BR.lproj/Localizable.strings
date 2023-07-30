@@ -1,0 +1,37 @@
+// MARK: - Trailer
+"trailer" = "Trailer";
+
+// MARK: - MoviesHome
+"soon" = "Em breve";
+"nowPlaying" = "Agora nos cinemas";
+"popular" = "Filmes Populares";
+"rated" = "Melhor avaliados";
+"movies" = "Filmes";
+"seeAll" = "Ver Todos";
+"discover" = "Descubra";
+"tvShows" = "Séries";
+"watchedTag" = "Assistido";
+
+// MARK: - TVShowsHome
+"onTheAir" = "No ar";
+"popTVShows" = "Séries Populares";
+
+// MARK: - CinemaTVProgressView
+"loading" = "carregando";
+
+// MARK: - Details
+"releaseDate" = "Data de lançamento: ";
+"average" = "Média: ";
+"recommendations" = "Recomendações";
+"similars" = "Similares";
+"watchButton" = "Assistir";
+"watchedButton" = "Assistido";
+"addFavorites" = "Adicionar";
+
+//MARK: - Credits
+"creditsName" = "The Move Data Base (TMDB)";
+"creditsParagraph" = " Os dados de filmes e séries disponibilizados dento do CinemaTV, como posters, descrição, notas, elenco e suas fotos são fornecidas pela API do TMDB.\n\n Apesar do CinemaTV utilizar a API do TMBD, ele não é endossado/certificado pelo mesmo.";
+
+// MARK: - Widget
+"commingSoon" = "CinemaTV - Em breve";
+"commingSoonDescription" = "Esse Widget mostra os 3 primeiros filmes que estrearão em breve.";

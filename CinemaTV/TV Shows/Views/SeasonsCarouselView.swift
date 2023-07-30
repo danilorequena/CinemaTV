@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct SeasonsCollectionView: View {
-    let viewModel = DetailViewModel()
+struct SeasonsCarouselView: View {
+    let seriesID: Int
     let data: [Season]
     let title: String
     var body: some View {
@@ -26,10 +26,15 @@ struct SeasonsCollectionView: View {
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
-                        ForEach(data) { movie in
-                            NavigationLink(destination: DetailView(id: movie.id, state: .movie)) {
+                        ForEach(data) { tvShow in
+                            NavigationLink(destination: DetailSeasonView(
+                                viewModel: SeasonViewModel(
+                                    tvShowID: seriesID,
+                                    tvshowSeasonNumber: tvShow.seasonNumber ?? 0
+                                )
+                            )) {
                                 VStack(spacing: 2) {
-                                    AsyncImage(url: URL(string: Constants.basePosters + (movie.posterPath ?? ""))) { image in
+                                    AsyncImage(url: URL(string: Constants.basePosters + (tvShow.posterPath ?? ""))) { image in
                                         image
                                             .resizable()
                                             .cornerRadius(16)
@@ -39,7 +44,7 @@ struct SeasonsCollectionView: View {
                                         ProgressView()
                                     }
 
-                                    Text(movie.name ?? "")
+                                    Text(tvShow.name ?? "")
                                         .font(.caption)
                                         .lineLimit(1)
                                         .frame(width: 180)
@@ -60,9 +65,10 @@ struct SeasonsCollectionView: View {
     }
 }
 
-struct SeasonsCollectionView_Previews: PreviewProvider {
+struct SeasonsCarouselView_Previews: PreviewProvider {
     static var previews: some View {
-        SeasonsCollectionView(
+        SeasonsCarouselView(
+            seriesID: 94997,
             data: Season.mockArray(),
             title: "Title"
         )

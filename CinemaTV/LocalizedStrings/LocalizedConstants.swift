@@ -40,6 +40,7 @@ enum LocalizedConstants: String {
     case average
     case watchButton
     case watchedButton
+    case addFavorites
     
     //MARK: - Credits
     case creditsName

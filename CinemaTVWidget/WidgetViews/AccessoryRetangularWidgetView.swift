@@ -37,6 +37,7 @@ struct AccessoryRetangularWidgetView_Previews: PreviewProvider {
                         repeating: MovieResultModel(
                             id: 0,
                             title: "title",
+                            description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
                             poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                         ),
                         count: 6
