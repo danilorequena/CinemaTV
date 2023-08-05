@@ -29,7 +29,7 @@ struct MoviesListView: View {
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
-                .onChange(of: selectionIndex) { (_) in
+                .onChange(of: selectionIndex) { 
                     if selectionIndex == 0 {
                         viewModel.endpointToLoadMore = .discover
                         viewModel.loadData(endpoint: .discover)

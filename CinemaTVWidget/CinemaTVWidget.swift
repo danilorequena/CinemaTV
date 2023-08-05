@@ -133,7 +133,7 @@ struct CinemaTVWidgetView: View {
                 AccessoryRetangularWidgetView(data: data)
             case .systemLarge:
                 WidgetLargeView(data: data)
-            @unknown default:
+            default:
                 WidgetSmallView(data: data)
             }
         }
