@@ -340,8 +340,8 @@
 		FFEF0AEB275FBBF700D5593C /* VideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoModel.swift; sourceTree = "<group>"; };
 		FFFB2A0D28F8534E00822923 /* PersonStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonStub.swift; sourceTree = "<group>"; };
 		FFFC45432A64C54C009F9D74 /* SwiftData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftData.framework; path = System/Library/Frameworks/SwiftData.framework; sourceTree = SDKROOT; };
-		FFFC45462A64C735009F9D74 /* MoviesToWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MoviesToWatch.swift; path = CinemaTV/Bindings/MoviesToWatch.swift; sourceTree = "<group>"; };
-		FFFC45472A64C735009F9D74 /* MoviesWatched.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MoviesWatched.swift; path = CinemaTV/Bindings/MoviesWatched.swift; sourceTree = "<group>"; };
+		FFFC45462A64C735009F9D74 /* MoviesToWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesToWatch.swift; sourceTree = "<group>"; };
+		FFFC45472A64C735009F9D74 /* MoviesWatched.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesWatched.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -395,13 +395,10 @@
 		7D42244F273810E1006236F8 = {
 			isa = PBXGroup;
 			children = (
-				FFFC45462A64C735009F9D74 /* MoviesToWatch.swift */,
-				FFFC45472A64C735009F9D74 /* MoviesWatched.swift */,
-				FFEEEED828EC834A00B1CF77 /* CastListView.swift */,
 				7D42245A273810E1006236F8 /* CinemaTV */,
+				FF7412992895D65F00A79C7C /* CinemaTVWidget */,
 				7D422470273810E2006236F8 /* CinemaTVTests */,
 				7D42247A273810E2006236F8 /* CinemaTVUITests */,
-				FF7412992895D65F00A79C7C /* CinemaTVWidget */,
 				FF7412942895D65F00A79C7C /* Frameworks */,
 				7D422459273810E1006236F8 /* Products */,
 			);
@@ -421,6 +418,8 @@
 		7D42245A273810E1006236F8 /* CinemaTV */ = {
 			isa = PBXGroup;
 			children = (
+				FFDB97532A7ED585005742AC /* Data */,
+				FFDB97522A7ED513005742AC /* Main */,
 				FFB68A0228FDAAC8002D5888 /* Info.plist */,
 				FFB68A0128FDA7AB002D5888 /* CinemaTV.entitlements */,
 				FFC8244228F1C20B0035D4BA /* Extensions */,
@@ -486,7 +485,6 @@
 				FF7DC22228E6318B00B5FEC5 /* MoviesView.swift */,
 				7D42249D27381DB5006236F8 /* DiscoverView.swift */,
 				7DF3C91F273961BB0072598F /* DefaultCarouselView.swift */,
-				FF058F7628A7E77D00125FB2 /* AppView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -874,6 +872,23 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		FFDB97522A7ED513005742AC /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				FF058F7628A7E77D00125FB2 /* AppView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		FFDB97532A7ED585005742AC /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				FFFC45462A64C735009F9D74 /* MoviesToWatch.swift */,
+				FFFC45472A64C735009F9D74 /* MoviesWatched.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		FFEF0AD8275E8D9B00D5593C /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -886,6 +901,7 @@
 		FFEF0ADE275FA63700D5593C /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				FFEEEED828EC834A00B1CF77 /* CastListView.swift */,
 				FF51481329E25128000A20EB /* WatchedTag */,
 				FFEF0AE3275FA6D600D5593C /* Videos */,
 				FFEF0ADF275FA65D00D5593C /* CastCarousel */,
