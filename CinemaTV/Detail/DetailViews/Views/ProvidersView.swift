@@ -23,7 +23,6 @@ struct ProvidersView: View {
                     ScrollView(.horizontal) {
                         HStack(spacing: 10) {
                             ForEach(data) { provider in
-                                #warning("Verificar isso pra inserir uma WebView, e não tirar o usuário do App")
                                 Link(destination: URL(string: link)!) {
                                     CastCell(
                                         image: URL(string: Constants.basePosters + (provider.logoPath ?? "")),
@@ -37,7 +36,6 @@ struct ProvidersView: View {
                     }
                 }
             } else {
-                #warning("Retirar isso, e desaparecer com essa view, caso venha vazio")
                 Text("No data")
                     .padding()
             }

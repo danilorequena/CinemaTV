@@ -27,11 +27,11 @@ struct SearchView: View {
             .navigationTitle("Search")
         }
         .searchable(text: self.$searchText)
-        .onChange(of: searchText, perform: { _ in
+        .onChange(of: searchText) {
             if searchText.isEmpty {
                 self.viewModel.multiResults.removeAll()
             }
-        })
+        }
         .onSubmit(of: .search) {
             if isSearching && searchText.isEmpty {
                 dismissSearch()

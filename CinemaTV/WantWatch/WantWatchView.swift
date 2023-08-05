@@ -6,16 +6,16 @@
 //
 
 import SwiftUI
-import CoreData
+import SwiftData
 
 struct WantWatchView: View {
-    @FetchRequest(sortDescriptors: []) var movies: FetchedResults<MoviesToWatch>
-    @FetchRequest(sortDescriptors: []) var moviesWatched: FetchedResults<MoviesWatched>
-    @Environment(\.managedObjectContext) var moc
-    @Environment(\.managedObjectContext) var mocWatched
+    @Environment(\.modelContext) var moc
+    @Environment(\.modelContext) var mocWatched
+    @Query var movies: [MoviesToWatch]
+    @Query var moviesWatched: [MoviesWatched]
     
     var counter: Double {
-        moviesWatched.reduce(0) { $0 + $1.counter }
+        moviesWatched.reduce(0) { $0 + ($1.counter ?? 0) }
     }
     
     var body: some View {
@@ -110,10 +110,7 @@ struct WantWatchView: View {
     }
 }
 
-struct WantWatch_Previews: PreviewProvider {
-    static var previews: some View {
-        let dataController = DataController.shared
-        WantWatchView()
-            .environment(\.managedObjectContext, dataController.container.viewContext)
-    }
+#Preview {
+    WantWatchView()
+        .modelContainer(for: [MoviesWatched.self, MoviesToWatch.self])
 }
