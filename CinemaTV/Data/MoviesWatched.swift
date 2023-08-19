@@ -11,8 +11,8 @@ import SwiftData
 
 
 @Model public class MoviesWatched {
-    var counter: Double? = 0.0
-    public var id: Int64? = 0
+    var counter: Double?
+    public var id: Int64?
     var name: String?
     var overview: String?
     var profilePath: String?

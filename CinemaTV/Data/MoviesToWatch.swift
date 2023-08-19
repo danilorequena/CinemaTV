@@ -11,7 +11,7 @@ import SwiftData
 
 
 @Model public class MoviesToWatch {
-    public var id: Int64? = 0
+    public var id: Int64?
     var name: String?
     var overview: String?
     var profilePath: String?

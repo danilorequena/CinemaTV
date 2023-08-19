@@ -167,8 +167,8 @@ struct DetailCoreView: View {
     func adjustOrder() { }
     func cancelOrder() { }
 }
-struct DetailCoreView_Previews: PreviewProvider {
-    static var previews: some View {
-        DetailMoviesView(state: .movie, id: 287)
-    }
+
+#Preview {
+    DetailMoviesView(state: .movie, id: 287)
+        .modelContainer(for: [MoviesWatched.self, MoviesToWatch.self])
 }
