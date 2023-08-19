@@ -23,11 +23,10 @@ struct DetailView: View {
     }
 }
 
-struct DetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            DetailView(id: 19404, state: .movie)
-            DetailView(id: 94997, state: .tvShow)
-        }
-    }
+#Preview {
+    DetailView(id: 19404, state: .movie)
+}
+
+#Preview {
+    DetailView(id: 94997, state: .tvShow)
 }
