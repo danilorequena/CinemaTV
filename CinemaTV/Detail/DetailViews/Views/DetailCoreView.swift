@@ -23,11 +23,17 @@ struct DetailCoreView: View {
     var body: some View {
         ZStack {
             if let detail = viewModel.detailMovie {
-                AsyncImage(url: URL(string: Constants.basePosters + detail.posterPath)) { image in
-                    image
-                        .resizable()
-                } placeholder: {
-                    Image("placeholder-image")
+                AsyncImage(url: URL(string: Constants.basePosters + (detail.posterPath ?? ""))) { phase in
+                    if let image = phase.image {
+                        image
+                            .resizable()
+                    } else if phase.error != nil {
+                        Image("placeholder-image")
+                            .resizable()
+                    } else {
+                        Image("placeholder-image")
+                            .resizable()
+                    }
                 }
                 
                 ScrollView {

@@ -65,7 +65,7 @@ final class DetailViewModel: ObservableObject {
                 self.detailMovie = detail
                 self.isDetailLoading = false
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
             }
         }
     }
