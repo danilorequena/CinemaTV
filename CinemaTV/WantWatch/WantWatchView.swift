@@ -22,39 +22,7 @@ struct WantWatchView: View {
         VStack {
             if !movies.isEmpty || !moviesWatched.isEmpty {
                 VStack {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            VStack {
-                                Text(minutesToHoursAndMinutes(Int(counter)))
-                                    .font(.headline)
-                            }
-                            .padding()
-                            .background(.ultraThinMaterial)
-                            .cornerRadius(16)
-                            .frame(width: 200, height: 100)
-                            
-                            //TODO: - Aqui ficará o counter de séries
-                            VStack {
-                                Text("Você já assistiu 10 horas e 12 minutos de séries na sua vida!!!")
-                                    .font(.headline)
-                            }
-                            .padding()
-                            .background(.ultraThinMaterial)
-                            .cornerRadius(16)
-                            .frame(width: 200, height: 100)
-                            
-                            //TODO: - Aqui ficará o counter de Totel de conteudo
-                            VStack {
-                                Text("Você já consumiu um total de 100 horas de conteudo!!!")
-                                    .font(.headline)
-                            }
-                            .padding()
-                            .background(.ultraThinMaterial)
-                            .cornerRadius(16)
-                            .frame(width: 200, height: 100)
-                        }
-                        .padding(.horizontal)
-                    }
+                    CarouselLifeView(value: minutesToHoursAndMinutes(Int(counter)))
                     
                     List {
                         Section(header: Text("Want Watch")) {

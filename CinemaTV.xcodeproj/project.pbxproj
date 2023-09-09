@@ -153,6 +153,7 @@
 		FF9156FA2749C94600AF74C3 /* DetailMoviesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9156F92749C94600AF74C3 /* DetailMoviesModel.swift */; };
 		FF9156FF2749CC3500AF74C3 /* DetailMovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9156FE2749CC3500AF74C3 /* DetailMovieViewModel.swift */; };
 		FF9157012749D15A00AF74C3 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9157002749D15A00AF74C3 /* DetailView.swift */; };
+		FF940C482A917CE500421050 /* CaouselLifeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF940C472A917CE500421050 /* CaouselLifeView.swift */; };
 		FFAD66C328E622D500A08320 /* TVShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAD66C228E622D500A08320 /* TVShowView.swift */; };
 		FFB68A0A28FDDD3B002D5888 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D422464273810E2006236F8 /* Persistence.swift */; };
 		FFB68A0E28FDDDF8002D5888 /* WantWatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB68A0D28FDDDF8002D5888 /* WantWatchView.swift */; };
@@ -321,6 +322,7 @@
 		FF9156F92749C94600AF74C3 /* DetailMoviesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMoviesModel.swift; sourceTree = "<group>"; };
 		FF9156FE2749CC3500AF74C3 /* DetailMovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMovieViewModel.swift; sourceTree = "<group>"; };
 		FF9157002749D15A00AF74C3 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		FF940C472A917CE500421050 /* CaouselLifeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaouselLifeView.swift; sourceTree = "<group>"; };
 		FFAD66C228E622D500A08320 /* TVShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowView.swift; sourceTree = "<group>"; };
 		FFB68A0128FDA7AB002D5888 /* CinemaTV.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CinemaTV.entitlements; sourceTree = "<group>"; };
 		FFB68A0228FDAAC8002D5888 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -815,6 +817,7 @@
 			isa = PBXGroup;
 			children = (
 				FFB68A0D28FDDDF8002D5888 /* WantWatchView.swift */,
+				FF940C472A917CE500421050 /* CaouselLifeView.swift */,
 			);
 			path = WantWatch;
 			sourceTree = "<group>";
@@ -1138,6 +1141,7 @@
 				FFFC45482A64C735009F9D74 /* MoviesToWatch.swift in Sources */,
 				FFFC454A2A64C735009F9D74 /* MoviesWatched.swift in Sources */,
 				7DF3C920273961BB0072598F /* DefaultCarouselView.swift in Sources */,
+				FF940C482A917CE500421050 /* CaouselLifeView.swift in Sources */,
 				FF4DDD7B27C333250049CAFA /* MoviesListView.swift in Sources */,
 				FFECD0F3290EF9A500F2D357 /* SeasonStub.swift in Sources */,
 				FFEF0AE6275FA6F400D5593C /* TrailersView.swift in Sources */,
