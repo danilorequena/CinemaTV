@@ -6,15 +6,16 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct DetailCoreView: View {
     let viewModel: DetailViewModel
     var id: Int
     
-    @Environment(\.managedObjectContext) var moc
-    @FetchRequest(sortDescriptors: []) var movies: FetchedResults<MoviesToWatch>
-    @Environment(\.managedObjectContext) var mocWatched
-    @FetchRequest(sortDescriptors: []) var moviesWatched: FetchedResults<MoviesWatched>
+    @Environment(\.modelContext) var moc
+    @Environment(\.modelContext) var mocWatched
+    @Query var movies: [MoviesToWatch]
+    @Query var moviesWatched: [MoviesWatched]
     
     @State private var buttonMarkDisabled = false
     @State private var buttonCheckDisabled = false
@@ -22,11 +23,17 @@ struct DetailCoreView: View {
     var body: some View {
         ZStack {
             if let detail = viewModel.detailMovie {
-                AsyncImage(url: URL(string: Constants.basePosters + detail.posterPath)) { image in
-                    image
-                        .resizable()
-                } placeholder: {
-                    Image("placeholder-image")
+                AsyncImage(url: URL(string: Constants.basePosters + (detail.posterPath ?? ""))) { phase in
+                    if let image = phase.image {
+                        image
+                            .resizable()
+                    } else if phase.error != nil {
+                        Image("placeholder-image")
+                            .resizable()
+                    } else {
+                        Image("placeholder-image")
+                            .resizable()
+                    }
                 }
                 
                 ScrollView {
@@ -117,22 +124,26 @@ struct DetailCoreView: View {
     private func saveData(with detailData: DetailMoviesModel, isWatched: Bool) {
         if !verifyIfExists(id: detailData.id, verifyIn: .toWatch) {
             if !isWatched {
-                let movie = MoviesToWatch(context: moc)
-                movie.id = Int64(detailData.id)
-                movie.name = detailData.title
-                movie.overview = detailData.overview
-                movie.profilePath = detailData.posterPath
+                let movie = MoviesToWatch(
+                    id: Int64(detailData.id),
+                    name: detailData.title,
+                    overview: detailData.overview,
+                    profilePath: detailData.posterPath
+                )
+                moc.insert(movie)
                 try? moc.save()
                 
                 buttonCheckDisabled = true
             } else {
                 if !verifyIfExists(id: detailData.id, verifyIn: .wached) {
-                    let movie = MoviesWatched(context: mocWatched)
-                    movie.id = Int64(detailData.id)
-                    movie.name = detailData.title
-                    movie.overview = detailData.overview
-                    movie.profilePath = detailData.posterPath
-                    movie.counter = Double(detailData.runtime)
+                    let movie = MoviesWatched(
+                        counter: Double(detailData.runtime),
+                        id: Int64(detailData.id),
+                        name: detailData.title,
+                        overview: detailData.overview,
+                        profilePath: detailData.posterPath
+                    )
+                    mocWatched.insert(movie)
                     try? mocWatched.save()
                     
                     buttonCheckDisabled = true
@@ -144,10 +155,10 @@ struct DetailCoreView: View {
     private func verifyIfExists(id: Int, verifyIn: DataBase) -> Bool {
         switch verifyIn {
         case .toWatch:
-            let exist = movies.contains(where: {$0.id == id})
+            let exist = movies.contains(where: {$0.id ?? 0 == id})
             return exist
         case .wached:
-            let exist = moviesWatched.contains(where: {$0.id == id})
+            let exist = moviesWatched.contains(where: {$0.id ?? 0 == id})
             return exist
         }
     }
@@ -162,10 +173,8 @@ struct DetailCoreView: View {
     func adjustOrder() { }
     func cancelOrder() { }
 }
-struct DetailCoreView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            DetailMoviesView(state: .movie, id: 287)
-        }
-    }
+
+#Preview {
+    DetailMoviesView(state: .movie, id: 287)
+        .modelContainer(for: [MoviesWatched.self, MoviesToWatch.self])
 }

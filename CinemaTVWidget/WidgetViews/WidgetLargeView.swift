@@ -13,9 +13,8 @@ struct WidgetLargeView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
             Text("Comming Soon")
-                .font(.largeTitle)
-                .fontWeight(.regular)
-                .padding(.leading, 8)
+                .font(.title)
+                .fontWeight(.heavy)
                 .foregroundColor(.white)
             
             VStack(alignment: .leading, spacing: 20) {
@@ -47,15 +46,14 @@ struct WidgetLargeView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
             }
-            .padding(.horizontal, 8)
             .padding(.bottom, 4)
         }
-        .background(
-            LinearGradient(
-                colors: [.black, .gray],
-                startPoint: .top,
-                endPoint: .bottom
-            )
+        .containerBackground(
+            .linearGradient(
+            colors: [.black, .gray],
+            startPoint: .top,
+            endPoint: .bottom),
+            for: .widget
         )
     }
 }

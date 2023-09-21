@@ -38,7 +38,7 @@ final class SearchViewModel: ObservableObject {
 //            }
 //        }
         
-        MovieStore.shared.fetchMultiSearch(from: MoviesEndpoint.multiSearch.path(), query: searchText) { [weak self] (result) in
+        MovieStore.shared.fetchMultiSearch(from: MoviesEndpoint.searchMovie.path(), query: searchText) { [weak self] (result) in
             guard let self = self else { return }
             self.isLoading = false
             switch result {

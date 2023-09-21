@@ -17,21 +17,23 @@ struct SearchView: View {
     var body: some View {
         NavigationStack {
             List(self.viewModel.multiResults) { result in
-                MoviesListCell(
-                    image: URL(string: Constants.basePosters + (result.posterPath ?? "")),
-                    title: result.title ?? "",
-                    subTitle: result.overview ?? ""
-                )
+                NavigationLink(destination: DetailView(id: result.id, state: .movie)) {
+                    MoviesListCell(
+                        image: URL(string: Constants.basePosters + (result.posterPath ?? "")),
+                        title: result.title ?? "",
+                        subTitle: result.overview ?? ""
+                    )
+                }
             }
             .id(UUID())
             .navigationTitle("Search")
         }
         .searchable(text: self.$searchText)
-        .onChange(of: searchText, perform: { _ in
+        .onChange(of: searchText) {
             if searchText.isEmpty {
                 self.viewModel.multiResults.removeAll()
             }
-        })
+        }
         .onSubmit(of: .search) {
             if isSearching && searchText.isEmpty {
                 dismissSearch()

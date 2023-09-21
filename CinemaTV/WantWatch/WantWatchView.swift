@@ -6,55 +6,23 @@
 //
 
 import SwiftUI
-import CoreData
+import SwiftData
 
 struct WantWatchView: View {
-    @FetchRequest(sortDescriptors: []) var movies: FetchedResults<MoviesToWatch>
-    @FetchRequest(sortDescriptors: []) var moviesWatched: FetchedResults<MoviesWatched>
-    @Environment(\.managedObjectContext) var moc
-    @Environment(\.managedObjectContext) var mocWatched
+    @Environment(\.modelContext) var moc
+    @Environment(\.modelContext) var mocWatched
+    @Query var movies: [MoviesToWatch]
+    @Query var moviesWatched: [MoviesWatched]
     
     var counter: Double {
-        moviesWatched.reduce(0) { $0 + $1.counter }
+        moviesWatched.reduce(0) { $0 + ($1.counter ?? 0) }
     }
     
     var body: some View {
         VStack {
             if !movies.isEmpty || !moviesWatched.isEmpty {
                 VStack {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            VStack {
-                                Text(minutesToHoursAndMinutes(Int(counter)))
-                                    .font(.headline)
-                            }
-                            .padding()
-                            .background(.ultraThinMaterial)
-                            .cornerRadius(16)
-                            .frame(width: 200, height: 100)
-                            
-                            //TODO: - Aqui ficará o counter de séries
-                            VStack {
-                                Text("Você já assistiu 10 horas e 12 minutos de séries na sua vida!!!")
-                                    .font(.headline)
-                            }
-                            .padding()
-                            .background(.ultraThinMaterial)
-                            .cornerRadius(16)
-                            .frame(width: 200, height: 100)
-                            
-                            //TODO: - Aqui ficará o counter de Totel de conteudo
-                            VStack {
-                                Text("Você já consumiu um total de 100 horas de conteudo!!!")
-                                    .font(.headline)
-                            }
-                            .padding()
-                            .background(.ultraThinMaterial)
-                            .cornerRadius(16)
-                            .frame(width: 200, height: 100)
-                        }
-                        .padding(.horizontal)
-                    }
+                    CarouselLifeView(value: minutesToHoursAndMinutes(Int(counter)))
                     
                     List {
                         Section(header: Text("Want Watch")) {
@@ -110,10 +78,7 @@ struct WantWatchView: View {
     }
 }
 
-struct WantWatch_Previews: PreviewProvider {
-    static var previews: some View {
-        let dataController = DataController.shared
-        WantWatchView()
-            .environment(\.managedObjectContext, dataController.container.viewContext)
-    }
+#Preview {
+    WantWatchView()
+        .modelContainer(for: [MoviesWatched.self, MoviesToWatch.self])
 }

@@ -8,12 +8,12 @@ import Foundation
 
 // MARK: - DetailMovies
 struct DetailMoviesModel: Codable, Identifiable {
-    let backdropPath: String
+    let backdropPath: String?
     let genres: [Genre]
     let id: Int
     let imdbID, originalLanguage, originalTitle, overview: String
     let popularity: Double
-    let posterPath: String
+    let posterPath: String?
     let releaseDate: String
     let status, tagline, title: String
     let video: Bool

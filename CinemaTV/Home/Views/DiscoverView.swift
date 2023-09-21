@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct DiscoverView: View {
-    @FetchRequest(sortDescriptors: []) var moviesWatched: FetchedResults<MoviesWatched>
+    @Query var moviesWatched: [MoviesWatched]
     
     let state: MovieORTVShow
     let movies: [MoviesTVShowResult]
@@ -34,7 +35,7 @@ struct DiscoverView: View {
                         ForEach(movies) { movie in
                             NavigationLink(destination: DetailView(id: movie.id, state: state)) {
                                 GeometryReader { proxy in
-                                    MovieCell(image: URL(string: Constants.basePosters + (movie.posterPath ?? "")), watched: moviesWatched.contains{ $0.id == movie.id ?? 0})
+                                    MovieCell(image: URL(string: Constants.basePosters + (movie.posterPath ?? "")), watched: moviesWatched.contains{ $0.id ?? 0 == movie.id ?? 0})
                                         .rotation3DEffect(Angle(degrees: (Double(proxy.frame(in: .global).minX) - 40) / -20), axis: (x: 0, y: 10.0, z: 0))
                                 }
                                 .frame(width: 246, height: 150)

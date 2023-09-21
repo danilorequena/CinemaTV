@@ -31,6 +31,7 @@ struct TrailersView: View {
 
 struct TrailersView_Previews: PreviewProvider {
     static var previews: some View {
-        TrailersView(videoID: 580489, videoKey: "NMzJbD53ODc").previewLayout(.fixed(width: 420, height: 260))
+        TrailersView(videoID: 580489, videoKey: "NMzJbD53ODc")
+            .previewLayout(.fixed(width: 420, height: 260))
     }
 }

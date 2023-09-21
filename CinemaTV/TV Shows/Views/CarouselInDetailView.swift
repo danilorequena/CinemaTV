@@ -29,14 +29,22 @@ struct CarouselInDetailView: View {
                         ForEach(data) { movie in
                             NavigationLink(destination: DetailView(id: movie.id, state: .movie)) {
                                 VStack(spacing: 2) {
-                                    AsyncImage(url: URL(string: Constants.basePosters + (movie.posterPath ?? ""))) { image in
-                                        image
-                                            .resizable()
-                                            .cornerRadius(16)
-                                            .scaledToFit()
-                                            .frame(width: 200, height: 240)
-                                    } placeholder: {
-                                        ProgressView()
+                                    AsyncImage(url: URL(string: Constants.basePosters + (movie.posterPath ?? ""))) { phase in
+                                        if let image = phase.image {
+                                            image
+                                                .resizable()
+                                                .cornerRadius(16)
+                                                .scaledToFit()
+                                                .frame(width: 200, height: 240)
+                                        } else if phase.error != nil {
+                                            Image("placeholder-image")
+                                                .resizable()
+                                                .cornerRadius(16)
+                                                .scaledToFit()
+                                                .frame(width: 200, height: 240)
+                                        } else {
+                                            ProgressView()
+                                        }
                                     }
 
                                     Text((movie.title ?? movie.name) ?? "")
