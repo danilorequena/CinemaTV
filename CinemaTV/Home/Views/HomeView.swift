@@ -21,11 +21,13 @@ struct HomeView: View {
                     NavigationLink(
                         destination: WantWatchView(),
                         label: {
-                            Image(systemName: "bookmark.fill")
-                                .foregroundColor(colorScheme == .light ? .yellow : .black)
+                            Image(systemName: "star.fill")
+                                .foregroundColor(colorScheme == .light ? .white : .secondary)
                         }
                     )
-                    
+                }
+                
+                ToolbarItemGroup(placement: .navigationBarLeading) {
                     NavigationLink(
                         destination: CreditsView(),
                         label: {

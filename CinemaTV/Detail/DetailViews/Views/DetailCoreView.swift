@@ -38,8 +38,10 @@ struct DetailCoreView: View {
                 
                 ScrollView {
                     Spacer(minLength: UIScreen.main.bounds.height / 2)
-                    VStack(alignment: .leading, spacing: 16) {
-                        VStack(alignment: .leading, spacing: 16) {
+                    VStack(spacing: 16) {
+                        VStack(spacing: 16) {
+                            RoundedRectangle(cornerRadius: 25)
+                                .frame(width: 50, height: 6)
                             VStack(alignment: .leading, spacing: 4) {
                                 HStack(spacing: 16) {
                                     Text(detail.title)
