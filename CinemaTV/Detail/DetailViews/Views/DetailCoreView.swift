@@ -85,33 +85,33 @@ struct DetailCoreView: View {
                             .padding(16)
                             .frame(height: 260)
                         
-                        if let cast = viewModel.cast?.cast {
+                        if let cast = viewModel.cast?.cast, !cast.isEmpty {
                             CastView(state: .movie, castData: cast)
                                 .padding(.leading, 10)
                         }
                         
-                        if let flatrate = viewModel.providers?.flatrate {
+                        if let flatrate = viewModel.providers?.flatrate, !flatrate.isEmpty {
                             ProvidersView(data: flatrate, title: "Streaming", link: viewModel.providers?.link ?? "")
                                 .padding(.leading, 10)
 
                         }
                         
-                        if let rent = viewModel.providers?.rent {
+                        if let rent = viewModel.providers?.rent, !rent.isEmpty {
                             ProvidersView(data: rent, title: "Rent", link: viewModel.providers?.link ?? "")
                                 .padding(.leading, 10)
                         }
                         
-                        if let buy = viewModel.providers?.buy {
+                        if let buy = viewModel.providers?.buy, !buy.isEmpty {
                             ProvidersView(data: buy, title: "Buy", link: viewModel.providers?.link ?? "")
                                 .padding(.leading, 10)
                         }
                         
-                        if let recommendations = viewModel.moviesRecommendations?.results {
+                        if let recommendations = viewModel.moviesRecommendations?.results, !recommendations.isEmpty {
                             CarouselInDetailView(data: recommendations, title: LC.recommendations.text)
                                 .padding(.leading, 10)
                         }
                         
-                        if let similars = viewModel.moviesSimilars?.results {
+                        if let similars = viewModel.moviesSimilars?.results, !similars.isEmpty {
                             CarouselInDetailView(data: similars, title: LC.similars.text)
                                 .padding(.leading, 10)
                         }
