@@ -91,6 +91,8 @@
 		FF5C570D292E5F6800A7DC78 /* DetailCoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5C570B292E5F6800A7DC78 /* DetailCoreView.swift */; };
 		FF6496AC280C89AB001BC28F /* UpcomingMovies.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6496AB280C89AB001BC28F /* UpcomingMovies.swift */; };
 		FF6496AE280C8B38001BC28F /* NowPlayingMovies.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6496AD280C8B38001BC28F /* NowPlayingMovies.swift */; };
+		FF7300FD2AEF2A4700CF0918 /* WebViewCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7300FC2AEF2A4700CF0918 /* WebViewCustom.swift */; };
+		FF7300FE2AEF2B9300CF0918 /* WebViewCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7300FC2AEF2A4700CF0918 /* WebViewCustom.swift */; };
 		FF74128E2895CF9900A79C7C /* TMDB.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF74128D2895CF9900A79C7C /* TMDB.plist */; };
 		FF7412962895D65F00A79C7C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF7412952895D65F00A79C7C /* WidgetKit.framework */; };
 		FF7412982895D65F00A79C7C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF7412972895D65F00A79C7C /* SwiftUI.framework */; };
@@ -298,6 +300,7 @@
 		FF5C570B292E5F6800A7DC78 /* DetailCoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCoreView.swift; sourceTree = "<group>"; };
 		FF6496AB280C89AB001BC28F /* UpcomingMovies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingMovies.swift; sourceTree = "<group>"; };
 		FF6496AD280C8B38001BC28F /* NowPlayingMovies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingMovies.swift; sourceTree = "<group>"; };
+		FF7300FC2AEF2A4700CF0918 /* WebViewCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewCustom.swift; sourceTree = "<group>"; };
 		FF74128D2895CF9900A79C7C /* TMDB.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = TMDB.plist; sourceTree = "<group>"; };
 		FF7412932895D65F00A79C7C /* CinemaTVWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CinemaTVWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF7412952895D65F00A79C7C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -702,6 +705,14 @@
 			path = WatchedTag;
 			sourceTree = "<group>";
 		};
+		FF7300FB2AEF2A0B00CF0918 /* WatchersWebView */ = {
+			isa = PBXGroup;
+			children = (
+				FF7300FC2AEF2A4700CF0918 /* WebViewCustom.swift */,
+			);
+			path = WatchersWebView;
+			sourceTree = "<group>";
+		};
 		FF74128C2895CF5F00A79C7C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -774,6 +785,7 @@
 		FF9156F42749C6FC00AF74C3 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				FF7300FB2AEF2A0B00CF0918 /* WatchersWebView */,
 				FF3EA32B2946558A00763A77 /* WatchProviders */,
 				FF3EA32A2946557C00763A77 /* DetailViews */,
 			);
@@ -1148,6 +1160,7 @@
 				FF77FCE82884569A00F0872B /* SearchModel.swift in Sources */,
 				FF9157012749D15A00AF74C3 /* DetailView.swift in Sources */,
 				FF6496AC280C89AB001BC28F /* UpcomingMovies.swift in Sources */,
+				FF7300FD2AEF2A4700CF0918 /* WebViewCustom.swift in Sources */,
 				FFECD0F1290EF96500F2D357 /* SeasonsCarouselView.swift in Sources */,
 				FF3937F727C6E3310082FF42 /* MoviesListService.swift in Sources */,
 				7D4224A2273821F7006236F8 /* MovieCell.swift in Sources */,
@@ -1285,6 +1298,7 @@
 				FFC8245628F2382D0035D4BA /* Person.swift in Sources */,
 				FF7412C02895D84C00A79C7C /* NowPlayingMovies.swift in Sources */,
 				FF7412C52895D86B00A79C7C /* VideoModel.swift in Sources */,
+				FF7300FE2AEF2B9300CF0918 /* WebViewCustom.swift in Sources */,
 				FFC8245428F238040035D4BA /* PersonViewModel.swift in Sources */,
 				FF7DC22D28EB16BB00B5FEC5 /* DetailTVShowView.swift in Sources */,
 				FF4DB80E296DC51D00842BB3 /* ProvidersStub.swift in Sources */,
