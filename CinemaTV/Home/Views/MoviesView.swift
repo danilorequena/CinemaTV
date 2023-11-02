@@ -55,3 +55,7 @@ struct MoviesView: View {
         }
     }
 }
+
+#Preview {
+    MoviesView()
+}
