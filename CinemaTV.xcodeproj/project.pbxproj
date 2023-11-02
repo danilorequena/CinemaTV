@@ -49,6 +49,8 @@
 		FF22564B2A229E2800846394 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22564A2A229E2800846394 /* Service.swift */; };
 		FF22564C2A229E2800846394 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22564A2A229E2800846394 /* Service.swift */; };
 		FF22564D2A22A3A700846394 /* DetailSeasonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2256342A22808300846394 /* DetailSeasonView.swift */; };
+		FF23AB552AF404060034D2E9 /* InformationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF23AB542AF404060034D2E9 /* InformationDetailView.swift */; };
+		FF23AB562AF404210034D2E9 /* InformationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF23AB542AF404060034D2E9 /* InformationDetailView.swift */; };
 		FF29E58528DA10E60042DFAF /* TVShowsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF29E58428DA10E60042DFAF /* TVShowsEndpoint.swift */; };
 		FF29E58928DA129A0042DFAF /* TVShowService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF29E58828DA129A0042DFAF /* TVShowService.swift */; };
 		FF29E58B28DA12F70042DFAF /* TVShowStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF29E58A28DA12F70042DFAF /* TVShowStore.swift */; };
@@ -268,6 +270,7 @@
 		FF2256432A229CA300846394 /* SeasonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonViewModel.swift; sourceTree = "<group>"; };
 		FF2256472A229D3F00846394 /* SeasonService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonService.swift; sourceTree = "<group>"; };
 		FF22564A2A229E2800846394 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		FF23AB542AF404060034D2E9 /* InformationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationDetailView.swift; sourceTree = "<group>"; };
 		FF29E58428DA10E60042DFAF /* TVShowsEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowsEndpoint.swift; sourceTree = "<group>"; };
 		FF29E58828DA129A0042DFAF /* TVShowService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowService.swift; sourceTree = "<group>"; };
 		FF29E58A28DA12F70042DFAF /* TVShowStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowStore.swift; sourceTree = "<group>"; };
@@ -580,6 +583,7 @@
 		FF29E57F28DA101F0042DFAF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FF23AB542AF404060034D2E9 /* InformationDetailView.swift */,
 				FF29E58E28DA1BE80042DFAF /* TVShowHomeView.swift */,
 				FFAD66C228E622D500A08320 /* TVShowView.swift */,
 				FFEEEED328EB7AAF00B1CF77 /* CarouselInDetailView.swift */,
@@ -1157,6 +1161,7 @@
 				FF4DDD7B27C333250049CAFA /* MoviesListView.swift in Sources */,
 				FFECD0F3290EF9A500F2D357 /* SeasonStub.swift in Sources */,
 				FFEF0AE6275FA6F400D5593C /* TrailersView.swift in Sources */,
+				FF23AB552AF404060034D2E9 /* InformationDetailView.swift in Sources */,
 				FF77FCE82884569A00F0872B /* SearchModel.swift in Sources */,
 				FF9157012749D15A00AF74C3 /* DetailView.swift in Sources */,
 				FF6496AC280C89AB001BC28F /* UpcomingMovies.swift in Sources */,
@@ -1306,6 +1311,7 @@
 				FF7412B72895D82500A79C7C /* Utils.swift in Sources */,
 				FF7DC22A28EAFADD00B5FEC5 /* DetailTVShow.swift in Sources */,
 				FF51480D29E0E708000A20EB /* WidgetSmallView.swift in Sources */,
+				FF23AB562AF404210034D2E9 /* InformationDetailView.swift in Sources */,
 				FFECD0F5290EFB2D00F2D357 /* SeasonsCarouselView.swift in Sources */,
 				FF2256492A229D3F00846394 /* SeasonService.swift in Sources */,
 				FFC8245328F237EA0035D4BA /* PersonView.swift in Sources */,
@@ -1576,7 +1582,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SM9KCJGMUP;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1601,7 +1607,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SM9KCJGMUP;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -45,3 +45,7 @@ struct TVShowView: View {
         }
     }
 }
+
+#Preview {
+    TVShowView()
+}

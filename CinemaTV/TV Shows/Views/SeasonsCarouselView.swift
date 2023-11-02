@@ -65,13 +65,11 @@ struct SeasonsCarouselView: View {
     }
 }
 
-struct SeasonsCarouselView_Previews: PreviewProvider {
-    static var previews: some View {
-        SeasonsCarouselView(
-            seriesID: 94997,
-            data: Season.mockArray(),
-            title: "Title"
-        )
-    }
+#Preview {
+    SeasonsCarouselView(
+        seriesID: 94997,
+        data: Season.mockArray(),
+        title: "Title"
+    )
 }
 

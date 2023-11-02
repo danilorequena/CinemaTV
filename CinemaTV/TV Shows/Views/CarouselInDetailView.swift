@@ -68,12 +68,10 @@ struct CarouselInDetailView: View {
     }
 }
 
-struct RecommendationsView_Previews: PreviewProvider {
-    static var previews: some View {
-        CarouselInDetailView(
-            data: MoviesTVShowResult.stubbedMovies(),
-            title: "Title"
-        )
-    }
+#Preview {
+    CarouselInDetailView(
+        data: MoviesTVShowResult.stubbedMovies(),
+        title: "Title"
+    )
 }
 

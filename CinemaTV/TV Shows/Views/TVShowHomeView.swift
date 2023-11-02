@@ -29,13 +29,12 @@ struct TVShowHomeView: View {
     }
 }
 
-struct TVShowHomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            TVShowHomeView()
-                .preferredColorScheme(.light)
-            TVShowHomeView()
-                .preferredColorScheme(.dark)
-        }
-    }
+#Preview {
+    TVShowHomeView()
+        .preferredColorScheme(.light)
+}
+
+#Preview {
+    TVShowHomeView()
+        .preferredColorScheme(.dark)
 }

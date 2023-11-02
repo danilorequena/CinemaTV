@@ -25,7 +25,6 @@ struct DetailTVShowView: View {
                         Image("placeholder-image")
                     }
                     
-                    
                     ScrollView {
                         Spacer(minLength: UIScreen.main.bounds.height / 2)
                         VStack {
@@ -36,18 +35,22 @@ struct DetailTVShowView: View {
                                     .padding(16)
                                     .frame(height: 260)
                                 
-                                if let cast = viewModel.cast?.cast {
+                                if let cast = viewModel.cast?.cast, !cast.isEmpty {
                                     CastView(state: .tvShow, castData: cast)
                                 }
                                 
                                 if let seasons = viewModel.detailTVShow?.seasons,
-                                   let seriesID = viewModel.detailTVShow?.id {
+                                   let seriesID = viewModel.detailTVShow?.id, !seasons.isEmpty {
                                     SeasonsCarouselView(seriesID: seriesID, data: seasons, title: "Seasons")
                                 }
                                 
-                                CarouselInDetailView(data: viewModel.tvShowsRecommendations?.results ?? [], title: LC.recommendations.text)
+                                if let recommendations = viewModel.tvShowsRecommendations?.results, !recommendations.isEmpty {
+                                    CarouselInDetailView(data: viewModel.tvShowsRecommendations?.results ?? [], title: LC.recommendations.text)
+                                }
                                 
-                                CarouselInDetailView(data: viewModel.tvShowsSimilars?.results ?? [], title: LC.similars.text)
+                                if let similars = viewModel.tvShowsSimilars?.results, !similars.isEmpty {
+                                    CarouselInDetailView(data: viewModel.tvShowsSimilars?.results ?? [], title: LC.similars.text)
+                                }
                             }
                         }
                         .background(.ultraThinMaterial)
@@ -60,31 +63,5 @@ struct DetailTVShowView: View {
             await viewModel.loadDetails(ID: id ?? 0, state: state)
         }
         .edgesIgnoringSafeArea(.top)
-    }
-}
-
-struct InformationDetailView: View {
-    var detailInfos: DetailTVShow
-    var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(detailInfos.name ?? "")
-                    .font(.title)
-                    .bold()
-                
-                Text("Release Date: \(detailInfos.firstAirDate?.formatString() ?? "").")
-                    .font(.subheadline)
-                    .foregroundColor(Color.blue)
-                
-                Text("Average: \(detailInfos.voteAverage?.formatted() ?? "")/10")
-                    .font(.subheadline)
-                    .foregroundColor(Color.blue)
-            }
-            
-            Text(detailInfos.overview ?? "")
-                .font(.headline)
-            
-        }
-        .padding()
     }
 }
