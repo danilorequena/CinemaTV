@@ -148,6 +148,16 @@
         }
       }
     },
+    "Delete" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apagar"
+          }
+        }
+      }
+    },
     "discover" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -171,6 +181,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "episódios"
+          }
+        }
+      }
+    },
+    "Error saving the movie." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao salvar o filme"
           }
         }
       }
@@ -475,6 +495,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Em breve"
+          }
+        }
+      }
+    },
+    "There was an error saving the movie, try again..." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Houve um erro ao salvar o filme, tente novamente..."
           }
         }
       }
