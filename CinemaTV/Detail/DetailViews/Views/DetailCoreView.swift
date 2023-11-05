@@ -50,14 +50,14 @@ struct DetailCoreView: View {
                                     Spacer()
                                     Menu {
                                         Button("Want to Watch") {saveData(with: detail, isWatched: false) }
+                                            .disabled(verifyIfExists(id: detail.id, verifyIn: .toWatch))
                                         Button("Watched") {saveData(with: detail, isWatched: true) }
-                                            .disabled(verifyIfExists(id: detail.id, verifyIn: .wached))
                                     } label: {
                                         HStack {
                                             Image(systemName: "bookmark.fill")
-                                                .foregroundColor(verifyIfExists(id: detail.id, verifyIn: .toWatch) ? .gray : .pink)
+                                                .foregroundColor(verifyIfExists(id: detail.id, verifyIn: .wached) ? .gray : .pink)
                                             
-                                            Text(LC.addFavorites.text)
+                                            Text(verifyIfExistsToChangeTitle(id: detail.id, verifyIn: .wached))
                                                 .foregroundColor(.black)
                                         }
                                         .padding(8)
@@ -65,6 +65,7 @@ struct DetailCoreView: View {
                                         .cornerRadius(16)
                                     }
                                     .padding(.horizontal, 16)
+                                    .disabled(verifyIfExists(id: detail.id, verifyIn: .wached))
                                 }
                                 
                                 Text(LC.releaseDate.text + detail.releaseDateFormatted)
@@ -163,6 +164,18 @@ struct DetailCoreView: View {
             let exist = moviesWatched.contains(where: {$0.id ?? 0 == id})
             return exist
         }
+    }
+    
+    private func verifyIfExistsToChangeTitle(id: Int, verifyIn: DataBase) -> String {
+        switch verifyIn {
+        case .wached:
+            if moviesWatched.contains(where: {$0.id ?? 0 == id}) {
+                return "Watched"
+            }
+        default:
+            return LC.addFavorites.text
+        }
+        return LC.addFavorites.text
     }
     
     private func setWatchProviders(with data: WatchProviders) -> [WatchProvider] {

@@ -166,7 +166,14 @@
       }
     },
     "episodes" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "episódios"
+          }
+        }
+      }
     },
     "Lista Vazia" : {
       "localizations" : {
@@ -524,7 +531,14 @@
 
     },
     "Want to Watch" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quero assistir"
+          }
+        }
+      }
     },
     "Want Watch" : {
       "localizations" : {
@@ -554,7 +568,14 @@
       }
     },
     "Watched" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Assistido"
+          }
+        }
+      }
     },
     "watchedButton" : {
       "extractionState" : "manual",
