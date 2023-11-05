@@ -9,10 +9,6 @@ import SwiftUI
 import SwiftData
 
 struct DetailCoreView: View {
-    let viewModel: DetailViewModel
-    var id: Int
-    var showAddFavoritesButton: Bool
-    
     @Environment(\.modelContext) var moc
     @Environment(\.modelContext) var mocWatched
     @Query var movies: [MoviesToWatch]
@@ -20,6 +16,10 @@ struct DetailCoreView: View {
     
     @State private var buttonMarkDisabled = false
     @State private var buttonCheckDisabled = false
+    
+    let viewModel: DetailViewModel
+    var id: Int
+    var showAddFavoritesButton: Bool
     
     var body: some View {
         ZStack {
@@ -58,7 +58,7 @@ struct DetailCoreView: View {
                                             HStack {
                                                 if !verifyIfExists(id: detail.id, verifyIn: .wached) {
                                                     Image(systemName: "bookmark.fill")
-                                                        .foregroundColor(verifyIfExists(id: detail.id))
+                                                        .foregroundColor(changeColor(id: detail.id))
                                                 } else {
                                                     Image(systemName: "checkmark")
                                                         .foregroundColor(.green)
@@ -71,7 +71,7 @@ struct DetailCoreView: View {
                                             .background(.ultraThinMaterial.opacity(0.2))
                                             .cornerRadius(16)
                                         }
-                                        .disabled(verifyIfExists(id: detail.id, verifyIn: .wached))
+                                        .disabled(verifyIfExists(id: detail.id))
                                     }
                                 }
                                 
@@ -176,7 +176,15 @@ struct DetailCoreView: View {
         }
     }
     
-    private func verifyIfExists(id: Int) -> Color {
+    private func verifyIfExists(id: Int) -> Bool {
+        if movies.contains(where: {$0.id ?? 0 == id}) || moviesWatched.contains(where: {$0.id ?? 0 == id}) {
+            return true
+        }
+        
+        return false
+    }
+    
+    private func changeColor(id: Int) -> Color {
         if moviesWatched.contains(where: {$0.id ?? 0 == id}) {
             return .gray
         } else if movies.contains(where: {$0.id ?? 0 == id}) {
