@@ -15,6 +15,7 @@ enum DataBase {
 struct DetailMoviesView: View {
     var state: MovieORTVShow
     var id: Int?
+    var showAddFavoritesButton: Bool
     
     @ObservedObject var viewModel = DetailViewModel()
     
@@ -23,7 +24,11 @@ struct DetailMoviesView: View {
             if viewModel.isDetailLoading && viewModel.isCastLoading {
                 CinemaTVProgressView()
             } else {
-                DetailCoreView(viewModel: viewModel, id: id ?? 0)
+                DetailCoreView(
+                    viewModel: viewModel,
+                    id: id ?? 0,
+                    showAddFavoritesButton: showAddFavoritesButton
+                )
             }
         }
         .edgesIgnoringSafeArea(.top)
@@ -36,7 +41,7 @@ struct DetailMoviesView: View {
 struct DetailMoviesView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            DetailMoviesView(state: .movie, id: 287)
+            DetailMoviesView(state: .movie, id: 287, showAddFavoritesButton: true)
         }
     }
 }

@@ -27,11 +27,13 @@ struct WantWatchView: View {
                     List {
                         Section(header: Text("Want Watch")) {
                             ForEach(movies) { movie in
-                                MoviesListCell(
-                                    image: URL(string: Constants.basePosters + (movie.profilePath ?? "")),
-                                    title: movie.name ?? "",
-                                    subTitle: movie.overview ?? ""
-                                )
+                                NavigationLink(destination: DetailView(id: Int(truncatingIfNeeded: movie.id ?? 0), state: .movie, showAddFavoritesButton: false)) {
+                                    MoviesListCell(
+                                        image: URL(string: Constants.basePosters + (movie.profilePath ?? "")),
+                                        title: movie.name ?? "",
+                                        subTitle: movie.overview ?? ""
+                                    )
+                                }
                             }
                             .onDelete(perform: deleteMovies)
                         }

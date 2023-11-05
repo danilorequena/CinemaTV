@@ -27,7 +27,7 @@ struct CarouselInDetailView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(data) { movie in
-                            NavigationLink(destination: DetailView(id: movie.id, state: .movie)) {
+                            NavigationLink(destination: DetailView(id: movie.id, state: .movie, showAddFavoritesButton: true)) {
                                 VStack(spacing: 2) {
                                     AsyncImage(url: URL(string: Constants.basePosters + (movie.posterPath ?? ""))) { phase in
                                         if let image = phase.image {

@@ -17,7 +17,7 @@ struct SearchView: View {
     var body: some View {
         NavigationStack {
             List(self.viewModel.multiResults) { result in
-                NavigationLink(destination: DetailView(id: result.id, state: .movie)) {
+                NavigationLink(destination: DetailView(id: result.id, state: .movie, showAddFavoritesButton: true)) {
                     MoviesListCell(
                         image: URL(string: Constants.basePosters + (result.posterPath ?? "")),
                         title: result.title ?? "",
