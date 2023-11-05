@@ -11,6 +11,7 @@ import SwiftData
 struct DetailCoreView: View {
     let viewModel: DetailViewModel
     var id: Int
+    var showAddFavoritesButton: Bool
     
     @Environment(\.modelContext) var moc
     @Environment(\.modelContext) var mocWatched
@@ -48,24 +49,25 @@ struct DetailCoreView: View {
                                         .font(.title)
                                         .bold()
                                     Spacer()
-                                    Menu {
-                                        Button("Want to Watch") {saveData(with: detail, isWatched: false) }
-                                            .disabled(verifyIfExists(id: detail.id, verifyIn: .toWatch))
-                                        Button("Watched") {saveData(with: detail, isWatched: true) }
-                                    } label: {
-                                        HStack {
-                                            Image(systemName: "bookmark.fill")
-                                                .foregroundColor(verifyIfExists(id: detail.id, verifyIn: .wached) ? .gray : .pink)
-                                            
-                                            Text(verifyIfExistsToChangeTitle(id: detail.id, verifyIn: .wached))
-                                                .foregroundColor(.black)
+                                    if showAddFavoritesButton {
+                                        Menu {
+                                            Button("Want to Watch") {saveData(with: detail, isWatched: false) }
+                                                .disabled(verifyIfExists(id: detail.id, verifyIn: .toWatch))
+                                            Button("Watched") {saveData(with: detail, isWatched: true) }
+                                        } label: {
+                                            HStack {
+                                                Image(systemName: "bookmark.fill")
+                                                    .foregroundColor(verifyIfExists(id: detail.id, verifyIn: .wached) ? .gray : .pink)
+                                                
+                                                Text(verifyIfExistsToChangeTitle(id: detail.id, verifyIn: .wached))
+                                                    .foregroundColor(.black)
+                                            }
+                                            .padding(8)
+                                            .background(.ultraThinMaterial.opacity(0.2))
+                                            .cornerRadius(16)
                                         }
-                                        .padding(8)
-                                        .background(.ultraThinMaterial.opacity(0.2))
-                                        .cornerRadius(16)
+                                        .disabled(verifyIfExists(id: detail.id, verifyIn: .wached))
                                     }
-                                    .padding(.horizontal, 16)
-                                    .disabled(verifyIfExists(id: detail.id, verifyIn: .wached))
                                 }
                                 
                                 Text(LC.releaseDate.text + detail.releaseDateFormatted)
@@ -76,15 +78,17 @@ struct DetailCoreView: View {
                                     .font(.subheadline)
                                     .foregroundColor(.black)
                             }
+                            .padding(.horizontal, 8)
                             
                             Text(detail.overview)
                                 .font(.headline)
+                                .padding(.horizontal, 8)
                         }
                         .padding()
                         
                         TrailersView(videoID: id, videoKey: viewModel.videoKey ?? "")
-                            .padding(16)
                             .frame(height: 260)
+                            .padding(16)
                         
                         if let cast = viewModel.cast?.cast, !cast.isEmpty {
                             CastView(state: .movie, castData: cast)
@@ -190,6 +194,6 @@ struct DetailCoreView: View {
 }
 
 #Preview {
-    DetailMoviesView(state: .movie, id: 287)
+    DetailMoviesView(state: .movie, id: 287, showAddFavoritesButton: true)
         .modelContainer(for: [MoviesWatched.self, MoviesToWatch.self])
 }

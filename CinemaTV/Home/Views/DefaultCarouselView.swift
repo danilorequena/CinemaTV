@@ -38,7 +38,7 @@ struct DefaultCarouselView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(data) { movie in
-                            NavigationLink(destination: DetailView(id: movie.id, state: state)) {
+                            NavigationLink(destination: DetailView(id: movie.id, state: state, showAddFavoritesButton: true)) {
                                 VStack(spacing: 2) {
                                     MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")), watched: moviesWatched.contains { $0.id ?? 0 == movie.id ?? 0 })
                                         .frame(width: 180, height: 100)

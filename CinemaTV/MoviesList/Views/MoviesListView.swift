@@ -46,7 +46,7 @@ struct MoviesListView: View {
                 }
                 
                 List(viewModel.movies) { movie in
-                    NavigationLink(destination: DetailView(id: movie.id, state: .movie)) {
+                    NavigationLink(destination: DetailView(id: movie.id, state: .movie, showAddFavoritesButton: true)) {
                         MoviesListCell(
                             image: URL(string: Constants.basePosters + (movie.posterPath ?? "")),
                             title: (movie.title ?? movie.name) ?? "" ,

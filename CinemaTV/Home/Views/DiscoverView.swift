@@ -33,7 +33,7 @@ struct DiscoverView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 20) {
                         ForEach(movies) { movie in
-                            NavigationLink(destination: DetailView(id: movie.id, state: state)) {
+                            NavigationLink(destination: DetailView(id: movie.id, state: state, showAddFavoritesButton: true)) {
                                 GeometryReader { proxy in
                                     MovieCell(image: URL(string: Constants.basePosters + (movie.posterPath ?? "")), watched: moviesWatched.contains{ $0.id ?? 0 == movie.id ?? 0})
                                         .rotation3DEffect(Angle(degrees: (Double(proxy.frame(in: .global).minX) - 40) / -20), axis: (x: 0, y: 10.0, z: 0))
