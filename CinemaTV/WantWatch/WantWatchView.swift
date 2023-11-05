@@ -13,6 +13,7 @@ struct WantWatchView: View {
     @Environment(\.modelContext) var mocWatched
     @Query var movies: [MoviesToWatch]
     @Query var moviesWatched: [MoviesWatched]
+    @State var isAlertPresented: Bool = false
     
     var counter: Double {
         moviesWatched.reduce(0) { $0 + ($1.counter ?? 0) }
@@ -33,9 +34,28 @@ struct WantWatchView: View {
                                         title: movie.name ?? "",
                                         subTitle: movie.overview ?? ""
                                     )
+                                    .swipeActions(allowsFullSwipe: false) {
+                                        Button {
+                                            moveMovieToWatched(movie)
+                                        } label: {
+                                            Label("Watched", systemImage: "checkmark")
+                                        }
+                                        .tint(.indigo)
+                                        
+                                        Button(role: .destructive) {
+                                            deleteMovie(movie)
+                                        } label: {
+                                            Label("Delete", systemImage: "trash.fill")
+                                        }
+                                    }
+                                    .alert("Error saving the movie.",
+                                           isPresented: $isAlertPresented) {
+                                           
+                                    } message: {
+                                           Text("There was an error saving the movie, try again...")
+                                    }
                                 }
                             }
-                            .onDelete(perform: deleteMovies)
                         }
                         
                         Section(header: Text("Movies Watched")) {
@@ -56,12 +76,12 @@ struct WantWatchView: View {
         }
     }
     
-    func minutesToHoursAndMinutes(_ minutes: Int) -> String {
+    private func minutesToHoursAndMinutes(_ minutes: Int) -> String {
         let string = "Você já assistiu \(minutes / 60) horas e \(minutes % 60) minutos de filmes na sua vida!"
         return string
     }
     
-    func deleteMovies(at offsets: IndexSet) {
+    private func deleteMovies(at offsets: IndexSet) {
         for offset in offsets {
             let movie = movies[offset]
             moc.delete(movie)
@@ -70,7 +90,29 @@ struct WantWatchView: View {
         try? moc.save()
     }
     
-    func deleteMoviesThanWatched(at offsets: IndexSet) {
+    private func moveMovieToWatched(_ movie: MoviesToWatch) {
+        let movieWatched = MoviesWatched(
+            counter: movie.counter,
+            id: movie.id,
+            name: movie.name,
+            overview: movie.overview,
+            profilePath: movie.profilePath
+        )
+        mocWatched.insert(movieWatched)
+        do {
+            try mocWatched.save()
+            deleteMovie(movie)
+        } catch {
+            isAlertPresented = true
+        }
+    }
+    
+    private func deleteMovie(_ movie: MoviesToWatch) {
+        moc.delete(movie)
+        try? moc.save()
+    }
+    
+    private func deleteMoviesThanWatched(at offsets: IndexSet) {
         for offset in offsets {
             let movie = moviesWatched[offset]
             mocWatched.delete(movie)

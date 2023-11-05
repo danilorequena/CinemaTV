@@ -51,15 +51,20 @@ struct DetailCoreView: View {
                                     Spacer()
                                     if showAddFavoritesButton {
                                         Menu {
-                                            Button("Want to Watch") {saveData(with: detail, isWatched: false) }
+                                            Button("Want to Watch") { saveData(with: detail, isWatched: false) }
                                                 .disabled(verifyIfExists(id: detail.id, verifyIn: .toWatch))
-                                            Button("Watched") {saveData(with: detail, isWatched: true) }
+                                            Button("Watched") { saveData(with: detail, isWatched: true) }
                                         } label: {
                                             HStack {
-                                                Image(systemName: "bookmark.fill")
-                                                    .foregroundColor(verifyIfExists(id: detail.id, verifyIn: .wached) ? .gray : .pink)
+                                                if !verifyIfExists(id: detail.id, verifyIn: .wached) {
+                                                    Image(systemName: "bookmark.fill")
+                                                        .foregroundColor(verifyIfExists(id: detail.id))
+                                                } else {
+                                                    Image(systemName: "checkmark")
+                                                        .foregroundColor(.green)
+                                                }
                                                 
-                                                Text(verifyIfExistsToChangeTitle(id: detail.id, verifyIn: .wached))
+                                                Text(changeTitle(id: detail.id))
                                                     .foregroundColor(.black)
                                             }
                                             .padding(8)
@@ -133,6 +138,7 @@ struct DetailCoreView: View {
             if !isWatched {
                 let movie = MoviesToWatch(
                     id: Int64(detailData.id),
+                    counter: Double(detailData.runtime),
                     name: detailData.title,
                     overview: detailData.overview,
                     profilePath: detailData.posterPath
@@ -170,16 +176,24 @@ struct DetailCoreView: View {
         }
     }
     
-    private func verifyIfExistsToChangeTitle(id: Int, verifyIn: DataBase) -> String {
-        switch verifyIn {
-        case .wached:
-            if moviesWatched.contains(where: {$0.id ?? 0 == id}) {
-                return "Watched"
-            }
-        default:
+    private func verifyIfExists(id: Int) -> Color {
+        if moviesWatched.contains(where: {$0.id ?? 0 == id}) {
+            return .gray
+        } else if movies.contains(where: {$0.id ?? 0 == id}) {
+            return .accentColor
+        } else {
+            return .pink
+        }
+    }
+    
+    private func changeTitle(id: Int) -> String {
+        if moviesWatched.contains(where: {$0.id ?? 0 == id}) {
+            return "Watched"
+        } else if movies.contains(where: {$0.id ?? 0 == id}) {
+            return "Want Watch"
+        } else {
             return LC.addFavorites.text
         }
-        return LC.addFavorites.text
     }
     
     private func setWatchProviders(with data: WatchProviders) -> [WatchProvider] {

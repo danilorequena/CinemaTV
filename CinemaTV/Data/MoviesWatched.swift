@@ -17,7 +17,13 @@ import SwiftData
     var overview: String?
     var profilePath: String?
     
-    init(counter: Double? = nil, id: Int64? = nil, name: String? = nil, overview: String? = nil, profilePath: String? = nil) {
+    init(
+        counter: Double? = nil,
+        id: Int64? = nil,
+        name: String? = nil,
+        overview: String? = nil,
+        profilePath: String? = nil
+    ) {
         self.counter = counter
         self.id = id
         self.name = name
