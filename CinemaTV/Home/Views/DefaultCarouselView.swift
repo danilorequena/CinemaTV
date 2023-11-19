@@ -9,8 +9,6 @@ import SwiftUI
 import SwiftData
 
 struct DefaultCarouselView: View {
-    @Query var moviesWatched: [MoviesWatched]
-    
     let data: [MoviesTVShowResult]
     let title: String
     var selectionIndex: Int
@@ -40,7 +38,7 @@ struct DefaultCarouselView: View {
                         ForEach(data) { movie in
                             NavigationLink(destination: DetailView(id: movie.id, state: state, showAddFavoritesButton: true)) {
                                 VStack(spacing: 2) {
-                                    MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")), watched: moviesWatched.contains { $0.id ?? 0 == movie.id ?? 0 })
+                                    MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")))
                                         .frame(width: 180, height: 100)
                                     Text((movie.title ?? movie.name) ?? "")
                                         .font(.caption)
