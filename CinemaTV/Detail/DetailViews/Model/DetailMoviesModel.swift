@@ -42,6 +42,10 @@ struct DetailMoviesModel: Codable, Identifiable {
     var releaseDateFormatted: String {
         releaseDate.formatString()
     }
+    
+    var releaseDateFormattedToDate: Date {
+        releaseDate.toDate() ?? Date()
+    }
 }
 
 // MARK: - Genre

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct MovieCell: View {
     let image: URL?
-    let watched: Bool
     var body: some View {
         ZStack(alignment: .bottom) {
             AsyncImage(url: image) { image in
@@ -20,20 +19,15 @@ struct MovieCell: View {
             .scaledToFill()
             .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
             .cornerRadius(16)
-            
-            WatchedTagView(watched: watched)
         }
     }
 }
 
-struct MovieCell_Previews: PreviewProvider {
-    static var previews: some View {
-        MovieCell(
-            image: URL(
-                string: "\(Constants.basePosters)/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg"
-            ),
-            watched: true
+#Preview {
+    MovieCell(
+        image: URL(
+            string: "\(Constants.basePosters)/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg"
         )
-        .previewLayout(.fixed(width: 246, height: 460))
-    }
+    )
+    .previewLayout(.fixed(width: 246, height: 460))
 }
