@@ -4,6 +4,9 @@
     "_" : {
 
     },
+    "Add" : {
+
+    },
     "addFavorites" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -17,6 +20,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Adicionar"
+          }
+        }
+      }
+    },
+    "airingToday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Airing Today"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exibindo Hoje"
           }
         }
       }
@@ -274,13 +294,13 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Nasceu em %1$@ em %2$@."
+            "state" : "translated",
+            "value" : "Born on %1$@ in %2$@."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Nasceu em %1$@ em %2$@."
           }
         }
@@ -288,9 +308,15 @@
     },
     "No data" : {
       "localizations" : {
-        "pt-BR" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Sem Dados"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Sem dados"
           }
         }
@@ -456,9 +482,15 @@
     },
     "Sem biografia" : {
       "localizations" : {
-        "pt-BR" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "No Biografy"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Sem biografia"
           }
         }
@@ -640,6 +672,9 @@
           }
         }
       }
+    },
+    "Watching" : {
+
     }
   },
   "version" : "1.0"

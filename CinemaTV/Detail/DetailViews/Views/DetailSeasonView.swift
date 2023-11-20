@@ -57,7 +57,7 @@ struct DetailSeasonView_Previews: PreviewProvider {
     static var previews: some View {
         DetailSeasonView(
             viewModel: SeasonViewModel(
-                tvShowID: 60735,
+                tvShowID: 84958,
                 tvshowSeasonNumber: 1
             )
         )

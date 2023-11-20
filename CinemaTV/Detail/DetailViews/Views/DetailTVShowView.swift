@@ -6,10 +6,16 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct DetailTVShowView: View {
-    var state: MovieORTVShow
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.modelContext) var mocWatching
+    @Environment(\.modelContext) var mocWatched
+    @Query var seasons: [TVShowWatchingModel]
+    @Query var seasonsWatched: [TVShowWatchedModel]
+    
+    var state: MovieORTVShow
     @StateObject var viewModel = DetailViewModel()
     var id: Int?
     var body: some View {
@@ -30,6 +36,27 @@ struct DetailTVShowView: View {
                         VStack {
                             VStack(alignment: .leading, spacing: 16) {
                                 InformationDetailView(detailInfos: detail)
+                                
+                                Menu {
+                                    Button("Watching") {
+                                        saveData(with: detail)
+                                    }
+                                    
+                                    Button("Watched") {
+//                                        Implementar o salvamento aqui
+                                    }
+                                } label: {
+                                    HStack {
+                                        Image(systemName: "bookmark.fill")
+                                        Text("Add")
+                                            .foregroundColor(.black)
+                                    }
+                                    .padding(8)
+                                    .background(.ultraThinMaterial.opacity(0.2))
+                                    .cornerRadius(16)
+                                }
+                                .disabled(false)
+                                .padding(.leading, 8)
                                 
                                 TrailersView(videoID: id, videoKey: viewModel.videoKey ?? "")
                                     .padding(16)
@@ -64,4 +91,26 @@ struct DetailTVShowView: View {
         }
         .edgesIgnoringSafeArea(.top)
     }
+    
+    private func saveData(with detailData: DetailTVShow) {
+        let tvShow = TVShowWatchingModel(
+            id: detailData.id ?? 0,
+            name: detailData.name ?? "",
+            overview: detailData.overview ?? "",
+            imagePath: detailData.posterPath,
+            seasons: []
+        )
+        
+        mocWatching.insert(tvShow)
+        do {
+            try mocWatching.save()
+            print("DEU CERTOOOOO!!!!")
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+}
+
+#Preview {
+    DetailTVShowView(state: .tvShow, id: 84958)
 }

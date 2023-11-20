@@ -19,6 +19,18 @@ struct TVShowView: View {
                     }
                 
                 DefaultCarouselView(
+                    data: viewModel.todayTVShows,
+                    title: LC.airingToday.text,
+                    selectionIndex: 0,
+                    isLightBackground: false,
+                    state: .tvShow
+                )
+                .buttonStyle(.plain)
+                .task {
+                    await viewModel.getData(with: .airingToday)
+                }
+                
+                DefaultCarouselView(
                     data: viewModel.nowTVShows,
                     title: LC.onTheAir.text,
                     selectionIndex: 0,

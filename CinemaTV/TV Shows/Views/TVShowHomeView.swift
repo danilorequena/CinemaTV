@@ -12,20 +12,24 @@ struct TVShowHomeView: View {
     @StateObject private var viewModel = TVShowViewModel()
     var body: some View {
         NavigationStack {
-            if colorScheme == .dark {
-                Group {
-                    TVShowView()
-                }
-                .background(Gradient(colors: [.gray, .black]))
+            Group {
+                TVShowView()
+            }
+            .background(Gradient(colors: colorScheme == .dark ? [.gray, .black] : [.gray, .white]))
             .navigationTitle(LC.tvShows.text)
-            } else {
-                Group {
-                    TVShowView()
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    NavigationLink(
+                        destination: TVShowsWatchingView(),
+                        label: {
+                            Image(systemName: "star.fill")
+                                .foregroundColor(colorScheme == .light ? .white : .secondary)
+                        }
+                    )
                 }
-                .background(Gradient(colors: [.gray, .white]))
-            .navigationTitle(LC.tvShows.text)
             }
         }
+        
     }
 }
 

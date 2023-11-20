@@ -19,6 +19,7 @@ enum TVShowsEndpoint {
     case creditByPerson(id: Int)
     case watchProviders(movieID: Int)
     case season(seasonID: Int, seasonNumber: Int)
+    case airingToday
     
     func path() -> String {
         switch self {
@@ -30,6 +31,8 @@ enum TVShowsEndpoint {
             return "tv/top_rated"
         case .upcoming:
             return "tv/upcoming"
+        case .airingToday:
+            return "tv/airing_today"
         case .nowPlaying:
             return "tv/on_the_air"
         case let .detail(tvShow):

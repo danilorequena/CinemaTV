@@ -29,6 +29,7 @@ enum LocalizedConstants: String {
     //MARK: - TVShowsHome
     case onTheAir
     case popTVShows
+    case airingToday
     
     //MARK: - CinemaTVProgressView
     case loading

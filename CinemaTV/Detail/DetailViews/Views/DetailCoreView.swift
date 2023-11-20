@@ -209,10 +209,6 @@ struct DetailCoreView: View {
         
         return providers
     }
-    
-    func placeOrder() { }
-    func adjustOrder() { }
-    func cancelOrder() { }
 }
 
 #Preview {

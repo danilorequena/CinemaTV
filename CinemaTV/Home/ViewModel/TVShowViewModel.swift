@@ -13,6 +13,7 @@ final class TVShowViewModel: ObservableObject {
     @Published var discoverTVShows: [MoviesTVShowResult] = []
     @Published var nowTVShows: [MoviesTVShowResult] = []
     @Published var popTVShows: [MoviesTVShowResult] = []
+    @Published var todayTVShows: [MoviesTVShowResult] = []
     @Published var isLoadingPage = true
     @Published var dispathGroup = DispatchGroup()
     
@@ -48,6 +49,9 @@ final class TVShowViewModel: ObservableObject {
             self.isLoadingPage = false
         case .popular:
             self.popTVShows = tvShows.results ?? []
+            self.isLoadingPage = false
+        case .airingToday:
+            self.todayTVShows = tvShows.results ?? []
             self.isLoadingPage = false
         default:
             break

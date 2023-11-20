@@ -75,6 +75,7 @@ struct WantWatchView: View {
                 Text("Lista Vazia")
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     private func minutesToHoursAndMinutes(_ minutes: Int) -> String {
