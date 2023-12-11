@@ -76,7 +76,7 @@ struct Provider: TimelineProvider {
     }
     
     func getData(completion: @escaping (MovieModel) -> ()) {
-        let url = "https://api.themoviedb.org/3/movie/upcoming?api_key=\(Constants.apikey)&include_adult=false"
+        let url = "https://api.themoviedb.org/3/movie/upcoming?api_key=ddf20e1d6a0147313cfd3b4ac419e373&language=en&include_adult=false"
         let session = URLSession(configuration: .default)
         session.dataTask(with: URL(string: url)!) { (data, _, error) in
             if let error = error {
@@ -88,7 +88,7 @@ struct Provider: TimelineProvider {
                 let jsonData = try Utils.jsonDecoder.decode(MovieModel.self, from: data!)
                 completion(jsonData)
             } catch {
-                print(error.localizedDescription)
+                print(error)
             }
         }.resume()
     }

@@ -19,6 +19,6 @@ struct MovieModel: Codable {
 struct MovieResultModel: Codable, Hashable, Identifiable {
     let id: Int
     let title: String
-    let description: String
+    let description: String?
     let poster_path: String
 }
