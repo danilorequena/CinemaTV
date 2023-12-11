@@ -161,6 +161,7 @@
 		FFAD66C328E622D500A08320 /* TVShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAD66C228E622D500A08320 /* TVShowView.swift */; };
 		FFB68A0A28FDDD3B002D5888 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D422464273810E2006236F8 /* Persistence.swift */; };
 		FFB68A0E28FDDDF8002D5888 /* WantWatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB68A0D28FDDDF8002D5888 /* WantWatchView.swift */; };
+		FFBDE8B52B273B120027185B /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBDE8B42B273B120027185B /* UIDevice+Extension.swift */; };
 		FFC3FBC42895F727000E379E /* TMDB.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF74128D2895CF9900A79C7C /* TMDB.plist */; };
 		FFC8244428F1C2220035D4BA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC8244328F1C2220035D4BA /* String+Extension.swift */; };
 		FFC8244528F1C3DA0035D4BA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC8244328F1C2220035D4BA /* String+Extension.swift */; };
@@ -339,6 +340,7 @@
 		FFB68A0128FDA7AB002D5888 /* CinemaTV.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CinemaTV.entitlements; sourceTree = "<group>"; };
 		FFB68A0228FDAAC8002D5888 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		FFB68A0D28FDDDF8002D5888 /* WantWatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantWatchView.swift; sourceTree = "<group>"; };
+		FFBDE8B42B273B120027185B /* UIDevice+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
 		FFC8244328F1C2220035D4BA /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		FFC8244928F22C300035D4BA /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		FFC8244B28F22C610035D4BA /* PersonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonView.swift; sourceTree = "<group>"; };
@@ -852,6 +854,7 @@
 			isa = PBXGroup;
 			children = (
 				FFC8244328F1C2220035D4BA /* String+Extension.swift */,
+				FFBDE8B42B273B120027185B /* UIDevice+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1200,6 +1203,7 @@
 				FF4D52C8280CA74500EBEFD3 /* PopularMovies.swift in Sources */,
 				FF2256372A2281F300846394 /* SeasonModel.swift in Sources */,
 				09E6E2E428DF959C00E7E856 /* String+.swift in Sources */,
+				FFBDE8B52B273B120027185B /* UIDevice+Extension.swift in Sources */,
 				FF4DDD7D27C335F60049CAFA /* MoviesListCell.swift in Sources */,
 				FF84C79E275138510098193C /* CastStub.swift in Sources */,
 				FF7DC22C28EB144600B5FEC5 /* DetailTVShowView.swift in Sources */,
