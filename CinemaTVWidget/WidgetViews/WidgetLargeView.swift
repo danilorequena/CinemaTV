@@ -37,7 +37,7 @@ struct WidgetLargeView: View {
                                 Text(value.title)
                                     .font(.title3)
                                     .foregroundColor(.white)
-                                Text(value.description)
+                                Text(value.description ?? "")
                                     .font(.callout)
                                     .foregroundColor(.white)
                             }
