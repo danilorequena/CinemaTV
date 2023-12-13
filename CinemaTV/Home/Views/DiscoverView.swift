@@ -38,14 +38,14 @@ struct DiscoverView: View {
                             }
                         }
                     }
-                    .padding(.top, 10)
-                    .padding(.trailing, 40)
-                    .padding(.leading, 40)
-                    .padding(.bottom, 40)
+                    .scrollTargetLayout()
                     Spacer()
                 }
+                .contentMargins(.horizontal, 10, for: .scrollContent)
+                .scrollTargetBehavior(.viewAligned(limitBehavior: .never))
+                .safeAreaPadding(.horizontal)
             }
-            .frame(width: UIScreen.main.bounds.width, height: 460)
+            .frame(width: .infinity, height: 460)
         }
     }
     
@@ -63,9 +63,5 @@ struct DiscoverView: View {
 }
 
 #Preview {
-    DiscoverView(
-        state: .movie,
-        movies: MoviesTVShowResult.stubbedMovies(),
-        selectionIndex: 0
-    )
+    HomeView()
 }
