@@ -24,7 +24,7 @@ struct MoviesListCell: View {
             VStack(spacing: 6) {
                 Text(title)
                     .frame(width: 200)
-                    .font(.title3)
+                    .font(.title)
                     .lineLimit(1)
                 Text(subTitle)
                     .font(.subheadline)
@@ -34,14 +34,13 @@ struct MoviesListCell: View {
     }
 }
 
-struct MoviesListCell_Previews: PreviewProvider {
-    static var previews: some View {
-        MoviesListCell(
-            image: URL(
-                string: "\(Constants.basePosters)/qAZ0pzat24kLdO3o8ejmbLxyOac."
-            ),
-            title: "Steve Jobs",
-            subTitle: "Três momentos importantes da vida do inventor, empresário e magnata Steve Jobs: os bastidores do lançamento do computador Macintosh, em 1984; da empresa NeXT, doze anos depois e do iPod, no ano de 2001."
-        )
-    }
+#Preview(traits: .sizeThatFitsLayout) {
+    MoviesListCell(
+        image: URL(
+            string: "\(Constants.basePosters)/qAZ0pzat24kLdO3o8ejmbLxyOac."
+        ),
+        title: "Steve Jobs",
+        subTitle: "Três momentos importantes da vida do inventor, empresário e magnata Steve Jobs: os bastidores do lançamento do computador Macintosh, em 1984; da empresa NeXT, doze anos depois e do iPod, no ano de 2001."
+    )
+    .previewLayout(.fixed(width: 430, height: 200))
 }

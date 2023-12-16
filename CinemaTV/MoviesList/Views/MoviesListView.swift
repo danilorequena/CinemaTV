@@ -63,6 +63,7 @@ struct MoviesListView: View {
                 }
                 .navigationTitle(title)
                 .searchable(text: $searchText)
+                .listStyle(.inset)
             }
         }
         .onAppear {
