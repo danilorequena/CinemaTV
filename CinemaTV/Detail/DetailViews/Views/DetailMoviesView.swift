@@ -15,15 +15,20 @@ enum DataBase {
 struct DetailMoviesView: View {
     var state: MovieORTVShow
     var id: Int?
+    var showAddFavoritesButton: Bool
     
-    @ObservedObject var viewModel = DetailViewModel()
+    @StateObject var viewModel = DetailViewModel()
     
     var body: some View {
         VStack {
             if viewModel.isDetailLoading && viewModel.isCastLoading {
                 CinemaTVProgressView()
             } else {
-                DetailCoreView(viewModel: viewModel, id: id ?? 0)
+                DetailCoreView(
+                    id: id ?? 0,
+                    showAddFavoritesButton: showAddFavoritesButton
+                )
+                .environmentObject(viewModel)
             }
         }
         .edgesIgnoringSafeArea(.top)
@@ -36,7 +41,8 @@ struct DetailMoviesView: View {
 struct DetailMoviesView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            DetailMoviesView(state: .movie, id: 287)
+            DetailMoviesView(state: .movie, id: 287, showAddFavoritesButton: true)
+                .environmentObject(DetailViewModel())
         }
     }
 }

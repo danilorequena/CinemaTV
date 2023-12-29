@@ -14,11 +14,6 @@ enum MovieORTVShow {
 }
 
 final class DetailViewModel: ObservableObject {
-    var service = MoviesService()
-    var newService: MovieServiceProtocol
-    var tvShowService: TVShowServiceProtocol
-    var isDetailLoading = true
-    var isCastLoading = true
     @Published var detailMovie: DetailMoviesModel?
     @Published var detailTVShow: DetailTVShow?
     @Published var cast: CastModel?
@@ -29,6 +24,12 @@ final class DetailViewModel: ObservableObject {
     @Published var moviesSimilars: DiscoverMovies?
     @Published var videos: [VideoResult] = []
     @Published var videoKey: String?
+    
+    var service = MoviesService()
+    var newService: MovieServiceProtocol
+    var tvShowService: TVShowServiceProtocol
+    var isDetailLoading = true
+    var isCastLoading = true
     
     init(
         newService: MovieServiceProtocol = MovieStore.shared,
@@ -65,7 +66,7 @@ final class DetailViewModel: ObservableObject {
                 self.detailMovie = detail
                 self.isDetailLoading = false
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
             }
         }
     }

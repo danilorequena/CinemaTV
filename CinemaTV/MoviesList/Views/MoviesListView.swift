@@ -29,7 +29,7 @@ struct MoviesListView: View {
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
-                .onChange(of: selectionIndex) { (_) in
+                .onChange(of: selectionIndex) { 
                     if selectionIndex == 0 {
                         viewModel.endpointToLoadMore = .discover
                         viewModel.loadData(endpoint: .discover)
@@ -46,7 +46,7 @@ struct MoviesListView: View {
                 }
                 
                 List(viewModel.movies) { movie in
-                    NavigationLink(destination: DetailView(id: movie.id, state: .movie)) {
+                    NavigationLink(destination: DetailView(id: movie.id, state: .movie, showAddFavoritesButton: true)) {
                         MoviesListCell(
                             image: URL(string: Constants.basePosters + (movie.posterPath ?? "")),
                             title: (movie.title ?? movie.name) ?? "" ,
@@ -63,6 +63,7 @@ struct MoviesListView: View {
                 }
                 .navigationTitle(title)
                 .searchable(text: $searchText)
+                .listStyle(.inset)
             }
         }
         .onAppear {

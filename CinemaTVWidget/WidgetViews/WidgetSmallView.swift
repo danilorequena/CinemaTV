@@ -12,13 +12,11 @@ struct WidgetSmallView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Comming Soon")
-                .font(.headline)
+                .font(.subheadline)
                 .fontWeight(.heavy)
-                .fontWeight(.regular)
-                .padding(.leading, 16)
                 .foregroundColor(.white)
             
-            HStack(alignment: .top, spacing: 20) {
+            HStack {
                 ForEach(data.widgetData.prefix(1), id: \.self) { value in
                     //MARK: - AsyncImage not working with Widgets
                     Group {
@@ -35,15 +33,15 @@ struct WidgetSmallView: View {
                     }
                 }
             }
-            .padding(.horizontal, 24)
-            .padding(.bottom, 8)
+            .padding(.horizontal, 8)
+            .padding(.bottom, 4)
         }
-        .background(
-            LinearGradient(
-                colors: [.black, .gray],
-                startPoint: .top,
-                endPoint: .bottom
-            )
+        .containerBackground(
+            .linearGradient(
+            colors: [.black, .gray],
+            startPoint: .top,
+            endPoint: .bottom),
+            for: .widget
         )
     }
 }
@@ -58,6 +56,7 @@ struct WidgetSmallView_Previews: PreviewProvider {
                         repeating: MovieResultModel(
                             id: 0,
                             title: "title",
+                            description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
                             poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                         ),
                         count: 6

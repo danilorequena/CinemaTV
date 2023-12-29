@@ -189,6 +189,7 @@ final class MovieStore: MovieServiceProtocol {
             do {
                 let decodedResponse = try self.jsonDecoder.decode(D.self, from: data)
                 self.executeCompletionHandler(with: .success(decodedResponse), completion: completion)
+                dump(decodedResponse, name: "Response API:")
             } catch {
                 self.executeCompletionHandler(with: .failure(.serializationError), completion: completion)
             }

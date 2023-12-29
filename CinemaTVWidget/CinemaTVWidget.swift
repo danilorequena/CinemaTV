@@ -19,16 +19,19 @@ struct Provider: TimelineProvider {
                 MovieResultModel(
                     id: 0,
                     title: "Dr Strange",
+                    description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 ),
                 MovieResultModel(
                     id: 0,
                     title: "Dr Strange",
+                    description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 ),
                 MovieResultModel(
                     id: 0,
                     title: "Dr Strange",
+                    description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 )
             ]
@@ -42,16 +45,19 @@ struct Provider: TimelineProvider {
                 MovieResultModel(
                     id: 0,
                     title: "Dr Strange",
+                    description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 ),
                 MovieResultModel(
                     id: 0,
                     title: "Steve Jobs",
+                    description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 ),
                 MovieResultModel(
                     id: 0,
                     title: "Iron man",
+                    description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
                     poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                 )
             ]
@@ -70,7 +76,7 @@ struct Provider: TimelineProvider {
     }
     
     func getData(completion: @escaping (MovieModel) -> ()) {
-        let url = "https://api.themoviedb.org/3/movie/upcoming?api_key=\(Constants.apikey)&include_adult=false"
+        let url = "https://api.themoviedb.org/3/movie/upcoming?api_key=\(Constants.apikey)&language=en&include_adult=false"
         let session = URLSession(configuration: .default)
         session.dataTask(with: URL(string: url)!) { (data, _, error) in
             if let error = error {
@@ -82,7 +88,7 @@ struct Provider: TimelineProvider {
                 let jsonData = try Utils.jsonDecoder.decode(MovieModel.self, from: data!)
                 completion(jsonData)
             } catch {
-                print(error.localizedDescription)
+                print(error)
             }
         }.resume()
     }
@@ -102,7 +108,14 @@ struct MainWidget: Widget {
         }
         .configurationDisplayName(LC.commingSoon.text)
         .description(LC.commingSoonDescription.text)
-        .supportedFamilies([.systemMedium, .systemSmall, .accessoryRectangular])
+        .supportedFamilies(
+            [
+                .systemMedium,
+                .systemSmall,
+                .systemLarge,
+                .accessoryRectangular
+            ]
+        )
     }
 }
 
@@ -118,7 +131,9 @@ struct CinemaTVWidgetView: View {
                 WidgetMediumView(data: data)
             case .accessoryRectangular:
                 AccessoryRetangularWidgetView(data: data)
-            @unknown default:
+            case .systemLarge:
+                WidgetLargeView(data: data)
+            default:
                 WidgetSmallView(data: data)
             }
         }
@@ -132,13 +147,14 @@ struct CinemaTVWidgetView: View {
                     repeating: MovieResultModel(
                         id: 0,
                         title: "title",
+                        description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
                         poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
                     ),
                     count: 6
                 )
             )
             )
-            .previewContext(WidgetPreviewContext(family: WidgetFamily.systemMedium))
+            .previewContext(WidgetPreviewContext(family: WidgetFamily.systemLarge))
         }
     }
 }

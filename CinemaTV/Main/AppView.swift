@@ -12,7 +12,7 @@ struct AppView: View {
         TabView {
             HomeView()
                 .tabItem {
-                    Image(systemName: "house")
+                    Image(systemName: "movieclapper")
                     Text("Movies")
                 }
             
@@ -31,13 +31,12 @@ struct AppView: View {
     }
 }
 
-struct AppView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            AppView()
-                .preferredColorScheme(.light)
-            AppView()
-                .preferredColorScheme(.dark)
-        }
-    }
+#Preview {
+    AppView()
+        .preferredColorScheme(.light)
+}
+
+#Preview {
+    AppView()
+        .preferredColorScheme(.dark)
 }

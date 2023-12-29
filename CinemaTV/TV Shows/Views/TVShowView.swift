@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TVShowView: View {
-    @StateObject private var viewModel = TVShowViewModel()
+    @EnvironmentObject private var viewModel: TVShowViewModel
     var body: some View {
         ScrollView(.vertical) {
             VStack(spacing: 32) {
@@ -17,6 +17,18 @@ struct TVShowView: View {
                     .task {
                         await viewModel.getData(with: .discover)
                     }
+                
+                DefaultCarouselView(
+                    data: viewModel.todayTVShows,
+                    title: LC.airingToday.text,
+                    selectionIndex: 0,
+                    isLightBackground: false,
+                    state: .tvShow
+                )
+                .buttonStyle(.plain)
+                .task {
+                    await viewModel.getData(with: .airingToday)
+                }
                 
                 DefaultCarouselView(
                     data: viewModel.nowTVShows,
@@ -44,4 +56,9 @@ struct TVShowView: View {
             }
         }
     }
+}
+
+#Preview {
+    TVShowView()
+        .environmentObject(TVShowViewModel())
 }

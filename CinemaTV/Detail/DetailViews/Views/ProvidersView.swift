@@ -11,29 +11,40 @@ struct ProvidersView: View {
     let data: [WatchProvider]
     let title: String
     let link: String
+    
+    @State private var isWebViewPresented = false
+    
     var body: some View {
         VStack {
             if !data.isEmpty {
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 10) {
                     Text(title)
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                        .padding(.horizontal, 10)
+                    
                     ScrollView(.horizontal) {
                         HStack(spacing: 10) {
                             ForEach(data) { provider in
-                                #warning("Verificar isso pra inserir uma WebView, e não tirar o usuário do App")
-                                Link(destination: URL(string: link)!) {
+                                Button {
+                                    isWebViewPresented = true
+                                } label: {
                                     CastCell(
                                         image: URL(string: Constants.basePosters + (provider.logoPath ?? "")),
                                         name: provider.providerName
                                     )
-                                    .frame(width: 60, height: 76)
+                                    .fixedSize(horizontal: true, vertical: false)
                                 }
+                                .sheet(isPresented: $isWebViewPresented) {
+                                    WebViewCustom(url: URL(string: link))
+                                }
+
                             }
                         }
+                        .padding(.leading, 10)
                     }
                 }
-                .padding()
             } else {
-                #warning("Retirar isso, e desaparecer com essa view, caso venha vazio")
                 Text("No data")
                     .padding()
             }

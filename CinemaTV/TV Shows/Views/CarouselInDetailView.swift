@@ -27,16 +27,24 @@ struct CarouselInDetailView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(data) { movie in
-                            NavigationLink(destination: DetailView(id: movie.id, state: .movie)) {
+                            NavigationLink(destination: DetailView(id: movie.id, state: .movie, showAddFavoritesButton: true)) {
                                 VStack(spacing: 2) {
-                                    AsyncImage(url: URL(string: Constants.basePosters + (movie.posterPath ?? ""))) { image in
-                                        image
-                                            .resizable()
-                                            .cornerRadius(16)
-                                            .scaledToFit()
-                                            .frame(width: 200, height: 240)
-                                    } placeholder: {
-                                        ProgressView()
+                                    AsyncImage(url: URL(string: Constants.basePosters + (movie.posterPath ?? ""))) { phase in
+                                        if let image = phase.image {
+                                            image
+                                                .resizable()
+                                                .cornerRadius(16)
+                                                .scaledToFit()
+                                                .frame(width: 200, height: 240)
+                                        } else if phase.error != nil {
+                                            Image("placeholder-image")
+                                                .resizable()
+                                                .cornerRadius(16)
+                                                .scaledToFit()
+                                                .frame(width: 200, height: 240)
+                                        } else {
+                                            ProgressView()
+                                        }
                                     }
 
                                     Text((movie.title ?? movie.name) ?? "")
@@ -60,12 +68,10 @@ struct CarouselInDetailView: View {
     }
 }
 
-struct RecommendationsView_Previews: PreviewProvider {
-    static var previews: some View {
-        CarouselInDetailView(
-            data: MoviesTVShowResult.stubbedMovies(),
-            title: "Title"
-        )
-    }
+#Preview {
+    CarouselInDetailView(
+        data: MoviesTVShowResult.stubbedMovies(),
+        title: "Title"
+    )
 }
 

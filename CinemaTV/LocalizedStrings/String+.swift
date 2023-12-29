@@ -8,7 +8,6 @@
 import Foundation
 
 public extension String {
-    
     enum LocalizedFeatureKind {
         case presentation
         case acessibility
@@ -19,7 +18,6 @@ public extension String {
     }
     
     func localized(_ feature: LocalizedFeatureKind = .presentation)-> String {
-        
         var fileName = String()
         
         switch feature {

@@ -6,75 +6,66 @@
 //
 
 import SwiftUI
-import CoreData
+import SwiftData
 
 struct WantWatchView: View {
-    @FetchRequest(sortDescriptors: []) var movies: FetchedResults<MoviesToWatch>
-    @FetchRequest(sortDescriptors: []) var moviesWatched: FetchedResults<MoviesWatched>
-    @Environment(\.managedObjectContext) var moc
-    @Environment(\.managedObjectContext) var mocWatched
+    @Environment(\.modelContext) var moc
+    @Environment(\.modelContext) var mocWatched
+    @Query(sort: \MoviesToWatch.name) var movies: [MoviesToWatch]
+    @Query(sort: \MoviesWatched.name) var moviesWatched: [MoviesWatched]
+    @State var isAlertPresented: Bool = false
     
     var counter: Double {
-        moviesWatched.reduce(0) { $0 + $1.counter }
+        moviesWatched.reduce(0) { $0 + ($1.counter ?? 0) }
     }
     
     var body: some View {
         VStack {
             if !movies.isEmpty || !moviesWatched.isEmpty {
                 VStack {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            VStack {
-                                Text(minutesToHoursAndMinutes(Int(counter)))
-                                    .font(.headline)
-                            }
-                            .padding()
-                            .background(.ultraThinMaterial)
-                            .cornerRadius(16)
-                            .frame(width: 200, height: 100)
-                            
-                            //TODO: - Aqui ficará o counter de séries
-                            VStack {
-                                Text("Você já assistiu 10 horas e 12 minutos de séries na sua vida!!!")
-                                    .font(.headline)
-                            }
-                            .padding()
-                            .background(.ultraThinMaterial)
-                            .cornerRadius(16)
-                            .frame(width: 200, height: 100)
-                            
-                            //TODO: - Aqui ficará o counter de Totel de conteudo
-                            VStack {
-                                Text("Você já consumiu um total de 100 horas de conteudo!!!")
-                                    .font(.headline)
-                            }
-                            .padding()
-                            .background(.ultraThinMaterial)
-                            .cornerRadius(16)
-                            .frame(width: 200, height: 100)
-                        }
-                        .padding(.horizontal)
-                    }
+                    CarouselLifeView(value: minutesToHoursAndMinutes(Int(counter)))
                     
                     List {
                         Section(header: Text("Want Watch")) {
                             ForEach(movies) { movie in
-                                MoviesListCell(
-                                    image: URL(string: Constants.basePosters + (movie.profilePath ?? "")),
-                                    title: movie.name ?? "",
-                                    subTitle: movie.overview ?? ""
-                                )
+                                NavigationLink(destination: DetailView(id: Int(truncatingIfNeeded: movie.id ?? 0), state: .movie, showAddFavoritesButton: false)) {
+                                    MoviesListCell(
+                                        image: URL(string: Constants.basePosters + (movie.profilePath ?? "")),
+                                        title: movie.name ?? "",
+                                        subTitle: movie.overview ?? ""
+                                    )
+                                    .swipeActions(allowsFullSwipe: false) {
+                                        Button {
+                                            moveMovieToWatched(movie)
+                                        } label: {
+                                            Label("Watched", systemImage: "checkmark")
+                                        }
+                                        .tint(.indigo)
+                                        
+                                        Button(role: .destructive) {
+                                            deleteMovie(movie)
+                                        } label: {
+                                            Label("Delete", systemImage: "trash.fill")
+                                        }
+                                    }
+                                    .alert("Error saving the movie.",
+                                           isPresented: $isAlertPresented) {
+                                    } message: {
+                                           Text("There was an error saving the movie, try again...")
+                                    }
+                                }
                             }
-                            .onDelete(perform: deleteMovies)
                         }
                         
                         Section(header: Text("Movies Watched")) {
                             ForEach(moviesWatched) { movie in
-                                MoviesListCell(
-                                    image: URL(string: Constants.basePosters + (movie.profilePath ?? "")),
-                                    title: movie.name ?? "",
-                                    subTitle: movie.overview ?? ""
-                                )
+                                NavigationLink(destination: DetailView(id: Int(truncatingIfNeeded: movie.id ?? 0), state: .movie, showAddFavoritesButton: false)) {
+                                    MoviesListCell(
+                                        image: URL(string: Constants.basePosters + (movie.profilePath ?? "")),
+                                        title: movie.name ?? "",
+                                        subTitle: movie.overview ?? ""
+                                    )
+                                }
                             }
                             .onDelete(perform: deleteMoviesThanWatched)
                         }
@@ -84,14 +75,15 @@ struct WantWatchView: View {
                 Text("Lista Vazia")
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
     }
     
-    func minutesToHoursAndMinutes(_ minutes: Int) -> String {
+    private func minutesToHoursAndMinutes(_ minutes: Int) -> String {
         let string = "Você já assistiu \(minutes / 60) horas e \(minutes % 60) minutos de filmes na sua vida!"
         return string
     }
     
-    func deleteMovies(at offsets: IndexSet) {
+    private func deleteMovies(at offsets: IndexSet) {
         for offset in offsets {
             let movie = movies[offset]
             moc.delete(movie)
@@ -100,7 +92,29 @@ struct WantWatchView: View {
         try? moc.save()
     }
     
-    func deleteMoviesThanWatched(at offsets: IndexSet) {
+    private func moveMovieToWatched(_ movie: MoviesToWatch) {
+        let movieWatched = MoviesWatched(
+            counter: movie.counter,
+            id: movie.id,
+            name: movie.name,
+            overview: movie.overview,
+            profilePath: movie.profilePath
+        )
+        mocWatched.insert(movieWatched)
+        do {
+            try mocWatched.save()
+            deleteMovie(movie)
+        } catch {
+            isAlertPresented = true
+        }
+    }
+    
+    private func deleteMovie(_ movie: MoviesToWatch) {
+        moc.delete(movie)
+        try? moc.save()
+    }
+    
+    private func deleteMoviesThanWatched(at offsets: IndexSet) {
         for offset in offsets {
             let movie = moviesWatched[offset]
             mocWatched.delete(movie)
@@ -110,10 +124,7 @@ struct WantWatchView: View {
     }
 }
 
-struct WantWatch_Previews: PreviewProvider {
-    static var previews: some View {
-        let dataController = DataController.shared
-        WantWatchView()
-            .environment(\.managedObjectContext, dataController.container.viewContext)
-    }
+#Preview {
+    WantWatchView()
+        .modelContainer(for: [MoviesWatched.self, MoviesToWatch.self])
 }
