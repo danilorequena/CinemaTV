@@ -20,11 +20,11 @@ struct TVShowsWatchingView: View {
             List {
                 Section(header: Text("Watching")) {
                     ForEach(tvShows) { tvShow in
-                        NavigationLink(destination: DetailView(id: Int(truncatingIfNeeded: tvShow.id), state: .tvShow, showAddFavoritesButton: false)) {
+                        NavigationLink(destination: DetailView(id: Int(truncatingIfNeeded: tvShow.id ?? 0), state: .tvShow, showAddFavoritesButton: false)) {
                             MoviesListCell(
                                 image: URL(string: Constants.basePosters + (tvShow.imagePath ?? "")),
-                                title: tvShow.name,
-                                subTitle: tvShow.overview
+                                title: tvShow.name ?? "",
+                                subTitle: tvShow.overview ?? ""
                             )
                         }
                     }

@@ -14,7 +14,7 @@ struct CinemaTVApp: App {
         WindowGroup {
             AppView()
         }
-        .modelContainer(for: [MoviesWatched.self, MoviesToWatch.self])
+        .modelContainer(for: [MoviesWatched.self, MoviesToWatch.self, TVShowWatchingModel.self])
     }
 }
 
