@@ -93,12 +93,25 @@ struct DetailTVShowView: View {
     }
     
     private func saveData(with detailData: DetailTVShow) {
+        
+        let seasons = detailData.seasons
+        
         let tvShow = TVShowWatchingModel(
             id: detailData.id ?? 0,
             name: detailData.name ?? "",
             overview: detailData.overview ?? "",
             imagePath: detailData.posterPath,
-            seasons: []
+            seasons: seasons?.compactMap { season in
+                SeasonSD(
+                    id: season.id ?? 0,
+                    airDate: season.airDate ?? "",
+                    episodeCount: season.episodeCount ?? 0,
+                    name: season.name ?? "",
+                    overview: season.overview ?? "",
+                    posterPath: season.posterPath ?? "",
+                    seasonNumber: season.seasonNumber ?? 0
+                )
+            } ?? []
         )
         
         mocWatching.insert(tvShow)
