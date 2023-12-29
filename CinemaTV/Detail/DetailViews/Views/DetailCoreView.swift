@@ -17,7 +17,7 @@ struct DetailCoreView: View {
     @State private var buttonMarkDisabled = false
     @State private var buttonCheckDisabled = false
     
-    let viewModel: DetailViewModel
+    @EnvironmentObject private var viewModel: DetailViewModel
     var id: Int
     var showAddFavoritesButton: Bool
     

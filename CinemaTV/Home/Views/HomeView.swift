@@ -9,10 +9,13 @@ import SwiftUI
 
 struct HomeView: View {
     @Environment(\.colorScheme) var colorScheme
+    @StateObject var viewModel = HomeViewModel()
+    
     var body: some View {
         NavigationStack {
             Group {
                 MoviesView()
+                    .environmentObject(viewModel)
             }
             .background(Gradient(colors: colorScheme == .dark ? [.gray, .black] : [.gray, .white]))
             .navigationTitle(LC.discover.text)

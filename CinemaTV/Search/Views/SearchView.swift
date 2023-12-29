@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchView: View {
-    @ObservedObject var viewModel = SearchViewModel()
+    @StateObject var viewModel = SearchViewModel()
     @State var data = [SearchResult]()
     @State var searchText = ""
     @Environment(\.isSearching) var isSearching

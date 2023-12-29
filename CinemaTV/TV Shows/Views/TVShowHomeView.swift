@@ -14,6 +14,7 @@ struct TVShowHomeView: View {
         NavigationStack {
             Group {
                 TVShowView()
+                    .environmentObject(viewModel)
             }
             .background(Gradient(colors: colorScheme == .dark ? [.gray, .black] : [.gray, .white]))
             .navigationTitle(LC.tvShows.text)

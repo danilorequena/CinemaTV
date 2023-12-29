@@ -45,7 +45,7 @@ struct DiscoverView: View {
                 .scrollTargetBehavior(.viewAligned(limitBehavior: .never))
                 .safeAreaPadding(.horizontal)
             }
-            .frame(width: .infinity, height: 460)
+            .frame(maxWidth: .infinity, minHeight: 460)
         }
     }
     

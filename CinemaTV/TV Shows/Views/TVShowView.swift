@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TVShowView: View {
-    @StateObject private var viewModel = TVShowViewModel()
+    @EnvironmentObject private var viewModel: TVShowViewModel
     var body: some View {
         ScrollView(.vertical) {
             VStack(spacing: 32) {
@@ -60,4 +60,5 @@ struct TVShowView: View {
 
 #Preview {
     TVShowView()
+        .environmentObject(TVShowViewModel())
 }

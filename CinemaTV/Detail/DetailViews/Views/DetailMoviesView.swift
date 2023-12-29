@@ -17,7 +17,7 @@ struct DetailMoviesView: View {
     var id: Int?
     var showAddFavoritesButton: Bool
     
-    @ObservedObject var viewModel = DetailViewModel()
+    @StateObject var viewModel = DetailViewModel()
     
     var body: some View {
         VStack {
@@ -25,10 +25,10 @@ struct DetailMoviesView: View {
                 CinemaTVProgressView()
             } else {
                 DetailCoreView(
-                    viewModel: viewModel,
                     id: id ?? 0,
                     showAddFavoritesButton: showAddFavoritesButton
                 )
+                .environmentObject(viewModel)
             }
         }
         .edgesIgnoringSafeArea(.top)
@@ -42,6 +42,7 @@ struct DetailMoviesView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             DetailMoviesView(state: .movie, id: 287, showAddFavoritesButton: true)
+                .environmentObject(DetailViewModel())
         }
     }
 }

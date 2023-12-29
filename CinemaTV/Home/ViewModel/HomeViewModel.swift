@@ -9,17 +9,15 @@ import Foundation
 import SwiftUI
 
 final class HomeViewModel: ObservableObject {
-    var service: MovieServiceProtocol
     @Published var discoverMovies: [MoviesTVShowResult] = []
     @Published var topRatedMovies: [MoviesTVShowResult] = []
     @Published var popularMovies: [MoviesTVShowResult] = []
     @Published var nowPlayngMovies: [MoviesTVShowResult] = []
     @Published var upcomingMovies: [MoviesTVShowResult] = []
     @Published var isLoadingPage = true
-    var currentPage = 0
     @Published var dispathGroup = DispatchGroup()
-    var perPage = 20
-    var isLastItem = false
+    
+    var service: MovieServiceProtocol
     
     init(service: MovieServiceProtocol = MovieStore()) {
         self.service = service
