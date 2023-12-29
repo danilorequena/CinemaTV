@@ -168,6 +168,9 @@
         }
       }
     },
+    "delete" : {
+
+    },
     "Delete" : {
       "localizations" : {
         "pt-BR" : {
@@ -585,6 +588,9 @@
           }
         }
       }
+    },
+    "Você ainda não marcou nenhuma série" : {
+
     },
     "Você já assistiu 10 horas e 12 minutos de séries na sua vida!!!" : {
 

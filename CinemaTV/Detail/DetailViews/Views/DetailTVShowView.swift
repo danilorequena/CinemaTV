@@ -11,9 +11,7 @@ import SwiftData
 struct DetailTVShowView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var mocWatching
-    @Environment(\.modelContext) var mocWatched
     @Query var seasons: [TVShowWatchingModel]
-    @Query var seasonsWatched: [TVShowWatchedModel]
     
     var state: MovieORTVShow
     @StateObject var viewModel = DetailViewModel()

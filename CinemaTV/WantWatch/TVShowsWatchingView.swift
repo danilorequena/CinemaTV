@@ -10,25 +10,36 @@ import SwiftData
 
 struct TVShowsWatchingView: View {
     @Environment(\.modelContext) var mocTVWatching
-    @Environment(\.modelContext) var mocTVWatched
     @Query(sort: \TVShowWatchingModel.name) var tvShows: [TVShowWatchingModel]
-    @Query(sort: \TVShowWatchedModel.name) var tvShowsWatched: [TVShowWatchedModel]
     @State var isAlertPresented: Bool = false
     
     var body: some View {
         VStack {
-            List {
-                Section(header: Text("Watching")) {
-                    ForEach(tvShows) { tvShow in
-                        NavigationLink(destination: DetailView(id: Int(truncatingIfNeeded: tvShow.id ?? 0), state: .tvShow, showAddFavoritesButton: false)) {
-                            MoviesListCell(
-                                image: URL(string: Constants.basePosters + (tvShow.imagePath ?? "")),
-                                title: tvShow.name ?? "",
-                                subTitle: tvShow.overview ?? ""
-                            )
+            if !tvShows.isEmpty {
+                List {
+                    Section(header: Text("Watching")) {
+                        ForEach(tvShows) { tvShow in
+                            NavigationLink(destination: DetailView(id: Int(truncatingIfNeeded: tvShow.id ?? 0), state: .tvShow, showAddFavoritesButton: false)) {
+                                MoviesListCell(
+                                    image: URL(string: Constants.basePosters + (tvShow.imagePath ?? "")),
+                                    title: tvShow.name ?? "",
+                                    subTitle: tvShow.overview ?? ""
+                                )
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    Button(role: .destructive) {
+                                        deleteMovie(tvShow)
+                                    } label: {
+                                        Label("delete", systemImage: "trash.fill")
+                                            .background(.red)
+                                    }
+
+                                }
+                            }
                         }
                     }
                 }
+            } else {
+                Text("Você ainda não marcou nenhuma série")
             }
         }
     }
