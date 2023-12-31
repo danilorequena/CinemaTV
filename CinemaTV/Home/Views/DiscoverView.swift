@@ -33,8 +33,13 @@ struct DiscoverView: View {
                     HStack(spacing: 20) {
                         ForEach(movies) { movie in
                             NavigationLink(destination: DetailView(id: movie.id, state: state, showAddFavoritesButton: true)) {
-                                setupCell(with: movie)
-                                .frame(width: 246, height: 150)
+                                if !UIDevice.isIPad {
+                                    setupCell(with: movie)
+                                        .frame(width: 246, height: 150)
+                                } else {
+                                    MovieCell(image: URL(string: Constants.basePosters + (movie.posterPath ?? "")))
+                                        .frame(maxWidth: .infinity, maxHeight: 500)
+                                }
                             }
                         }
                     }
@@ -51,13 +56,9 @@ struct DiscoverView: View {
     
     @ViewBuilder
     private func setupCell(with movie: MoviesTVShowResult) -> some View {
-        if !UIDevice.isIPad {
-            GeometryReader { proxy in
-                MovieCell(image: URL(string: Constants.basePosters + (movie.posterPath ?? "")))
-                    .rotation3DEffect(Angle(degrees: (Double(proxy.frame(in: .global).minX) - 40) / -20), axis: (x: 0, y: 10.0, z: 0))
-            }
-        } else {
+        GeometryReader { proxy in
             MovieCell(image: URL(string: Constants.basePosters + (movie.posterPath ?? "")))
+                .rotation3DEffect(Angle(degrees: (Double(proxy.frame(in: .global).minX) - 40) / -20), axis: (x: 0, y: 10.0, z: 0))
         }
     }
 }

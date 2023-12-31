@@ -20,7 +20,7 @@ struct CarouselInDetailView: View {
                     Text(title)
                         .font(.system(.headline, design: .rounded))
                         .lineLimit(1)
-                        .frame(width: UIScreen.main.bounds.width, alignment: .leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, 16)
                 }
                 
@@ -56,12 +56,6 @@ struct CarouselInDetailView: View {
                             }
                         }
                     }
-                    .padding(.init(
-                        top: 0,
-                        leading: 8,
-                        bottom: 0,
-                        trailing: 0
-                    ))
                 }
             }
         }
