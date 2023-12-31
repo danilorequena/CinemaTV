@@ -51,3 +51,8 @@ struct ProvidersView: View {
         }
     }
 }
+
+#Preview {
+    DetailMoviesView(state: .movie, id: 287, showAddFavoritesButton: true)
+        .modelContainer(for: [MoviesWatched.self, MoviesToWatch.self])
+}

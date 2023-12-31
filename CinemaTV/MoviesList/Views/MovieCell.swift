@@ -25,9 +25,7 @@ struct MovieCell: View {
 
 #Preview {
     MovieCell(
-        image: URL(
-            string: "\(Constants.basePosters)/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg"
-        )
+        image: URL(string: "\(Constants.basePosters)/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg")
     )
     .previewLayout(.fixed(width: 246, height: 460))
 }
