@@ -9,6 +9,8 @@ import SwiftUI
 
 struct DetailSeasonView: View {
     @StateObject var viewModel: SeasonViewModel
+    @State private var isChecked = false
+    
     @State private var isOn = false
     var body: some View {
         VStack {
@@ -40,11 +42,15 @@ struct DetailSeasonView: View {
                     Section("episodes") {
                         ForEach(data.episodes) { episode in
                             DisclosureGroup(episode.name ?? "") {
-                                Text(episode.overview ?? "")
+                                EpisodeCellView(
+                                    imagePath: Constants.basePosters + (episode.stillPath ?? ""),
+                                    overview: episode.overview ?? ""
+                                )
                             }
                         }
                     }
                 }
+                .listStyle(.plain)
             }
         }
         .task {
@@ -61,5 +67,28 @@ struct DetailSeasonView_Previews: PreviewProvider {
                 tvshowSeasonNumber: 1
             )
         )
+    }
+}
+
+
+struct CheckboxToggleStyle: ToggleStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        HStack {
+ 
+            RoundedRectangle(cornerRadius: 5.0)
+                .stroke(lineWidth: 2)
+                .frame(width: 25, height: 25)
+                .cornerRadius(5.0)
+                .overlay {
+                    Image(systemName: configuration.isOn ? "checkmark" : "")
+                }
+                .onTapGesture {
+                    withAnimation(.spring()) {
+                        configuration.isOn.toggle()
+                    }
+                }
+ 
+            configuration.label
+        }
     }
 }
