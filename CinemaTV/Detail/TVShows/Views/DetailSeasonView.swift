@@ -10,6 +10,7 @@ import SwiftUI
 struct DetailSeasonView: View {
     @StateObject var viewModel: SeasonViewModel
     @State private var isChecked = false
+    @State private var isWatched = false
     
     @State private var isOn = false
     var body: some View {
@@ -46,6 +47,14 @@ struct DetailSeasonView: View {
                                     imagePath: Constants.basePosters + (episode.stillPath ?? ""),
                                     overview: episode.overview ?? ""
                                 )
+                            }
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                Button(action: {
+                                    isWatched.toggle()
+                                }, label: {
+                                    Label("Watched", image: "checkmark")
+                                })
+                                .background(isWatched ? .green : .gray)
                             }
                         }
                     }

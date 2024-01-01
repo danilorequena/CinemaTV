@@ -41,8 +41,6 @@
 		FF2256372A2281F300846394 /* SeasonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2256362A2281F300846394 /* SeasonModel.swift */; };
 		FF22563D2A2285D400846394 /* seasonModel.json in Resources */ = {isa = PBXBuildFile; fileRef = FF22563C2A2285D400846394 /* seasonModel.json */; };
 		FF22563E2A2285D400846394 /* seasonModel.json in Resources */ = {isa = PBXBuildFile; fileRef = FF22563C2A2285D400846394 /* seasonModel.json */; };
-		FF2256402A228CD700846394 /* SeasonModelStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22563F2A228CD700846394 /* SeasonModelStub.swift */; };
-		FF2256412A228CD700846394 /* SeasonModelStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22563F2A228CD700846394 /* SeasonModelStub.swift */; };
 		FF2256422A228FB100846394 /* SeasonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2256362A2281F300846394 /* SeasonModel.swift */; };
 		FF2256442A229CA300846394 /* SeasonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2256432A229CA300846394 /* SeasonViewModel.swift */; };
 		FF2256452A229CA300846394 /* SeasonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2256432A229CA300846394 /* SeasonViewModel.swift */; };
@@ -280,7 +278,6 @@
 		FF2256342A22808300846394 /* DetailSeasonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSeasonView.swift; sourceTree = "<group>"; };
 		FF2256362A2281F300846394 /* SeasonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonModel.swift; sourceTree = "<group>"; };
 		FF22563C2A2285D400846394 /* seasonModel.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = seasonModel.json; sourceTree = "<group>"; };
-		FF22563F2A228CD700846394 /* SeasonModelStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonModelStub.swift; sourceTree = "<group>"; };
 		FF2256432A229CA300846394 /* SeasonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonViewModel.swift; sourceTree = "<group>"; };
 		FF2256472A229D3F00846394 /* SeasonService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonService.swift; sourceTree = "<group>"; };
 		FF22564A2A229E2800846394 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
@@ -538,7 +535,6 @@
 				FF31A21428FB35200031F45D /* CreditByPersonStub.swift */,
 				FFECD0F2290EF9A500F2D357 /* SeasonStub.swift */,
 				FF4DB80B296DBF7800842BB3 /* ProvidersStub.swift */,
-				FF22563F2A228CD700846394 /* SeasonModelStub.swift */,
 			);
 			path = Share;
 			sourceTree = "<group>";
@@ -1261,7 +1257,6 @@
 				FF84C79E275138510098193C /* CastStub.swift in Sources */,
 				FF7DC22C28EB144600B5FEC5 /* DetailTVShowView.swift in Sources */,
 				FF29E58F28DA1BE80042DFAF /* TVShowHomeView.swift in Sources */,
-				FF2256402A228CD700846394 /* SeasonModelStub.swift in Sources */,
 				FF31A21528FB35200031F45D /* CreditByPersonStub.swift in Sources */,
 				FF9156FF2749CC3500AF74C3 /* DetailMovieViewModel.swift in Sources */,
 				FFC8244C28F22C610035D4BA /* PersonView.swift in Sources */,
@@ -1392,7 +1387,6 @@
 				FFFAF8E12B0A9FBA008FBD18 /* TVShowWatchedModel.swift in Sources */,
 				FFC8245328F237EA0035D4BA /* PersonView.swift in Sources */,
 				FFEEEED628EB7BD800B1CF77 /* TVShowStore.swift in Sources */,
-				FF2256412A228CD700846394 /* SeasonModelStub.swift in Sources */,
 				FF7412C82895D89900A79C7C /* SearchModel.swift in Sources */,
 				FF51480629E0E33A000A20EB /* WidgetMediumView.swift in Sources */,
 				FF7412C32895D84C00A79C7C /* DiscoverMovie.swift in Sources */,
