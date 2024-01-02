@@ -123,5 +123,5 @@ struct DetailTVShowView: View {
 }
 
 #Preview {
-    DetailTVShowView(state: .tvShow, id: 84958)
+    DetailTVShowView(state: .tvShow, id: 71712)
 }
