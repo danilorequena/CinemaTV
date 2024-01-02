@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import MySwiftLibrary
 
 struct MoviesView: View {
     @EnvironmentObject var viewModel: HomeViewModel
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         ScrollView(.vertical) {
@@ -46,9 +48,10 @@ struct MoviesView: View {
                 NavigationLink(destination: MoviesListView(title: LC.movies.text, selectionIndex: 0)) {
                     VStack {
                         Text(LC.seeAll.text)
+                            .foregroundColor(colorScheme == .light ? .black : .white)
                     }
                     .frame(width: UIScreen.main.bounds.width - 32, height: 56)
-                    .background(Color(uiColor: .darkGray))
+                    .background(.thinMaterial)
                     .foregroundColor(.white)
                     .cornerRadius(8)
                 }
