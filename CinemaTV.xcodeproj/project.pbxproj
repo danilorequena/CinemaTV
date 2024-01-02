@@ -167,6 +167,7 @@
 		FFC3FBC42895F727000E379E /* TMDB.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF74128D2895CF9900A79C7C /* TMDB.plist */; };
 		FFC751E72B420F72001977A7 /* EpisodeCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC751E62B420F72001977A7 /* EpisodeCellView.swift */; };
 		FFC751E82B421097001977A7 /* EpisodeCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC751E62B420F72001977A7 /* EpisodeCellView.swift */; };
+		FFC751EB2B446A95001977A7 /* MySwiftLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = FFC751EA2B446A95001977A7 /* MySwiftLibrary */; };
 		FFC8244428F1C2220035D4BA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC8244328F1C2220035D4BA /* String+Extension.swift */; };
 		FFC8244528F1C3DA0035D4BA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC8244328F1C2220035D4BA /* String+Extension.swift */; };
 		FFC8244A28F22C300035D4BA /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC8244928F22C300035D4BA /* Person.swift */; };
@@ -376,6 +377,7 @@
 			files = (
 				FFFC45452A64C55E009F9D74 /* SwiftUI.framework in Frameworks */,
 				FFFC45442A64C54C009F9D74 /* SwiftData.framework in Frameworks */,
+				FFC751EB2B446A95001977A7 /* MySwiftLibrary in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1062,6 +1064,7 @@
 			);
 			name = CinemaTV;
 			packageProductDependencies = (
+				FFC751EA2B446A95001977A7 /* MySwiftLibrary */,
 			);
 			productName = CinemaTV;
 			productReference = 7D422458273810E1006236F8 /* CinemaTV.app */;
@@ -1159,6 +1162,7 @@
 			);
 			mainGroup = 7D42244F273810E1006236F8;
 			packageReferences = (
+				FFC751E92B446A95001977A7 /* XCRemoteSwiftPackageReference "MySwiftLibrary" */,
 			);
 			productRefGroup = 7D422459273810E1006236F8 /* Products */;
 			projectDirPath = "";
@@ -1850,6 +1854,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FFC751E92B446A95001977A7 /* XCRemoteSwiftPackageReference "MySwiftLibrary" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danilorequena/MySwiftLibrary.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FFC751EA2B446A95001977A7 /* MySwiftLibrary */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FFC751E92B446A95001977A7 /* XCRemoteSwiftPackageReference "MySwiftLibrary" */;
+			productName = MySwiftLibrary;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7D422450273810E1006236F8 /* Project object */;
 }

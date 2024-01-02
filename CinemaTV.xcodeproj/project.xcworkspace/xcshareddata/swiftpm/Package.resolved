@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "myswiftlibrary",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/danilorequena/MySwiftLibrary.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "8e5982896e51fece8f8ec9859f049455a35a2e84"
+      }
+    }
+  ],
+  "version" : 2
+}
