@@ -35,7 +35,6 @@ struct Episode: Codable, Identifiable {
     let stillPath: String?
     let voteAverage: Double?
     let voteCount: Int?
-//    let crew, guestStars: [CrewModel]
 
     enum CodingKeys: String, CodingKey {
         case airDate = "air_date"
@@ -48,8 +47,6 @@ struct Episode: Codable, Identifiable {
         case stillPath = "still_path"
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
-//        case crew
-//        case guestStars = "guest_stars"
     }
 }
 

@@ -54,6 +54,15 @@ struct MoviesView: View {
                 }
             }
         }
+        .refreshable {
+            Task {
+                await viewModel.getAllData(with: .discover)
+                await viewModel.getAllData(with: .upcoming)
+                await viewModel.getAllData(with: .nowPlaying)
+                await viewModel.getAllData(with: .popular)
+                await viewModel.getAllData(with: .toRated)
+            }
+        }
     }
 }
 
