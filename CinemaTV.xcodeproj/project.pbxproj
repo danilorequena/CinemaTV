@@ -37,6 +37,7 @@
 		FF058F7728A7E77D00125FB2 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF058F7628A7E77D00125FB2 /* AppView.swift */; };
 		FF0F37872B3F6AD7007C10F2 /* SeasonSD.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0F37862B3F6AD7007C10F2 /* SeasonSD.swift */; };
 		FF0F37882B3F6B01007C10F2 /* SeasonSD.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0F37862B3F6AD7007C10F2 /* SeasonSD.swift */; };
+		FF1A84D22B5F112100F018AE /* FeatureToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A84D12B5F112100F018AE /* FeatureToggle.swift */; };
 		FF2256352A22808300846394 /* DetailSeasonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2256342A22808300846394 /* DetailSeasonView.swift */; };
 		FF2256372A2281F300846394 /* SeasonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2256362A2281F300846394 /* SeasonModel.swift */; };
 		FF22563D2A2285D400846394 /* seasonModel.json in Resources */ = {isa = PBXBuildFile; fileRef = FF22563C2A2285D400846394 /* seasonModel.json */; };
@@ -276,6 +277,7 @@
 		7DF3C91F273961BB0072598F /* DefaultCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCarouselView.swift; sourceTree = "<group>"; };
 		FF058F7628A7E77D00125FB2 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		FF0F37862B3F6AD7007C10F2 /* SeasonSD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonSD.swift; sourceTree = "<group>"; };
+		FF1A84D12B5F112100F018AE /* FeatureToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureToggle.swift; sourceTree = "<group>"; };
 		FF2256342A22808300846394 /* DetailSeasonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSeasonView.swift; sourceTree = "<group>"; };
 		FF2256362A2281F300846394 /* SeasonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonModel.swift; sourceTree = "<group>"; };
 		FF22563C2A2285D400846394 /* seasonModel.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = seasonModel.json; sourceTree = "<group>"; };
@@ -564,7 +566,6 @@
 			isa = PBXGroup;
 			children = (
 				7D4224A62738266D006236F8 /* HomeViewModel.swift */,
-				FF29E58C28DA17E50042DFAF /* TVShowViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -580,6 +581,7 @@
 		FF29E57E28DA100E0042DFAF /* TV Shows */ = {
 			isa = PBXGroup;
 			children = (
+				FF8AB32E2B4B5A55001956CA /* ViewModel */,
 				FF29E58128DA102D0042DFAF /* Service */,
 				FF29E58028DA10260042DFAF /* Model */,
 				FF29E57F28DA101F0042DFAF /* Views */,
@@ -859,6 +861,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		FF8AB32E2B4B5A55001956CA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				FF29E58C28DA17E50042DFAF /* TVShowViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		FF9156F42749C6FC00AF74C3 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -978,6 +988,7 @@
 			children = (
 				FFEF0AD9275E8F1600D5593C /* CinemaTVProgressView.swift */,
 				FF394E3C27D101EF00FFBDFC /* Utils.swift */,
+				FF1A84D12B5F112100F018AE /* FeatureToggle.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1313,6 +1324,7 @@
 				FF7412A12895D66000A79C7C /* CinemaTVWidget.intentdefinition in Sources */,
 				FF4D52CC280CA88800EBEFD3 /* TopVotedMovies.swift in Sources */,
 				FF2256352A22808300846394 /* DetailSeasonView.swift in Sources */,
+				FF1A84D22B5F112100F018AE /* FeatureToggle.swift in Sources */,
 				FF29E58528DA10E60042DFAF /* TVShowsEndpoint.swift in Sources */,
 				FFFB2A0E28F8534E00822923 /* PersonStub.swift in Sources */,
 				FFEEEED428EB7AAF00B1CF77 /* CarouselInDetailView.swift in Sources */,
