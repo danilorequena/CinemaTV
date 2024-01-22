@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import MySwiftLibrary
 
 struct MoviesView: View {
     @EnvironmentObject var viewModel: HomeViewModel
