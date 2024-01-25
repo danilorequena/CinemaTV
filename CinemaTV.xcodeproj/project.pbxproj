@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -161,6 +161,7 @@
 		FF9156FF2749CC3500AF74C3 /* DetailMovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9156FE2749CC3500AF74C3 /* DetailMovieViewModel.swift */; };
 		FF9157012749D15A00AF74C3 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9157002749D15A00AF74C3 /* DetailView.swift */; };
 		FF940C482A917CE500421050 /* CaouselLifeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF940C472A917CE500421050 /* CaouselLifeView.swift */; };
+		FFAADB522B62D6C5004C3655 /* MySwiftLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = FFAADB512B62D6C5004C3655 /* MySwiftLibrary */; };
 		FFAD66C328E622D500A08320 /* TVShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAD66C228E622D500A08320 /* TVShowView.swift */; };
 		FFB68A0A28FDDD3B002D5888 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D422464273810E2006236F8 /* Persistence.swift */; };
 		FFB68A0E28FDDDF8002D5888 /* WantWatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB68A0D28FDDDF8002D5888 /* WantWatchView.swift */; };
@@ -378,6 +379,7 @@
 			files = (
 				FFFC45452A64C55E009F9D74 /* SwiftUI.framework in Frameworks */,
 				FFFC45442A64C54C009F9D74 /* SwiftData.framework in Frameworks */,
+				FFAADB522B62D6C5004C3655 /* MySwiftLibrary in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1073,6 +1075,7 @@
 			);
 			name = CinemaTV;
 			packageProductDependencies = (
+				FFAADB512B62D6C5004C3655 /* MySwiftLibrary */,
 			);
 			productName = CinemaTV;
 			productReference = 7D422458273810E1006236F8 /* CinemaTV.app */;
@@ -1170,6 +1173,7 @@
 			);
 			mainGroup = 7D42244F273810E1006236F8;
 			packageReferences = (
+				FFAADB502B62D6C5004C3655 /* XCLocalSwiftPackageReference "../MySwiftLibrary" */,
 			);
 			productRefGroup = 7D422459273810E1006236F8 /* Products */;
 			projectDirPath = "";
@@ -1862,6 +1866,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		FFAADB502B62D6C5004C3655 /* XCLocalSwiftPackageReference "../MySwiftLibrary" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../MySwiftLibrary;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FFAADB512B62D6C5004C3655 /* MySwiftLibrary */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MySwiftLibrary;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7D422450273810E1006236F8 /* Project object */;
 }
