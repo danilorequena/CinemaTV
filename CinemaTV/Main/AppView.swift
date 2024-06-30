@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AppView: View {
+    let featureToggle = FeatureToggle()
     var body: some View {
         TabView {
             HomeView()
@@ -15,12 +16,13 @@ struct AppView: View {
                     Image(systemName: "movieclapper")
                     Text("Movies")
                 }
-            
-            TVShowHomeView()
-                .tabItem {
-                    Image(systemName: "play.tv")
-                    Text("TV Shows")
-                }
+            if featureToggle.enableTVShows {
+                TVShowHomeView()
+                    .tabItem {
+                        Image(systemName: "play.tv")
+                        Text("TV Shows")
+                    }
+            }
             
             SearchView()
                 .tabItem {

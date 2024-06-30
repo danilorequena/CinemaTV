@@ -37,6 +37,7 @@
 		FF058F7728A7E77D00125FB2 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF058F7628A7E77D00125FB2 /* AppView.swift */; };
 		FF0F37872B3F6AD7007C10F2 /* SeasonSD.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0F37862B3F6AD7007C10F2 /* SeasonSD.swift */; };
 		FF0F37882B3F6B01007C10F2 /* SeasonSD.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0F37862B3F6AD7007C10F2 /* SeasonSD.swift */; };
+		FF1A84D22B5F112100F018AE /* FeatureToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A84D12B5F112100F018AE /* FeatureToggle.swift */; };
 		FF2256352A22808300846394 /* DetailSeasonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2256342A22808300846394 /* DetailSeasonView.swift */; };
 		FF2256372A2281F300846394 /* SeasonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2256362A2281F300846394 /* SeasonModel.swift */; };
 		FF22563D2A2285D400846394 /* seasonModel.json in Resources */ = {isa = PBXBuildFile; fileRef = FF22563C2A2285D400846394 /* seasonModel.json */; };
@@ -167,7 +168,6 @@
 		FFC3FBC42895F727000E379E /* TMDB.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF74128D2895CF9900A79C7C /* TMDB.plist */; };
 		FFC751E72B420F72001977A7 /* EpisodeCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC751E62B420F72001977A7 /* EpisodeCellView.swift */; };
 		FFC751E82B421097001977A7 /* EpisodeCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC751E62B420F72001977A7 /* EpisodeCellView.swift */; };
-		FFC751EB2B446A95001977A7 /* MySwiftLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = FFC751EA2B446A95001977A7 /* MySwiftLibrary */; };
 		FFC8244428F1C2220035D4BA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC8244328F1C2220035D4BA /* String+Extension.swift */; };
 		FFC8244528F1C3DA0035D4BA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC8244328F1C2220035D4BA /* String+Extension.swift */; };
 		FFC8244A28F22C300035D4BA /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC8244928F22C300035D4BA /* Person.swift */; };
@@ -178,6 +178,9 @@
 		FFC8245428F238040035D4BA /* PersonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC8245128F234D40035D4BA /* PersonViewModel.swift */; };
 		FFC8245528F238180035D4BA /* PersonService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC8244F28F232710035D4BA /* PersonService.swift */; };
 		FFC8245628F2382D0035D4BA /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC8244928F22C300035D4BA /* Person.swift */; };
+		FFD0DFFC2C0BC6EF004BA4AA /* TVShowWatchedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFAF8DE2B0A9F06008FBD18 /* TVShowWatchedModel.swift */; };
+		FFD0DFFE2C0BC9CB004BA4AA /* TVShowDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD0DFFD2C0BC9CB004BA4AA /* TVShowDataModel.swift */; };
+		FFD0DFFF2C0BCA25004BA4AA /* TVShowDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD0DFFD2C0BC9CB004BA4AA /* TVShowDataModel.swift */; };
 		FFDDE93328EB64C30045998E /* DiscoverTVShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDDE93228EB64C20045998E /* DiscoverTVShow.swift */; };
 		FFDDE93428EB64C30045998E /* DiscoverTVShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDDE93228EB64C20045998E /* DiscoverTVShow.swift */; };
 		FFECD0F1290EF96500F2D357 /* SeasonsCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFECD0F0290EF96500F2D357 /* SeasonsCarouselView.swift */; };
@@ -196,7 +199,6 @@
 		FFFAF8DD2B0A9A1A008FBD18 /* TVShowWatchingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFAF8DC2B0A9A1A008FBD18 /* TVShowWatchingModel.swift */; };
 		FFFAF8DF2B0A9F06008FBD18 /* TVShowWatchedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFAF8DE2B0A9F06008FBD18 /* TVShowWatchedModel.swift */; };
 		FFFAF8E02B0A9FB3008FBD18 /* TVShowWatchingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFAF8DC2B0A9A1A008FBD18 /* TVShowWatchingModel.swift */; };
-		FFFAF8E12B0A9FBA008FBD18 /* TVShowWatchedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFAF8DE2B0A9F06008FBD18 /* TVShowWatchedModel.swift */; };
 		FFFAF8E32B0AC9F0008FBD18 /* TVShowsWatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFAF8E22B0AC9EF008FBD18 /* TVShowsWatchingView.swift */; };
 		FFFAF8E42B0AC9F0008FBD18 /* TVShowsWatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFAF8E22B0AC9EF008FBD18 /* TVShowsWatchingView.swift */; };
 		FFFB2A0E28F8534E00822923 /* PersonStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFB2A0D28F8534E00822923 /* PersonStub.swift */; };
@@ -276,6 +278,7 @@
 		7DF3C91F273961BB0072598F /* DefaultCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCarouselView.swift; sourceTree = "<group>"; };
 		FF058F7628A7E77D00125FB2 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		FF0F37862B3F6AD7007C10F2 /* SeasonSD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonSD.swift; sourceTree = "<group>"; };
+		FF1A84D12B5F112100F018AE /* FeatureToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureToggle.swift; sourceTree = "<group>"; };
 		FF2256342A22808300846394 /* DetailSeasonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSeasonView.swift; sourceTree = "<group>"; };
 		FF2256362A2281F300846394 /* SeasonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonModel.swift; sourceTree = "<group>"; };
 		FF22563C2A2285D400846394 /* seasonModel.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = seasonModel.json; sourceTree = "<group>"; };
@@ -353,6 +356,7 @@
 		FFC8244B28F22C610035D4BA /* PersonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonView.swift; sourceTree = "<group>"; };
 		FFC8244F28F232710035D4BA /* PersonService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonService.swift; sourceTree = "<group>"; };
 		FFC8245128F234D40035D4BA /* PersonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonViewModel.swift; sourceTree = "<group>"; };
+		FFD0DFFD2C0BC9CB004BA4AA /* TVShowDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowDataModel.swift; sourceTree = "<group>"; };
 		FFDDE93228EB64C20045998E /* DiscoverTVShow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTVShow.swift; sourceTree = "<group>"; };
 		FFECD0F0290EF96500F2D357 /* SeasonsCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsCarouselView.swift; sourceTree = "<group>"; };
 		FFECD0F2290EF9A500F2D357 /* SeasonStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonStub.swift; sourceTree = "<group>"; };
@@ -377,7 +381,6 @@
 			files = (
 				FFFC45452A64C55E009F9D74 /* SwiftUI.framework in Frameworks */,
 				FFFC45442A64C54C009F9D74 /* SwiftData.framework in Frameworks */,
-				FFC751EB2B446A95001977A7 /* MySwiftLibrary in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -564,7 +567,6 @@
 			isa = PBXGroup;
 			children = (
 				7D4224A62738266D006236F8 /* HomeViewModel.swift */,
-				FF29E58C28DA17E50042DFAF /* TVShowViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -580,6 +582,7 @@
 		FF29E57E28DA100E0042DFAF /* TV Shows */ = {
 			isa = PBXGroup;
 			children = (
+				FF8AB32E2B4B5A55001956CA /* ViewModel */,
 				FF29E58128DA102D0042DFAF /* Service */,
 				FF29E58028DA10260042DFAF /* Model */,
 				FF29E57F28DA101F0042DFAF /* Views */,
@@ -859,6 +862,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		FF8AB32E2B4B5A55001956CA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				FF29E58C28DA17E50042DFAF /* TVShowViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		FF9156F42749C6FC00AF74C3 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -969,6 +980,7 @@
 				FFFC45472A64C735009F9D74 /* MoviesWatched.swift */,
 				FF0F37862B3F6AD7007C10F2 /* SeasonSD.swift */,
 				FF5BCBEB2B419A1B00AAEBF5 /* EpisodeSD.swift */,
+				FFD0DFFD2C0BC9CB004BA4AA /* TVShowDataModel.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -978,6 +990,7 @@
 			children = (
 				FFEF0AD9275E8F1600D5593C /* CinemaTVProgressView.swift */,
 				FF394E3C27D101EF00FFBDFC /* Utils.swift */,
+				FF1A84D12B5F112100F018AE /* FeatureToggle.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1064,7 +1077,6 @@
 			);
 			name = CinemaTV;
 			packageProductDependencies = (
-				FFC751EA2B446A95001977A7 /* MySwiftLibrary */,
 			);
 			productName = CinemaTV;
 			productReference = 7D422458273810E1006236F8 /* CinemaTV.app */;
@@ -1162,7 +1174,6 @@
 			);
 			mainGroup = 7D42244F273810E1006236F8;
 			packageReferences = (
-				FFC751E92B446A95001977A7 /* XCRemoteSwiftPackageReference "MySwiftLibrary" */,
 			);
 			productRefGroup = 7D422459273810E1006236F8 /* Products */;
 			projectDirPath = "";
@@ -1228,6 +1239,7 @@
 				FF4DDD7B27C333250049CAFA /* MoviesListView.swift in Sources */,
 				FFECD0F3290EF9A500F2D357 /* SeasonStub.swift in Sources */,
 				FFEF0AE6275FA6F400D5593C /* TrailersView.swift in Sources */,
+				FFD0DFFE2C0BC9CB004BA4AA /* TVShowDataModel.swift in Sources */,
 				FF23AB552AF404060034D2E9 /* InformationDetailView.swift in Sources */,
 				FF77FCE82884569A00F0872B /* SearchModel.swift in Sources */,
 				FF9157012749D15A00AF74C3 /* DetailView.swift in Sources */,
@@ -1313,6 +1325,7 @@
 				FF7412A12895D66000A79C7C /* CinemaTVWidget.intentdefinition in Sources */,
 				FF4D52CC280CA88800EBEFD3 /* TopVotedMovies.swift in Sources */,
 				FF2256352A22808300846394 /* DetailSeasonView.swift in Sources */,
+				FF1A84D22B5F112100F018AE /* FeatureToggle.swift in Sources */,
 				FF29E58528DA10E60042DFAF /* TVShowsEndpoint.swift in Sources */,
 				FFFB2A0E28F8534E00822923 /* PersonStub.swift in Sources */,
 				FFEEEED428EB7AAF00B1CF77 /* CarouselInDetailView.swift in Sources */,
@@ -1346,6 +1359,7 @@
 				FF7412B82895D82500A79C7C /* CinemaTVProgressView.swift in Sources */,
 				FF7412AB2895D6FA00A79C7C /* Constants.swift in Sources */,
 				FFFB2A0F28F8549B00822923 /* PersonStub.swift in Sources */,
+				FFD0DFFF2C0BCA25004BA4AA /* TVShowDataModel.swift in Sources */,
 				FF7412D02895D8C400A79C7C /* CastView.swift in Sources */,
 				FF31A21728FB37110031F45D /* CreditByPersonStub.swift in Sources */,
 				FF3EA3292946518500763A77 /* WatchProviders.swift in Sources */,
@@ -1372,6 +1386,7 @@
 				09A770A428DFB0320015147C /* String+.swift in Sources */,
 				FF7412C62895D86B00A79C7C /* VideosView.swift in Sources */,
 				FF31A21A28FB50500031F45D /* ShowsByPersonCollectionView.swift in Sources */,
+				FFD0DFFC2C0BC6EF004BA4AA /* TVShowWatchedModel.swift in Sources */,
 				FF7412CE2895D8A200A79C7C /* MovieCell.swift in Sources */,
 				FF51481629E25271000A20EB /* WatchedTagView.swift in Sources */,
 				FFC8245628F2382D0035D4BA /* Person.swift in Sources */,
@@ -1388,7 +1403,6 @@
 				FF23AB562AF404210034D2E9 /* InformationDetailView.swift in Sources */,
 				FFECD0F5290EFB2D00F2D357 /* SeasonsCarouselView.swift in Sources */,
 				FF2256492A229D3F00846394 /* SeasonService.swift in Sources */,
-				FFFAF8E12B0A9FBA008FBD18 /* TVShowWatchedModel.swift in Sources */,
 				FFC8245328F237EA0035D4BA /* PersonView.swift in Sources */,
 				FFEEEED628EB7BD800B1CF77 /* TVShowStore.swift in Sources */,
 				FF7412C82895D89900A79C7C /* SearchModel.swift in Sources */,
@@ -1854,25 +1868,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		FFC751E92B446A95001977A7 /* XCRemoteSwiftPackageReference "MySwiftLibrary" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/danilorequena/MySwiftLibrary.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		FFC751EA2B446A95001977A7 /* MySwiftLibrary */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FFC751E92B446A95001977A7 /* XCRemoteSwiftPackageReference "MySwiftLibrary" */;
-			productName = MySwiftLibrary;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7D422450273810E1006236F8 /* Project object */;
 }

@@ -6,20 +6,62 @@
 //
 
 import SwiftData
+import Foundation
 
-@Model public class TVShowWatchedModel {
-    public var id: Int
-    var name: String
+@Model
+final class TVShowWatchedModel {
+    @Attribute var id: UUID
+    var title: String
     var overview: String
-    var imagePath: String?
-    var episodes: [Episode]
+    var releaseDate: Date
+    var imagePath: String
+    @Relationship var seasons: [SeasonDataModel]
     
-    init(id: Int, name: String, overview: String, imagePath: String? = nil, episodes: [Episode]) {
+    init(id: UUID = UUID(), title: String, overview: String, releaseDate: Date, imagePath: String) {
         self.id = id
-        self.name = name
+        self.title = title
         self.overview = overview
+        self.releaseDate = releaseDate
         self.imagePath = imagePath
-        self.episodes = episodes
+        self.seasons = []
     }
 }
 
+@Model
+public class SeasonDataModel {
+    @Attribute public var id: Int?
+    var seasonNumber: Int?
+    var releaseDate: Date?
+    @Relationship(inverse: \TVShowDataModel.seasons) var tvShow: TVShowDataModel?
+    @Relationship var episodes: [EpisodeDataModel]?
+    
+    init(
+        id: Int? = nil,
+        seasonNumber: Int? = nil,
+        releaseDate: Date? = nil,
+        tvShow: TVShowDataModel? = nil
+    ) {
+        self.id = id
+        self.seasonNumber = seasonNumber
+        self.releaseDate = releaseDate
+        self.tvShow = tvShow
+        self.episodes = []
+    }
+}
+
+@Model
+public class EpisodeDataModel {
+    @Attribute public var id: Int?
+    var title: String?
+    var duration: Int?
+    var releaseDate: String?
+    @Relationship(inverse: \SeasonDataModel.episodes) var season: SeasonDataModel?
+    
+    init(id: Int? = nil, title: String? = nil, duration: Int? = nil, releaseDate: String? = nil, season: SeasonDataModel? = nil) {
+        self.id = id
+        self.title = title
+        self.duration = duration
+        self.releaseDate = releaseDate
+        self.season = season
+    }
+}

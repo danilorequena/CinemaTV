@@ -10,7 +10,7 @@ import SwiftData
 
 struct TVShowsWatchingView: View {
     @Environment(\.modelContext) var mocTVWatching
-    @Query(sort: \TVShowWatchingModel.name) var tvShows: [TVShowWatchingModel]
+    @Query(sort: \TVShowDataModel.title) var tvShows: [TVShowDataModel]
     @State var isAlertPresented: Bool = false
     
     var body: some View {
@@ -22,12 +22,12 @@ struct TVShowsWatchingView: View {
                             NavigationLink(destination: DetailView(id: Int(truncatingIfNeeded: tvShow.id ?? 0), state: .tvShow, showAddFavoritesButton: false)) {
                                 MoviesListCell(
                                     image: URL(string: Constants.basePosters + (tvShow.imagePath ?? "")),
-                                    title: tvShow.name ?? "",
+                                    title: tvShow.title ?? "",
                                     subTitle: tvShow.overview ?? ""
                                 )
                                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                     Button(role: .destructive) {
-                                        deleteMovie(tvShow)
+//                                        deleteMovie(tvShow)
                                     } label: {
                                         Label("delete", systemImage: "trash.fill")
                                             .background(.red)
@@ -75,7 +75,7 @@ struct TVShowsWatchingView: View {
 //        }
     }
     
-    private func deleteMovie(_ movie: TVShowWatchingModel) {
+    private func deleteMovie(_ movie: TVShowDataModel) {
         mocTVWatching.delete(movie)
         try? mocTVWatching.save()
     }
@@ -92,5 +92,5 @@ struct TVShowsWatchingView: View {
 
 #Preview {
     TVShowsWatchingView()
-        .modelContainer(for: [TVShowWatchingModel.self, TVShowWatchedModel.self])
+        .modelContainer(for: [TVShowDataModel.self])
 }
