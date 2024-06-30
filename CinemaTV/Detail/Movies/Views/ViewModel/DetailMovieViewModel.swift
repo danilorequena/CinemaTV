@@ -80,7 +80,7 @@ final class DetailViewModel: ObservableObject {
                     self.detailTVShow = detail
                     self.isDetailLoading = false
                 case .failure(let error):
-                    print(error)
+                    print(error.localizedDescription)
                 }
             }
         }

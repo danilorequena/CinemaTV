@@ -17,6 +17,16 @@ extension Season {
             overview: "overview",
             posterPath: "/zwaj4egrhnXOBIit1tyb4Sbt3KP.jpg",
             seasonNumber: 1
+//            episodes: [
+//                Episodes(
+//                    id: 2,
+//                    episodeNumber: 2,
+//                    name: "episode test",
+//                    overview: "Overview",
+//                    runtime: 123,
+//                    airDate: ""
+//                )
+//            ]
         )
     }
     
@@ -30,6 +40,16 @@ extension Season {
                 overview: "overview",
                 posterPath: "/zwaj4egrhnXOBIit1tyb4Sbt3KP.jpg",
                 seasonNumber: 1
+//                episodes: [
+//                    Episodes(
+//                        id: 2,
+//                        episodeNumber: 2,
+//                        name: "episode test",
+//                        overview: "Overview",
+//                        runtime: 123,
+//                        airDate: ""
+//                    )
+//                ]
             ),
             Season(
                 airDate: "2010-12-05",
@@ -39,6 +59,16 @@ extension Season {
                 overview: "overview",
                 posterPath: "/zwaj4egrhnXOBIit1tyb4Sbt3KP.jpg",
                 seasonNumber: 1
+//                episodes: [
+//                    Episodes(
+//                        id: 2,
+//                        episodeNumber: 2,
+//                        name: "episode test",
+//                        overview: "Overview",
+//                        runtime: 123,
+//                        airDate: ""
+//                    )
+//                ]
             ),
             Season(
                 airDate: "2010-12-05",
@@ -48,6 +78,16 @@ extension Season {
                 overview: "overview",
                 posterPath: "/zwaj4egrhnXOBIit1tyb4Sbt3KP.jpg",
                 seasonNumber: 1
+//                episodes: [
+//                    Episodes(
+//                        id: 2,
+//                        episodeNumber: 2,
+//                        name: "episode test",
+//                        overview: "Overview",
+//                        runtime: 123,
+//                        airDate: ""
+//                    )
+//                ]
             )
         ]
     }
