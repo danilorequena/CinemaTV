@@ -12,6 +12,7 @@ struct DiscoverView: View {
     let state: MovieORTVShow
     let movies: [MoviesTVShowResult]
     var selectionIndex: Int
+    @Namespace private var animation
     
     var body: some View {
         if movies.isEmpty {
@@ -32,13 +33,20 @@ struct DiscoverView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 20) {
                         ForEach(movies) { movie in
-                            NavigationLink(destination: DetailView(id: movie.id, state: state, showAddFavoritesButton: true)) {
+                            NavigationLink {
+                                DetailView(id: movie.id, state: .movie, showAddFavoritesButton: true)
+                                    .navigationTransition(.zoom(sourceID: movie.id, in: animation))
+                            } label: {
                                 if !UIDevice.isIPad {
                                     setupCell(with: movie)
                                         .frame(width: 246, height: 150)
+                                        .navigationTransition(.zoom(sourceID: movie.id, in: animation))
                                 } else {
-                                    MovieCell(image: URL(string: Constants.basePosters + (movie.posterPath ?? "")))
-                                        .frame(maxWidth: .infinity, maxHeight: 500)
+                                    MovieCell(
+                                        image: URL(string: Constants.basePosters + (movie.posterPath ?? ""))
+                                    )
+                                    .frame(maxWidth: .infinity, maxHeight: 500)
+                                    .navigationTransition(.zoom(sourceID: movie.id, in: animation))
                                 }
                             }
                         }

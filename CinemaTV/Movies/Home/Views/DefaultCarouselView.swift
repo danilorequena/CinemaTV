@@ -14,6 +14,8 @@ struct DefaultCarouselView: View {
     var selectionIndex: Int
     let isLightBackground: Bool
     let state: MovieORTVShow
+    @Namespace private var animation
+    
     var body: some View {
         if data.isEmpty {
             CinemaTVProgressView()
@@ -36,10 +38,17 @@ struct DefaultCarouselView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(data) { movie in
-                            NavigationLink(destination: DetailView(id: movie.id, state: state, showAddFavoritesButton: true)) {
+                            NavigationLink {
+                                DetailView(id: movie.id, state: state, showAddFavoritesButton: true)
+                                    .navigationTransition(.zoom(sourceID: movie.id, in: animation))
+                            } label: {
                                 VStack(spacing: 2) {
-                                    MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")))
-                                        .frame(width: 180, height: 100)
+                                    MovieCell(
+                                        image: URL(string: Constants.basePosters + (movie.backdropPath ?? ""))
+                                    )
+                                    .frame(width: 180, height: 100)
+                                    .navigationTransition(.zoom(sourceID: movie.id, in: animation))
+                                    
                                     Text((movie.title ?? movie.name) ?? "")
                                         .font(.caption)
                                         .lineLimit(1)
