@@ -44,10 +44,11 @@ struct DefaultCarouselView: View {
                             } label: {
                                 VStack(spacing: 2) {
                                     MovieCell(
-                                        image: URL(string: Constants.basePosters + (movie.backdropPath ?? ""))
+                                        image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")),
+                                        id: movie.id ?? 0,
+                                        animation: animation
                                     )
                                     .frame(width: 180, height: 100)
-                                    .navigationTransition(.zoom(sourceID: movie.id, in: animation))
                                     
                                     Text((movie.title ?? movie.name) ?? "")
                                         .font(.caption)
@@ -73,14 +74,12 @@ struct DefaultCarouselView: View {
     }
 }
 
-struct TopVotedMoviesView_Previews: PreviewProvider {
-    static var previews: some View {
-        DefaultCarouselView(
-            data: MoviesTVShowResult.stubbedMovies(),
-            title: "Title",
-            selectionIndex: 0,
-            isLightBackground: false,
-            state: .movie
-        )
-    }
+#Preview {
+    DefaultCarouselView(
+        data: MoviesTVShowResult.stubbedMovies(),
+        title: "Title",
+        selectionIndex: 0,
+        isLightBackground: false,
+        state: .movie
+    )
 }

@@ -40,13 +40,13 @@ struct DiscoverView: View {
                                 if !UIDevice.isIPad {
                                     setupCell(with: movie)
                                         .frame(width: 246, height: 150)
-                                        .navigationTransition(.zoom(sourceID: movie.id, in: animation))
                                 } else {
                                     MovieCell(
-                                        image: URL(string: Constants.basePosters + (movie.posterPath ?? ""))
+                                        image: URL(string: Constants.basePosters + (movie.posterPath ?? "")),
+                                        id: movie.id ?? 0,
+                                        animation: animation
                                     )
                                     .frame(maxWidth: .infinity, maxHeight: 500)
-                                    .navigationTransition(.zoom(sourceID: movie.id, in: animation))
                                 }
                             }
                         }
@@ -65,7 +65,11 @@ struct DiscoverView: View {
     @ViewBuilder
     private func setupCell(with movie: MoviesTVShowResult) -> some View {
         GeometryReader { proxy in
-            MovieCell(image: URL(string: Constants.basePosters + (movie.posterPath ?? "")))
+            MovieCell(
+                image: URL(string: Constants.basePosters + (movie.posterPath ?? "")),
+                id: movie.id ?? 0,
+                animation: animation
+            )
                 .rotation3DEffect(Angle(degrees: (Double(proxy.frame(in: .global).minX) - 40) / -20), axis: (x: 0, y: 10.0, z: 0))
         }
     }
