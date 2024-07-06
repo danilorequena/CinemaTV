@@ -37,17 +37,7 @@ struct DiscoverView: View {
                                 DetailView(id: movie.id, state: .movie, showAddFavoritesButton: true)
                                     .navigationTransition(.zoom(sourceID: movie.id, in: animation))
                             } label: {
-                                if !UIDevice.isIPad {
-                                    setupCell(with: movie)
-                                        .frame(width: 246, height: 150)
-                                } else {
-                                    MovieCell(
-                                        image: URL(string: Constants.basePosters + (movie.posterPath ?? "")),
-                                        id: movie.id ?? 0,
-                                        animation: animation
-                                    )
-                                    .frame(maxWidth: .infinity, maxHeight: 500)
-                                }
+                                setupCell(with: movie, iPad: UIDevice.isIPad)
                             }
                         }
                     }
@@ -63,14 +53,24 @@ struct DiscoverView: View {
     }
     
     @ViewBuilder
-    private func setupCell(with movie: MoviesTVShowResult) -> some View {
-        GeometryReader { proxy in
+    private func setupCell(with movie: MoviesTVShowResult, iPad: Bool) -> some View {
+        if iPad {
             MovieCell(
                 image: URL(string: Constants.basePosters + (movie.posterPath ?? "")),
                 id: movie.id ?? 0,
                 animation: animation
             )
-                .rotation3DEffect(Angle(degrees: (Double(proxy.frame(in: .global).minX) - 40) / -20), axis: (x: 0, y: 10.0, z: 0))
+            .frame(maxWidth: .infinity, maxHeight: 500)
+        } else {
+            GeometryReader { proxy in
+                MovieCell(
+                    image: URL(string: Constants.basePosters + (movie.posterPath ?? "")),
+                    id: movie.id ?? 0,
+                    animation: animation
+                )
+                    .rotation3DEffect(Angle(degrees: (Double(proxy.frame(in: .global).minX) - 40) / -20), axis: (x: 0, y: 10.0, z: 0))
+            }
+            .frame(width: 246, height: 150)
         }
     }
 }

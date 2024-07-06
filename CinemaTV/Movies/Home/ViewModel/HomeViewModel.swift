@@ -41,6 +41,45 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
+    func setTitle(forEach item: Int) -> String  {
+        switch item {
+        case 0:
+            return LC.soon.text
+        case 1:
+            return LC.nowPlaying.text
+        case 2:
+            return LC.popular.text
+        default:
+            return LC.rated.text
+        }
+    }
+    
+    func setContent(forEach item: Int) -> [MoviesTVShowResult]  {
+        switch item {
+        case 0:
+            return upcomingMovies
+        case 1:
+            return nowPlayngMovies
+        case 2:
+            return popularMovies
+        default:
+            return topRatedMovies
+        }
+    }
+    
+    func setEndPoint(forEach item: Int) -> MoviesEndpoint  {
+        switch item {
+        case 0:
+            return .upcoming
+        case 1:
+            return .nowPlaying
+        case 2:
+            return .popular
+        default:
+            return .toRated
+        }
+    }
+    
     private func handleData(endpoint: MoviesEndpoint, movies: DiscoverMovies) {
         switch endpoint {
         case .discover:

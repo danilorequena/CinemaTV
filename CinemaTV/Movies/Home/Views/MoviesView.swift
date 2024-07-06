@@ -20,29 +20,18 @@ struct MoviesView: View {
                         await viewModel.getAllData(with: .discover)
                     }
                 
-                DefaultCarouselView(data: viewModel.upcomingMovies, title: LC.soon.text, selectionIndex: 1, isLightBackground: false, state: .movie)
+                ForEach(1..<4) { index in
+                    DefaultCarouselView(
+                        data: viewModel.setContent(forEach: index),
+                        title: viewModel.setTitle(forEach: index),
+                        selectionIndex: 1,
+                        isLightBackground: false, state: .movie
+                    )
                     .buttonStyle(.plain)
                     .task {
-                        await viewModel.getAllData(with: .upcoming)
+                        await viewModel.getAllData(with: viewModel.setEndPoint(forEach: index))
                     }
-                
-                DefaultCarouselView(data: viewModel.nowPlayngMovies, title: LC.nowPlaying.text, selectionIndex: 2, isLightBackground: false, state: .movie)
-                    .buttonStyle(.plain)
-                    .task {
-                        await viewModel.getAllData(with: .nowPlaying)
-                    }
-                
-                DefaultCarouselView(data: viewModel.popularMovies, title: LC.popular.text, selectionIndex: 2, isLightBackground: false, state: .movie)
-                    .buttonStyle(.plain)
-                    .task {
-                        await viewModel.getAllData(with: .popular)
-                    }
-                
-                DefaultCarouselView(data: viewModel.topRatedMovies, title: LC.rated.text, selectionIndex: 2, isLightBackground: false, state: .movie)
-                    .buttonStyle(.plain)
-                    .task {
-                        await viewModel.getAllData(with: .toRated)
-                    }
+                }
                 
                 NavigationLink(destination: MoviesListView(title: LC.movies.text, selectionIndex: 0)) {
                     VStack {
