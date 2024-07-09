@@ -102,24 +102,30 @@ struct DetailCoreView: View {
 
                         }
                         
-                        if let rent = viewModel.providers?.rent, !rent.isEmpty {
-                            ProvidersView(data: rent, title: "Rent", link: viewModel.providers?.link ?? "")
+                        ForEach(0..<2) { index in
+                            if let rent = viewModel.providers?.rent, !rent.isEmpty,
+                               let buy = viewModel.providers?.buy, !buy.isEmpty {
+                                ProvidersView(
+                                    data: index == 0 ? rent : buy,
+                                    title: index == 0 ? "Rent" : "Buy",
+                                    link: viewModel.providers?.link ?? ""
+                                )
+                            }
                         }
                         
-                        if let buy = viewModel.providers?.buy, !buy.isEmpty {
-                            ProvidersView(data: buy, title: "Buy", link: viewModel.providers?.link ?? "")
-                        }
-                        
-                        if let recommendations = viewModel.moviesRecommendations?.results, !recommendations.isEmpty {
-                            CarouselInDetailView(data: recommendations, title: LC.recommendations.text)
-                        }
-                        
-                        if let similars = viewModel.moviesSimilars?.results, !similars.isEmpty {
-                            CarouselInDetailView(data: similars, title: LC.similars.text)
+                        ForEach(0..<2) { index in
+                            if let recommendations = viewModel.moviesRecommendations?.results, !recommendations.isEmpty,
+                               let similars = viewModel.moviesSimilars?.results, !similars.isEmpty {
+                                CarouselInDetailView(
+                                    data: index == 0 ? recommendations : similars,
+                                    title: index == 0 ? LC.recommendations.text : LC.similars.text
+                                )
+                            }
                         }
                     }
                     .background(.ultraThinMaterial)
                     .cornerRadius(16)
+                    .padding(.bottom, 16)
                 }
             }
         }

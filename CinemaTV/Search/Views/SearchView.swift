@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SearchView: View {
     @StateObject var viewModel = SearchViewModel()
-    @State var data = [SearchResult]()
     @State var searchText = ""
     @Environment(\.isSearching) var isSearching
     @Environment(\.dismissSearch) var dismissSearch

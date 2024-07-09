@@ -17,7 +17,7 @@ final class HomeViewModel: ObservableObject {
     @Published var isLoadingPage = true
     @Published var dispathGroup = DispatchGroup()
     
-    var service: MovieServiceProtocol
+    private var service: MovieServiceProtocol
     
     init(service: MovieServiceProtocol = MovieStore()) {
         self.service = service
@@ -70,13 +70,13 @@ final class HomeViewModel: ObservableObject {
     func setEndPoint(forEach item: Int) -> MoviesEndpoint  {
         switch item {
         case 0:
-            return .upcoming
+            .upcoming
         case 1:
-            return .nowPlaying
+            .nowPlaying
         case 2:
-            return .popular
+            .popular
         default:
-            return .toRated
+            .toRated
         }
     }
     

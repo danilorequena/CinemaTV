@@ -33,14 +33,15 @@ struct MoviesView: View {
                     }
                 }
                 
-                NavigationLink(destination: MoviesListView(title: LC.movies.text, selectionIndex: 0)) {
+                NavigationLink {
+                    MoviesListView(title: LC.movies.text, selectionIndex: 0)
+                } label: {
                     VStack {
                         Text(LC.seeAll.text)
                             .foregroundColor(colorScheme == .light ? .black : .white)
                     }
                     .frame(width: UIScreen.main.bounds.width - 32, height: 56)
                     .background(.thinMaterial)
-                    .foregroundColor(.white)
                     .cornerRadius(8)
                 }
             }

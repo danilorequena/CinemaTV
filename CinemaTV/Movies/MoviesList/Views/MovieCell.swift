@@ -13,11 +13,16 @@ struct MovieCell: View {
     let animation: Namespace.ID
     var body: some View {
         ZStack(alignment: .bottom) {
-            AsyncImage(url: image) { image in
-                image.resizable()
-                    .matchedTransitionSource(id: id, in: animation)
-            } placeholder: {
-                ProgressView()
+            AsyncImage(url: image) { phase in
+                if let image = phase.image {
+                    image
+                        .resizable()
+                        .matchedTransitionSource(id: id, in: animation)
+                } else if phase.error != nil {
+                    Image("placeholder-image")
+                } else {
+                    ProgressView()
+                }
             }
             .scaledToFill()
             .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
