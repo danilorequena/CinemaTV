@@ -34,8 +34,11 @@ struct DiscoverView: View {
                     HStack(spacing: 20) {
                         ForEach(movies) { movie in
                             NavigationLink {
-                                DetailView(id: movie.id, state: .movie, showAddFavoritesButton: true)
-                                    .navigationTransition(.zoom(sourceID: movie.id, in: animation))
+                                DetailView(
+                                    id: movie.id, state: state,
+                                    showAddFavoritesButton: true
+                                )
+                                .navigationTransition(.zoom(sourceID: movie.id, in: animation))
                             } label: {
                                 setupCell(with: movie, iPad: UIDevice.isIPad)
                             }

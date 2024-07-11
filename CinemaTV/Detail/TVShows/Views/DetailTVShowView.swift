@@ -13,6 +13,7 @@ struct DetailTVShowView: View {
     @Environment(\.modelContext) var mocWatching
     @Query var seasons: [TVShowWatchingModel]
     
+    var isShowAddButton: Bool
     var state: MovieORTVShow
     @StateObject var viewModel = DetailViewModel()
     var id: Int?
@@ -33,28 +34,30 @@ struct DetailTVShowView: View {
                         Spacer(minLength: UIScreen.main.bounds.height / 2)
                         VStack {
                             VStack(alignment: .leading, spacing: 16) {
-                                InformationDetailView(detailInfos: detail)
-                                
-                                Menu {
-                                    Button("Watching") {
-                                        saveData(with: detail)
+                                InformationDetailView(
+                                    name: detail.name ?? "",
+                                    firstAirDate: detail.firstAirDate?.formatString() ?? "",
+                                    overview: detail.overview ?? "",
+                                    voteAverage: detail.voteAverage?.formatted() ?? ""
+                                )
+                                if isShowAddButton {
+                                    Menu {
+                                        Button("Watching") {
+                                            saveData(with: detail)
+                                        }
+                                    } label: {
+                                        HStack {
+                                            Image(systemName: "bookmark.fill")
+                                            Text("Add")
+                                                .foregroundColor(.black)
+                                        }
+                                        .padding(8)
+                                        .background(.ultraThinMaterial.opacity(0.2))
+                                        .cornerRadius(16)
                                     }
-                                    
-                                    Button("Watched") {
-//                                        Implementar o salvamento aqui
-                                    }
-                                } label: {
-                                    HStack {
-                                        Image(systemName: "bookmark.fill")
-                                        Text("Add")
-                                            .foregroundColor(.black)
-                                    }
-                                    .padding(8)
-                                    .background(.ultraThinMaterial.opacity(0.2))
-                                    .cornerRadius(16)
+                                    .disabled(false)
+                                    .padding(.leading, 8)
                                 }
-                                .disabled(false)
-                                .padding(.leading, 8)
                                 
                                 TrailersView(videoID: id, videoKey: viewModel.videoKey ?? "")
                                     .padding(16)
@@ -64,9 +67,8 @@ struct DetailTVShowView: View {
                                     CastView(state: .tvShow, castData: cast)
                                 }
                                 
-                                if let seasons = viewModel.detailTVShow?.seasons,
-                                   let seriesID = viewModel.detailTVShow?.id, !seasons.isEmpty {
-                                    SeasonsCarouselView(seriesID: seriesID, data: seasons, title: "Seasons")
+                                if let data = viewModel.detailTVShow {
+                                    SeasonsCarouselView(seriesID: data.id ?? 0, data: data, title: "Seasons")
                                 }
                                 
                                 if let recommendations = viewModel.tvShowsRecommendations?.results, !recommendations.isEmpty {
@@ -91,25 +93,24 @@ struct DetailTVShowView: View {
     }
     
     private func saveData(with detailData: DetailTVShow) {
-        
-        let seasons = detailData.seasons
+        let seasons = detailData.seasons?.compactMap { season -> SeasonSD? in
+            return SeasonSD(
+                id: detailData.id,
+                airDate: season.airDate ?? "",
+                episodeCount: season.episodeCount ?? 0,
+                name: season.name ?? "",
+                overview: season.overview ?? "",
+                posterPath: season.posterPath ?? "",
+                seasonNumber: season.seasonNumber
+            )
+        } ?? []
         
         let tvShow = TVShowWatchingModel(
             id: detailData.id ?? 0,
             name: detailData.name ?? "",
             overview: detailData.overview ?? "",
             imagePath: detailData.posterPath,
-            seasons: seasons?.compactMap { season in
-                SeasonSD(
-                    id: season.id ?? 0,
-                    airDate: season.airDate ?? "",
-                    episodeCount: season.episodeCount ?? 0,
-                    name: season.name ?? "",
-                    overview: season.overview ?? "",
-                    posterPath: season.posterPath ?? "",
-                    seasonNumber: season.seasonNumber ?? 0
-                )
-            } ?? []
+            seasons: seasons
         )
         
         mocWatching.insert(tvShow)
@@ -123,5 +124,9 @@ struct DetailTVShowView: View {
 }
 
 #Preview {
-    DetailTVShowView(state: .tvShow, id: 71712)
+    DetailTVShowView(
+        isShowAddButton: true,
+        state: .tvShow,
+        id: 71712
+    )
 }

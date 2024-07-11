@@ -8,24 +8,28 @@
 import SwiftUI
 
 struct InformationDetailView: View {
-    var detailInfos: DetailTVShow
+    let name: String
+    let firstAirDate: String
+    let overview: String
+    let voteAverage: String
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading, spacing: 4) {
-                Text(detailInfos.name ?? "")
+                Text(name)
                     .font(.title)
                     .bold()
                 
-                Text("Release Date: \(detailInfos.firstAirDate?.formatString() ?? "").")
+                Text("Release Date: \(firstAirDate).")
                     .font(.subheadline)
                     .foregroundColor(Color.blue)
                 
-                Text("Average: \(detailInfos.voteAverage?.formatted() ?? "")/10")
+                Text("Average: \(voteAverage)/10")
                     .font(.subheadline)
                     .foregroundColor(Color.blue)
             }
             
-            Text(detailInfos.overview ?? "")
+            Text(overview)
                 .font(.headline)
             
         }

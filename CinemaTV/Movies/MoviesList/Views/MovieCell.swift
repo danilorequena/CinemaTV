@@ -40,3 +40,10 @@ struct MovieCell: View {
     )
     .previewLayout(.fixed(width: 246, height: 460))
 }
+
+struct ProgressViewCustom: ProgressViewStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        ProgressView(configuration)
+        
+    }
+}

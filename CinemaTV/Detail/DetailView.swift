@@ -22,7 +22,11 @@ struct DetailView: View {
                     showAddFavoritesButton: showAddFavoritesButton
                 )
             case .tvShow:
-                DetailTVShowView(state: state, id: id)
+                DetailTVShowView(
+                    isShowAddButton: showAddFavoritesButton,
+                    state: state,
+                    id: id
+                )
             }
         }
     }

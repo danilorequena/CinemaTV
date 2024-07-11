@@ -8,5 +8,5 @@
 import Foundation
 
 struct FeatureToggle {
-    var enableTVShows = false
+    var enableTVShows = true
 }

@@ -17,9 +17,11 @@ struct TVShowsWatchingView: View {
         VStack {
             if !tvShows.isEmpty {
                 List {
-                    Section(header: Text("Watching")) {
+                    Section(header: Text(LC.watchButton.text)) {
                         ForEach(tvShows) { tvShow in
-                            NavigationLink(destination: DetailView(id: Int(truncatingIfNeeded: tvShow.id ?? 0), state: .tvShow, showAddFavoritesButton: false)) {
+                            NavigationLink {
+                                DetailWatchingView(watchingTVShows: tvShow)
+                            } label: {
                                 MoviesListCell(
                                     image: URL(string: Constants.basePosters + (tvShow.imagePath ?? "")),
                                     title: tvShow.name ?? "",
@@ -29,10 +31,9 @@ struct TVShowsWatchingView: View {
                                     Button(role: .destructive) {
                                         deleteMovie(tvShow)
                                     } label: {
-                                        Label("delete", systemImage: "trash.fill")
+                                        Label("delete", systemImage: "trash")
                                             .background(.red)
                                     }
-
                                 }
                             }
                         }

@@ -23,8 +23,6 @@ struct WatchedTagView: View {
     }
 }
 
-struct WatchedTagView_Previews: PreviewProvider {
-    static var previews: some View {
-        WatchedTagView(watched: true)
-    }
+#Preview {
+    WatchedTagView(watched: true)
 }

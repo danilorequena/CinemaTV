@@ -14,7 +14,29 @@ struct CinemaTVApp: App {
         WindowGroup {
             AppView()
         }
-        .modelContainer(for: [MoviesWatched.self, MoviesToWatch.self, TVShowWatchingModel.self])
+        .modelContainer(
+            for: [
+                MoviesWatched.self,
+                MoviesToWatch.self,
+                TVShowWatchingModel.self,
+                SeasonSD.self,
+                EpisodeSD.self
+            ]
+        )
+    }
+    
+    init () {
+        loadRocketSimConnect()
+    }
+    
+    private func loadRocketSimConnect() {
+        #if DEBUG
+        guard (Bundle(path: "/Applications/RocketSim.app/Contents/Frameworks/RocketSimConnectLinker.nocache.framework")?.load() == true) else {
+            print("Failed to load linker framework")
+            return
+        }
+        print("RocketSim Connect successfully linked")
+        #endif
     }
 }
 

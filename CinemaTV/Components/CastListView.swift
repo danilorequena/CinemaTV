@@ -22,8 +22,6 @@ struct CastListView: View {
     }
 }
 
-struct CastListView_Previews: PreviewProvider {
-    static var previews: some View {
-        CastListView(castList: CastModel.stubArray())
-    }
+#Preview {
+    CastListView(castList: CastModel.stubArray())
 }
