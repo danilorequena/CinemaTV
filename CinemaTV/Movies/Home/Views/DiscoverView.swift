@@ -12,12 +12,12 @@ struct DiscoverView: View {
     let state: MovieORTVShow
     let movies: [MoviesTVShowResult]
     var selectionIndex: Int
+    var loadingState: LoadingState
     @Namespace private var animation
     
     var body: some View {
-        if movies.isEmpty {
-            CinemaTVProgressView()
-        } else {
+        switch loadingState {
+        case .success:
             VStack(alignment: .trailing) {
                 NavigationLink(
                     destination: MoviesListView(
@@ -52,6 +52,8 @@ struct DiscoverView: View {
                 .safeAreaPadding(.horizontal)
             }
             .frame(maxWidth: .infinity, minHeight: 460)
+        default:
+            CinemaTVProgressView()
         }
     }
     

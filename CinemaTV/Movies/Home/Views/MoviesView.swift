@@ -14,7 +14,7 @@ struct MoviesView: View {
     var body: some View {
         ScrollView(.vertical) {
             VStack(spacing: 32) {
-                DiscoverView(state: .movie, movies: viewModel.discoverMovies, selectionIndex: 0)
+                DiscoverView(state: .movie, movies: viewModel.discoverMovies, selectionIndex: 0, loadingState: viewModel.state)
                     .buttonStyle(.plain)
                     .task {
                         await viewModel.getAllData(with: .discover)

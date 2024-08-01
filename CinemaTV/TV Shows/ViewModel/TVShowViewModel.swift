@@ -17,6 +17,8 @@ final class TVShowViewModel: ObservableObject {
     @Published var isLoadingPage = true
     @Published var dispathGroup = DispatchGroup()
     
+    var state = LoadingState.loading
+    
     init(service: TVShowServiceProtocol = TVShowStore.shared) {
         self.service = service
     }
@@ -56,6 +58,7 @@ final class TVShowViewModel: ObservableObject {
         default:
             break
         }
+        state = .success
     }
 }
 

@@ -17,6 +17,8 @@ final class HomeViewModel: ObservableObject {
     @Published var isLoadingPage = true
     @Published var dispathGroup = DispatchGroup()
     
+    var state = LoadingState.loading
+    
     private var service: MovieServiceProtocol
     
     init(service: MovieServiceProtocol = MovieStore()) {
@@ -100,6 +102,8 @@ final class HomeViewModel: ObservableObject {
         default:
             break
         }
+        state = .success
+        
     }
     
     private func hideLoading() {

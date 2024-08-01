@@ -15,7 +15,8 @@ struct TVShowView: View {
                 DiscoverView(
                     state: .tvShow,
                     movies: viewModel.discoverTVShows,
-                    selectionIndex: 0
+                    selectionIndex: 0,
+                    loadingState: viewModel.state
                 )
                 .buttonStyle(.plain)
                 .task {
