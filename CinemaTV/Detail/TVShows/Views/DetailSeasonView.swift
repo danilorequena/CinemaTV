@@ -70,6 +70,22 @@ struct DetailSeasonView: View {
     }
     
     private func saveData() {
+        let episodes = viewModel.data?.episodes.compactMap { episode -> EpisodeSD? in
+            EpisodeSD(
+                id: episode.id,
+                airDate: episode.airDate,
+                episodeNumber: episode.episodeNumber,
+                name: episode.name,
+                overview: episode.overview,
+                productionCode: episode.productionCode,
+                runtime: episode.runtime,
+                seasonNumber: episode.seasonNumber,
+                showID: episode.showID,
+                stillPath: episode.stillPath,
+                voteAverage: episode.voteAverage,
+                voteCount: episode.voteCount
+            )
+        }
         
         let seasons = tvShowDetailData?.seasons?.compactMap { season -> SeasonSD? in
             return SeasonSD(
@@ -80,22 +96,7 @@ struct DetailSeasonView: View {
                 overview: season.overview ?? "",
                 posterPath: season.posterPath ?? "",
                 seasonNumber: season.seasonNumber,
-                episodes: viewModel.data?.episodes.compactMap { episode -> EpisodeSD? in
-                    EpisodeSD(
-                        id: episode.id,
-                        airDate: episode.airDate,
-                        episodeNumber: episode.episodeNumber,
-                        name: episode.name,
-                        overview: episode.overview,
-                        productionCode: episode.productionCode,
-                        runtime: episode.runtime,
-                        seasonNumber: episode.seasonNumber,
-                        showID: episode.showID,
-                        stillPath: episode.stillPath,
-                        voteAverage: episode.voteAverage,
-                        voteCount: episode.voteCount
-                    )
-                }
+                episodes: episodes
             )
         }
         
@@ -104,10 +105,12 @@ struct DetailSeasonView: View {
             name: tvShowDetailData?.name,
             overview: tvShowDetailData?.overview,
             imagePath: tvShowDetailData?.posterPath,
-            seasons: seasons
+            seasons: []
         )
         
         modelContext.insert(tvShow)
+        tvShow.seasons = seasons
+        seasons?.forEach {$0.episodes = episodes }
         do {
             try modelContext.save()
             print("DEU CERTOOOOO!!!!")

@@ -17,6 +17,7 @@ struct DetailTVShowView: View {
     var state: MovieORTVShow
     @StateObject var viewModel = DetailViewModel()
     var id: Int?
+    
     var body: some View {
         ZStack {
             if let detail = viewModel.detailTVShow {

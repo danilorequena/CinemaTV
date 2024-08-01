@@ -12,7 +12,7 @@ import SwiftData
     var name: String?
     var overview: String?
     var imagePath: String?
-    @Relationship(deleteRule: .cascade, inverse: \SeasonSD.tvShow) var seasons: [SeasonSD]?
+    var seasons: [SeasonSD]?
     
     init(
         id: Int? = nil,

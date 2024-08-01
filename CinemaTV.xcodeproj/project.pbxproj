@@ -51,6 +51,8 @@
 		FF22564D2A22A3A700846394 /* DetailSeasonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2256342A22808300846394 /* DetailSeasonView.swift */; };
 		FF23AB552AF404060034D2E9 /* InformationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF23AB542AF404060034D2E9 /* InformationDetailView.swift */; };
 		FF23AB562AF404210034D2E9 /* InformationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF23AB542AF404060034D2E9 /* InformationDetailView.swift */; };
+		FF25BF372C5BEBF400B06836 /* MenuOptionsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF25BF362C5BEBF400B06836 /* MenuOptionsDetailView.swift */; };
+		FF25BF382C5BEBF400B06836 /* MenuOptionsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF25BF362C5BEBF400B06836 /* MenuOptionsDetailView.swift */; };
 		FF29E58528DA10E60042DFAF /* TVShowsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF29E58428DA10E60042DFAF /* TVShowsEndpoint.swift */; };
 		FF29E58928DA129A0042DFAF /* TVShowService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF29E58828DA129A0042DFAF /* TVShowService.swift */; };
 		FF29E58B28DA12F70042DFAF /* TVShowStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF29E58A28DA12F70042DFAF /* TVShowStore.swift */; };
@@ -279,6 +281,7 @@
 		FF2256472A229D3F00846394 /* SeasonService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonService.swift; sourceTree = "<group>"; };
 		FF22564A2A229E2800846394 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		FF23AB542AF404060034D2E9 /* InformationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationDetailView.swift; sourceTree = "<group>"; };
+		FF25BF362C5BEBF400B06836 /* MenuOptionsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuOptionsDetailView.swift; sourceTree = "<group>"; };
 		FF29E58428DA10E60042DFAF /* TVShowsEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowsEndpoint.swift; sourceTree = "<group>"; };
 		FF29E58828DA129A0042DFAF /* TVShowService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowService.swift; sourceTree = "<group>"; };
 		FF29E58A28DA12F70042DFAF /* TVShowStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowStore.swift; sourceTree = "<group>"; };
@@ -366,6 +369,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		FF25BF302C5BD00D00B06836 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MoviesDataManager.swift,
+			);
+			target = 7D422457273810E1006236F8 /* CinemaTV */;
+		};
+		FF25BF322C5BD29C00B06836 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MoviesDataManager.swift,
+			);
+			target = FF7412922895D65F00A79C7C /* CinemaTVWidgetExtension */;
+		};
 		FFD4A8562C3DEFB100BFF778 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -387,6 +404,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		FF25BF2C2C5BD00000B06836 /* Manager */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (FF25BF302C5BD00D00B06836 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, FF25BF322C5BD29C00B06836 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Manager; sourceTree = "<group>"; };
 		FFD4A8552C3DEFAA00BFF778 /* TVShows */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (FFD4A8562C3DEFB100BFF778 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, FFD4A8572C3DEFB100BFF778 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = TVShows; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -595,6 +613,19 @@
 			path = JSONs;
 			sourceTree = "<group>";
 		};
+		FF25BF2B2C5BCFF900B06836 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FFFC45462A64C735009F9D74 /* MoviesToWatch.swift */,
+				FFFAF8DC2B0A9A1A008FBD18 /* TVShowWatchingModel.swift */,
+				FFFAF8DE2B0A9F06008FBD18 /* TVShowWatchedModel.swift */,
+				FFFC45472A64C735009F9D74 /* MoviesWatched.swift */,
+				FF0F37862B3F6AD7007C10F2 /* SeasonSD.swift */,
+				FF5BCBEB2B419A1B00AAEBF5 /* EpisodeSD.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		FF29E57E28DA100E0042DFAF /* TV Shows */ = {
 			isa = PBXGroup;
 			children = (
@@ -766,6 +797,7 @@
 			children = (
 				FF5BCBE92B4197FC00AAEBF5 /* ViewModel */,
 				FF5C570B292E5F6800A7DC78 /* DetailCoreView.swift */,
+				FF25BF362C5BEBF400B06836 /* MenuOptionsDetailView.swift */,
 				FF7DC22E28EB177300B5FEC5 /* DetailMoviesView.swift */,
 				FF4DB80F296E03E500842BB3 /* ProvidersView.swift */,
 			);
@@ -989,12 +1021,8 @@
 		FFDB97532A7ED585005742AC /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				FFFC45462A64C735009F9D74 /* MoviesToWatch.swift */,
-				FFFAF8DC2B0A9A1A008FBD18 /* TVShowWatchingModel.swift */,
-				FFFAF8DE2B0A9F06008FBD18 /* TVShowWatchedModel.swift */,
-				FFFC45472A64C735009F9D74 /* MoviesWatched.swift */,
-				FF0F37862B3F6AD7007C10F2 /* SeasonSD.swift */,
-				FF5BCBEB2B419A1B00AAEBF5 /* EpisodeSD.swift */,
+				FF25BF2C2C5BD00000B06836 /* Manager */,
+				FF25BF2B2C5BCFF900B06836 /* Models */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1270,6 +1298,7 @@
 				7D42249C2738150E006236F8 /* APIServiceError.swift in Sources */,
 				FF0F37872B3F6AD7007C10F2 /* SeasonSD.swift in Sources */,
 				FF77FCEA28845A2100F0872B /* SearchViewModel.swift in Sources */,
+				FF25BF382C5BEBF400B06836 /* MenuOptionsDetailView.swift in Sources */,
 				FFDDE93328EB64C30045998E /* DiscoverTVShow.swift in Sources */,
 				09520E7A29DE0CD80028A778 /* CreditsView.swift in Sources */,
 				FF3EA32D294655B700763A77 /* WatchProvidersView.swift in Sources */,
@@ -1386,6 +1415,7 @@
 				FFC8245528F238180035D4BA /* PersonService.swift in Sources */,
 				09A770A528DFB03A0015147C /* Bundle+.swift in Sources */,
 				FFDDE93428EB64C30045998E /* DiscoverTVShow.swift in Sources */,
+				FF25BF372C5BEBF400B06836 /* MenuOptionsDetailView.swift in Sources */,
 				FF7412B22895D6FA00A79C7C /* MovieStub.swift in Sources */,
 				FF2256422A228FB100846394 /* SeasonModel.swift in Sources */,
 				FF7412BF2895D84C00A79C7C /* DetailMovieViewModel.swift in Sources */,

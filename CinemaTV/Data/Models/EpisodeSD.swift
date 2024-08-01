@@ -21,7 +21,7 @@ final class EpisodeSD {
     var stillPath: String?
     var voteAverage: Double?
     var voteCount: Int?
-    var seasons: SeasonSD?
+    @Relationship(deleteRule: .nullify, inverse: \SeasonSD.episodes) var season: SeasonSD?
     
     init(
         id: Int? = nil,
@@ -36,7 +36,7 @@ final class EpisodeSD {
         stillPath: String? = nil,
         voteAverage: Double? = nil,
         voteCount: Int? = nil,
-        seasons: SeasonSD? = nil
+        season: SeasonSD? = nil
     ){
         self.id = id
         self.airDate = airDate
@@ -50,6 +50,6 @@ final class EpisodeSD {
         self.stillPath = stillPath
         self.voteAverage = voteAverage
         self.voteCount = voteCount
-        self.seasons = seasons
+        self.season = season
     }
 }

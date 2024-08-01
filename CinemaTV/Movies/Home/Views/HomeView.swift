@@ -16,8 +16,8 @@ struct HomeView: View {
             Group {
                 MoviesView()
                     .environmentObject(viewModel)
+                    .background(Gradient(colors: colorScheme == .dark ? [.gray, .black] : [.gray, .white]))
             }
-            .background(Gradient(colors: colorScheme == .dark ? [.gray, .black] : [.gray, .white]))
             .navigationTitle(LC.discover.text)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
