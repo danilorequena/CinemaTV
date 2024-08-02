@@ -389,6 +389,13 @@
 			);
 			target = FF7412922895D65F00A79C7C /* CinemaTVWidgetExtension */;
 		};
+		FF25BF432C5D226E00B06836 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				WantWatchDataManager.swift,
+			);
+			target = 7D422457273810E1006236F8 /* CinemaTV */;
+		};
 		FFD4A8562C3DEFB100BFF778 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -411,6 +418,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		FF25BF2C2C5BD00000B06836 /* Manager */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (FF25BF302C5BD00D00B06836 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, FF25BF322C5BD29C00B06836 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Manager; sourceTree = "<group>"; };
+		FF25BF402C5D225500B06836 /* Manager */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (FF25BF432C5D226E00B06836 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Manager; sourceTree = "<group>"; };
 		FFD4A8552C3DEFAA00BFF778 /* TVShows */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (FFD4A8562C3DEFB100BFF778 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, FFD4A8572C3DEFB100BFF778 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = TVShows; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -630,6 +638,15 @@
 				FF5BCBEB2B419A1B00AAEBF5 /* EpisodeSD.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		FF25BF3F2C5D224600B06836 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FFB68A0D28FDDDF8002D5888 /* WantWatchView.swift */,
+				FF940C472A917CE500421050 /* CaouselLifeView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		FF29E57E28DA100E0042DFAF /* TV Shows */ = {
@@ -955,9 +972,9 @@
 		FFB68A0C28FDDD71002D5888 /* WantWatch */ = {
 			isa = PBXGroup;
 			children = (
+				FF25BF402C5D225500B06836 /* Manager */,
 				FFD4A8552C3DEFAA00BFF778 /* TVShows */,
-				FFB68A0D28FDDDF8002D5888 /* WantWatchView.swift */,
-				FF940C472A917CE500421050 /* CaouselLifeView.swift */,
+				FF25BF3F2C5D224600B06836 /* Views */,
 			);
 			path = WantWatch;
 			sourceTree = "<group>";

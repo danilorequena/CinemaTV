@@ -10,7 +10,7 @@ import SwiftData
 
 struct DetailWatchingView: View {
     @Environment(\.colorScheme) var colorScheme
-    @Environment(\.modelContext) var mocWatching
+    @Environment(\.modelContext) var modelContext
     var watchingTVShows: TVShowWatchingModel
     
     var body: some View {

@@ -11,8 +11,7 @@ import SwiftData
 struct MenuOptionsDetailView: View {
     let dataManager: MoviesDatabaseManager
     let detail: DetailMoviesModel
-    let moc: ModelContext
-    let mocWatched: ModelContext
+    let modelContext: ModelContext
     let movies: [MoviesToWatch]
     let moviesWatched: [MoviesWatched]
     let showAddFavoritesButton: Bool
@@ -25,8 +24,7 @@ struct MenuOptionsDetailView: View {
                     dataManager.saveData(
                         with: detail,
                         isWatched: false,
-                        moc: moc,
-                        mocWatched: mocWatched,
+                        modelContext: modelContext,
                         movies: movies,
                         moviesWatched: moviesWatched
                     )
@@ -42,8 +40,7 @@ struct MenuOptionsDetailView: View {
                     dataManager.saveData(
                         with: detail,
                         isWatched: true,
-                        moc: moc,
-                        mocWatched: mocWatched,
+                        modelContext: modelContext,
                         movies: movies,
                         moviesWatched: moviesWatched
                     )

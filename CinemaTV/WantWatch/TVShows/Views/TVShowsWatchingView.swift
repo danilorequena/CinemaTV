@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct TVShowsWatchingView: View {
-    @Environment(\.modelContext) var mocTVWatching
+    @Environment(\.modelContext) var modelContext
     @Query(sort: \TVShowWatchingModel.name) var tvShows: [TVShowWatchingModel]
     @State var isAlertPresented: Bool = false
     
@@ -53,10 +53,10 @@ struct TVShowsWatchingView: View {
     private func deleteMovies(at offsets: IndexSet) {
         for offset in offsets {
             let movie = tvShows[offset]
-            mocTVWatching.delete(movie)
+            modelContext.delete(movie)
         }
         
-        try? mocTVWatching.save()
+        try? modelContext.save()
     }
     
     private func moveMovieToWatched(_ movie: TVShowWatchingModel) {
@@ -77,8 +77,8 @@ struct TVShowsWatchingView: View {
     }
     
     private func deleteMovie(_ movie: TVShowWatchingModel) {
-        mocTVWatching.delete(movie)
-        try? mocTVWatching.save()
+        modelContext.delete(movie)
+        try? modelContext.save()
     }
     
     private func deleteMoviesThanWatched(at offsets: IndexSet) {

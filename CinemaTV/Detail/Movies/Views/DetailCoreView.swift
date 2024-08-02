@@ -9,8 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct DetailCoreView: View {
-    @Environment(\.modelContext) var moc
-    @Environment(\.modelContext) var mocWatched
+    @Environment(\.modelContext) var modelContext
     @Query var movies: [MoviesToWatch]
     @Query var moviesWatched: [MoviesWatched]
     @EnvironmentObject private var viewModel: DetailViewModel
@@ -51,8 +50,7 @@ struct DetailCoreView: View {
                                     MenuOptionsDetailView(
                                         dataManager: dataManager,
                                         detail: detail,
-                                        moc: moc,
-                                        mocWatched: mocWatched,
+                                        modelContext: modelContext,
                                         movies: movies,
                                         moviesWatched: moviesWatched,
                                         showAddFavoritesButton: showAddFavoritesButton

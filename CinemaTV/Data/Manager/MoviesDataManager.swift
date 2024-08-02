@@ -13,8 +13,7 @@ class MoviesDatabaseManager {
     func saveData(
         with detailData: DetailMoviesModel,
         isWatched: Bool,
-        moc: ModelContext,
-        mocWatched: ModelContext,
+        modelContext: ModelContext,
         movies: [MoviesToWatch],
         moviesWatched: [MoviesWatched]
     ) {
@@ -27,9 +26,9 @@ class MoviesDatabaseManager {
                     overview: detailData.overview,
                     profilePath: detailData.posterPath
                 )
-                moc.insert(movie)
+                modelContext.insert(movie)
                 do {
-                    try moc.save()
+                    try modelContext.save()
                     print("Movie saved to watch list!")
                 } catch {
                     print("Failed to save movie: \(error.localizedDescription)")
@@ -43,9 +42,9 @@ class MoviesDatabaseManager {
                         overview: detailData.overview,
                         profilePath: detailData.posterPath
                     )
-                    mocWatched.insert(movie)
+                    modelContext.insert(movie)
                     do {
-                        try mocWatched.save()
+                        try modelContext.save()
                         print("Movie saved to watched list!")
                     } catch {
                         print("Failed to save movie: \(error.localizedDescription)")
