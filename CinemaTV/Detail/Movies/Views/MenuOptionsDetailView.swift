@@ -22,6 +22,7 @@ struct MenuOptionsDetailView: View {
             Menu {
                 Button("Want to Watch") {
                     dataManager.saveData(
+                        in: .toWatch,
                         with: detail,
                         isWatched: false,
                         modelContext: modelContext,
@@ -38,6 +39,7 @@ struct MenuOptionsDetailView: View {
                 
                 Button("Watched") {
                     dataManager.saveData(
+                        in: .watched,
                         with: detail,
                         isWatched: true,
                         modelContext: modelContext,

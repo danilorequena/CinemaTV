@@ -8,49 +8,35 @@
 import SwiftData
 import SwiftUI
 
-class MoviesDatabaseManager {
+final class MoviesDatabaseManager {
     
     func saveData(
+        in databaseType: DataBase,
         with detailData: DetailMoviesModel,
         isWatched: Bool,
         modelContext: ModelContext,
         movies: [MoviesToWatch],
         moviesWatched: [MoviesWatched]
     ) {
-        if !verifyIfExists(id: detailData.id, verifyIn: .toWatch, movies: movies, moviesWatched: moviesWatched) {
-            if !isWatched {
-                let movie = MoviesToWatch(
-                    id: Int64(detailData.id),
-                    counter: Double(detailData.runtime),
-                    name: detailData.title,
-                    overview: detailData.overview,
-                    profilePath: detailData.posterPath
-                )
-                modelContext.insert(movie)
-                do {
-                    try modelContext.save()
-                    print("Movie saved to watch list!")
-                } catch {
-                    print("Failed to save movie: \(error.localizedDescription)")
-                }
-            } else {
-                if !verifyIfExists(id: detailData.id, verifyIn: .watched, movies: movies, moviesWatched: moviesWatched) {
-                    let movie = MoviesWatched(
-                        counter: Double(detailData.runtime),
-                        id: Int64(detailData.id),
-                        name: detailData.title,
-                        overview: detailData.overview,
-                        profilePath: detailData.posterPath
-                    )
-                    modelContext.insert(movie)
-                    do {
-                        try modelContext.save()
-                        print("Movie saved to watched list!")
-                    } catch {
-                        print("Failed to save movie: \(error.localizedDescription)")
-                    }
-                }
-            }
+        switch databaseType {
+        case .toWatch:
+            let movie = MoviesToWatch(
+                id: Int64(detailData.id),
+                counter: Double(detailData.runtime),
+                name: detailData.title,
+                overview: detailData.overview,
+                profilePath: detailData.posterPath
+            )
+            modelContext.insert(movie)
+        case .watched:
+            let movie = MoviesWatched(
+                counter: Double(detailData.runtime),
+                id: Int64(detailData.id),
+                name: detailData.title,
+                overview: detailData.overview,
+                profilePath: detailData.posterPath
+            )
+            modelContext.insert(movie)
         }
     }
     
@@ -69,7 +55,6 @@ class MoviesDatabaseManager {
         if movies.contains(where: {$0.id ?? 0 == id}) || moviesWatched.contains(where: {$0.id ?? 0 == id}) {
             return true
         }
-        
         return false
     }
 
@@ -85,9 +70,9 @@ class MoviesDatabaseManager {
     
     func changeTitle(id: Int, movies: [MoviesToWatch], moviesWatched: [MoviesWatched]) -> String {
         if moviesWatched.contains(where: {$0.id ?? 0 == id}) {
-            return "Watched"
+            return LC.watchedButton.text
         } else if movies.contains(where: {$0.id ?? 0 == id}) {
-            return "Want Watch"
+            return LC.watchButton.text
         } else {
             return LC.addFavorites.text
         }
