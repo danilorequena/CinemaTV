@@ -17,7 +17,9 @@ final class HomeViewModel: ObservableObject {
     @Published var isLoadingPage = true
     @Published var dispathGroup = DispatchGroup()
     
-    var service: MovieServiceProtocol
+    var state = LoadingState.loading
+    
+    private var service: MovieServiceProtocol
     
     init(service: MovieServiceProtocol = MovieStore()) {
         self.service = service
@@ -41,6 +43,45 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
+    func setTitle(forEach item: Int) -> String  {
+        switch item {
+        case 0:
+            return LC.soon.text
+        case 1:
+            return LC.nowPlaying.text
+        case 2:
+            return LC.popular.text
+        default:
+            return LC.rated.text
+        }
+    }
+    
+    func setContent(forEach item: Int) -> [MoviesTVShowResult]  {
+        switch item {
+        case 0:
+            return upcomingMovies
+        case 1:
+            return nowPlayngMovies
+        case 2:
+            return popularMovies
+        default:
+            return topRatedMovies
+        }
+    }
+    
+    func setEndPoint(forEach item: Int) -> MoviesEndpoint  {
+        switch item {
+        case 0:
+            .upcoming
+        case 1:
+            .nowPlaying
+        case 2:
+            .popular
+        default:
+            .toRated
+        }
+    }
+    
     private func handleData(endpoint: MoviesEndpoint, movies: DiscoverMovies) {
         switch endpoint {
         case .discover:
@@ -61,6 +102,8 @@ final class HomeViewModel: ObservableObject {
         default:
             break
         }
+        state = .success
+        
     }
     
     private func hideLoading() {

@@ -9,10 +9,11 @@ import SwiftUI
 
 struct DetailSeasonView: View {
     @StateObject var viewModel: SeasonViewModel
-    @State private var isChecked = false
     @State private var isWatched = false
+    @Environment(\.modelContext) var modelContext
+    let tvShowDetailData: DetailTVShow?
+    var tvShow: TVShowWatchingModel?
     
-    @State private var isOn = false
     var body: some View {
         VStack {
             if let data = viewModel.data {
@@ -51,6 +52,7 @@ struct DetailSeasonView: View {
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(action: {
                                     isWatched.toggle()
+                                    saveData()
                                 }, label: {
                                     Label("Watched", image: "checkmark")
                                 })
@@ -66,38 +68,54 @@ struct DetailSeasonView: View {
             await viewModel.loadSeasonDetail()
         }
     }
-}
-
-struct DetailSeasonView_Previews: PreviewProvider {
-    static var previews: some View {
-        DetailSeasonView(
-            viewModel: SeasonViewModel(
-                tvShowID: 84958,
-                tvshowSeasonNumber: 1
+    
+    private func saveData() {
+        let episodes = viewModel.data?.episodes.compactMap { episode -> EpisodeSD? in
+            EpisodeSD(
+                id: episode.id,
+                airDate: episode.airDate,
+                episodeNumber: episode.episodeNumber,
+                name: episode.name,
+                overview: episode.overview,
+                productionCode: episode.productionCode,
+                runtime: episode.runtime,
+                seasonNumber: episode.seasonNumber,
+                showID: episode.showID,
+                stillPath: episode.stillPath,
+                voteAverage: episode.voteAverage,
+                voteCount: episode.voteCount
             )
+        }
+        
+        let seasons = tvShowDetailData?.seasons?.compactMap { season -> SeasonSD? in
+            return SeasonSD(
+                id: tvShowDetailData?.id,
+                airDate: season.airDate ?? "",
+                episodeCount: season.episodeCount ?? 0,
+                name: season.name ?? "",
+                overview: season.overview ?? "",
+                posterPath: season.posterPath ?? "",
+                seasonNumber: season.seasonNumber,
+                episodes: episodes
+            )
+        }
+        
+        let tvShow = TVShowWatchingModel(
+            id: tvShowDetailData?.id,
+            name: tvShowDetailData?.name,
+            overview: tvShowDetailData?.overview,
+            imagePath: tvShowDetailData?.posterPath,
+            seasons: []
         )
-    }
-}
-
-
-struct CheckboxToggleStyle: ToggleStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        HStack {
- 
-            RoundedRectangle(cornerRadius: 5.0)
-                .stroke(lineWidth: 2)
-                .frame(width: 25, height: 25)
-                .cornerRadius(5.0)
-                .overlay {
-                    Image(systemName: configuration.isOn ? "checkmark" : "")
-                }
-                .onTapGesture {
-                    withAnimation(.spring()) {
-                        configuration.isOn.toggle()
-                    }
-                }
- 
-            configuration.label
+        
+        modelContext.insert(tvShow)
+        tvShow.seasons = seasons
+        seasons?.forEach {$0.episodes = episodes }
+        do {
+            try modelContext.save()
+            print("DEU CERTOOOOO!!!!")
+        } catch {
+            print(error.localizedDescription)
         }
     }
 }

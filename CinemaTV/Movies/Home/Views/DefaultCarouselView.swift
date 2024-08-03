@@ -14,6 +14,8 @@ struct DefaultCarouselView: View {
     var selectionIndex: Int
     let isLightBackground: Bool
     let state: MovieORTVShow
+    @Namespace private var animation
+    
     var body: some View {
         if data.isEmpty {
             CinemaTVProgressView()
@@ -36,10 +38,18 @@ struct DefaultCarouselView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(data) { movie in
-                            NavigationLink(destination: DetailView(id: movie.id, state: state, showAddFavoritesButton: true)) {
+                            NavigationLink {
+                                DetailView(id: movie.id, state: state, showAddFavoritesButton: true)
+                                    .navigationTransition(.zoom(sourceID: movie.id, in: animation))
+                            } label: {
                                 VStack(spacing: 2) {
-                                    MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")))
-                                        .frame(width: 180, height: 100)
+                                    MovieCell(
+                                        image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")),
+                                        id: movie.id ?? 0,
+                                        animation: animation
+                                    )
+                                    .frame(width: 180, height: 100)
+                                    
                                     Text((movie.title ?? movie.name) ?? "")
                                         .font(.caption)
                                         .lineLimit(1)
@@ -64,14 +74,12 @@ struct DefaultCarouselView: View {
     }
 }
 
-struct TopVotedMoviesView_Previews: PreviewProvider {
-    static var previews: some View {
-        DefaultCarouselView(
-            data: MoviesTVShowResult.stubbedMovies(),
-            title: "Title",
-            selectionIndex: 0,
-            isLightBackground: false,
-            state: .movie
-        )
-    }
+#Preview {
+    DefaultCarouselView(
+        data: MoviesTVShowResult.stubbedMovies(),
+        title: "Title",
+        selectionIndex: 0,
+        isLightBackground: false,
+        state: .movie
+    )
 }

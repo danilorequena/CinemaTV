@@ -16,7 +16,8 @@ extension Season {
             name: "Season1",
             overview: "overview",
             posterPath: "/zwaj4egrhnXOBIit1tyb4Sbt3KP.jpg",
-            seasonNumber: 1
+            seasonNumber: 1,
+            showID: 94997
         )
     }
     
@@ -29,7 +30,8 @@ extension Season {
                 name: "Season1",
                 overview: "overview",
                 posterPath: "/zwaj4egrhnXOBIit1tyb4Sbt3KP.jpg",
-                seasonNumber: 1
+                seasonNumber: 1,
+                showID: 94997
             ),
             Season(
                 airDate: "2010-12-05",
@@ -38,7 +40,8 @@ extension Season {
                 name: "Season1",
                 overview: "overview",
                 posterPath: "/zwaj4egrhnXOBIit1tyb4Sbt3KP.jpg",
-                seasonNumber: 1
+                seasonNumber: 1,
+                showID: 94997
             ),
             Season(
                 airDate: "2010-12-05",
@@ -47,7 +50,8 @@ extension Season {
                 name: "Season1",
                 overview: "overview",
                 posterPath: "/zwaj4egrhnXOBIit1tyb4Sbt3KP.jpg",
-                seasonNumber: 1
+                seasonNumber: 1,
+                showID: 94997
             )
         ]
     }

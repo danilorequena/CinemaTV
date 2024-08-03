@@ -16,7 +16,8 @@ import Foundation
     var overview: String?
     var posterPath: String?
     var seasonNumber: Int?
-    var tvShow: TVShowWatchingModel?
+    @Relationship(deleteRule: .nullify, inverse: \TVShowWatchingModel.seasons) var tvShow: TVShowWatchingModel?
+    var episodes: [EpisodeSD]?
     
     init(
         id: Int? = nil,
@@ -26,6 +27,7 @@ import Foundation
         overview: String? = nil,
         posterPath: String? = nil,
         seasonNumber: Int? = nil,
+        episodes: [EpisodeSD]? = nil,
         tvShow: TVShowWatchingModel? = nil
     ) {
         self.id = id
@@ -35,6 +37,7 @@ import Foundation
         self.overview = overview
         self.posterPath = posterPath
         self.seasonNumber = seasonNumber
+        self.episodes = episodes
         self.tvShow = tvShow
     }
 }

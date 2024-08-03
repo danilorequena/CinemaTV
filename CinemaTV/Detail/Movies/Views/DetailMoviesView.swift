@@ -9,7 +9,7 @@ import SwiftUI
 
 enum DataBase {
     case toWatch
-    case wached
+    case watched
 }
 
 struct DetailMoviesView: View {

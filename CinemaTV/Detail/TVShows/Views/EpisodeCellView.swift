@@ -10,6 +10,7 @@ import SwiftUI
 struct EpisodeCellView: View {
     let imagePath: String
     let overview: String
+    @State private var isChecked: Bool = false
     
     var body: some View {
         HStack {

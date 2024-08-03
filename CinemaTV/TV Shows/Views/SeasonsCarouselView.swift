@@ -9,10 +9,10 @@ import SwiftUI
 
 struct SeasonsCarouselView: View {
     let seriesID: Int
-    let data: [Season]
+    let data: DetailTVShow
     let title: String
     var body: some View {
-        if data.isEmpty {
+        if let seasons = data.seasons, seasons.isEmpty {
             CinemaTVProgressView()
         } else {
             VStack(alignment: .center) {
@@ -26,12 +26,13 @@ struct SeasonsCarouselView: View {
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
-                        ForEach(data) { tvShow in
+                        ForEach(data.seasons ?? []) { tvShow in
                             NavigationLink(destination: DetailSeasonView(
                                 viewModel: SeasonViewModel(
                                     tvShowID: seriesID,
                                     tvshowSeasonNumber: tvShow.seasonNumber ?? 0
-                                )
+                                ),
+                                tvShowDetailData: data
                             )) {
                                 VStack(spacing: 2) {
                                     AsyncImage(url: URL(string: Constants.basePosters + (tvShow.posterPath ?? ""))) { image in
@@ -64,12 +65,12 @@ struct SeasonsCarouselView: View {
         }
     }
 }
-
-#Preview {
-    SeasonsCarouselView(
-        seriesID: 94997,
-        data: Season.mockArray(),
-        title: "Title"
-    )
-}
+//
+//#Preview {
+//    SeasonsCarouselView(
+//        seriesID: 94997,
+//        data: Season.mockArray(),
+//        title: "Title"
+//    )
+//}
 

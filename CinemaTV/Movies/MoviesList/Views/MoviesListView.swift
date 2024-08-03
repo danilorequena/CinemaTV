@@ -54,9 +54,7 @@ struct MoviesListView: View {
                         )
                         .onAppear {
                             if viewModel.hasReachedEnd(of: movie) {
-                                DispatchQueue.main.async {
-                                    viewModel.loadMoreMovies()
-                                }
+                                viewModel.loadMoreMovies()
                             }
                         }
                     }

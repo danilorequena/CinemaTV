@@ -12,11 +12,12 @@ struct DiscoverView: View {
     let state: MovieORTVShow
     let movies: [MoviesTVShowResult]
     var selectionIndex: Int
+    var loadingState: LoadingState
+    @Namespace private var animation
     
     var body: some View {
-        if movies.isEmpty {
-            CinemaTVProgressView()
-        } else {
+        switch loadingState {
+        case .success:
             VStack(alignment: .trailing) {
                 NavigationLink(
                     destination: MoviesListView(
@@ -32,14 +33,14 @@ struct DiscoverView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 20) {
                         ForEach(movies) { movie in
-                            NavigationLink(destination: DetailView(id: movie.id, state: state, showAddFavoritesButton: true)) {
-                                if !UIDevice.isIPad {
-                                    setupCell(with: movie)
-                                        .frame(width: 246, height: 150)
-                                } else {
-                                    MovieCell(image: URL(string: Constants.basePosters + (movie.posterPath ?? "")))
-                                        .frame(maxWidth: .infinity, maxHeight: 500)
-                                }
+                            NavigationLink {
+                                DetailView(
+                                    id: movie.id, state: state,
+                                    showAddFavoritesButton: true
+                                )
+                                .navigationTransition(.zoom(sourceID: movie.id, in: animation))
+                            } label: {
+                                setupCell(with: movie, iPad: UIDevice.isIPad)
                             }
                         }
                     }
@@ -51,14 +52,30 @@ struct DiscoverView: View {
                 .safeAreaPadding(.horizontal)
             }
             .frame(maxWidth: .infinity, minHeight: 460)
+        default:
+            CinemaTVProgressView()
         }
     }
     
     @ViewBuilder
-    private func setupCell(with movie: MoviesTVShowResult) -> some View {
-        GeometryReader { proxy in
-            MovieCell(image: URL(string: Constants.basePosters + (movie.posterPath ?? "")))
-                .rotation3DEffect(Angle(degrees: (Double(proxy.frame(in: .global).minX) - 40) / -20), axis: (x: 0, y: 10.0, z: 0))
+    private func setupCell(with movie: MoviesTVShowResult, iPad: Bool) -> some View {
+        if iPad {
+            MovieCell(
+                image: URL(string: Constants.basePosters + (movie.posterPath ?? "")),
+                id: movie.id ?? 0,
+                animation: animation
+            )
+            .frame(maxWidth: .infinity, maxHeight: 500)
+        } else {
+            GeometryReader { proxy in
+                MovieCell(
+                    image: URL(string: Constants.basePosters + (movie.posterPath ?? "")),
+                    id: movie.id ?? 0,
+                    animation: animation
+                )
+                    .rotation3DEffect(Angle(degrees: (Double(proxy.frame(in: .global).minX) - 40) / -20), axis: (x: 0, y: 10.0, z: 0))
+            }
+            .frame(width: 246, height: 150)
         }
     }
 }

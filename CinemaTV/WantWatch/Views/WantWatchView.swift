@@ -8,22 +8,36 @@
 import SwiftUI
 import SwiftData
 
+enum WantWatchViewState {
+    case success
+    case empty
+}
+
 struct WantWatchView: View {
-    @Environment(\.modelContext) var moc
-    @Environment(\.modelContext) var mocWatched
+    @Environment(\.modelContext) var modelContext
     @Query(sort: \MoviesToWatch.name) var movies: [MoviesToWatch]
     @Query(sort: \MoviesWatched.name) var moviesWatched: [MoviesWatched]
     @State var isAlertPresented: Bool = false
+    var state: WantWatchViewState {
+        if !movies.isEmpty || !moviesWatched.isEmpty {
+            .success
+        } else {
+            .empty
+        }
+    }
     
     var counter: Double {
         moviesWatched.reduce(0) { $0 + ($1.counter ?? 0) }
     }
     
+    var manager = WantWatchDataManager()
+    
     var body: some View {
         VStack {
-            if !movies.isEmpty || !moviesWatched.isEmpty {
+            switch state {
+            case .success:
                 VStack {
-                    CarouselLifeView(value: minutesToHoursAndMinutes(Int(counter)))
+                    CarouselLifeView(value: manager.minutesToHoursAndMinutes(Int(counter)))
                     
                     List {
                         Section(header: Text("Want Watch")) {
@@ -36,20 +50,20 @@ struct WantWatchView: View {
                                     )
                                     .swipeActions(allowsFullSwipe: false) {
                                         Button {
-                                            moveMovieToWatched(movie)
+                                            manager.moveMovieToWatched(movie, moc: modelContext)
                                         } label: {
                                             Label("Watched", systemImage: "checkmark")
                                         }
                                         .tint(.indigo)
                                         
                                         Button(role: .destructive) {
-                                            deleteMovie(movie)
+                                            manager.deleteMovie(movie, moc: modelContext)
                                         } label: {
                                             Label("Delete", systemImage: "trash.fill")
                                         }
                                     }
                                     .alert("Error saving the movie.",
-                                           isPresented: $isAlertPresented) {
+                                           isPresented: manager.$isAlertPresented) {
                                     } message: {
                                            Text("There was an error saving the movie, try again...")
                                     }
@@ -67,60 +81,17 @@ struct WantWatchView: View {
                                     )
                                 }
                             }
-                            .onDelete(perform: deleteMoviesThanWatched)
+                            .onDelete { index in
+                                manager.deleteMoviesThanWatched(at: index, moc: modelContext, moviesWatched: moviesWatched)
+                            }
                         }
                     }
                 }
-            } else {
+            case .empty:
                 Text("Lista Vazia")
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-    }
-    
-    private func minutesToHoursAndMinutes(_ minutes: Int) -> String {
-        let string = "Você já assistiu \(minutes / 60) horas e \(minutes % 60) minutos de filmes na sua vida!"
-        return string
-    }
-    
-    private func deleteMovies(at offsets: IndexSet) {
-        for offset in offsets {
-            let movie = movies[offset]
-            moc.delete(movie)
-        }
-        
-        try? moc.save()
-    }
-    
-    private func moveMovieToWatched(_ movie: MoviesToWatch) {
-        let movieWatched = MoviesWatched(
-            counter: movie.counter,
-            id: movie.id,
-            name: movie.name,
-            overview: movie.overview,
-            profilePath: movie.profilePath
-        )
-        mocWatched.insert(movieWatched)
-        do {
-            try mocWatched.save()
-            deleteMovie(movie)
-        } catch {
-            isAlertPresented = true
-        }
-    }
-    
-    private func deleteMovie(_ movie: MoviesToWatch) {
-        moc.delete(movie)
-        try? moc.save()
-    }
-    
-    private func deleteMoviesThanWatched(at offsets: IndexSet) {
-        for offset in offsets {
-            let movie = moviesWatched[offset]
-            mocWatched.delete(movie)
-        }
-        
-        try? mocWatched.save()
     }
 }
 

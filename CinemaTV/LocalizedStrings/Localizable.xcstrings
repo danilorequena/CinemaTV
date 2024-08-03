@@ -5,7 +5,14 @@
 
     },
     "Add" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar"
+          }
+        }
+      }
     },
     "addFavorites" : {
       "extractionState" : "manual",
@@ -169,7 +176,14 @@
       }
     },
     "delete" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "remover"
+          }
+        }
+      }
     },
     "Delete" : {
       "localizations" : {
