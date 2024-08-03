@@ -16,7 +16,6 @@ struct MenuOptionsDetailView: View {
     let moviesWatched: [MoviesWatched]
     let showAddFavoritesButton: Bool
     
-    
     var body: some View {
         if showAddFavoritesButton {
             Menu {

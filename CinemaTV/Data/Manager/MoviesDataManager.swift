@@ -9,7 +9,6 @@ import SwiftData
 import SwiftUI
 
 final class MoviesDatabaseManager {
-    
     func saveData(
         in databaseType: DataBase,
         with detailData: DetailMoviesModel,
