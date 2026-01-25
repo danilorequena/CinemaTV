@@ -5,6 +5,7 @@
 //  Created by Danilo Requena on 12/31/23.
 //
 
+import Foundation
 import SwiftData
 
 @Model
@@ -22,7 +23,9 @@ final class EpisodeSD {
     var voteAverage: Double?
     var voteCount: Int?
     var season: SeasonSD?
-    
+    var isWatched: Bool = false
+    var watchedDate: Date?
+
     init(
         id: Int? = nil,
         airDate: String? = nil,
@@ -36,8 +39,10 @@ final class EpisodeSD {
         stillPath: String? = nil,
         voteAverage: Double? = nil,
         voteCount: Int? = nil,
-        season: SeasonSD? = nil
-    ){
+        season: SeasonSD? = nil,
+        isWatched: Bool = false,
+        watchedDate: Date? = nil
+    ) {
         self.id = id
         self.airDate = airDate
         self.episodeNumber = episodeNumber
@@ -51,5 +56,7 @@ final class EpisodeSD {
         self.voteAverage = voteAverage
         self.voteCount = voteCount
         self.season = season
+        self.isWatched = isWatched
+        self.watchedDate = watchedDate
     }
 }

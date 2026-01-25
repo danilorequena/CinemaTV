@@ -16,18 +16,21 @@ import SwiftData
     var name: String?
     var overview: String?
     var profilePath: String?
-    
+    var lastUpdated: Date = Date()
+
     init(
         id: Int64? = nil,
         counter: Double? = nil,
         name: String? = nil,
         overview: String? = nil,
-        profilePath: String? = nil
+        profilePath: String? = nil,
+        lastUpdated: Date = Date()
     ) {
         self.id = id
         self.counter = counter
         self.name = name
         self.overview = overview
         self.profilePath = profilePath
+        self.lastUpdated = lastUpdated
     }
 }

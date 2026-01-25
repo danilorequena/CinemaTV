@@ -17,7 +17,18 @@ import Foundation
     var posterPath: String?
     var seasonNumber: Int?
     var tvShow: TVShowWatchingModel?
-    
+    @Relationship(deleteRule: .cascade, inverse: \EpisodeSD.season)
+    var episodes: [EpisodeSD]?
+
+    var watchedEpisodesCount: Int {
+        episodes?.filter { $0.isWatched }.count ?? 0
+    }
+
+    var progressPercentage: Double? {
+        guard let total = episodeCount, total > 0 else { return nil }
+        return Double(watchedEpisodesCount) / Double(total)
+    }
+
     init(
         id: Int? = nil,
         airDate: String? = nil,
@@ -26,7 +37,8 @@ import Foundation
         overview: String? = nil,
         posterPath: String? = nil,
         seasonNumber: Int? = nil,
-        tvShow: TVShowWatchingModel? = nil
+        tvShow: TVShowWatchingModel? = nil,
+        episodes: [EpisodeSD]? = nil
     ) {
         self.id = id
         self.airDate = airDate
@@ -36,5 +48,6 @@ import Foundation
         self.posterPath = posterPath
         self.seasonNumber = seasonNumber
         self.tvShow = tvShow
+        self.episodes = episodes
     }
 }
