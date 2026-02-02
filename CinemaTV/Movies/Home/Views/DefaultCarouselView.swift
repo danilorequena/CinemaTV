@@ -37,18 +37,21 @@ struct DefaultCarouselView: View {
                     HStack {
                         ForEach(data) { movie in
                             NavigationLink(destination: DetailView(id: movie.id, state: state, showAddFavoritesButton: true)) {
-                                VStack(spacing: 2) {
+                                VStack(spacing: 0) {
                                     MovieCell(image: URL(string: Constants.basePosters + (movie.backdropPath ?? "")))
                                         .frame(width: 180, height: 100)
+
                                     Text((movie.title ?? movie.name) ?? "")
                                         .font(.caption)
                                         .lineLimit(1)
                                         .frame(width: 180)
+                                        .padding(.vertical, 8)
+                                        .background {
+                                            Rectangle()
+                                                .glassEffect(.regular)
+                                        }
                                 }
-                                .padding(.bottom, 4)
-                                .buttonStyle(.plain)
-                                .background(.ultraThinMaterial.opacity(0.8))
-                                .cornerRadius(16)
+                                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                             }
                         }
                     }

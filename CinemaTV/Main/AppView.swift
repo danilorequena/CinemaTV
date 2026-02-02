@@ -6,37 +6,22 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct AppView: View {
     var body: some View {
-        TabView {
-            HomeView()
-                .tabItem {
-                    Image(systemName: "movieclapper")
-                    Text("Movies")
-                }
-            
-            TVShowHomeView()
-                .tabItem {
-                    Image(systemName: "play.tv")
-                    Text("TV Shows")
-                }
-            
-            SearchView()
-                .tabItem {
-                    Image(systemName: "magnifyingglass")
-                    Text("Search")
-                }
-        }
+        MainContainerView()
     }
 }
 
 #Preview {
     AppView()
+        .modelContainer(for: [MoviesWatched.self, MoviesToWatch.self, TVShowWatchingModel.self])
         .preferredColorScheme(.light)
 }
 
 #Preview {
     AppView()
+        .modelContainer(for: [MoviesWatched.self, MoviesToWatch.self, TVShowWatchingModel.self])
         .preferredColorScheme(.dark)
 }

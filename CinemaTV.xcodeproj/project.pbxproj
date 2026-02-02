@@ -19,6 +19,7 @@
 		14C3C77361253797EC32154F /* IncompleteBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8664E861A43BB5C5D6A4BC43 /* IncompleteBadge.swift */; };
 		1CB42E0C883F02F774645C99 /* CollapsedSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E41AB8F1EF57FC0418187F /* CollapsedSearchView.swift */; };
 		2CFB8558D7D0BC802A1EFCCD /* DiscoverySheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EF75C030F6890EB969764A /* DiscoverySheetViewModel.swift */; };
+		390F42639711BB135FC9B55F /* GlassEffectContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17603717DEFDB69FEC97D65C /* GlassEffectContainer.swift */; };
 		3943E01FAB6AF34000B49DDC /* InProgressItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E36C8B309A178DF465B31C9 /* InProgressItem.swift */; };
 		433987DD1ED13BAC61DF152B /* FeaturedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D93FF0A8AC2600FB50E3D7 /* FeaturedCardView.swift */; };
 		4F4E2CF4ABC996C44E95934C /* GlassSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE449AFDCEBAD7E1A99E3DB /* GlassSectionHeader.swift */; };
@@ -46,6 +47,7 @@
 		7DF3C920273961BB0072598F /* DefaultCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF3C91F273961BB0072598F /* DefaultCarouselView.swift */; };
 		ADB02B281F9F31D6EBEBF04B /* GlassCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB2264E83488278A36A59B5 /* GlassCardView.swift */; };
 		B578A16EAE892A3A9FD99633 /* IncompleteBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0388C0337F5E7567BF5F1C38 /* IncompleteBadge.swift */; };
+		C18B70804B9B8E182D112A62 /* HeroProgressRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41F42DE63EF82D9E25462E8 /* HeroProgressRingView.swift */; };
 		C29CDBE4A485B518D99EC6B3 /* NewHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F560DE02D9663DA62D2015C /* NewHomeView.swift */; };
 		CBA018BDA110D35B93E3F848 /* InProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE88C4EECD7FB750DFF0F2F /* InProgressView.swift */; };
 		D39ABA5D5786CE1CE6DCA917 /* InProgressItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF97751E5395A403049C942C /* InProgressItem.swift */; };
@@ -274,6 +276,7 @@
 		09E6E2E528DF962000E7E856 /* Bundle+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+.swift"; sourceTree = "<group>"; };
 		09E6E2E728DF964500E7E856 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		09E6E2E928DF969D00E7E856 /* LocalizedConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedConstants.swift; sourceTree = "<group>"; };
+		17603717DEFDB69FEC97D65C /* GlassEffectContainer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GlassEffectContainer.swift; path = GlassComponents/GlassEffectContainer.swift; sourceTree = "<group>"; };
 		1A79808D9E2D15FF44243D37 /* MainContainerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MainContainerView.swift; sourceTree = "<group>"; };
 		23EF75C030F6890EB969764A /* DiscoverySheetViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DiscoverySheetViewModel.swift; path = BottomSheet/DiscoverySheetViewModel.swift; sourceTree = "<group>"; };
 		2A342C4005952D2C171D70D6 /* DiscoverySheetView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DiscoverySheetView.swift; path = BottomSheet/DiscoverySheetView.swift; sourceTree = "<group>"; };
@@ -312,6 +315,7 @@
 		AF97751E5395A403049C942C /* InProgressItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = InProgressItem.swift; sourceTree = "<group>"; };
 		B8E41AB8F1EF57FC0418187F /* CollapsedSearchView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CollapsedSearchView.swift; path = BottomSheet/CollapsedSearchView.swift; sourceTree = "<group>"; };
 		EEE88C4EECD7FB750DFF0F2F /* InProgressView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = InProgressView.swift; sourceTree = "<group>"; };
+		F41F42DE63EF82D9E25462E8 /* HeroProgressRingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HeroProgressRingView.swift; path = Home/HeroProgressRingView.swift; sourceTree = "<group>"; };
 		FF058F7628A7E77D00125FB2 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		FF0F37862B3F6AD7007C10F2 /* SeasonSD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonSD.swift; sourceTree = "<group>"; };
 		FF2256342A22808300846394 /* DetailSeasonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSeasonView.swift; sourceTree = "<group>"; };
@@ -471,6 +475,7 @@
 			children = (
 				7AB2264E83488278A36A59B5 /* GlassCardView.swift */,
 				9EE449AFDCEBAD7E1A99E3DB /* GlassSectionHeader.swift */,
+				17603717DEFDB69FEC97D65C /* GlassEffectContainer.swift */,
 			);
 			name = GlassComponents;
 			sourceTree = "<group>";
@@ -482,6 +487,7 @@
 				47D93FF0A8AC2600FB50E3D7 /* FeaturedCardView.swift */,
 				99ABE7C34B73249A8D1FEFD0 /* TrackedContentRow.swift */,
 				054ED96B9CB1B1CC9B40F025 /* EmptyStateView.swift */,
+				F41F42DE63EF82D9E25462E8 /* HeroProgressRingView.swift */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -1428,6 +1434,8 @@
 				EEC4FBA74F6CC8B76B465384 /* InProgressCardView.swift in Sources */,
 				CBA018BDA110D35B93E3F848 /* InProgressView.swift in Sources */,
 				B578A16EAE892A3A9FD99633 /* IncompleteBadge.swift in Sources */,
+				C18B70804B9B8E182D112A62 /* HeroProgressRingView.swift in Sources */,
+				390F42639711BB135FC9B55F /* GlassEffectContainer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

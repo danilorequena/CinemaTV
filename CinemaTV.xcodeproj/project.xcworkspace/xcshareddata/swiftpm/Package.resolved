@@ -1,4 +1,5 @@
 {
+  "originHash" : "873920c0ec8a3dd78f25e6537e0adcb1fc75ce2b55111c0004b5dd31c9867964",
   "pins" : [
     {
       "identity" : "myswiftlibrary",
@@ -10,5 +11,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
