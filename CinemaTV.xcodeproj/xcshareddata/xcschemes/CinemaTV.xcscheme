@@ -20,6 +20,20 @@
                ReferencedContainer = "container:CinemaTV.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CinemaTVCoreTests"
+               BuildableName = "CinemaTVCoreTests"
+               BlueprintName = "CinemaTVCoreTests"
+               ReferencedContainer = "container:Packages/CinemaTVKit">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -28,6 +42,28 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
+      <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7D42246C273810E2006236F8"
+               BuildableName = "CinemaTVTests.xctest"
+               BlueprintName = "CinemaTVTests"
+               ReferencedContainer = "container:CinemaTV.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CinemaTVCoreTests"
+               BuildableName = "CinemaTVCoreTests"
+               BlueprintName = "CinemaTVCoreTests"
+               ReferencedContainer = "container:Packages/CinemaTVKit">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"

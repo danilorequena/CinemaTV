@@ -1,0 +1,91 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Add a movie to my ${applicationName} watchlist" : {
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Add a movie to my ${applicationName} watchlist"
+            ]
+          }
+        },
+        "pt-BR" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Adicionar um filme à minha lista do ${applicationName}",
+              "Adicionar filme na minha lista do ${applicationName}"
+            ]
+          }
+        }
+      }
+    },
+    "Mark a movie as watched in ${applicationName}" : {
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Mark a movie as watched in ${applicationName}"
+            ]
+          }
+        },
+        "pt-BR" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Marcar um filme como assistido no ${applicationName}"
+            ]
+          }
+        }
+      }
+    },
+    "Open my ${applicationName} watchlist" : {
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Open my ${applicationName} watchlist",
+              "Show my ${applicationName} watchlist"
+            ]
+          }
+        },
+        "pt-BR" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Abrir minha lista do ${applicationName}",
+              "Mostrar minha lista do ${applicationName}"
+            ]
+          }
+        }
+      }
+    },
+    "Search movies in ${applicationName}" : {
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Search movies in ${applicationName}",
+              "Find a movie in ${applicationName}"
+            ]
+          }
+        },
+        "pt-BR" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Buscar filmes no ${applicationName}",
+              "Encontrar um filme no ${applicationName}"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.3"
+}

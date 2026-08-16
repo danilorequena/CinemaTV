@@ -2,159 +2,239 @@
 //  CinemaTVWidget.swift
 //  CinemaTVWidget
 //
-//  Created by Danilo Requena on 30/07/22.
+//  Widget de filmes com categoria configurável (AppIntentTimelineProvider),
+//  usando o TMDBClient do CinemaTVCore. Taps abrem o app via deep link
+//  cinematv://movie/{id}.
 //
 
 import WidgetKit
 import SwiftUI
+import AppIntents
+import CinemaTVCore
 
-struct Provider: TimelineProvider {
-    typealias Entry = WidgetEntry
-    let service = MovieStore.shared
-    
-    func placeholder(in context: Context) -> WidgetEntry {
-        return WidgetEntry(
-            date: Date(),
-            widgetData: [
-                MovieResultModel(
-                    id: 0,
-                    title: "Dr Strange",
-                    description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
-                    poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
-                ),
-                MovieResultModel(
-                    id: 0,
-                    title: "Dr Strange",
-                    description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
-                    poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
-                ),
-                MovieResultModel(
-                    id: 0,
-                    title: "Dr Strange",
-                    description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
-                    poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
-                )
-            ]
-        )
-    }
-    
-    func getSnapshot(in context: Context, completion: @escaping (WidgetEntry) -> Void) {
-        let loadingData = WidgetEntry(
-            date: Date(),
-            widgetData: [
-                MovieResultModel(
-                    id: 0,
-                    title: "Dr Strange",
-                    description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
-                    poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
-                ),
-                MovieResultModel(
-                    id: 0,
-                    title: "Steve Jobs",
-                    description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
-                    poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
-                ),
-                MovieResultModel(
-                    id: 0,
-                    title: "Iron man",
-                    description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
-                    poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
-                )
-            ]
-        )
-        completion(loadingData)
-    }
-    
-    func getTimeline(in context: Context, completion: @escaping (Timeline<WidgetEntry>) -> Void) {
-        getData { (modelData) in
-            let date = Date()
-            let data = WidgetEntry(date: date, widgetData: modelData.results)
-            let nextUpdate = Calendar.current.date(byAdding: .minute, value: 5, to: date)
-            let timeline = Timeline(entries: [data], policy: .after(nextUpdate!))
-            completion(timeline)
+// MARK: - Configuração
+
+enum WidgetMovieCategory: String, AppEnum {
+    case upcoming
+    case nowPlaying
+    case popular
+
+    static let typeDisplayRepresentation: TypeDisplayRepresentation = "Category"
+    static let caseDisplayRepresentations: [WidgetMovieCategory: DisplayRepresentation] = [
+        .upcoming: "Upcoming",
+        .nowPlaying: "Now Playing",
+        .popular: "Popular"
+    ]
+
+    var movieCategory: MovieCategory {
+        switch self {
+        case .upcoming: .upcoming
+        case .nowPlaying: .nowPlaying
+        case .popular: .popular
         }
     }
-    
-    func getData(completion: @escaping (MovieModel) -> ()) {
-        let url = "https://api.themoviedb.org/3/movie/upcoming?api_key=\(Constants.apikey)&language=en&include_adult=false"
-        let session = URLSession(configuration: .default)
-        session.dataTask(with: URL(string: url)!) { (data, _, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
+}
+
+struct MovieWidgetConfigIntent: WidgetConfigurationIntent {
+    static let title: LocalizedStringResource = "Movies"
+    static let description = IntentDescription("Choose which movies to show.")
+
+    @Parameter(title: "Category", default: .upcoming)
+    var category: WidgetMovieCategory
+}
+
+// MARK: - Timeline
+
+struct MovieWidgetEntry: TimelineEntry {
+    struct MovieSnapshot: Identifiable {
+        let id: Int
+        let title: String
+        let poster: Image?
+
+        var deepLinkURL: URL {
+            URL(string: "cinematv://movie/\(id)")!
+        }
+    }
+
+    let date: Date
+    let category: WidgetMovieCategory
+    let movies: [MovieSnapshot]
+
+    static let placeholder = MovieWidgetEntry(
+        date: .now,
+        category: .upcoming,
+        movies: (1...4).map { .init(id: $0, title: "Movie Title", poster: nil) }
+    )
+}
+
+struct MovieTimelineProvider: AppIntentTimelineProvider {
+    func placeholder(in context: Context) -> MovieWidgetEntry {
+        .placeholder
+    }
+
+    func snapshot(for configuration: MovieWidgetConfigIntent, in context: Context) async -> MovieWidgetEntry {
+        (try? await fetchEntry(for: configuration)) ?? .placeholder
+    }
+
+    func timeline(for configuration: MovieWidgetConfigIntent, in context: Context) async -> Timeline<MovieWidgetEntry> {
+        let entry = (try? await fetchEntry(for: configuration)) ?? .placeholder
+        let nextUpdate = Calendar.current.date(byAdding: .hour, value: 6, to: .now)!
+        return Timeline(entries: [entry], policy: .after(nextUpdate))
+    }
+
+    private func fetchEntry(for configuration: MovieWidgetConfigIntent) async throws -> MovieWidgetEntry {
+        let client = TMDBClient(configuration: try .fromBundle(.main))
+        let page: PagedResponse<MediaItem> = try await client.fetch(configuration.category.movieCategory.endpoint)
+
+        var snapshots: [MovieWidgetEntry.MovieSnapshot] = []
+        for item in page.results.prefix(4) {
+            // Widgets não podem carregar imagem async na view: baixa aqui.
+            var poster: Image?
+            if let url = TMDBImage.url(path: item.posterPath, size: .thumbnail),
+               let (data, _) = try? await URLSession.shared.data(from: url),
+               let uiImage = UIImage(data: data) {
+                poster = Image(uiImage: uiImage)
             }
-            
-            do {
-                let jsonData = try Utils.jsonDecoder.decode(MovieModel.self, from: data!)
-                completion(jsonData)
-            } catch {
-                print(error)
-            }
-        }.resume()
+            snapshots.append(.init(id: item.id, title: item.title, poster: poster))
+        }
+        return MovieWidgetEntry(date: .now, category: configuration.category, movies: snapshots)
     }
 }
+
+// MARK: - Widget
 
 @main
 struct BundleWidgets: WidgetBundle {
     var body: some Widget {
-        MainWidget()
+        MoviesWidget()
     }
 }
 
-struct MainWidget: Widget {
+struct MoviesWidget: Widget {
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "Comming Soon", provider: Provider()) { data in
-            CinemaTVWidgetView(data: data)
+        AppIntentConfiguration(
+            kind: "CinemaTVMovies",
+            intent: MovieWidgetConfigIntent.self,
+            provider: MovieTimelineProvider()
+        ) { entry in
+            MovieWidgetView(entry: entry)
+                .containerBackground(.fill.tertiary, for: .widget)
         }
-        .configurationDisplayName(LC.commingSoon.text)
-        .description(LC.commingSoonDescription.text)
-        .supportedFamilies(
-            [
-                .systemMedium,
-                .systemSmall,
-                .systemLarge,
-                .accessoryRectangular
-            ]
-        )
+        .configurationDisplayName("Movies")
+        .description("Keep up with upcoming, now playing, or popular movies.")
+        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge, .accessoryRectangular])
     }
 }
 
-struct CinemaTVWidgetView: View {
-    var data: WidgetEntry
-    @Environment(\.widgetFamily) var size
+// MARK: - Views
+
+struct MovieWidgetView: View {
+    @Environment(\.widgetFamily) private var family
+    let entry: MovieWidgetEntry
+
     var body: some View {
-        ZStack {
-            switch size {
-            case .systemSmall:
-                WidgetSmallView(data: data)
-            case .systemMedium:
-                WidgetMediumView(data: data)
-            case .accessoryRectangular:
-                AccessoryRetangularWidgetView(data: data)
-            case .systemLarge:
-                WidgetLargeView(data: data)
-            default:
-                WidgetSmallView(data: data)
+        switch family {
+        case .systemSmall:
+            smallView
+        case .systemMedium:
+            mediumView
+        case .systemLarge:
+            largeView
+        case .accessoryRectangular:
+            accessoryView
+        default:
+            smallView
+        }
+    }
+
+    private var smallView: some View {
+        ZStack(alignment: .bottomLeading) {
+            if let first = entry.movies.first {
+                poster(first.poster)
+                LinearGradient(colors: [.clear, .black.opacity(0.8)], startPoint: .center, endPoint: .bottom)
+                Text(verbatim: first.title)
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.white)
+                    .lineLimit(2)
+                    .padding(8)
             }
         }
+        .widgetURL(entry.movies.first?.deepLinkURL)
     }
-    
-    struct UpcomingWidget_Previews: PreviewProvider {
-        static var previews: some View {
-            CinemaTVWidgetView(data: WidgetEntry(
-                date: Date(),
-                widgetData: Array(
-                    repeating: MovieResultModel(
-                        id: 0,
-                        title: "title",
-                        description: "BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla BLa BLA Bla",
-                        poster_path: "/wRnbWt44nKjsFPrqSmwYki5vZtF.jpg"
-                    ),
-                    count: 6
-                )
-            )
-            )
-            .previewContext(WidgetPreviewContext(family: WidgetFamily.systemLarge))
+
+    private var mediumView: some View {
+        HStack(spacing: 8) {
+            ForEach(entry.movies.prefix(3)) { movie in
+                Link(destination: movie.deepLinkURL) {
+                    VStack(spacing: 4) {
+                        poster(movie.poster)
+                            .clipShape(.rect(cornerRadius: 8))
+                        Text(verbatim: movie.title)
+                            .font(.caption2.weight(.medium))
+                            .lineLimit(1)
+                    }
+                }
+            }
+        }
+        .padding(4)
+    }
+
+    private var largeView: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(entry.category.displayTitle)
+                .font(.headline)
+            ForEach(entry.movies.prefix(4)) { movie in
+                Link(destination: movie.deepLinkURL) {
+                    HStack(spacing: 10) {
+                        poster(movie.poster)
+                            .frame(width: 36, height: 54)
+                            .clipShape(.rect(cornerRadius: 6))
+                        Text(verbatim: movie.title)
+                            .font(.subheadline.weight(.medium))
+                            .lineLimit(2)
+                        Spacer(minLength: 0)
+                    }
+                }
+            }
+        }
+        .padding(4)
+    }
+
+    private var accessoryView: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(entry.category.displayTitle)
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+            Text(verbatim: entry.movies.first?.title ?? "—")
+                .font(.headline)
+                .lineLimit(2)
+        }
+        .widgetURL(entry.movies.first?.deepLinkURL)
+    }
+
+    @ViewBuilder
+    private func poster(_ image: Image?) -> some View {
+        if let image {
+            image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+        } else {
+            Rectangle()
+                .fill(.quaternary)
+                .overlay {
+                    Image(systemName: "movieclapper")
+                        .foregroundStyle(.tertiary)
+                }
+        }
+    }
+}
+
+private extension WidgetMovieCategory {
+    var displayTitle: LocalizedStringKey {
+        switch self {
+        case .upcoming: "Coming Soon"
+        case .nowPlaying: "Now Playing"
+        case .popular: "Popular"
         }
     }
 }
