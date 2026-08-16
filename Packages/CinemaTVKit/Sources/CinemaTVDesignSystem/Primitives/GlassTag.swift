@@ -103,14 +103,9 @@ public struct InfoPillRow: View {
                     : AnyLayout(HStackLayout(spacing: DSSpacing.sm)))
             layout {
                 ForEach(pills) { pill in
-                    // União: os metadados são uma informação só, então o
-                    // glass vira uma superfície contínua em vez de N pills.
-                    GlassTag(
-                        pill.text,
-                        systemImage: pill.systemImage,
-                        unionID: "pills",
-                        unionNamespace: unionNamespace
-                    )
+                    // Sem glassEffectUnion: cada metadado é uma pill própria
+                    // (a união fundia tudo num blob, pior com wrapping).
+                    GlassTag(pill.text, systemImage: pill.systemImage)
                 }
             }
         }
