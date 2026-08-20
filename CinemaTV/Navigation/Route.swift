@@ -16,6 +16,7 @@ enum Route: Hashable {
 
     // V2 — TV Shows
     case tvShowDetail(id: Int)
+    case tvShowList(category: TVShowCategory)
     /// sourceID: origem da zoom transition quando o push parte de um card
     /// visível (SeasonsCarousel); nil em deep links e menus de contexto.
     case season(tvShowID: Int, seasonNumber: Int, sourceID: String?)

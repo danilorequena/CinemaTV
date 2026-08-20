@@ -33,8 +33,8 @@ public final class ReviewStore {
 
     // MARK: - Mutations
 
-    /// Upsert por movieID; a nota é normalizada para meias estrelas
-    /// (0.5...5.0). createdAt só no insert, updatedAt sempre.
+    /// Upsert por movieID; a nota é normalizada para estrelas inteiras
+    /// (1...5). createdAt só no insert, updatedAt sempre.
     @discardableResult
     public func saveReview(for item: MediaItem, rating: Double, text: String) throws -> MovieReview {
         let normalized = Self.normalizedRating(rating)
@@ -70,9 +70,9 @@ public final class ReviewStore {
         try context.save()
     }
 
-    /// Arredonda para a meia estrela mais próxima e clampa em 0.5...5.0.
+    /// Arredonda para a estrela inteira mais próxima e clampa em 1...5.
     public static func normalizedRating(_ value: Double) -> Double {
-        min(max((value * 2).rounded() / 2, 0.5), 5.0)
+        min(max(value.rounded(), 1.0), 5.0)
     }
 
     // MARK: - Helpers

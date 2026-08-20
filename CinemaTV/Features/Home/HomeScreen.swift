@@ -172,11 +172,15 @@ struct HomeScreen: View {
             VStack(alignment: .leading, spacing: DSSpacing.xl) {
                 HeroCarousel(items: Array(content.airingToday.prefix(6)))
 
-                // Sem "See All" nesta fase: as listas paginadas de TV ficam
-                // para quando existir uma TVCategory + list screen.
-                MediaCarousel(title: "Airing Today", items: content.airingToday, zoomScope: "tvAiring")
-                MediaCarousel(title: "On the Air", items: content.onTheAir, zoomScope: "tvOnAir")
-                MediaCarousel(title: "Popular", items: content.popular, zoomScope: "tvPopular")
+                MediaCarousel(title: "Airing Today", items: content.airingToday, zoomScope: "tvAiring") {
+                    router.discoverPath.append(Route.tvShowList(category: .airingToday))
+                }
+                MediaCarousel(title: "On the Air", items: content.onTheAir, zoomScope: "tvOnAir") {
+                    router.discoverPath.append(Route.tvShowList(category: .onTheAir))
+                }
+                MediaCarousel(title: "Popular", items: content.popular, zoomScope: "tvPopular") {
+                    router.discoverPath.append(Route.tvShowList(category: .popular))
+                }
             }
             .padding(.vertical, DSSpacing.lg)
         }

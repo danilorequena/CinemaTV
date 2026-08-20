@@ -15,7 +15,7 @@ import SwiftData
 @Model
 public final class MovieReview {
     public var movieID: Int64?
-    /// Nota em meias estrelas: 0.5...5.0.
+    /// Nota em estrelas inteiras (1...5), mantida como Double por compatibilidade do schema.
     public var rating: Double?
     public var reviewText: String?
     /// Denormalizados do filme para o card de compartilhamento funcionar

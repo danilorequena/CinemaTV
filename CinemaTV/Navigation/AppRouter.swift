@@ -41,6 +41,9 @@ final class AppRouter {
         case .movie(let id):
             selectedTab = .discover
             discoverPath.append(Route.movieDetail(id: id))
+        case .tvShow(let id):
+            selectedTab = .discover
+            discoverPath.append(Route.tvShowDetail(id: id))
         case .watchlist:
             selectedTab = .tracking
             trackingPath = NavigationPath()

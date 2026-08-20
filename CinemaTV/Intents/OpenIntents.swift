@@ -9,24 +9,49 @@ import Foundation
 import AppIntents
 import CinemaTVCore
 
-struct OpenMovieIntent: AppIntent {
+// OpenIntent (e não AppIntent puro): é o que torna os resultados do Visual
+// Intelligence abríveis. O perform customizado navega via router — o default
+// só traria o app pra frente. O parâmetro precisa se chamar `target`.
+struct OpenMovieIntent: OpenIntent {
     static let title: LocalizedStringResource = "Open Movie"
     static let description = IntentDescription("Opens a movie's detail page in CinemaTV.")
-    static let openAppWhenRun = true
+    static var supportedModes: IntentModes { .foreground }
 
     @Parameter(title: "Movie")
-    var movie: MovieEntity
+    var target: MovieEntity
 
     @Dependency
     private var router: AppRouter
 
     static var parameterSummary: some ParameterSummary {
-        Summary("Open \(\.$movie)")
+        Summary("Open \(\.$target)")
     }
 
     @MainActor
     func perform() async throws -> some IntentResult {
-        router.open(.movie(id: movie.id))
+        router.open(.movie(id: target.id))
+        return .result()
+    }
+}
+
+struct OpenTVShowIntent: OpenIntent {
+    static let title: LocalizedStringResource = "Open TV Show"
+    static let description = IntentDescription("Opens a TV show's detail page in CinemaTV.")
+    static var supportedModes: IntentModes { .foreground }
+
+    @Parameter(title: "TV Show")
+    var target: TVShowEntity
+
+    @Dependency
+    private var router: AppRouter
+
+    static var parameterSummary: some ParameterSummary {
+        Summary("Open \(\.$target)")
+    }
+
+    @MainActor
+    func perform() async throws -> some IntentResult {
+        router.open(.tvShow(id: target.id))
         return .result()
     }
 }
@@ -34,7 +59,7 @@ struct OpenMovieIntent: AppIntent {
 struct OpenWatchlistIntent: AppIntent {
     static let title: LocalizedStringResource = "Open Watchlist"
     static let description = IntentDescription("Opens your CinemaTV watchlist.")
-    static let openAppWhenRun = true
+    static var supportedModes: IntentModes { .foreground }
 
     @Dependency
     private var router: AppRouter

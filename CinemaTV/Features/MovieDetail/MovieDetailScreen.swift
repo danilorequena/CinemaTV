@@ -9,6 +9,7 @@
 
 import SwiftUI
 import SwiftData
+import AppIntents
 import CinemaTVCore
 import CinemaTVDesignSystem
 

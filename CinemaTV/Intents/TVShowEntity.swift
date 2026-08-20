@@ -1,9 +1,9 @@
 //
-//  MovieEntity.swift
+//  TVShowEntity.swift
 //  CinemaTV
 //
-//  AppEntity de filme para Siri/Shortcuts/Spotlight. Espelha o MediaItem
-//  (não o modelo SwiftData). TVShowEntity entra na V2.
+//  AppEntity de série para Siri/Shortcuts/Spotlight/Visual Intelligence.
+//  Espelha o MediaItem (não o modelo SwiftData), como o MovieEntity.
 //
 
 import Foundation
@@ -11,9 +11,9 @@ import AppIntents
 import CoreSpotlight
 import CinemaTVCore
 
-struct MovieEntity: AppEntity, IndexedEntity {
-    static let typeDisplayRepresentation: TypeDisplayRepresentation = "Movie"
-    static let defaultQuery = MovieQuery()
+struct TVShowEntity: AppEntity, IndexedEntity {
+    static let typeDisplayRepresentation: TypeDisplayRepresentation = "TV Show"
+    static let defaultQuery = TVShowQuery()
 
     let id: Int
 
@@ -23,22 +23,21 @@ struct MovieEntity: AppEntity, IndexedEntity {
     @Property(title: "Overview", indexingKey: \.contentDescription)
     var overview: String
 
-    let releaseYear: String?
+    let firstAirYear: String?
     let posterPath: String?
 
     var displayRepresentation: DisplayRepresentation {
         DisplayRepresentation(
             title: "\(title)",
-            subtitle: releaseYear.map { "\($0)" },
+            subtitle: firstAirYear.map { "\($0)" },
             image: TMDBImage.url(path: posterPath, size: .thumbnail).map { .init(url: $0) }
         )
     }
 
     init(item: MediaItem) {
         self.id = item.id
-        self.releaseYear = item.releaseYear
+        self.firstAirYear = item.releaseYear
         self.posterPath = item.posterPath
-        // As @Property por último: o setter do wrapper passa por self.
         self.title = item.title
         self.overview = item.overview
     }
@@ -51,49 +50,49 @@ struct MovieEntity: AppEntity, IndexedEntity {
             posterPath: posterPath,
             backdropPath: nil,
             voteAverage: 0,
-            releaseDate: releaseYear,
-            mediaType: .movie
+            releaseDate: firstAirYear,
+            mediaType: .tvShow
         )
     }
 }
 
-struct MovieQuery: IndexedEntityQuery, EntityStringQuery {
+struct TVShowQuery: IndexedEntityQuery, EntityStringQuery {
     private var client: TMDBClient {
         TMDBClient(configuration: (try? .fromBundle(.main)) ?? TMDBConfiguration(apiKey: ""))
     }
 
-    func entities(for identifiers: [Int]) async throws -> [MovieEntity] {
-        try await withThrowingTaskGroup(of: MovieEntity.self) { group in
+    func entities(for identifiers: [Int]) async throws -> [TVShowEntity] {
+        try await withThrowingTaskGroup(of: TVShowEntity.self) { group in
             for id in identifiers {
                 group.addTask { [client] in
-                    let details: MovieDetails = try await client.fetch(.movieDetail(id: id))
-                    return MovieEntity(item: details.mediaItem)
+                    let details: TVShowDetails = try await client.fetch(.tvShowDetail(id: id))
+                    return TVShowEntity(item: details.mediaItem)
                 }
             }
             return try await group.reduce(into: []) { $0.append($1) }
         }
     }
 
-    func entities(matching string: String) async throws -> [MovieEntity] {
-        let page: PagedResponse<MediaItem> = try await client.fetch(.searchMovies, query: string)
-        return page.results.prefix(10).map(MovieEntity.init)
+    func entities(matching string: String) async throws -> [TVShowEntity] {
+        let page: PagedResponse<MediaItem> = try await client.fetch(.searchTVShows, query: string)
+        return page.results.prefix(10).map(TVShowEntity.init)
     }
 
-    /// Sugestões: os filmes da watchlist do usuário.
+    /// Sugestões: as séries que o usuário acompanha.
     @MainActor
-    func suggestedEntities() async throws -> [MovieEntity] {
-        let store = WatchlistStore(container: AppContainer.shared)
-        return try store.moviesToWatch().map { movie in
-            MovieEntity(
+    func suggestedEntities() async throws -> [TVShowEntity] {
+        let store = TVShowTrackingStore(container: AppContainer.shared)
+        return try store.watchingShows().map { show in
+            TVShowEntity(
                 item: MediaItem(
-                    id: Int(movie.id ?? 0),
-                    title: movie.name ?? "",
-                    overview: movie.overview ?? "",
-                    posterPath: movie.profilePath,
+                    id: show.id ?? 0,
+                    title: show.name ?? "",
+                    overview: show.overview ?? "",
+                    posterPath: show.imagePath,
                     backdropPath: nil,
-                    voteAverage: movie.counter ?? 0,
-                    releaseDate: nil,
-                    mediaType: .movie
+                    voteAverage: show.voteAverage ?? 0,
+                    releaseDate: show.firstAirDate,
+                    mediaType: .tvShow
                 )
             )
         }
@@ -109,7 +108,7 @@ struct MovieQuery: IndexedEntityQuery, EntityStringQuery {
     }
 
     func reindexAllEntities(indexDescription: CSSearchableIndexDescription) async throws {
-        // Corpus indexado = watchlist, não resultados de busca.
+        // Corpus indexado = séries acompanhadas, não resultados de busca.
         try await CSSearchableIndex.default().indexAppEntities(suggestedEntities())
     }
 }

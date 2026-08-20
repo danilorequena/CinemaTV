@@ -29,4 +29,19 @@ enum SpotlightIndexer {
             )
         }
     }
+
+    static func index(_ entity: TVShowEntity) {
+        Task {
+            try? await CSSearchableIndex.default().indexAppEntities([entity])
+        }
+    }
+
+    static func deindex(tvShowID: Int) {
+        Task {
+            try? await CSSearchableIndex.default().deleteAppEntities(
+                identifiedBy: [tvShowID],
+                ofType: TVShowEntity.self
+            )
+        }
+    }
 }

@@ -42,6 +42,11 @@
 		FF21ACCC300A37C5009764B1 /* AppShortcuts.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = FF21ACC9300A37C5009764B1 /* AppShortcuts.xcstrings */; };
 		FF21ACCE300A37C5009764B1 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = FF21ACCD300A37C5009764B1 /* InfoPlist.xcstrings */; };
 		FF21ACD3300B8C4F009764B1 /* DiscoverScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF21ACD2300B8C4F009764B1 /* DiscoverScreen.swift */; };
+		FF2E8AEF30367B7100CD1F16 /* TVShowCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2E8AEE30367B7100CD1F16 /* TVShowCategory.swift */; };
+		FF2E8AF130367B7100CD1F16 /* TVShowListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2E8AF030367B7100CD1F16 /* TVShowListModel.swift */; };
+		FF2E8AF330367B7100CD1F16 /* TVShowListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2E8AF230367B7100CD1F16 /* TVShowListScreen.swift */; };
+		FF2E8AF53036EA6B00CD1F16 /* TVShowEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2E8AF43036EA6B00CD1F16 /* TVShowEntity.swift */; };
+		FF2E8AF73036EAA100CD1F16 /* VisualIntelligenceQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2E8AF63036EAA100CD1F16 /* VisualIntelligenceQuery.swift */; };
 		FF74128E2895CF9900A79C7C /* TMDB.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF74128D2895CF9900A79C7C /* TMDB.plist */; };
 		FF7412962895D65F00A79C7C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF7412952895D65F00A79C7C /* WidgetKit.framework */; };
 		FF7412982895D65F00A79C7C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF7412972895D65F00A79C7C /* SwiftUI.framework */; };
@@ -140,6 +145,11 @@
 		FF21ACCA300A37C5009764B1 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		FF21ACCD300A37C5009764B1 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		FF21ACD2300B8C4F009764B1 /* DiscoverScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverScreen.swift; sourceTree = "<group>"; };
+		FF2E8AEE30367B7100CD1F16 /* TVShowCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowCategory.swift; sourceTree = "<group>"; };
+		FF2E8AF030367B7100CD1F16 /* TVShowListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowListModel.swift; sourceTree = "<group>"; };
+		FF2E8AF230367B7100CD1F16 /* TVShowListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowListScreen.swift; sourceTree = "<group>"; };
+		FF2E8AF43036EA6B00CD1F16 /* TVShowEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowEntity.swift; sourceTree = "<group>"; };
+		FF2E8AF63036EAA100CD1F16 /* VisualIntelligenceQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualIntelligenceQuery.swift; sourceTree = "<group>"; };
 		FF74128D2895CF9900A79C7C /* TMDB.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = TMDB.plist; sourceTree = "<group>"; };
 		FF7412932895D65F00A79C7C /* CinemaTVWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CinemaTVWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF7412952895D65F00A79C7C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -320,6 +330,7 @@
 				FFCA557F30308C2D0025941D /* TVShowDetail */,
 				FFCA558430308C5E0025941D /* Season */,
 				FF9F137A3031183A004819FD /* Episode */,
+				FF2E8AED30367B7100CD1F16 /* TVShowList */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -384,6 +395,8 @@
 				FF21ACBC30092B2F009764B1 /* OpenIntents.swift */,
 				FF21ACBF30092B34009764B1 /* CinemaTVShortcuts.swift */,
 				FF21ACC230092B37009764B1 /* SpotlightIndexer.swift */,
+				FF2E8AF43036EA6B00CD1F16 /* TVShowEntity.swift */,
+				FF2E8AF63036EAA100CD1F16 /* VisualIntelligenceQuery.swift */,
 			);
 			path = Intents;
 			sourceTree = "<group>";
@@ -394,6 +407,16 @@
 				FF21ACD2300B8C4F009764B1 /* DiscoverScreen.swift */,
 			);
 			path = Discover;
+			sourceTree = "<group>";
+		};
+		FF2E8AED30367B7100CD1F16 /* TVShowList */ = {
+			isa = PBXGroup;
+			children = (
+				FF2E8AEE30367B7100CD1F16 /* TVShowCategory.swift */,
+				FF2E8AF030367B7100CD1F16 /* TVShowListModel.swift */,
+				FF2E8AF230367B7100CD1F16 /* TVShowListScreen.swift */,
+			);
+			path = TVShowList;
 			sourceTree = "<group>";
 		};
 		FF51480329E0E2BE000A20EB /* WidgetViews */ = {
@@ -692,17 +715,22 @@
 				FFCA558A3030907A0025941D /* TVHomeModel.swift in Sources */,
 				FF21ACBA30092B28009764B1 /* WatchlistIntents.swift in Sources */,
 				FF21AC803008DB96009764B1 /* Route.swift in Sources */,
+				FF2E8AF130367B7100CD1F16 /* TVShowListModel.swift in Sources */,
 				FF21AC993008DC0D009764B1 /* HomeScreenModel.swift in Sources */,
 				FF21ACA53008DC43009764B1 /* MovieDetailModel.swift in Sources */,
 				FF21ACB13008DC99009764B1 /* WatchlistScreen.swift in Sources */,
 				FF21ACA23008DC27009764B1 /* SearchScreen.swift in Sources */,
 				FF21ACAB3008DC5E009764B1 /* TrailerSection.swift in Sources */,
+				FF2E8AEF30367B7100CD1F16 /* TVShowCategory.swift in Sources */,
 				FF21ACC630097C7A009764B1 /* MotionTiltManager.swift in Sources */,
+				FF2E8AF73036EAA100CD1F16 /* VisualIntelligenceQuery.swift in Sources */,
 				FFCA558330308C550025941D /* TVShowDetailScreen.swift in Sources */,
 				FF21ACBD30092B2F009764B1 /* OpenIntents.swift in Sources */,
 				FF9F137C3031183A004819FD /* EpisodeDetailScreen.swift in Sources */,
 				FFCA558630308C5E0025941D /* SeasonModel.swift in Sources */,
 				FF21AC9F3008DC1E009764B1 /* MovieListScreen.swift in Sources */,
+				FF2E8AF53036EA6B00CD1F16 /* TVShowEntity.swift in Sources */,
+				FF2E8AF330367B7100CD1F16 /* TVShowListScreen.swift in Sources */,
 				FF21ACC330092B37009764B1 /* SpotlightIndexer.swift in Sources */,
 				FF21ACC130092B34009764B1 /* CinemaTVShortcuts.swift in Sources */,
 				FFCA558130308C2D0025941D /* TVShowDetailModel.swift in Sources */,

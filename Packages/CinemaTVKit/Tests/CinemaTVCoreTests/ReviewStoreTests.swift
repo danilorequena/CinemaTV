@@ -32,10 +32,10 @@ import Testing
     }
 
     @Test func saveReviewCreatesRow() throws {
-        try store.saveReview(for: matrix, rating: 4.5, text: "Loved it")
+        try store.saveReview(for: matrix, rating: 4, text: "Loved it")
 
         let review = try store.review(forMovieID: 603)
-        #expect(review?.rating == 4.5)
+        #expect(review?.rating == 4)
         #expect(review?.reviewText == "Loved it")
         #expect(review?.movieTitle == "The Matrix")
         #expect(review?.posterPath == "/matrix.jpg")
@@ -57,15 +57,15 @@ import Testing
         #expect(review?.createdAt == createdAt)
     }
 
-    @Test func ratingSnapsToHalfStepsAndClamps() throws {
+    @Test func ratingSnapsToWholeStepsAndClamps() throws {
         try store.saveReview(for: matrix, rating: 4.7, text: "")
-        #expect(try store.review(forMovieID: 603)?.rating == 4.5)
+        #expect(try store.review(forMovieID: 603)?.rating == 5.0)
 
         try store.saveReview(for: matrix, rating: 6, text: "")
         #expect(try store.review(forMovieID: 603)?.rating == 5.0)
 
         try store.saveReview(for: matrix, rating: 0.2, text: "")
-        #expect(try store.review(forMovieID: 603)?.rating == 0.5)
+        #expect(try store.review(forMovieID: 603)?.rating == 1.0)
     }
 
     @Test func deleteReviewRemovesRow() throws {
@@ -81,7 +81,7 @@ import Testing
     @Test func reviewSurvivesUnmarkWatched() throws {
         let watchlist = WatchlistStore(container: container)
         try watchlist.markWatched(matrix)
-        try store.saveReview(for: matrix, rating: 4.5, text: "Loved it")
+        try store.saveReview(for: matrix, rating: 4, text: "Loved it")
 
         try watchlist.unmarkWatched(movieID: 603)
 

@@ -10,6 +10,7 @@ import Foundation
 
 enum DeepLink: Equatable {
     case movie(id: Int)
+    case tvShow(id: Int)
     case watchlist
     case search(query: String?)
 
@@ -21,6 +22,10 @@ enum DeepLink: Equatable {
             let idComponent = url.pathComponents.dropFirst().first
             guard let idComponent, let id = Int(idComponent) else { return nil }
             self = .movie(id: id)
+        case "tvshow":
+            let idComponent = url.pathComponents.dropFirst().first
+            guard let idComponent, let id = Int(idComponent) else { return nil }
+            self = .tvShow(id: id)
         case "watchlist":
             self = .watchlist
         case "search":
@@ -37,6 +42,8 @@ enum DeepLink: Equatable {
         switch self {
         case .movie(let id):
             return URL(string: "cinematv://movie/\(id)")!
+        case .tvShow(let id):
+            return URL(string: "cinematv://tvshow/\(id)")!
         case .watchlist:
             return URL(string: "cinematv://watchlist")!
         case .search(let query):

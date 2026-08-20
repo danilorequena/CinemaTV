@@ -44,7 +44,7 @@ public struct ReviewShareCard: View {
 
             HStack(spacing: DSSpacing.sm) {
                 StarRatingDisplay(rating: rating, starSize: 18)
-                Text(rating, format: .number.precision(.fractionLength(0...1)))
+                Text(rating, format: .number.precision(.fractionLength(0)))
                     .font(.dsCaption.monospacedDigit())
                     .foregroundStyle(.secondary)
             }
@@ -118,7 +118,7 @@ public struct ReviewShareCard: View {
 #Preview("Com texto longo", traits: .sizeThatFitsLayout) {
     ReviewShareCard(
         title: "Everything Everywhere All at Once",
-        rating: 4.5,
+        rating: 4,
         reviewText: "Uma viagem absurda e emocionante pelos multiversos. A Michelle Yeoh carrega o filme inteiro e o terceiro ato é de chorar. Melhor coisa que vi no ano, sem dúvida nenhuma.",
         poster: nil
     )

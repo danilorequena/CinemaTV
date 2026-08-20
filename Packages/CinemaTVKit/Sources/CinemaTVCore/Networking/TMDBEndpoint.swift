@@ -43,6 +43,7 @@ public enum TMDBEndpoint: Equatable, Sendable {
     case tvShowWatchProviders(id: Int)
     case tvShowRecommendations(id: Int)
     case similarTVShows(id: Int)
+    case searchTVShows
 
     public var path: String {
         switch self {
@@ -73,6 +74,7 @@ public enum TMDBEndpoint: Equatable, Sendable {
         case .tvShowWatchProviders(let id): "tv/\(id)/watch/providers"
         case .tvShowRecommendations(let id): "tv/\(id)/recommendations"
         case .similarTVShows(let id): "tv/\(id)/similar"
+        case .searchTVShows: "search/tv"
         }
     }
 }

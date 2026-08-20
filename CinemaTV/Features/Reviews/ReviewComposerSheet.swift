@@ -2,7 +2,7 @@
 //  ReviewComposerSheet.swift
 //  CinemaTV
 //
-//  Composer do review pessoal: estrelas em meia estrela + texto livre,
+//  Composer do review pessoal: estrelas inteiras + texto livre,
 //  preview ao vivo do card exportado e ShareLink com a imagem final.
 //
 
@@ -68,7 +68,7 @@ struct ReviewComposerSheet: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save Review") { saveReview() }
-                        .disabled(rating < 0.5)
+                        .disabled(rating < 1)
                 }
             }
             .task {
@@ -126,7 +126,9 @@ struct ReviewComposerSheet: View {
     private func hydrate() {
         guard let review = try? store.review(forMovieID: item.id) else { return }
         hasExistingReview = true
-        rating = review.rating ?? 0
+        if let storedRating = review.rating {
+            rating = ReviewStore.normalizedRating(storedRating)
+        }
         text = review.reviewText ?? ""
     }
 
@@ -149,7 +151,7 @@ struct ReviewComposerSheet: View {
     }
 
     private func renderShareImage() {
-        guard rating >= 0.5 else {
+        guard rating >= 1 else {
             shareImage = nil
             return
         }

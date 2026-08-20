@@ -132,6 +132,8 @@ private struct MediaDestinationsModifier: ViewModifier {
             DiscoverScreen()
         case .tvShowDetail(let id):
             TVShowDetailScreen(showID: id)
+        case .tvShowList(let category):
+            TVShowListScreen(category: category)
         case .season(let tvShowID, let seasonNumber, let sourceID):
             if let sourceID {
                 SeasonScreen(tvShowID: tvShowID, seasonNumber: seasonNumber)

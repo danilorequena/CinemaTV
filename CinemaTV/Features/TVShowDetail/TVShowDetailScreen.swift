@@ -9,6 +9,7 @@
 
 import SwiftUI
 import SwiftData
+import AppIntents
 import CinemaTVCore
 import CinemaTVDesignSystem
 
@@ -86,6 +87,14 @@ struct TVShowDetailScreen: View {
             }
         }
         .sensoryFeedback(.success, trigger: isFollowing)
+        // Onscreen entity: Siri resolve "isso" para a série em exibição
+        // (a entidade completa vem do defaultQuery via id).
+        .userActivity("com.danilorequena.CinemaTV.viewTVShow") { activity in
+            activity.appEntityIdentifier = EntityIdentifier(
+                for: TVShowEntity.self,
+                identifier: showID
+            )
+        }
         .task {
             refreshTrackingState()
             await model.load(client: client, showID: showID)

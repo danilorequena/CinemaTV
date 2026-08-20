@@ -15,6 +15,7 @@ public struct EpisodeRow: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.mediaZoomNamespace) private var zoomNamespace
     @ScaledMetric(relativeTo: .subheadline) private var stillWidth: CGFloat = 110
+    @State private var bounceTrigger = 0
 
     private let episode: EpisodeSummary
     private let isWatched: Bool
@@ -38,6 +39,9 @@ public struct EpisodeRow: View {
     }
 
     public var body: some View {
+        let revealScale = DSMotion.ratingRevealScale
+        let maskScale = reduceMotion ? revealScale : (isWatched ? revealScale : 0.01)
+
         HStack(alignment: .top, spacing: DSSpacing.md) {
             // Em tamanhos AX o still (decorativo) esmagava a coluna de texto.
             if !dynamicTypeSize.isAccessibilitySize {
@@ -69,26 +73,41 @@ public struct EpisodeRow: View {
 
             Spacer(minLength: 0)
 
-            Button(action: onToggle) {
-                // Círculo glass no lugar do símbolo nu: vazio convida ao tap;
-                // assistido preenche com o tint accent.
-                Image(systemName: "checkmark")
-                    .font(.footnote.weight(.bold))
-                    .foregroundStyle(isWatched ? AnyShapeStyle(.white) : AnyShapeStyle(.secondary))
-                    .opacity(isWatched ? 1 : 0.3)
-                    .symbolEffect(.bounce, value: isWatched)
-                    .padding(DSSpacing.sm)
-                    .glassEffect(
-                        isWatched ? .regular.tint(DSColor.accent).interactive() : .regular.interactive(),
-                        in: .circle
-                    )
-                    // O tint só anima se a mudança de isWatched chegar
-                    // animada; o toggle vem de fora sem withAnimation.
-                    .animation(DSMotion.respecting(reduceMotion, DSMotion.snappy), value: isWatched)
+            Button(action: toggleWatched) {
+                ZStack {
+                    Image(systemName: "circle")
+                        .foregroundStyle(.tertiary)
+
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(DSColor.accent)
+                        .mask {
+                            Circle()
+                                .scaleEffect(maskScale)
+                        }
+                        .opacity(isWatched ? 1 : 0)
+                        .shadow(
+                            color: DSColor.accent.opacity(isWatched ? 0.4 : 0),
+                            radius: isWatched ? DSMotion.ratingGlowRadius : 0
+                        )
+                        .animation(selectionAnimation, value: isWatched)
+                }
+                .font(.title2)
+                .frame(width: 44, height: 44)
+                .contentShape(.circle)
+                .symbolEffect(
+                    .bounce.up.wholeSymbol,
+                    options: .nonRepeating,
+                    value: bounceTrigger
+                )
+                .symbolEffectsRemoved(reduceMotion)
             }
             .buttonStyle(.plain)
             .disabled(!isToggleEnabled)
-            .sensoryFeedback(.impact(weight: .light), trigger: isWatched)
+            .sensoryFeedback(.selection, trigger: isWatched)
+            .onChange(of: isWatched) { previousValue, currentValue in
+                guard currentValue, !previousValue, !reduceMotion else { return }
+                bounceTrigger += 1
+            }
             .accessibilityLabel(Text("Mark as Watched", bundle: .module))
             .accessibilityValue(
                 isWatched
@@ -100,6 +119,23 @@ public struct EpisodeRow: View {
             .accessibilityRemoveTraits(.isSelected)
         }
         .contentShape(.rect)
+    }
+
+    private var selectionAnimation: Animation {
+        if reduceMotion {
+            return DSMotion.subtleFade
+        }
+        return isWatched ? DSMotion.ratingSelection : DSMotion.snappy
+    }
+
+    private func toggleWatched() {
+        if reduceMotion {
+            onToggle()
+        } else {
+            withAnimation(DSMotion.ratingSelection) {
+                onToggle()
+            }
+        }
     }
 
     private var metadata: String? {
