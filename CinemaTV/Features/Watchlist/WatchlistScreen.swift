@@ -27,11 +27,14 @@ private enum LibrarySection: Hashable {
 
 struct WatchlistScreen: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.tmdbClient) private var client
     @Environment(AppRouter.self) private var router
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var reviewTarget: MediaItem?
     /// Watched nasce colapsada: o histórico não rouba espaço da fila.
     @State private var expanded: Set<LibrarySection> = [.watching, .wantToWatch]
+    /// Toggle da seção Settings; a permissão é pedida quando liga.
+    @AppStorage("premiereNotificationsEnabled") private var premiereNotificationsEnabled = false
 
     @Query(sort: [
         SortDescriptor(\ToWatchModel.sortIndex),
@@ -72,10 +75,32 @@ struct WatchlistScreen: View {
             }
         }
         .navigationTitle("Library")
-        // Migração: séries marcadas antes do cache lastActivityAt existir
-        // caíam na fila; o backfill as devolve ao Watching.
         .task {
+            // Migração: séries marcadas antes do cache lastActivityAt
+            // existir caíam na fila; o backfill as devolve ao Watching.
             try? trackingStore.backfillActivityCaches()
+            // Refresh silencioso (1x/dia): datas/status das seguidas e da
+            // fila; depois re-agenda as notificações com a agenda fresca.
+            await LibraryRefresher.refreshIfNeeded(client: client, context: modelContext)
+            await PremiereNotifications.sync(
+                enabled: premiereNotificationsEnabled,
+                entries: premiereNotificationEntries
+            )
+        }
+        .onChange(of: premiereNotificationsEnabled) { _, enabled in
+            Task {
+                if enabled {
+                    guard await PremiereNotifications.requestAuthorization() else {
+                        // Permissão negada: o toggle volta a refletir a verdade.
+                        premiereNotificationsEnabled = false
+                        return
+                    }
+                }
+                await PremiereNotifications.sync(
+                    enabled: premiereNotificationsEnabled,
+                    entries: premiereNotificationEntries
+                )
+            }
         }
         .sheet(item: $reviewTarget) { item in
             ReviewComposerSheet(item: item)
@@ -150,6 +175,9 @@ struct WatchlistScreen: View {
                         }
                     }
                 }
+
+                settingsSection
+                    .padding(.top, DSSpacing.xl)
             }
             .padding(.vertical, DSSpacing.lg)
         }
@@ -164,6 +192,27 @@ struct WatchlistScreen: View {
         toWatch.isEmpty && queuedShows.isEmpty
     }
 
+    // MARK: - Settings
+
+    private var settingsSection: some View {
+        VStack(alignment: .leading, spacing: DSSpacing.md) {
+            Text("Settings")
+                .font(.dsSectionTitle)
+                .accessibilityAddTraits(.isHeader)
+            Toggle(isOn: $premiereNotificationsEnabled) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Premiere notifications")
+                        .font(.dsCardTitle)
+                    Text("Get notified on release day for shows and movies in your library.")
+                        .font(.dsCaption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .tint(DSColor.accent)
+        }
+        .padding(.horizontal, DSSpacing.lg)
+    }
+
     // MARK: - Agenda "Up Next" (estreias com contagem regressiva)
 
     /// Item da agenda: filme da fila ou próximo episódio de série seguida,
@@ -173,6 +222,8 @@ struct WatchlistScreen: View {
         let item: MediaItem
         let scope: String
         let subtitle: Text
+        /// Corpo da notificação local de estreia deste item.
+        let notificationBody: String
         let date: Date
     }
 
@@ -187,6 +238,7 @@ struct WatchlistScreen: View {
                 item: movie.mediaItem,
                 scope: "watchlist",
                 subtitle: Text("In theaters"),
+                notificationBody: String(localized: "In theaters today"),
                 date: date
             ))
         }
@@ -196,23 +248,42 @@ struct WatchlistScreen: View {
                   let season = show.upcomingSeason,
                   let episode = show.upcomingEpisode else { continue }
             // E1 = estreia de temporada; o resto é episódio novo.
-            let subtitle: Text = if episode == 1 {
-                Text("Season \(season) premiere")
-            } else if let name = show.upcomingEpisodeName, !name.isEmpty {
-                Text(verbatim: "S\(season) E\(episode) · \(name)")
+            let subtitle: Text
+            let notificationBody: String
+            if episode == 1 {
+                subtitle = Text("Season \(season) premiere")
+                notificationBody = String(localized: "Season \(season) premieres today")
             } else {
-                Text(verbatim: "S\(season) E\(episode)")
+                notificationBody = String(localized: "S\(season) E\(episode) airs today")
+                if let name = show.upcomingEpisodeName, !name.isEmpty {
+                    subtitle = Text(verbatim: "S\(season) E\(episode) · \(name)")
+                } else {
+                    subtitle = Text(verbatim: "S\(season) E\(episode)")
+                }
             }
             items.append(UpcomingPremiere(
                 id: "show-\(show.id ?? 0)",
                 item: show.mediaItem,
                 scope: "watching",
                 subtitle: subtitle,
+                notificationBody: notificationBody,
                 date: date
             ))
         }
 
         return items.sorted { $0.date < $1.date }
+    }
+
+    /// Entradas para as notificações locais (mesma fonte da agenda).
+    private var premiereNotificationEntries: [PremiereNotifications.Entry] {
+        upcomingPremieres.map { premiere in
+            PremiereNotifications.Entry(
+                id: premiere.id,
+                title: premiere.item.title,
+                body: premiere.notificationBody,
+                date: premiere.date
+            )
+        }
     }
 
     private var premiereAgenda: some View {
