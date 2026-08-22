@@ -33,7 +33,8 @@ struct WatchlistScreen: View {
     @State private var reviewTarget: MediaItem?
     /// Watched nasce colapsada: o histórico não rouba espaço da fila.
     @State private var expanded: Set<LibrarySection> = [.watching, .wantToWatch]
-    /// Toggle da seção Settings; a permissão é pedida quando liga.
+    @State private var showsSettings = false
+    /// Espelha o toggle da SettingsScreen; aqui só alimenta o re-sync do .task.
     @AppStorage("premiereNotificationsEnabled") private var premiereNotificationsEnabled = false
 
     @Query(sort: [
@@ -87,19 +88,18 @@ struct WatchlistScreen: View {
                 entries: premiereNotificationEntries
             )
         }
-        .onChange(of: premiereNotificationsEnabled) { _, enabled in
-            Task {
-                if enabled {
-                    guard await PremiereNotifications.requestAuthorization() else {
-                        // Permissão negada: o toggle volta a refletir a verdade.
-                        premiereNotificationsEnabled = false
-                        return
-                    }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    showsSettings = true
+                } label: {
+                    Label("Settings", systemImage: "gearshape")
                 }
-                await PremiereNotifications.sync(
-                    enabled: premiereNotificationsEnabled,
-                    entries: premiereNotificationEntries
-                )
+            }
+        }
+        .sheet(isPresented: $showsSettings) {
+            NavigationStack {
+                SettingsScreen(notificationEntries: premiereNotificationEntries)
             }
         }
         .sheet(item: $reviewTarget) { item in
@@ -175,9 +175,6 @@ struct WatchlistScreen: View {
                         }
                     }
                 }
-
-                settingsSection
-                    .padding(.top, DSSpacing.xl)
             }
             .padding(.vertical, DSSpacing.lg)
         }
@@ -190,27 +187,6 @@ struct WatchlistScreen: View {
 
     private var wantToWatchIsEmpty: Bool {
         toWatch.isEmpty && queuedShows.isEmpty
-    }
-
-    // MARK: - Settings
-
-    private var settingsSection: some View {
-        VStack(alignment: .leading, spacing: DSSpacing.md) {
-            Text("Settings")
-                .font(.dsSectionTitle)
-                .accessibilityAddTraits(.isHeader)
-            Toggle(isOn: $premiereNotificationsEnabled) {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Premiere notifications")
-                        .font(.dsCardTitle)
-                    Text("Get notified on release day for shows and movies in your library.")
-                        .font(.dsCaption)
-                        .foregroundStyle(.secondary)
-                }
-            }
-            .tint(DSColor.accent)
-        }
-        .padding(.horizontal, DSSpacing.lg)
     }
 
     // MARK: - Agenda "Up Next" (estreias com contagem regressiva)

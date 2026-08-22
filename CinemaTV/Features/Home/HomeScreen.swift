@@ -52,8 +52,6 @@ struct HomeScreen: View {
         }
         .navigationTitle("Discover")
         .toolbarMinimizationBehavior(.onScrollDown, for: .navigationBar)
-        // Tilt do device alimentando o hero (card + parallax + shader).
-        .environment(\.dsTilt, DSTiltValue(roll: motion.roll, pitch: motion.pitch))
         .onAppear {
             if !reduceMotion {
                 motion.start()
@@ -97,7 +95,7 @@ struct HomeScreen: View {
     private func loadedContent(_ content: HomeScreenModel.Content) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: DSSpacing.xl) {
-                HeroCarousel(items: Array(content.nowPlaying.prefix(6)))
+                TiltedHeroCarousel(items: Array(content.nowPlaying.prefix(6)), motion: motion)
 
                 MediaCarousel(title: "Upcoming", items: content.upcoming, zoomScope: "upcoming") {
                     router.discoverPath.append(Route.movieList(category: .upcoming))
@@ -170,7 +168,7 @@ struct HomeScreen: View {
     private func loadedShowsContent(_ content: TVHomeModel.Content) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: DSSpacing.xl) {
-                HeroCarousel(items: Array(content.airingToday.prefix(6)))
+                TiltedHeroCarousel(items: Array(content.airingToday.prefix(6)), motion: motion)
 
                 MediaCarousel(title: "Airing Today", items: content.airingToday, zoomScope: "tvAiring") {
                     router.discoverPath.append(Route.tvShowList(category: .airingToday))
@@ -201,6 +199,21 @@ struct HomeScreen: View {
         .scrollDisabled(true)
     }
 }
+// MARK: - Hero com tilt confinado
+
+/// Confina a leitura do tilt ao hero: motion.roll/pitch mudam a ~30Hz, e
+/// lê-los direto no body da HomeScreen re-avaliava a tela inteira (picker,
+/// rails, portal) a cada tick do giroscópio — os engasgos ao entrar na Home.
+private struct TiltedHeroCarousel: View {
+    let items: [MediaItem]
+    let motion: MotionTiltManager
+
+    var body: some View {
+        HeroCarousel(items: items)
+            .environment(\.dsTilt, DSTiltValue(roll: motion.roll, pitch: motion.pitch))
+    }
+}
+
 // MARK: - Portal do Discover
 
 /// Card full-width que leva ao fluxo Discover: colagem dos primeiros posters

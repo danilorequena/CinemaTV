@@ -44,6 +44,7 @@
 		FF21ACD3300B8C4F009764B1 /* DiscoverScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF21ACD2300B8C4F009764B1 /* DiscoverScreen.swift */; };
 		FF2CF8FE3036FBFD0019AE7F /* LibraryRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2CF8FD3036FBFD0019AE7F /* LibraryRefresher.swift */; };
 		FF2CF9003036FC050019AE7F /* PremiereNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2CF8FF3036FC050019AE7F /* PremiereNotifications.swift */; };
+		FF2CF9033037C6500019AE7F /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2CF9023037C6500019AE7F /* SettingsScreen.swift */; };
 		FF2E8AEF30367B7100CD1F16 /* TVShowCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2E8AEE30367B7100CD1F16 /* TVShowCategory.swift */; };
 		FF2E8AF130367B7100CD1F16 /* TVShowListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2E8AF030367B7100CD1F16 /* TVShowListModel.swift */; };
 		FF2E8AF330367B7100CD1F16 /* TVShowListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2E8AF230367B7100CD1F16 /* TVShowListScreen.swift */; };
@@ -149,6 +150,7 @@
 		FF21ACD2300B8C4F009764B1 /* DiscoverScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverScreen.swift; sourceTree = "<group>"; };
 		FF2CF8FD3036FBFD0019AE7F /* LibraryRefresher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRefresher.swift; sourceTree = "<group>"; };
 		FF2CF8FF3036FC050019AE7F /* PremiereNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiereNotifications.swift; sourceTree = "<group>"; };
+		FF2CF9023037C6500019AE7F /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
 		FF2E8AEE30367B7100CD1F16 /* TVShowCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowCategory.swift; sourceTree = "<group>"; };
 		FF2E8AF030367B7100CD1F16 /* TVShowListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowListModel.swift; sourceTree = "<group>"; };
 		FF2E8AF230367B7100CD1F16 /* TVShowListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowListScreen.swift; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 				FFCA558430308C5E0025941D /* Season */,
 				FF9F137A3031183A004819FD /* Episode */,
 				FF2E8AED30367B7100CD1F16 /* TVShowList */,
+				FF2CF9013037C6500019AE7F /* Settings */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -413,6 +416,14 @@
 				FF21ACD2300B8C4F009764B1 /* DiscoverScreen.swift */,
 			);
 			path = Discover;
+			sourceTree = "<group>";
+		};
+		FF2CF9013037C6500019AE7F /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				FF2CF9023037C6500019AE7F /* SettingsScreen.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		FF2E8AED30367B7100CD1F16 /* TVShowList */ = {
@@ -721,6 +732,7 @@
 				FFCA558A3030907A0025941D /* TVHomeModel.swift in Sources */,
 				FF21ACBA30092B28009764B1 /* WatchlistIntents.swift in Sources */,
 				FF21AC803008DB96009764B1 /* Route.swift in Sources */,
+				FF2CF9033037C6500019AE7F /* SettingsScreen.swift in Sources */,
 				FF2E8AF130367B7100CD1F16 /* TVShowListModel.swift in Sources */,
 				FF21AC993008DC0D009764B1 /* HomeScreenModel.swift in Sources */,
 				FF21ACA53008DC43009764B1 /* MovieDetailModel.swift in Sources */,
