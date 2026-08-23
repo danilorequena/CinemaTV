@@ -25,9 +25,10 @@ public struct TMDBClient: Sendable {
     public func fetch<T: Decodable & Sendable>(
         _ endpoint: TMDBEndpoint,
         page: Int? = nil,
-        query: String? = nil
+        query: String? = nil,
+        parameters: [String: String]? = nil
     ) async throws(TMDBError) -> T {
-        let url = try makeURL(endpoint: endpoint, page: page, query: query)
+        let url = try makeURL(endpoint: endpoint, page: page, query: query, parameters: parameters)
 
         let data: Data
         let response: URLResponse
@@ -51,7 +52,12 @@ public struct TMDBClient: Sendable {
         }
     }
 
-    func makeURL(endpoint: TMDBEndpoint, page: Int? = nil, query: String? = nil) throws(TMDBError) -> URL {
+    func makeURL(
+        endpoint: TMDBEndpoint,
+        page: Int? = nil,
+        query: String? = nil,
+        parameters: [String: String]? = nil
+    ) throws(TMDBError) -> URL {
         guard var components = URLComponents(
             url: configuration.baseURL.appending(path: endpoint.path),
             resolvingAgainstBaseURL: false
@@ -73,6 +79,13 @@ public struct TMDBClient: Sendable {
         }
         if let query {
             items.append(URLQueryItem(name: "query", value: query))
+        }
+        // Extras do endpoint (ex.: with_genres do discover), em ordem
+        // estável para URLs determinísticas nos testes.
+        if let parameters {
+            for (name, value) in parameters.sorted(by: { $0.key < $1.key }) {
+                items.append(URLQueryItem(name: name, value: value))
+            }
         }
         components.queryItems = items
 

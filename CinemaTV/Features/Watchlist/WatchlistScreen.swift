@@ -88,6 +88,7 @@ struct WatchlistScreen: View {
                 entries: premiereNotificationEntries
             )
         }
+        .toolbarTitleDisplayMode(.inlineLarge)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -333,7 +334,35 @@ struct WatchlistScreen: View {
             .padding(.horizontal, DSSpacing.lg)
         }
         .buttonStyle(.plain)
+        .contextMenu {
+            premiereRemoveButton(premiere)
+        }
+        .swipeActions(edge: .trailing) {
+            premiereRemoveButton(premiere)
+        }
         .accessibilityElement(children: .combine)
+    }
+
+    /// Remover da agenda = tirar da fonte: filme sai da fila, série deixa
+    /// de ser seguida (a agenda é derivada, não tem estado próprio).
+    @ViewBuilder
+    private func premiereRemoveButton(_ premiere: UpcomingPremiere) -> some View {
+        switch premiere.item.mediaType {
+        case .movie:
+            Button(role: .destructive) {
+                removeFromWatchlist(premiere.item)
+            } label: {
+                Label("Remove", systemImage: "trash")
+            }
+        default:
+            Button(role: .destructive) {
+                withAnimation(DSMotion.respecting(reduceMotion)) {
+                    try? trackingStore.unfollow(showID: premiere.item.id)
+                }
+            } label: {
+                Label("Unfollow", systemImage: "minus.circle")
+            }
+        }
     }
 
     // As datas do TMDB são dias ISO sem fuso; tudo em GMT para a contagem
@@ -866,6 +895,11 @@ struct WatchlistScreen: View {
                     hasReview ? "Edit Review" : "Write Review",
                     systemImage: "star.bubble"
                 )
+            }
+            Button(role: .destructive) {
+                try? store.unmarkWatched(movieID: item.id)
+            } label: {
+                Label("Remove", systemImage: "trash")
             }
         }
         .swipeActions(edge: .trailing) {

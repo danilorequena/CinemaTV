@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import UIKit
 import CinemaTVCore
 import CinemaTVDesignSystem
 
@@ -26,29 +25,27 @@ struct HomeScreen: View {
     @State private var mediaKind: MediaKind = .movies
     @State private var motion = MotionTiltManager()
 
-    init() {
-        // Segmented nativo (ganha o drag do thumb) com o accent do app.
-        // Appearance é global, mas este é o único Picker segmentado do app.
-        let appearance = UISegmentedControl.appearance()
-        appearance.selectedSegmentTintColor = UIColor(DSColor.accent)
-        appearance.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
-    }
-
     var body: some View {
-        VStack(spacing: DSSpacing.md) {
-            Picker("Media Type", selection: $mediaKind) {
-                Text("Movies").tag(MediaKind.movies)
-                Text("TV Shows").tag(MediaKind.shows)
-            }
-            .pickerStyle(.segmented)
-            .padding(.horizontal, DSSpacing.lg)
-
+        Group {
             switch mediaKind {
             case .movies:
                 moviesBody
             case .shows:
                 showsBody
             }
+        }
+        // O picker vive num safeAreaInset (não mais num VStack acima do
+        // scroll): o feed rola POR TRÁS dele e da nav bar, com o edge
+        // effect .soft suavizando a faixa do header. O controle continua
+        // o segmented nativo de sempre.
+        .scrollEdgeEffectStyle(.soft, for: .top)
+        .safeAreaInset(edge: .top) {
+            Picker("Media Type", selection: $mediaKind) {
+                Text("Movies").tag(MediaKind.movies)
+                Text("TV Shows").tag(MediaKind.shows)
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal, DSSpacing.lg)
         }
         .navigationTitle("Discover")
         .toolbarMinimizationBehavior(.onScrollDown, for: .navigationBar)

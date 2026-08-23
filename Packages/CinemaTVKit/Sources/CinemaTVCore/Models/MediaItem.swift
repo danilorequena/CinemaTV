@@ -26,6 +26,9 @@ public struct MediaItem: Identifiable, Hashable, Sendable {
     public let mediaType: MediaType
     /// Papel numa filmografia (combined_credits); nil fora desse contexto.
     public let character: String?
+    /// IDs de gênero do TMDB (genre_ids das listas); nil quando o payload
+    /// não traz (detalhes usam `genres` expandido).
+    public let genreIds: [Int]?
 
     public init(
         id: Int,
@@ -36,7 +39,8 @@ public struct MediaItem: Identifiable, Hashable, Sendable {
         voteAverage: Double,
         releaseDate: String?,
         mediaType: MediaType,
-        character: String? = nil
+        character: String? = nil,
+        genreIds: [Int]? = nil
     ) {
         self.id = id
         self.title = title
@@ -47,6 +51,7 @@ public struct MediaItem: Identifiable, Hashable, Sendable {
         self.releaseDate = releaseDate
         self.mediaType = mediaType
         self.character = character
+        self.genreIds = genreIds
     }
 
     public var releaseYear: String? {
@@ -66,6 +71,7 @@ extension MediaItem: Decodable {
         case releaseDate, firstAirDate
         case mediaType
         case character
+        case genreIds
     }
 
     public init(from decoder: Decoder) throws {
@@ -96,5 +102,6 @@ extension MediaItem: Decodable {
         posterPath = poster ?? profile
 
         character = try container.decodeIfPresent(String.self, forKey: .character)
+        genreIds = try container.decodeIfPresent([Int].self, forKey: .genreIds)
     }
 }
