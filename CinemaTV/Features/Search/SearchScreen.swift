@@ -5,17 +5,20 @@
 //  Busca multi (filmes, séries e pessoas) — substitui SearchView. Com a
 //  query vazia mostra sugestões: chips das buscas recentes (histórico
 //  local) + trending da semana no MESMO grid dos resultados.
-//  Busca composta: tokens de gênero fixam no campo (searchable tokens) e
-//  combinam com o termo digitado — texto via search/multi filtrado por
-//  genre_ids; só gêneros via discover com with_genres.
+//  Busca composta por TOKENS: no submit o termo digitado vira token, e
+//  gêneros entram por uma barra compacta de chips visível só com o campo
+//  em foco. Tudo que está no campo (termos + gêneros) forma a query:
+//  texto via search/multi filtrado por genre_ids; só gêneros via discover
+//  com with_genres.
 //
 
 import SwiftUI
 import CinemaTVCore
 import CinemaTVDesignSystem
 
-/// Token de gênero: fixa no campo de busca e restringe os resultados.
-/// IDs do TMDB divergem entre filme e série (ex.: Action 28 vs
+// MARK: - Tokens
+
+/// Gênero: IDs do TMDB divergem entre filme e série (ex.: Action 28 vs
 /// Action & Adventure 10759); nil = o gênero não existe naquele tipo.
 private struct GenreToken: Identifiable, Hashable {
     let id: String
@@ -29,6 +32,26 @@ private struct GenreToken: Identifiable, Hashable {
 
     static func == (lhs: Self, rhs: Self) -> Bool { lhs.id == rhs.id }
     func hash(into hasher: inout Hasher) { hasher.combine(id) }
+}
+
+/// Token do campo de busca: termo digitado (fixado no submit) ou gênero.
+private enum SearchToken: Identifiable, Hashable {
+    case term(String)
+    case genre(GenreToken)
+
+    var id: String {
+        switch self {
+        case .term(let value): "term-\(value.lowercased())"
+        case .genre(let genre): "genre-\(genre.id)"
+        }
+    }
+
+    var label: Text {
+        switch self {
+        case .term(let value): Text(verbatim: value)
+        case .genre(let genre): genre.label
+        }
+    }
 }
 
 /// Catálogo estático (os IDs de gênero do TMDB são estáveis há anos).
@@ -55,8 +78,8 @@ struct SearchScreen: View {
     @State private var results: [MediaItem] = []
     @State private var isSearching = false
     @State private var suggestions = SearchSuggestionsModel()
-    /// Gêneros fixados no campo de busca.
-    @State private var genreTokens: [GenreToken] = []
+    /// Tokens fixados no campo (termos + gêneros).
+    @State private var tokens: [SearchToken] = []
     /// Últimas buscas (JSON de [String]); local por design, sem sync.
     @AppStorage("recentSearches") private var recentSearchesData = Data()
 
@@ -64,7 +87,7 @@ struct SearchScreen: View {
         GridItem(.adaptive(minimum: 110), spacing: DSSpacing.md)
     ]
 
-    /// Identidade da busca corrente: retrigga o task quando o termo OU os
+    /// Identidade da busca corrente: retrigga o task quando o texto OU os
     /// tokens mudam (o task(id:) cancela a busca anterior).
     private struct SearchRequest: Hashable {
         let query: String
@@ -75,7 +98,7 @@ struct SearchScreen: View {
         @Bindable var router = router
 
         Group {
-            if router.searchQuery.isEmpty && genreTokens.isEmpty {
+            if router.searchQuery.isEmpty && tokens.isEmpty {
                 suggestionsContent
             } else if results.isEmpty && !isSearching {
                 EmptyStateView(
@@ -90,25 +113,29 @@ struct SearchScreen: View {
                 .animation(DSMotion.standard, value: results.map(\.id))
             }
         }
+        // Barra compacta de gêneros: só com o campo em foco (isSearching),
+        // sem roubar a tela — substitui a lista nativa de suggestedTokens.
+        .safeAreaInset(edge: .top, spacing: 0) {
+            GenreSuggestionBar(tokens: $tokens)
+        }
         .navigationTitle("Search")
         .searchable(
             text: $router.searchQuery,
-            tokens: $genreTokens,
-            suggestedTokens: .constant(genreCatalog.filter { !genreTokens.contains($0) }),
+            tokens: $tokens,
             prompt: Text("Movies, shows and people")
         ) { token in
             token.label
         }
         .searchToolbarBehavior(.minimize)
-        // Submit do teclado = busca "de verdade"; o debounce por tecla não
-        // polui o histórico.
+        // Submit fixa o termo digitado como token — tudo que está no campo
+        // vira query — e alimenta o histórico.
         .onSubmit(of: .search) {
-            recordSearch(router.searchQuery)
+            commitTypedTerm()
         }
         .task {
             await suggestions.load(client: client)
         }
-        .task(id: SearchRequest(query: router.searchQuery, tokenIDs: genreTokens.map(\.id))) {
+        .task(id: SearchRequest(query: router.searchQuery, tokenIDs: tokens.map(\.id))) {
             await performSearch()
         }
     }
@@ -187,7 +214,7 @@ struct SearchScreen: View {
                     HStack(spacing: DSSpacing.sm) {
                         ForEach(recentSearches, id: \.self) { term in
                             Button {
-                                router.searchQuery = term
+                                appendToken(.term(term))
                             } label: {
                                 Text(verbatim: term)
                                     .font(.subheadline)
@@ -222,7 +249,24 @@ struct SearchScreen: View {
         }
     }
 
-    // MARK: - Histórico de buscas
+    // MARK: - Tokens e histórico
+
+    /// Submit do teclado: o texto digitado vira token de termo e o campo
+    /// esvazia para o próximo pedaço da query.
+    private func commitTypedTerm() {
+        let term = router.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !term.isEmpty else { return }
+        recordSearch(term)
+        appendToken(.term(term))
+        router.searchQuery = ""
+    }
+
+    private func appendToken(_ token: SearchToken) {
+        guard !tokens.contains(token) else { return }
+        withAnimation(DSMotion.snappy) {
+            tokens.append(token)
+        }
+    }
 
     private var recentSearches: [String] {
         (try? JSONDecoder().decode([String].self, from: recentSearchesData)) ?? []
@@ -244,10 +288,24 @@ struct SearchScreen: View {
 
     // MARK: - Busca
 
+    /// Termos = tokens de termo + o que ainda está sendo digitado.
+    private var termTokens: [String] {
+        tokens.compactMap {
+            if case .term(let value) = $0 { value } else { nil }
+        }
+    }
+
+    private var genreTokens: [GenreToken] {
+        tokens.compactMap {
+            if case .genre(let genre) = $0 { genre } else { nil }
+        }
+    }
+
     private func performSearch() async {
-        let query = router.searchQuery
-        let tokens = genreTokens
-        guard !query.isEmpty || !tokens.isEmpty else {
+        let typed = router.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+        let query = (termTokens + (typed.isEmpty ? [] : [typed])).joined(separator: " ")
+        let genres = genreTokens
+        guard !query.isEmpty || !genres.isEmpty else {
             results = []
             return
         }
@@ -260,12 +318,12 @@ struct SearchScreen: View {
         do {
             if query.isEmpty {
                 // Só gêneros: discover é o endpoint que filtra na origem.
-                results = try await discoverByGenres(tokens)
+                results = try await discoverByGenres(genres)
             } else {
-                // Termo (com ou sem gêneros): busca textual, gêneros
+                // Termos (com ou sem gêneros): busca textual, gêneros
                 // refinam localmente via genre_ids do payload.
                 let response: PagedResponse<MediaItem> = try await client.fetch(.multiSearch, query: query)
-                results = filterByTokens(response.results, tokens: tokens)
+                results = filterByGenres(response.results, genres: genres)
             }
         } catch is CancellationError {
             // Busca substituída por outra; mantém os resultados atuais.
@@ -277,12 +335,12 @@ struct SearchScreen: View {
     /// AND entre gêneros (with_genres com vírgula). Um token sem ID de TV
     /// (ex.: Horror) não pode ser satisfeito por séries — pula o discover/tv;
     /// o inverso vale para filmes.
-    private func discoverByGenres(_ tokens: [GenreToken]) async throws -> [MediaItem] {
-        let movieIDs = tokens.compactMap(\.movieID)
-        let tvIDs = tokens.compactMap(\.tvID)
+    private func discoverByGenres(_ genres: [GenreToken]) async throws -> [MediaItem] {
+        let movieIDs = genres.compactMap(\.movieID)
+        let tvIDs = genres.compactMap(\.tvID)
         var combined: [MediaItem] = []
 
-        if movieIDs.count == tokens.count {
+        if movieIDs.count == genres.count {
             let response: PagedResponse<MediaItem> = try await client.fetch(
                 .discoverMovies,
                 parameters: [
@@ -292,7 +350,7 @@ struct SearchScreen: View {
             )
             combined += response.results
         }
-        if tvIDs.count == tokens.count {
+        if tvIDs.count == genres.count {
             let response: PagedResponse<MediaItem> = try await client.fetch(
                 .discoverTVShows,
                 parameters: [
@@ -305,14 +363,59 @@ struct SearchScreen: View {
         return combined
     }
 
-    /// Cada token precisa bater em pelo menos um genre_id do item (AND
-    /// entre tokens); pessoas não têm gênero e saem quando há filtro.
-    private func filterByTokens(_ items: [MediaItem], tokens: [GenreToken]) -> [MediaItem] {
-        guard !tokens.isEmpty else { return items }
+    /// Cada gênero precisa bater em pelo menos um genre_id do item (AND
+    /// entre gêneros); pessoas não têm gênero e saem quando há filtro.
+    private func filterByGenres(_ items: [MediaItem], genres: [GenreToken]) -> [MediaItem] {
+        guard !genres.isEmpty else { return items }
         return items.filter { item in
             guard item.mediaType != .person, let genreIds = item.genreIds else { return false }
             let itemGenres = Set(genreIds)
-            return tokens.allSatisfy { !$0.allIDs.isDisjoint(with: itemGenres) }
+            return genres.allSatisfy { !$0.allIDs.isDisjoint(with: itemGenres) }
+        }
+    }
+}
+
+// MARK: - Barra compacta de gêneros
+
+/// Chips de gênero numa faixa horizontal, visível apenas com o campo de
+/// busca em foco (\.isSearching é setado pelo searchable acima). Tocar
+/// fixa o gênero como token; gêneros já fixados somem da barra.
+private struct GenreSuggestionBar: View {
+    @Environment(\.isSearching) private var isSearching
+    @Binding var tokens: [SearchToken]
+
+    private var available: [GenreToken] {
+        genreCatalog.filter { !tokens.contains(.genre($0)) }
+    }
+
+    var body: some View {
+        if isSearching && !available.isEmpty {
+            ScrollView(.horizontal) {
+                GlassEffectContainer(spacing: DSSpacing.xs) {
+                    HStack(spacing: DSSpacing.xs) {
+                        ForEach(available) { genre in
+                            Button {
+                                withAnimation(DSMotion.snappy) {
+                                    tokens.append(.genre(genre))
+                                }
+                            } label: {
+                                genre.label
+                                    .font(.footnote.weight(.medium))
+                                    .lineLimit(1)
+                                    .padding(.vertical, DSSpacing.xs)
+                                    .padding(.horizontal, DSSpacing.md)
+                                    .contentShape(.capsule)
+                            }
+                            .buttonStyle(.plain)
+                            .glassEffect(.regular.interactive(), in: .capsule)
+                        }
+                    }
+                    .padding(.horizontal, DSSpacing.lg)
+                }
+            }
+            .scrollIndicators(.hidden)
+            .padding(.vertical, DSSpacing.sm)
+            .transition(.opacity)
         }
     }
 }
