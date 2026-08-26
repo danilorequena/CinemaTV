@@ -9,10 +9,9 @@ public struct WatchProvidersResponse: Decodable, Sendable {
     public let id: Int
     public let results: [String: RegionProviders]
 
-    /// Provedores da região atual do usuário, com fallback para US.
+    /// Provedores da região efetiva (TMDBRegion), com fallback para US.
     public var currentRegion: RegionProviders? {
-        let region = Locale.current.language.region?.identifier ?? "US"
-        return results[region] ?? results["US"]
+        results[TMDBRegion.current] ?? results["US"]
     }
 }
 

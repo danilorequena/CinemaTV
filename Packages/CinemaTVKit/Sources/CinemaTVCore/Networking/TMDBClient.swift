@@ -65,12 +65,16 @@ public struct TMDBClient: Sendable {
             throw TMDBError.invalidEndpoint
         }
 
+        // Idioma segue o locale do aparelho; região vem do TMDBRegion
+        // (override do usuário ou região do aparelho) — independentes:
+        // trocar a região não deve trocar o idioma das sinopses.
         let language = Locale.current.language.languageCode?.identifier ?? "en"
-        let region = Locale.current.language.region?.identifier ?? "US"
+        let languageRegion = Locale.current.region?.identifier ?? "US"
+        let region = TMDBRegion.current
 
         var items = [
             URLQueryItem(name: "api_key", value: configuration.apiKey),
-            URLQueryItem(name: "language", value: "\(language)-\(region)"),
+            URLQueryItem(name: "language", value: "\(language)-\(languageRegion)"),
             URLQueryItem(name: "region", value: region),
             URLQueryItem(name: "include_adult", value: "false")
         ]
