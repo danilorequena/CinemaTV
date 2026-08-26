@@ -62,7 +62,7 @@ struct TVShowDetailScreen: View {
             }
         }
         .ignoresSafeArea(edges: .top)
-        .scrollEdgeEffectStyle(.soft, for: .top)
+        .scrollEdgeEffectHidden(for: .top)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .tabBar)
         .toolbar {

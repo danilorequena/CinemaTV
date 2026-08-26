@@ -30,6 +30,7 @@ struct WatchlistScreen: View {
     @Environment(\.tmdbClient) private var client
     @Environment(AppRouter.self) private var router
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.mediaZoomNamespace) private var zoomNamespace
     @State private var reviewTarget: MediaItem?
     /// Watched nasce colapsada: o histórico não rouba espaço da fila.
     @State private var expanded: Set<LibrarySection> = [.watching, .wantToWatch]
@@ -96,15 +97,32 @@ struct WatchlistScreen: View {
                 } label: {
                     Label("Settings", systemImage: "gearshape")
                 }
+                .modifier(ZoomSourceModifier(id: Self.settingsZoomSourceID, namespace: zoomNamespace))
             }
         }
         .sheet(isPresented: $showsSettings) {
-            NavigationStack {
-                SettingsScreen(notificationEntries: premiereNotificationEntries)
-            }
+            settingsSheet
         }
         .sheet(item: $reviewTarget) { item in
             ReviewComposerSheet(item: item)
+        }
+    }
+
+    // MARK: - Settings
+
+    private static let settingsZoomSourceID = "settings-gear"
+
+    /// Zoom transition partindo da engrenagem; sem namespace (previews),
+    /// o sheet abre com a apresentação padrão.
+    @ViewBuilder
+    private var settingsSheet: some View {
+        let stack = NavigationStack {
+            SettingsScreen(notificationEntries: premiereNotificationEntries)
+        }
+        if let zoomNamespace {
+            stack.navigationTransition(.zoom(sourceID: Self.settingsZoomSourceID, in: zoomNamespace))
+        } else {
+            stack
         }
     }
 
@@ -337,7 +355,7 @@ struct WatchlistScreen: View {
         .contextMenu {
             premiereRemoveButton(premiere)
         }
-        .swipeActions(edge: .trailing) {
+        .swipeActions(edge: .leading) {
             premiereRemoveButton(premiere)
         }
         .accessibilityElement(children: .combine)
@@ -543,14 +561,14 @@ struct WatchlistScreen: View {
                 Label("Remove", systemImage: "trash")
             }
         }
-        .swipeActions(edge: .trailing) {
+        .swipeActions(edge: .leading) {
             Button(role: .destructive) {
                 removeFromWatchlist(item)
             } label: {
                 Label("Remove", systemImage: "trash")
             }
         }
-        .swipeActions(edge: .leading) {
+        .swipeActions(edge: .trailing) {
             Button {
                 markWatched(item)
             } label: {
@@ -623,10 +641,10 @@ struct WatchlistScreen: View {
         .contextMenu {
             showContextMenu(show)
         }
-        .swipeActions(edge: .trailing) {
+        .swipeActions(edge: .leading) {
             unfollowSwipeButton(show)
         }
-        .swipeActions(edge: .leading) {
+        .swipeActions(edge: .trailing) {
             Button {
                 continueWatching(show)
             } label: {
@@ -729,10 +747,10 @@ struct WatchlistScreen: View {
         .contextMenu {
             showContextMenu(show)
         }
-        .swipeActions(edge: .trailing) {
+        .swipeActions(edge: .leading) {
             unfollowSwipeButton(show)
         }
-        .swipeActions(edge: .leading) {
+        .swipeActions(edge: .trailing) {
             Button {
                 continueWatching(show)
             } label: {
@@ -902,14 +920,14 @@ struct WatchlistScreen: View {
                 Label("Remove", systemImage: "trash")
             }
         }
-        .swipeActions(edge: .trailing) {
+        .swipeActions(edge: .leading) {
             Button(role: .destructive) {
                 try? store.unmarkWatched(movieID: item.id)
             } label: {
                 Label("Remove", systemImage: "trash")
             }
         }
-        .swipeActions(edge: .leading) {
+        .swipeActions(edge: .trailing) {
             Button {
                 reviewTarget = item
             } label: {
@@ -957,7 +975,7 @@ struct WatchlistScreen: View {
                 Label("Unfollow", systemImage: "minus.circle")
             }
         }
-        .swipeActions(edge: .trailing) {
+        .swipeActions(edge: .leading) {
             unfollowSwipeButton(show)
         }
     }

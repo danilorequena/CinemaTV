@@ -42,6 +42,9 @@
 		FF21ACCC300A37C5009764B1 /* AppShortcuts.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = FF21ACC9300A37C5009764B1 /* AppShortcuts.xcstrings */; };
 		FF21ACCE300A37C5009764B1 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = FF21ACCD300A37C5009764B1 /* InfoPlist.xcstrings */; };
 		FF21ACD3300B8C4F009764B1 /* DiscoverScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF21ACD2300B8C4F009764B1 /* DiscoverScreen.swift */; };
+		FF2C02EB303B42AD0019AE7F /* MailComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2C02EA303B42AD0019AE7F /* MailComposeView.swift */; };
+		FF2C02ED303B42B00019AE7F /* ShareSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2C02EC303B42B00019AE7F /* ShareSheetView.swift */; };
+		FF2C02EF303B42CF0019AE7F /* FeatureRequestScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2C02EE303B42CF0019AE7F /* FeatureRequestScreen.swift */; };
 		FF2CF8FE3036FBFD0019AE7F /* LibraryRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2CF8FD3036FBFD0019AE7F /* LibraryRefresher.swift */; };
 		FF2CF9003036FC050019AE7F /* PremiereNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2CF8FF3036FC050019AE7F /* PremiereNotifications.swift */; };
 		FF2CF9033037C6500019AE7F /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2CF9023037C6500019AE7F /* SettingsScreen.swift */; };
@@ -148,6 +151,9 @@
 		FF21ACCA300A37C5009764B1 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		FF21ACCD300A37C5009764B1 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		FF21ACD2300B8C4F009764B1 /* DiscoverScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverScreen.swift; sourceTree = "<group>"; };
+		FF2C02EA303B42AD0019AE7F /* MailComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailComposeView.swift; sourceTree = "<group>"; };
+		FF2C02EC303B42B00019AE7F /* ShareSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheetView.swift; sourceTree = "<group>"; };
+		FF2C02EE303B42CF0019AE7F /* FeatureRequestScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureRequestScreen.swift; sourceTree = "<group>"; };
 		FF2CF8FD3036FBFD0019AE7F /* LibraryRefresher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRefresher.swift; sourceTree = "<group>"; };
 		FF2CF8FF3036FC050019AE7F /* PremiereNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiereNotifications.swift; sourceTree = "<group>"; };
 		FF2CF9023037C6500019AE7F /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
@@ -318,6 +324,8 @@
 				FF21ACAC3008DC64009764B1 /* YouTubePlayerView.swift */,
 				FF21ACC530097C7A009764B1 /* MotionTiltManager.swift */,
 				FF21ACC730097C82009764B1 /* Shaders.metal */,
+				FF2C02EA303B42AD0019AE7F /* MailComposeView.swift */,
+				FF2C02EC303B42B00019AE7F /* ShareSheetView.swift */,
 			);
 			path = Platform;
 			sourceTree = "<group>";
@@ -422,6 +430,7 @@
 			isa = PBXGroup;
 			children = (
 				FF2CF9023037C6500019AE7F /* SettingsScreen.swift */,
+				FF2C02EE303B42CF0019AE7F /* FeatureRequestScreen.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -729,6 +738,7 @@
 				FF21ACD3300B8C4F009764B1 /* DiscoverScreen.swift in Sources */,
 				FF21AC8D3008DBB8009764B1 /* AppShellView.swift in Sources */,
 				FF21ACAD3008DC64009764B1 /* YouTubePlayerView.swift in Sources */,
+				FF2C02EB303B42AD0019AE7F /* MailComposeView.swift in Sources */,
 				FFCA558A3030907A0025941D /* TVHomeModel.swift in Sources */,
 				FF21ACBA30092B28009764B1 /* WatchlistIntents.swift in Sources */,
 				FF21AC803008DB96009764B1 /* Route.swift in Sources */,
@@ -742,6 +752,7 @@
 				FF2E8AEF30367B7100CD1F16 /* TVShowCategory.swift in Sources */,
 				FF21ACC630097C7A009764B1 /* MotionTiltManager.swift in Sources */,
 				FF2E8AF73036EAA100CD1F16 /* VisualIntelligenceQuery.swift in Sources */,
+				FF2C02EF303B42CF0019AE7F /* FeatureRequestScreen.swift in Sources */,
 				FFCA558330308C550025941D /* TVShowDetailScreen.swift in Sources */,
 				FF21ACBD30092B2F009764B1 /* OpenIntents.swift in Sources */,
 				FF9F137C3031183A004819FD /* EpisodeDetailScreen.swift in Sources */,
@@ -757,6 +768,7 @@
 				FF21AC833008DB9D009764B1 /* DeepLink.swift in Sources */,
 				FFCA558830308C7A0025941D /* SeasonScreen.swift in Sources */,
 				FF21ACB43008DCA4009764B1 /* PersonScreen.swift in Sources */,
+				FF2C02ED303B42B00019AE7F /* ShareSheetView.swift in Sources */,
 				FF21AC863008DBA0009764B1 /* AppRouter.swift in Sources */,
 				FF21AC9B3008DC15009764B1 /* HomeScreen.swift in Sources */,
 				FF21ACA83008DC59009764B1 /* MovieDetailScreen.swift in Sources */,

@@ -74,7 +74,7 @@ struct MovieDetailScreen: View {
             }
         }
         .ignoresSafeArea(edges: .top)
-        .scrollEdgeEffectStyle(.soft, for: .top)
+        .scrollEdgeEffectHidden(for: .top)
         .navigationBarTitleDisplayMode(.inline)
         // Detalhe é contexto de foco: some a tab bar e as ações da watchlist
         // viram itens do bottom bar (glass do sistema de graça).
