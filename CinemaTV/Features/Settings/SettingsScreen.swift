@@ -50,9 +50,27 @@ struct SettingsScreen: View {
                 Text("Affects release dates, what's in theaters, and where to watch.")
             }
 
+            AppleIntelligenceSection()
+
+            Section {
+                NavigationLink("What's New") {
+                    ChangelogScreen()
+                }
+                NavigationLink("Coming Soon") {
+                    BacklogScreen()
+                }
+            } header: {
+                Text("Updates")
+            } footer: {
+                Text("See what shipped recently and what's next.")
+            }
+
             Section {
                 NavigationLink("Request a Feature") {
                     FeatureRequestScreen()
+                }
+                NavigationLink("My Requests") {
+                    MyRequestsScreen()
                 }
             } header: {
                 Text("Feedback")

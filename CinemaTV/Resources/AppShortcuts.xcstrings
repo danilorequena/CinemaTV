@@ -22,6 +22,29 @@
         }
       }
     },
+    "Follow a show in ${applicationName}" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
+              "Follow a show in ${applicationName}",
+              "Track a show in ${applicationName}"
+            ]
+          }
+        },
+        "pt-BR" : {
+          "stringSet" : {
+            "state" : "machine_translated",
+            "values" : [
+              "Seguir uma série no ${applicationName}",
+              "Acompanhar uma série no ${applicationName}"
+            ]
+          }
+        }
+      }
+    },
     "Mark a movie as watched in ${applicationName}" : {
       "localizations" : {
         "en" : {
@@ -59,6 +82,28 @@
             "values" : [
               "Abrir minha lista do ${applicationName}",
               "Mostrar minha lista do ${applicationName}"
+            ]
+          }
+        }
+      }
+    },
+    "Search ${applicationName}" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
+              "Search ${applicationName}"
+            ]
+          }
+        },
+        "pt-BR" : {
+          "stringSet" : {
+            "state" : "machine_translated",
+            "values" : [
+              "Buscar no ${applicationName}",
+              "Pesquisar no ${applicationName}"
             ]
           }
         }

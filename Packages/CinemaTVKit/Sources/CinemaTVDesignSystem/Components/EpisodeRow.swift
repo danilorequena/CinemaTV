@@ -41,6 +41,9 @@ public struct EpisodeRow: View {
     public var body: some View {
         let revealScale = DSMotion.ratingRevealScale
         let maskScale = reduceMotion ? revealScale : (isWatched ? revealScale : 0.01)
+        // Episódio inédito não pode ser marcado; desmarcar segue liberado
+        // para corrigir checks antigos.
+        let canToggle = isToggleEnabled && (isWatched || episode.hasAired)
 
         HStack(alignment: .top, spacing: DSSpacing.md) {
             // Em tamanhos AX o still (decorativo) esmagava a coluna de texto.
@@ -75,7 +78,9 @@ public struct EpisodeRow: View {
 
             Button(action: toggleWatched) {
                 ZStack {
-                    Image(systemName: "circle")
+                    // Pontilhado = inédito/inerte: esmaecer só a opacidade
+                    // sumia no dark mode.
+                    Image(systemName: isWatched || episode.hasAired ? "circle" : "circle.dotted")
                         .foregroundStyle(.tertiary)
 
                     Image(systemName: "checkmark.circle.fill")
@@ -94,6 +99,7 @@ public struct EpisodeRow: View {
                 .font(.title2)
                 .frame(width: 44, height: 44)
                 .contentShape(.circle)
+                .opacity(isWatched || episode.hasAired ? 1 : 0.7)
                 .symbolEffect(
                     .bounce.up.wholeSymbol,
                     options: .nonRepeating,
@@ -102,23 +108,29 @@ public struct EpisodeRow: View {
                 .symbolEffectsRemoved(reduceMotion)
             }
             .buttonStyle(.plain)
-            .disabled(!isToggleEnabled)
+            .disabled(!canToggle)
             .sensoryFeedback(.selection, trigger: isWatched)
             .onChange(of: isWatched) { previousValue, currentValue in
                 guard currentValue, !previousValue, !reduceMotion else { return }
                 bounceTrigger += 1
             }
             .accessibilityLabel(Text("Mark as Watched", bundle: .module))
-            .accessibilityValue(
-                isWatched
-                    ? Text("Watched", bundle: .module)
-                    : Text("Unwatched", bundle: .module)
-            )
+            .accessibilityValue(accessibilityValueText)
             // O símbolo checkmark herda o trait Selected e o VoiceOver
             // anunciaria "selecionado" duas vezes.
             .accessibilityRemoveTraits(.isSelected)
         }
         .contentShape(.rect)
+    }
+
+    private var accessibilityValueText: Text {
+        if isWatched {
+            Text("Watched", bundle: .module)
+        } else if episode.hasAired {
+            Text("Unwatched", bundle: .module)
+        } else {
+            Text("Not aired yet", bundle: .module)
+        }
     }
 
     private var selectionAnimation: Animation {
@@ -191,6 +203,58 @@ public struct EpisodeRow: View {
             isWatched: false,
             onToggle: {}
         )
+        EpisodeRow(
+            episode: EpisodeSummary(
+                id: 3,
+                name: "Unaired Episode",
+                overview: nil,
+                episodeNumber: 3,
+                seasonNumber: 1,
+                airDate: "2999-12-31",
+                runtime: nil,
+                stillPath: nil,
+                voteAverage: nil
+            ),
+            isWatched: false,
+            onToggle: {}
+        )
     }
     .padding()
+}
+
+#Preview("Dark", traits: .sizeThatFitsLayout) {
+    VStack(spacing: DSSpacing.lg) {
+        EpisodeRow(
+            episode: EpisodeSummary(
+                id: 2,
+                name: "Aired, Unwatched",
+                overview: nil,
+                episodeNumber: 2,
+                seasonNumber: 1,
+                airDate: "2011-04-24",
+                runtime: nil,
+                stillPath: nil,
+                voteAverage: nil
+            ),
+            isWatched: false,
+            onToggle: {}
+        )
+        EpisodeRow(
+            episode: EpisodeSummary(
+                id: 3,
+                name: "Unaired Episode",
+                overview: nil,
+                episodeNumber: 3,
+                seasonNumber: 1,
+                airDate: "2999-12-31",
+                runtime: nil,
+                stillPath: nil,
+                voteAverage: nil
+            ),
+            isWatched: false,
+            onToggle: {}
+        )
+    }
+    .padding()
+    .preferredColorScheme(.dark)
 }

@@ -508,6 +508,9 @@ struct WatchlistScreen: View {
     private func queueMovieCard(_ movie: ToWatchModel) -> some View {
         let item = movie.mediaItem
         let selection = MediaSelection(item: item, scope: "watchlist")
+        // Filme ainda sem estreia não expõe "marcar como assistido"; o
+        // store também recusa (defesa em profundidade).
+        let isReleased = ReleaseDates.hasPassed(movie.releaseDate)
 
         return NavigationLink(value: selection) {
             LibraryRow(zoomSourceID: selection.sourceID) {
@@ -541,7 +544,12 @@ struct WatchlistScreen: View {
                             .glassEffect(.regular.interactive(), in: .circle)
                     }
                     .buttonStyle(.plain)
+                    // Filme sem estreia mantém o check no lugar, só que
+                    // inerte e mais esmaecido.
+                    .disabled(!isReleased)
+                    .opacity(isReleased ? 1 : 0.55)
                     .accessibilityLabel(Text("Mark as Watched"))
+                    .accessibilityValue(isReleased ? Text("Unwatched") : Text("Not released yet"))
                     // O símbolo checkmark herda o trait Selected; sem remover,
                     // o VoiceOver anuncia "Selected" antes do filme ser visto.
                     .accessibilityRemoveTraits(.isSelected)
@@ -550,10 +558,12 @@ struct WatchlistScreen: View {
         }
         .buttonStyle(.plain)
         .contextMenu {
-            Button {
-                markWatched(item)
-            } label: {
-                Label("Mark as Watched", systemImage: "checkmark.circle")
+            if isReleased {
+                Button {
+                    markWatched(item)
+                } label: {
+                    Label("Mark as Watched", systemImage: "checkmark.circle")
+                }
             }
             Button(role: .destructive) {
                 removeFromWatchlist(item)
@@ -569,12 +579,14 @@ struct WatchlistScreen: View {
             }
         }
         .swipeActions(edge: .trailing) {
-            Button {
-                markWatched(item)
-            } label: {
-                Label("Mark as Watched", systemImage: "checkmark.circle")
+            if isReleased {
+                Button {
+                    markWatched(item)
+                } label: {
+                    Label("Mark as Watched", systemImage: "checkmark.circle")
+                }
+                .tint(DSColor.accent)
             }
-            .tint(DSColor.accent)
         }
     }
 

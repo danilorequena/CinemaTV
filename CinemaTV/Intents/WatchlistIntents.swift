@@ -17,16 +17,24 @@ struct AddMovieToWatchlistIntent: AppIntent {
     @Parameter(title: "Movie")
     var movie: MovieEntity
 
+    init() {}
+    init(movie: MovieEntity) {
+        self.movie = movie
+    }
+
     static var parameterSummary: some ParameterSummary {
         Summary("Add \(\.$movie) to watchlist")
     }
 
     @MainActor
-    func perform() async throws -> some IntentResult & ProvidesDialog {
+    func perform() async throws -> some IntentResult & ProvidesDialog & ShowsSnippetIntent {
         let store = WatchlistStore(container: AppContainer.shared)
         try store.addToWatchlist(movie.mediaItem)
         SpotlightIndexer.index(movie)
-        return .result(dialog: "Added \(movie.title) to your watchlist.")
+        return .result(
+            dialog: "Added \(movie.title) to your watchlist.",
+            snippetIntent: MovieCardSnippetIntent(movie: movie)
+        )
     }
 }
 
@@ -37,15 +45,31 @@ struct MarkMovieWatchedIntent: AppIntent {
     @Parameter(title: "Movie")
     var movie: MovieEntity
 
+    init() {}
+    init(movie: MovieEntity) {
+        self.movie = movie
+    }
+
     static var parameterSummary: some ParameterSummary {
         Summary("Mark \(\.$movie) as watched")
     }
 
     @MainActor
-    func perform() async throws -> some IntentResult & ProvidesDialog {
+    func perform() async throws -> some IntentResult & ProvidesDialog & ShowsSnippetIntent {
+        // Filme ainda sem estreia não pode ser marcado (mesma regra da UI;
+        // o store também recusa).
+        guard movie.mediaItem.isReleased else {
+            return .result(
+                dialog: "\(movie.title) hasn't been released yet, so it can't be marked as watched.",
+                snippetIntent: MovieCardSnippetIntent(movie: movie)
+            )
+        }
         let store = WatchlistStore(container: AppContainer.shared)
         try store.markWatched(movie.mediaItem)
-        return .result(dialog: "Marked \(movie.title) as watched.")
+        return .result(
+            dialog: "Marked \(movie.title) as watched.",
+            snippetIntent: MovieCardSnippetIntent(movie: movie)
+        )
     }
 }
 

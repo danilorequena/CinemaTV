@@ -9,7 +9,7 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
 
 # Thumbnails
 ._*
@@ -115,3 +115,7 @@ fastlane/test_output
 iOSInjectionProject/
 
 # End of https://www.toptal.com/developers/gitignore/api/swift,macos
+
+# Token do GitHub Issues (fine-grained PAT) — NUNCA commitar: o repo é
+# público e o secret scanning do GitHub revoga o token automaticamente.
+GitHub.plist

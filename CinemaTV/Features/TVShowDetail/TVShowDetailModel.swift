@@ -13,6 +13,8 @@ final class TVShowDetailModel {
     struct Details: Sendable {
         let show: TVShowDetails
         let cast: [CastMember]
+        /// Crew do show (compositores para a busca de trilha sonora).
+        let crew: [CrewMember]
         let videos: [Video]
         let providers: RegionProviders?
         let recommendations: [MediaItem]
@@ -34,6 +36,7 @@ final class TVShowDetailModel {
                 Details(
                     show: try await show,
                     cast: try await credits.cast,
+                    crew: try await credits.crew ?? [],
                     videos: try await videos.results.filter(\.isYouTubeTrailer),
                     providers: try await providers.currentRegion,
                     recommendations: try await recommendations.results

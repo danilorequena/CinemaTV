@@ -74,6 +74,9 @@ public final class WatchlistStore {
 
     /// Marca como assistido, movendo de "quero assistir" quando presente.
     public func markWatched(_ item: MediaItem) throws {
+        // Filme ainda não lançado não pode ser marcado como assistido (a UI
+        // desabilita a ação; aqui cobre intents/swipes).
+        guard item.isReleased else { return }
         if let pending = try firstToWatch(movieID: item.id) {
             context.delete(pending)
         }

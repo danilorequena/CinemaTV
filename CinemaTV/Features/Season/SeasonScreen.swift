@@ -207,6 +207,11 @@ struct SeasonScreen: View {
     /// scrubber compacto centralizado e "próximo não assistido" à direita.
     private func seasonToolbar(_ details: SeasonDetails) -> some View {
         let progress = progress(for: details)
+        // Só episódios já exibidos são marcáveis; sem nenhum, as ações de
+        // marcar ficam desabilitadas (temporada inédita ou toda assistida).
+        let hasMarkableEpisode = details.episodes.contains {
+            !watchedNumbers.contains($0.episodeNumber) && $0.hasAired
+        }
 
         return GlassEffectContainer(spacing: DSSpacing.md) {
             HStack(spacing: DSSpacing.md) {
@@ -224,6 +229,8 @@ struct SeasonScreen: View {
                         .glassEffect(.regular.interactive(), in: .circle)
                 }
                 .buttonStyle(.plain)
+                .disabled(!progress.isComplete && !hasMarkableEpisode)
+                .opacity(!progress.isComplete && !hasMarkableEpisode ? 0.4 : 1)
                 .accessibilityLabel(
                     progress.isComplete ? Text("Unmark All") : Text("Mark Season Watched")
                 )
@@ -262,8 +269,8 @@ struct SeasonScreen: View {
                         .glassEffect(.regular.interactive(), in: .circle)
                 }
                 .buttonStyle(.plain)
-                .disabled(progress.isComplete && !hasNextSeason)
-                .opacity(progress.isComplete && !hasNextSeason ? 0.4 : 1)
+                .disabled(!goesToNextSeason && !hasMarkableEpisode)
+                .opacity(!goesToNextSeason && !hasMarkableEpisode ? 0.4 : 1)
                 .accessibilityLabel(
                     goesToNextSeason ? Text("Next Season") : Text("Mark Next Episode")
                 )
@@ -276,7 +283,10 @@ struct SeasonScreen: View {
     /// Marca o primeiro episódio ainda não assistido e rola até o novo
     /// próximo — cada tap avança um episódio no acompanhamento.
     private func markNextUnwatched(in details: SeasonDetails) {
-        guard let next = details.episodes.first(where: { !watchedNumbers.contains($0.episodeNumber) }) else {
+        // Pula episódios inéditos: só o próximo já exibido é marcável.
+        guard let next = details.episodes.first(where: {
+            !watchedNumbers.contains($0.episodeNumber) && $0.hasAired
+        }) else {
             return
         }
         do {

@@ -1,0 +1,157 @@
+{
+  "features" : [
+    "refractivity",
+    "specular-location"
+  ],
+  "fill" : {
+    "solid" : "display-p3:0.95686,0.94902,0.91765,1.00000"
+  },
+  "groups" : [
+    {
+      "blur-material" : 0,
+      "layers" : [
+        {
+          "fill" : {
+            "solid" : "srgb:0.14118,0.14118,0.14118,1.00000"
+          },
+          "glass" : false,
+          "image-name" : "CinemaTV_1B_03_Details 3.svg",
+          "name" : "CinemaTV_1B_03_Details"
+        }
+      ],
+      "lighting" : "combined",
+      "name" : "Details",
+      "position" : {
+        "scale" : 1.08,
+        "translation-in-points" : [
+          0,
+          0
+        ]
+      },
+      "refractivity-specializations" : [
+        {
+          "value" : {
+            "depth" : 0.04,
+            "enabled" : true,
+            "strength" : 0.08
+          }
+        },
+        {
+          "appearance" : "tinted",
+          "value" : {
+            "depth" : 0.04,
+            "enabled" : false,
+            "strength" : 0.08
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.08
+      },
+      "specular" : "inside",
+      "translucency-specializations" : [
+        {
+          "value" : {
+            "enabled" : true,
+            "value" : 0.04
+          }
+        },
+        {
+          "appearance" : "tinted",
+          "value" : {
+            "enabled" : false,
+            "value" : 0.04
+          }
+        }
+      ]
+    },
+    {
+      "blur-material" : null,
+      "layers" : [
+        {
+          "fill-specializations" : [
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "solid" : "srgb:0.35294,0.35294,0.35294,1.00000"
+              }
+            }
+          ],
+          "image-name" : "CinemaTV_1B_02_Screen.svg",
+          "name" : "CinemaTV_1B_02_Screen"
+        }
+      ],
+      "lighting" : "combined",
+      "name" : "Screen",
+      "position" : {
+        "scale" : 1.08,
+        "translation-in-points" : [
+          0,
+          0
+        ]
+      },
+      "refractivity" : {
+        "depth" : 0.06,
+        "enabled" : true,
+        "strength" : 0.12
+      },
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.1
+      },
+      "specular" : "inside",
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.03
+      }
+    },
+    {
+      "blend-mode" : "normal",
+      "blur-material" : null,
+      "layers" : [
+        {
+          "fill-specializations" : [
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "solid" : "srgb:0.94902,0.94902,0.94902,1.00000"
+              }
+            }
+          ],
+          "image-name" : "CinemaTV_1B_01_Body_Clapper.svg",
+          "name" : "CinemaTV_1B_01_Body_Clapper"
+        }
+      ],
+      "lighting" : "combined",
+      "name" : "Body + Clapper",
+      "position" : {
+        "scale" : 1.08,
+        "translation-in-points" : [
+          0,
+          0
+        ]
+      },
+      "refractivity" : {
+        "depth" : 0.03,
+        "enabled" : true,
+        "strength" : 0.05
+      },
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.06
+      },
+      "specular" : "inside",
+      "translucency" : {
+        "enabled" : false,
+        "value" : 0
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}

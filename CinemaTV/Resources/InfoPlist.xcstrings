@@ -24,6 +24,18 @@
           }
         }
       }
+    },
+    "NSAppleMusicUsageDescription" : {
+      "comment" : "Privacy - Media Library Usage Description",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "CinemaTV finds and plays the soundtrack for movies and shows you're viewing."
+          }
+        }
+      }
     }
   },
   "version" : "1.3"

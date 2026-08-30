@@ -57,6 +57,9 @@ public struct GlassSegmentedPicker<Value: Hashable>: View {
         } label: {
             segment.label
                 .font(.subheadline.weight(.semibold))
+                // Pill não hifeniza: encolhe um pouco antes de quebrar linha.
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
                 .foregroundStyle(isSelected ? AnyShapeStyle(.primary) : AnyShapeStyle(.secondary))
                 .padding(.vertical, DSSpacing.sm)
                 .padding(.horizontal, DSSpacing.lg)

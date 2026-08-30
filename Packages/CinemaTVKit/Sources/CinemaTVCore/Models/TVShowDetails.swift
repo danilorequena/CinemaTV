@@ -24,6 +24,9 @@ public struct TVShowDetails: Identifiable, Hashable, Sendable, Decodable {
 
     public let id: Int
     public let name: String
+    /// Nome original (TMDB `original_name`) — útil para buscas em catálogos
+    /// externos quando o nome exibido está localizado.
+    public let originalName: String?
     public let overview: String?
     public let tagline: String?
     public let posterPath: String?
@@ -44,6 +47,7 @@ public struct TVShowDetails: Identifiable, Hashable, Sendable, Decodable {
     public init(
         id: Int,
         name: String,
+        originalName: String? = nil,
         overview: String? = nil,
         tagline: String? = nil,
         posterPath: String? = nil,
@@ -62,6 +66,7 @@ public struct TVShowDetails: Identifiable, Hashable, Sendable, Decodable {
     ) {
         self.id = id
         self.name = name
+        self.originalName = originalName
         self.overview = overview
         self.tagline = tagline
         self.posterPath = posterPath
@@ -81,6 +86,12 @@ public struct TVShowDetails: Identifiable, Hashable, Sendable, Decodable {
 
     public var posterURL: URL? { TMDBImage.url(path: posterPath, size: .poster) }
     public var backdropURL: URL? { TMDBImage.url(path: backdropPath, size: .backdrop) }
+
+    /// Ano da estreia ("yyyy-MM-dd" → Int), quando conhecido.
+    public var firstAirYear: Int? {
+        guard let firstAirDate, firstAirDate.count >= 4 else { return nil }
+        return Int(firstAirDate.prefix(4))
+    }
 
     public var mediaItem: MediaItem {
         MediaItem(

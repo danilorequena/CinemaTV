@@ -43,5 +43,22 @@ struct CinemaTVShortcuts: AppShortcutsProvider {
             shortTitle: "Mark Watched",
             systemImageName: "checkmark.circle"
         )
+        AppShortcut(
+            intent: FollowShowIntent(),
+            phrases: [
+                "Follow a show in \(.applicationName)",
+                "Track a show in \(.applicationName)"
+            ],
+            shortTitle: "Follow Show",
+            systemImageName: "tv"
+        )
+        AppShortcut(
+            intent: ShowSearchResultsIntent(),
+            phrases: [
+                "Search \(.applicationName)"
+            ],
+            shortTitle: "Search",
+            systemImageName: "magnifyingglass"
+        )
     }
 }

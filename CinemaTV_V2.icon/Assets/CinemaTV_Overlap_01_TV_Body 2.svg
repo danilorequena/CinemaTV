@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <title>CinemaTV — complete TV body and antennas</title>
+  <g id="TV_Body" fill="#DFA51C">
+    <path d="M607 306 L458 160 M607 306 L760 160"
+          fill="none" stroke="#DFA51C" stroke-width="30"
+          stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="300" y="298" width="562" height="516" rx="90"/>
+  </g>
+</svg>

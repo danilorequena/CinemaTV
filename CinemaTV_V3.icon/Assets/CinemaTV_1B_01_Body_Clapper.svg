@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <title>CinemaTV 1B — Body and Clapper</title>
+  <defs>
+    <mask id="body-with-hinge-cutout" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <rect width="1024" height="1024" fill="white"/>
+      <circle cx="232" cy="367" r="22" fill="black"/>
+    </mask>
+  </defs>
+  <g fill="#DFA51C" mask="url(#body-with-hinge-cutout)">
+    <rect x="190" y="348" width="650" height="512" rx="76"/>
+    <rect x="252" y="821" width="76" height="69" rx="14"/>
+    <rect x="702" y="821" width="76" height="69" rx="14"/>
+    <rect x="190" y="280" width="92" height="172" rx="46"/>
+    <g transform="rotate(-13 224 338)">
+      <rect x="210" y="248" width="642" height="90" rx="30"/>
+    </g>
+  </g>
+</svg>

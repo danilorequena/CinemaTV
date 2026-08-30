@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <title>CinemaTV 1B — Clapper Stripes and Controls</title>
+  <defs>
+    <mask id="upper-control-slot" maskUnits="userSpaceOnUse" x="720" y="605" width="100" height="100">
+      <circle cx="770" cy="655" r="31" fill="white"/>
+      <rect x="765" y="618" width="10" height="74" rx="5" fill="black" transform="rotate(45 770 655)"/>
+    </mask>
+    <mask id="lower-control-slot" maskUnits="userSpaceOnUse" x="720" y="690" width="100" height="100">
+      <circle cx="770" cy="740" r="31" fill="white"/>
+      <rect x="765" y="703" width="10" height="74" rx="5" fill="black" transform="rotate(45 770 740)"/>
+    </mask>
+  </defs>
+  <g fill="#242424">
+    <path d="M248.58 239.96L338.22 219.26L327.28 314.16L237.64 334.85Z"/>
+    <path d="M394.73 206.22L484.37 185.52L473.44 280.41L383.80 301.11Z"/>
+    <path d="M540.89 172.47L630.53 151.78L619.59 246.67L529.95 267.37Z"/>
+    <path d="M687.04 138.73L776.68 118.04L765.75 212.93L676.11 233.62Z"/>
+    <path d="M805.20 117.53A30 30 0 0 1 822.41 138.27L829.16 167.50A30 30 0 0 1 806.67 203.48L794.98 206.18Z"/>
+    <path d="M310 348H395L344 421H259Z"/>
+    <path d="M466 348H551L500 421H415Z"/>
+    <path d="M622 348H707L656 421H571Z"/>
+    <path d="M777.1938 349.154A76 76 0 0 1 830.5482 387.2938L807 421H727Z"/>
+    <circle cx="770" cy="655" r="31" mask="url(#upper-control-slot)"/>
+    <circle cx="770" cy="740" r="31" mask="url(#lower-control-slot)"/>
+  </g>
+</svg>

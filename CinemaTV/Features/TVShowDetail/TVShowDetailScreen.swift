@@ -15,6 +15,9 @@ import CinemaTVDesignSystem
 
 struct TVShowDetailScreen: View {
     @Environment(\.tmdbClient) private var client
+    @Environment(\.agentEngine) private var agentEngine
+    @Environment(\.appleMusicCatalog) private var musicCatalog
+    @Environment(\.openURL) private var openURL
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(AppRouter.self) private var router
@@ -22,6 +25,8 @@ struct TVShowDetailScreen: View {
     // acessibilidade.
     @ScaledMetric(relativeTo: .caption) private var gaugeSize: CGFloat = 48
     @State private var model = TVShowDetailModel()
+    @State private var soundtrackModel = SoundtrackModel()
+    @State private var soundtrackPlayer = SoundtrackPlayerModel()
     @State private var isFollowing = false
     @State private var seasonProgress: [Int: WatchProgress] = [:]
     @State private var presentedTrailer: Video?
@@ -99,6 +104,27 @@ struct TVShowDetailScreen: View {
             refreshTrackingState()
             await model.load(client: client, showID: showID)
             reconcileAfterLoad()
+            // Trilha sonora depois do essencial: falha some em silêncio.
+            // determineMode por último: só afeta badges/botão e não pode
+            // atrasar a seção.
+            if case .loaded(let details) = model.state {
+                await soundtrackModel.load(
+                    catalog: musicCatalog,
+                    agent: agentEngine,
+                    query: SoundtrackQuery(
+                        kind: .tv,
+                        tmdbID: showID,
+                        title: details.show.name,
+                        originalTitle: details.show.originalName,
+                        releaseYear: details.show.firstAirYear,
+                        composers: SoundtrackFinder.composers(in: details.crew)
+                    )
+                )
+                await soundtrackPlayer.determineMode()
+            }
+        }
+        .onDisappear {
+            soundtrackPlayer.stop()
         }
         // Ao voltar da tela de temporada, o progresso das rails muda.
         .onAppear { refreshTrackingState() }
@@ -217,6 +243,25 @@ struct TVShowDetailScreen: View {
                 TrailerSection(videos: details.videos) { trailer in
                     presentedTrailer = trailer
                 }
+            }
+
+            if case .loaded(let soundtrack) = soundtrackModel.state {
+                SoundtrackSection(
+                    album: soundtrack.album.candidate,
+                    about: soundtrack.about,
+                    tracks: soundtrack.album.tracks,
+                    mode: soundtrackPlayer.mode,
+                    nowPlayingTrackID: soundtrackPlayer.nowPlayingTrackID,
+                    isPlaying: soundtrackPlayer.isPlaying,
+                    elapsed: soundtrackPlayer.elapsed,
+                    playbackDuration: soundtrackPlayer.playbackDuration,
+                    onPlayTrack: { track in
+                        Task { await soundtrackPlayer.togglePlay(track: track, in: soundtrack.album) }
+                    },
+                    onOpenInAppleMusic: {
+                        if let url = soundtrack.album.candidate.url { openURL(url) }
+                    }
+                )
             }
 
             if !details.cast.isEmpty {

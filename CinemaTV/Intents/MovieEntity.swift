@@ -58,9 +58,7 @@ struct MovieEntity: AppEntity, IndexedEntity {
 }
 
 struct MovieQuery: IndexedEntityQuery, EntityStringQuery {
-    private var client: TMDBClient {
-        TMDBClient(configuration: (try? .fromBundle(.main)) ?? TMDBConfiguration(apiKey: ""))
-    }
+    private var client: TMDBClient { IntentSupport.makeTMDBClient() }
 
     func entities(for identifiers: [Int]) async throws -> [MovieEntity] {
         try await withThrowingTaskGroup(of: MovieEntity.self) { group in

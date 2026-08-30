@@ -200,6 +200,46 @@ import Testing
         #expect(store.showProgress(showID: 1399) == WatchProgress(watched: 0, total: 5))
     }
 
+    @Test func unairedEpisodeCannotBeMarked() throws {
+        try store.follow(gameOfThrones)
+        let unaired = EpisodeSummary(
+            id: 103,
+            name: "S1E3",
+            overview: nil,
+            episodeNumber: 3,
+            seasonNumber: 1,
+            airDate: "2999-12-31"
+        )
+        try store.markEpisodeWatched(unaired, showID: 1399)
+
+        #expect(!store.isEpisodeWatched(showID: 1399, seasonNumber: 1, episodeNumber: 3))
+    }
+
+    @Test func markSeasonSkipsUnairedEpisodes() throws {
+        try store.follow(gameOfThrones)
+        let details = SeasonDetails(
+            id: "season-1",
+            name: "Season 1",
+            overview: nil,
+            seasonNumber: 1,
+            episodes: [
+                episode(1),
+                episode(2),
+                EpisodeSummary(
+                    id: 103,
+                    name: "S1E3",
+                    overview: nil,
+                    episodeNumber: 3,
+                    seasonNumber: 1,
+                    airDate: "2999-12-31"
+                )
+            ]
+        )
+        try store.markSeasonWatched(details, showID: 1399)
+
+        #expect(store.watchedEpisodeNumbers(showID: 1399, seasonNumber: 1) == [1, 2])
+    }
+
     @Test func upNextAdvancesAndRegresses() throws {
         try store.follow(gameOfThrones)
 

@@ -12,6 +12,8 @@ import CinemaTVCore
 // OpenIntent (e não AppIntent puro): é o que torna os resultados do Visual
 // Intelligence abríveis. O perform customizado navega via router — o default
 // só traria o app pra frente. O parâmetro precisa se chamar `target`.
+// O schema .system.open expõe o mesmo intent à Apple Intelligence/Siri.
+@AppIntent(schema: .system.open)
 struct OpenMovieIntent: OpenIntent {
     static let title: LocalizedStringResource = "Open Movie"
     static let description = IntentDescription("Opens a movie's detail page in CinemaTV.")
@@ -22,6 +24,11 @@ struct OpenMovieIntent: OpenIntent {
 
     @Dependency
     private var router: AppRouter
+
+    init() {}
+    init(target: MovieEntity) {
+        self.target = target
+    }
 
     static var parameterSummary: some ParameterSummary {
         Summary("Open \(\.$target)")
@@ -34,6 +41,7 @@ struct OpenMovieIntent: OpenIntent {
     }
 }
 
+@AppIntent(schema: .system.open)
 struct OpenTVShowIntent: OpenIntent {
     static let title: LocalizedStringResource = "Open TV Show"
     static let description = IntentDescription("Opens a TV show's detail page in CinemaTV.")
@@ -44,6 +52,11 @@ struct OpenTVShowIntent: OpenIntent {
 
     @Dependency
     private var router: AppRouter
+
+    init() {}
+    init(target: TVShowEntity) {
+        self.target = target
+    }
 
     static var parameterSummary: some ParameterSummary {
         Summary("Open \(\.$target)")
@@ -82,9 +95,19 @@ struct SearchMoviesIntent: AppIntent {
         Summary("Search movies for \(\.$query)")
     }
 
-    func perform() async throws -> some IntentResult & ReturnsValue<[MovieEntity]> {
-        let client = TMDBClient(configuration: (try? .fromBundle(.main)) ?? TMDBConfiguration(apiKey: ""))
+    // A resposta acontece inline na Siri: dialog curto + card com os
+    // primeiros resultados; o app só abre se o usuário tocar num filme.
+    func perform() async throws -> some IntentResult & ReturnsValue<[MovieEntity]> & ProvidesDialog & ShowsSnippetIntent {
+        let client = IntentSupport.makeTMDBClient()
         let page: PagedResponse<MediaItem> = try await client.fetch(.searchMovies, query: query)
-        return .result(value: page.results.prefix(10).map(MovieEntity.init))
+        let movies = page.results.prefix(10).map(MovieEntity.init)
+        let dialog: IntentDialog = movies.isEmpty
+            ? "I couldn't find any movies for \(query)."
+            : "Here's what I found for \(query)."
+        return .result(
+            value: Array(movies),
+            dialog: dialog,
+            snippetIntent: SearchResultsSnippetIntent(query: query)
+        )
     }
 }

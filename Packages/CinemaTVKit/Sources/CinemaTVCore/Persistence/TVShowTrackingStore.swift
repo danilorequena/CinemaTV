@@ -155,6 +155,9 @@ public final class TVShowTrackingStore {
     }
 
     public func markEpisodeWatched(_ episode: EpisodeSummary, showID: Int) throws {
+        // Episódio que ainda não foi ao ar não pode ser marcado (a UI
+        // desabilita o check; aqui cobre intents/bulk).
+        guard episode.hasAired else { return }
         guard let seasonNumber = episode.seasonNumber,
               let season = try season(showID: showID, seasonNumber: seasonNumber) else { return }
         let watched = Set((season.episodes ?? []).compactMap(\.episodeNumber))
@@ -196,7 +199,8 @@ public final class TVShowTrackingStore {
         guard let season = try season(showID: showID, seasonNumber: details.seasonNumber) else { return }
         reconcileEpisodeCount(of: season, with: details)
         let watched = Set((season.episodes ?? []).compactMap(\.episodeNumber))
-        for episode in details.episodes where !watched.contains(episode.episodeNumber) {
+        // Episódios ainda não exibidos ficam de fora do bulk.
+        for episode in details.episodes where !watched.contains(episode.episodeNumber) && episode.hasAired {
             context.insert(EpisodeSD(
                 id: episode.id,
                 airDate: episode.airDate,

@@ -23,12 +23,17 @@ enum WatchlistState: Equatable {
 
 struct MovieDetailScreen: View {
     @Environment(\.tmdbClient) private var client
+    @Environment(\.agentEngine) private var agentEngine
+    @Environment(\.appleMusicCatalog) private var musicCatalog
+    @Environment(\.openURL) private var openURL
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     // O gauge contém texto: frame fixo cortava a nota em tamanhos de
     // acessibilidade.
     @ScaledMetric(relativeTo: .caption) private var gaugeSize: CGFloat = 48
     @State private var model = MovieDetailModel()
+    @State private var soundtrackModel = SoundtrackModel()
+    @State private var soundtrackPlayer = SoundtrackPlayerModel()
     @State private var watchlistState: WatchlistState = .none
     @State private var presentedTrailer: Video?
     @State private var reviewTarget: MediaItem?
@@ -120,11 +125,22 @@ struct MovieDetailScreen: View {
                     .contentTransition(.symbolEffect(.replace))
                 }
                 .tint(watchlistState == .watched ? .green : nil)
+                // Filme ainda sem estreia não pode ser marcado como
+                // assistido; desmarcar segue liberado.
+                .disabled(watchlistState != .watched && !(currentItem?.isReleased ?? true))
                 .accessibilityLabel(Text(watchlistState == .watched ? "Watched" : "Mark as Watched"))
             }
         }
         .sensoryFeedback(.success, trigger: watchlistState == .watched)
         .sensoryFeedback(.impact(weight: .light), trigger: watchlistState == .toWatch)
+        // Onscreen entity: Siri resolve "isso" para o filme em exibição
+        // (a entidade completa vem do defaultQuery via id).
+        .userActivity("com.danilorequena.CinemaTV.viewMovie") { activity in
+            activity.appEntityIdentifier = EntityIdentifier(
+                for: MovieEntity.self,
+                identifier: movieID
+            )
+        }
         .task {
             refreshWatchlistState()
             await model.load(client: client, movieID: movieID)
@@ -132,7 +148,26 @@ struct MovieDetailScreen: View {
             // antigos da watchlist não a persistiam).
             if case .loaded(let details) = model.state {
                 try? store.updateReleaseDate(movieID: movieID, releaseDate: details.movie.releaseDate)
+                // Trilha sonora depois do essencial: falha some em silêncio.
+                // determineMode por último: só afeta badges/botão e não pode
+                // atrasar a seção.
+                await soundtrackModel.load(
+                    catalog: musicCatalog,
+                    agent: agentEngine,
+                    query: SoundtrackQuery(
+                        kind: .movie,
+                        tmdbID: movieID,
+                        title: details.movie.title,
+                        originalTitle: details.movie.originalTitle,
+                        releaseYear: details.movie.releaseYear,
+                        composers: SoundtrackFinder.composers(in: details.crew)
+                    )
+                )
+                await soundtrackPlayer.determineMode()
             }
+        }
+        .onDisappear {
+            soundtrackPlayer.stop()
         }
         .sheet(item: $presentedTrailer) { trailer in
             YouTubePlayerView(video: trailer)
@@ -239,6 +274,25 @@ struct MovieDetailScreen: View {
                     ProviderRow(title: "Rent", providers: providers.rent ?? [])
                     ProviderRow(title: "Buy", providers: providers.buy ?? [])
                 }
+            }
+
+            if case .loaded(let soundtrack) = soundtrackModel.state {
+                SoundtrackSection(
+                    album: soundtrack.album.candidate,
+                    about: soundtrack.about,
+                    tracks: soundtrack.album.tracks,
+                    mode: soundtrackPlayer.mode,
+                    nowPlayingTrackID: soundtrackPlayer.nowPlayingTrackID,
+                    isPlaying: soundtrackPlayer.isPlaying,
+                    elapsed: soundtrackPlayer.elapsed,
+                    playbackDuration: soundtrackPlayer.playbackDuration,
+                    onPlayTrack: { track in
+                        Task { await soundtrackPlayer.togglePlay(track: track, in: soundtrack.album) }
+                    },
+                    onOpenInAppleMusic: {
+                        if let url = soundtrack.album.candidate.url { openURL(url) }
+                    }
+                )
             }
 
             if !details.recommendations.isEmpty {

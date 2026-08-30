@@ -207,10 +207,12 @@ struct EpisodeDetailScreen: View {
                         .animation(DSMotion.respecting(reduceMotion, DSMotion.snappy), value: isWatched)
                 }
                 .buttonStyle(.plain)
-                // Sem follow não há onde gravar o check (mesma regra da lista).
-                .disabled(!isFollowing)
+                // Sem follow não há onde gravar o check (mesma regra da
+                // lista); episódio inédito não pode ser marcado, mas
+                // desmarcar segue liberado para corrigir checks antigos.
+                .disabled(!isFollowing || !(isWatched || (episode?.hasAired ?? true)))
                 .accessibilityLabel(Text("Mark as Watched"))
-                .accessibilityValue(isWatched ? Text("Watched") : Text("Unwatched"))
+                .accessibilityValue(accessibilityValueText)
                 .accessibilityRemoveTraits(.isSelected)
 
                 Spacer()
@@ -231,6 +233,16 @@ struct EpisodeDetailScreen: View {
         }
         .padding(.horizontal, DSSpacing.lg)
         .padding(.bottom, DSSpacing.sm)
+    }
+
+    private var accessibilityValueText: Text {
+        if isWatched {
+            Text("Watched")
+        } else if episode?.hasAired ?? true {
+            Text("Unwatched")
+        } else {
+            Text("Not aired yet")
+        }
     }
 
     private func canStep(_ offset: Int) -> Bool {

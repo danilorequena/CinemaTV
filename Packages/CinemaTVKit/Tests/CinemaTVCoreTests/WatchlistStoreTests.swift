@@ -54,6 +54,25 @@ import Testing
         #expect(try store.moviesWatched().count == 1)
     }
 
+    @Test func unreleasedMovieCannotBeMarkedWatched() throws {
+        let upcoming = MediaItem(
+            id: 604,
+            title: "The Matrix 5",
+            overview: "",
+            posterPath: nil,
+            backdropPath: nil,
+            voteAverage: 0,
+            releaseDate: "2999-12-31",
+            mediaType: .movie
+        )
+        try store.addToWatchlist(upcoming)
+        try store.markWatched(upcoming)
+
+        // Antes da estreia o mark é no-op: continua na fila, não vira visto.
+        #expect(!store.isWatched(movieID: 604))
+        #expect(store.isInWatchlist(movieID: 604))
+    }
+
     @Test func removeFromWatchlist() throws {
         try store.addToWatchlist(matrix)
         try store.removeFromWatchlist(movieID: 603)
