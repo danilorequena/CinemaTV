@@ -25,6 +25,12 @@ public enum AppRoadmap {
                     credit: "Danilo Requena"
                 ),
                 ChangelogEntry(
+                    id: "siri-ai-integration",
+                    kind: .feature,
+                    text: String(localized: "Siri AI integration (v1): ask Siri to search, open, and manage your movies and shows — with rich snippets in the results.", bundle: .module),
+                    credit: "Danilo Requena"
+                ),
+                ChangelogEntry(
                     id: "apple-intelligence-status",
                     kind: .feature,
                     text: String(localized: "Apple Intelligence in Settings: see on-device and Private Cloud Compute availability and your daily usage.", bundle: .module),
