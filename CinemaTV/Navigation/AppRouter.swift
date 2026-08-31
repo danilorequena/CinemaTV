@@ -39,11 +39,9 @@ final class AppRouter {
     func open(_ deepLink: DeepLink) {
         switch deepLink {
         case .movie(let id):
-            selectedTab = .discover
-            discoverPath.append(Route.movieDetail(id: id))
+            showInDiscover(.movieDetail(id: id))
         case .tvShow(let id):
-            selectedTab = .discover
-            discoverPath.append(Route.tvShowDetail(id: id))
+            showInDiscover(.tvShowDetail(id: id))
         case .watchlist:
             selectedTab = .tracking
             trackingPath = NavigationPath()
@@ -53,6 +51,22 @@ final class AppRouter {
             if let query {
                 searchQuery = query
             }
+        }
+    }
+
+    /// Troca para a Discover e empilha a rota. Quando há troca de tab, o
+    /// append fica para o turno seguinte do main actor: trocar a tab e
+    /// empilhar na mesma transação faz a NavigationStack nascer já com o
+    /// detalhe (que esconde a tab bar) — o pop congela o main thread e a
+    /// tab bar não volta na raiz.
+    private func showInDiscover(_ route: Route) {
+        guard selectedTab != .discover else {
+            discoverPath.append(route)
+            return
+        }
+        selectedTab = .discover
+        Task {
+            discoverPath.append(route)
         }
     }
 }
