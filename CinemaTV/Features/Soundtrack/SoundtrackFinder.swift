@@ -110,8 +110,10 @@ enum SoundtrackFinder {
         .sorted { $0.score > $1.score }
     }
 
-    /// Reduz aos melhores candidatos para o prompt do LLM.
-    static func shortlist(_ scored: [Scored], limit: Int = 5) -> [SoundtrackCandidate] {
+    /// Reduz aos melhores candidatos para o prompt do LLM. Limite 6: com o
+    /// pool unindo todos os termos de busca, sobra folga para a compilação
+    /// de canções entrar mesmo atrás de dois ou três álbuns de score.
+    static func shortlist(_ scored: [Scored], limit: Int = 6) -> [SoundtrackCandidate] {
         scored.lazy
             .filter { $0.score > 0 }
             .prefix(limit)
@@ -125,6 +127,134 @@ enum SoundtrackFinder {
         if scored.count == 1 { return top.candidate }
         let runnerUp = scored[1]
         return top.score - runnerUp.score >= 1 ? top.candidate : nil
+    }
+
+    /// Sinais de que o álbum é uma compilação de canções (vocais) e não o
+    /// score do compositor: Various Artists ou títulos "music from and
+    /// inspired by"/"songs from". Álbum do próprio compositor nunca conta.
+    static func isSongsCompilation(_ candidate: SoundtrackCandidate, composers: [String]) -> Bool {
+        let artist = normalize(candidate.artistName)
+        let normalizedComposers = composers.map(normalize)
+        if normalizedComposers.contains(where: { artist.contains($0) || $0.contains(artist) }) {
+            return false
+        }
+        let title = normalize(candidate.title)
+        // "varios" cobre os nomes localizados do catálogo: "Vários
+        // intérpretes" (pt), "Varios artistas" (es) — normalize já tirou
+        // os acentos.
+        return artist.contains("various")
+            || artist.contains("varios")
+            || title.contains("music from and inspired")
+            || title.contains("songs from")
+    }
+
+    /// Pick heurístico do álbum de canções: a melhor compilação claramente
+    /// vocal com nota positiva. nil quando o catálogo só tem score — o
+    /// caminho single-album com splitTracks cobre esse caso.
+    static func songsPick(_ scored: [Scored], composers: [String]) -> SoundtrackCandidate? {
+        scored.first { $0.score > 0 && isSongsCompilation($0.candidate, composers: composers) }?
+            .candidate
+    }
+
+    // MARK: - Vocal vs. instrumental
+
+    struct TrackSplit: Sendable {
+        let songs: [SoundtrackTrack]
+        let instrumental: [SoundtrackTrack]
+    }
+
+    /// Separa as faixas do álbum em canções (vocais) e instrumentais para
+    /// as duas fileiras da seção. Heurística barata: faixa cujo artista é o
+    /// compositor (ou uma orquestra) é score; artista diferente — Céline
+    /// Dion em Titanic, Whitney Houston em O Guarda-Costas — é canção.
+    /// Sem compositor conhecido, o artista do álbum serve de referência;
+    /// se nem isso houver (Various Artists), não separa.
+    static func splitTracks(
+        _ tracks: [SoundtrackTrack],
+        albumArtist: String,
+        composers: [String]
+    ) -> TrackSplit {
+        var references = composers.map(normalize)
+        if references.isEmpty {
+            let album = normalize(albumArtist)
+            if !album.contains("various") { references = [album] }
+        }
+        guard !references.isEmpty else {
+            return TrackSplit(songs: tracks, instrumental: [])
+        }
+
+        var songs: [SoundtrackTrack] = []
+        var instrumental: [SoundtrackTrack] = []
+        for track in tracks {
+            if isInstrumental(track, references: references) {
+                instrumental.append(track)
+            } else {
+                songs.append(track)
+            }
+        }
+        return TrackSplit(songs: songs, instrumental: instrumental)
+    }
+
+    /// Uma faixa é score quando TODOS os créditos são o compositor ou uma
+    /// orquestra: "James Horner & Orchestra" é score; "James Horner &
+    /// Céline Dion" é canção — o vocalista convidado no crédito é o sinal
+    /// (o álbum do Titanic credita a Céline exatamente assim).
+    private static func isInstrumental(_ track: SoundtrackTrack, references: [String]) -> Bool {
+        if normalize(track.title).contains("instrumental") { return true }
+        let instrumentalMarkers = [
+            "orchestra", "philharmonic", "symphony", "ensemble", "quartet",
+        ]
+        let components = artistComponents(track.artistName)
+        guard !components.isEmpty else { return false }
+        return components.allSatisfy { component in
+            references.contains { component.contains($0) || $0.contains(component) }
+                || instrumentalMarkers.contains(where: component.contains)
+        }
+    }
+
+    /// Créditos individuais de um campo de artista ("A & B feat. C" → 3),
+    /// normalizados.
+    static func artistComponents(_ artist: String) -> [String] {
+        var text = normalize(artist)
+        for separator in [" feat. ", " feat ", " featuring ", " with ", " and ", " x "] {
+            text = text.replacingOccurrences(of: separator, with: "&")
+        }
+        return text.split(whereSeparator: { $0 == "&" || $0 == "," })
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .filter { !$0.isEmpty }
+    }
+
+    /// Melhor resultado do catálogo para uma canção citada pelo modelo:
+    /// título e artista precisam se conter mutuamente (normalizados).
+    /// Canção alucinada com esse par exato é rara; sem match, ela some.
+    static func bestSongMatch(
+        title: String,
+        artist: String,
+        in candidates: [SoundtrackTrack]
+    ) -> SoundtrackTrack? {
+        let wantedTitle = normalize(title)
+        let wantedArtist = normalize(artist)
+        return candidates.first { candidate in
+            let candidateTitle = normalize(candidate.title)
+            let candidateArtist = normalize(candidate.artistName)
+            let titleMatches = candidateTitle.contains(wantedTitle) || wantedTitle.contains(candidateTitle)
+            let artistMatches = candidateArtist.contains(wantedArtist) || wantedArtist.contains(candidateArtist)
+            return titleMatches && artistMatches
+        }
+    }
+
+    /// Remove do pool de canções o lixo óbvio (karaokê, tributo, lullaby…)
+    /// antes do prompt — menos ruído para o modelo rejeitar.
+    static func plausibleSongCandidates(_ tracks: [SoundtrackTrack]) -> [SoundtrackTrack] {
+        let junkMarkers = [
+            "karaoke", "tribute", "8-bit", "8 bit", "lullaby", "lullabies",
+            "made famous", "in the style of", "ringtone", "music box",
+            "originally performed",
+        ]
+        return tracks.filter { track in
+            let haystack = normalize("\(track.title) \(track.artistName) \(track.albumTitle ?? "")")
+            return !junkMarkers.contains(where: haystack.contains)
+        }
     }
 
     /// Minúsculas + sem diacríticos, para comparações lenientes.

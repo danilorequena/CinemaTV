@@ -42,14 +42,16 @@ final class SoundtrackPlayerModel {
         mode = (subscription?.canPlayCatalogContent ?? false) ? .fullPlayback : .previewOnly
     }
 
-    func togglePlay(track: SoundtrackTrack, in album: SoundtrackAlbum) async {
+    /// `queue` é o grupo de onde a faixa veio (canções ou instrumental) —
+    /// a reprodução segue dentro do mesmo grupo/álbum.
+    func togglePlay(track: SoundtrackTrack, queue: [SoundtrackTrack]) async {
         if nowPlayingTrackID == track.id {
             isPlaying ? pause() : await resume()
             return
         }
         switch mode {
         case .fullPlayback:
-            await playFull(track: track, in: album)
+            await playFull(track: track, queue: queue)
         case .previewOnly, .undetermined:
             playPreview(track: track)
         }
@@ -69,14 +71,14 @@ final class SoundtrackPlayerModel {
 
     // MARK: - Assinante (faixa completa)
 
-    private func playFull(track: SoundtrackTrack, in album: SoundtrackAlbum) async {
+    private func playFull(track: SoundtrackTrack, queue: [SoundtrackTrack]) async {
         guard let song = track.song else {
             playPreview(track: track)
             return
         }
         stopPreview()
         let player = ApplicationMusicPlayer.shared
-        let songs = album.tracks.compactMap(\.song)
+        let songs = queue.compactMap(\.song)
         player.queue = ApplicationMusicPlayer.Queue(for: songs, startingAt: song)
         do {
             try await player.play()

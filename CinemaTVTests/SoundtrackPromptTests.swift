@@ -65,6 +65,26 @@ struct SoundtrackPromptTests {
         #expect(!instructions.contains("The person's locale"))
     }
 
+    @Test func instructionsAskForScoreAndSongsAlbums() {
+        let instructions = SoundtrackPrompt.instructions(locale: Locale(identifier: "en_US"))
+        #expect(instructions.contains("score album"))
+        #expect(instructions.contains("songs album"))
+        #expect(instructions.contains("SAME id"))
+    }
+
+    @Test func notableSongsPromptDemandsCertaintyAndVocals() {
+        let prompt = SoundtrackPrompt.notableSongsPrompt(
+            title: "Guardians of the Galaxy",
+            releaseYear: 2014,
+            kind: .movie
+        )
+        #expect(prompt.contains("MOVIE: Guardians of the Galaxy (2014)"))
+        let instructions = SoundtrackPrompt.notableSongsInstructions()
+        #expect(instructions.contains("VOCAL"))
+        #expect(instructions.contains("empty list is a valid answer"))
+        #expect(instructions.contains("original recording artist"))
+    }
+
     @Test func nonEnglishLocaleAddsLanguageInstruction() {
         let instructions = SoundtrackPrompt.instructions(locale: Locale(identifier: "pt_BR"))
         #expect(instructions.contains("The person's locale is pt_BR."))

@@ -12,8 +12,15 @@ import Foundation
 
 struct SoundtrackCache: Sendable {
     struct Entry: Codable, Sendable, Equatable {
-        /// nil = cache negativo ("não existe trilha para este título").
+        /// Álbum primário (score/OST). nil = cache negativo ("não existe
+        /// trilha para este título").
         var albumID: String?
+        /// Álbum de canções quando é um álbum DISTINTO do primário; nil
+        /// quando o primário cobre os dois (split por faixa) ou não há.
+        var songsAlbumID: String? = nil
+        /// Canções avulsas resolvidas no catálogo quando não existe álbum
+        /// de canções (caso Awesome Mix). [] = fallback rodou e não achou.
+        var songIDs: [String]? = nil
         var about: String?
         /// Storefront em que o veredito foi feito; mudou de país, invalida.
         var storefront: String?
@@ -66,8 +73,15 @@ struct SoundtrackCache: Sendable {
     }
 
     static func key(kind: SoundtrackFinder.MediaKind, tmdbID: Int) -> String {
-        // v2: entradas v1 podiam ter cache negativo gravado a partir de ERRO
-        // de busca (bug corrigido) — a troca de versão as descarta.
-        "soundtrack.v2.\(kind.rawValue).\(tmdbID)"
+        // v8: split por componente de crédito (a Céline do Titanic vinha
+        // como "James Horner & Céline Dion" e caía no instrumental) e
+        // canções avulsas restritas ao PCC — entradas v7 podem ter split
+        // errado ou canções alucinadas pelo modelo on-device. (v7 excluiu
+        // faixas do score do pool; v6 trocou geração livre por seleção;
+        // v5 criou o fallback de canções; v4 uniu os termos de busca e
+        // reconheceu "Vários intérpretes"; v3 adicionou a decisão de
+        // canções; v2 corrigiu cache negativo gravado a partir de ERRO de
+        // busca.)
+        "soundtrack.v8.\(kind.rawValue).\(tmdbID)"
     }
 }

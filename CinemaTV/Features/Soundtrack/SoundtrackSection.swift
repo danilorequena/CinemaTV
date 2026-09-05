@@ -24,6 +24,8 @@ struct SoundtrackSection: View {
     let elapsed: TimeInterval
     /// Duração do que está tocando (faixa completa ou preview de ~30s).
     let playbackDuration: TimeInterval?
+    /// Mostra o aviso de curadoria por Apple Intelligence no rodapé.
+    let aiAssisted: Bool
     /// A fila é o grupo de onde a faixa veio: a reprodução segue no álbum.
     let onPlayTrack: (SoundtrackTrack, [SoundtrackTrack]) -> Void
     let onOpenInAppleMusic: (SoundtrackCandidate) -> Void
@@ -32,13 +34,18 @@ struct SoundtrackSection: View {
         VStack(alignment: .leading, spacing: DSSpacing.md) {
             SectionHeader("Soundtrack")
 
-            if let songs, let instrumental, songs.album.id != instrumental.album.id {
+            if let songs, let instrumental, let songsAlbum = songs.album,
+               let instrumentalAlbum = instrumental.album, songsAlbum.id != instrumentalAlbum.id {
                 aboutText
-                groupSection(songs, label: "Songs")
-                groupSection(instrumental, label: "Instrumental")
+                groupSection(songs, album: songsAlbum, label: "Songs")
+                groupSection(instrumental, album: instrumentalAlbum, label: "Instrumental")
             } else if let primary = instrumental ?? songs {
-                albumHeader(primary.album)
-                    .padding(.horizontal, DSSpacing.lg)
+                // Canções avulsas não têm álbum: o header é o do grupo que
+                // tiver um (o instrumental, no fallback do Awesome Mix).
+                if let album = primary.album ?? songs?.album {
+                    albumHeader(album)
+                        .padding(.horizontal, DSSpacing.lg)
+                }
                 aboutText
                 if let songs, let instrumental {
                     subheader("Songs")
@@ -53,7 +60,20 @@ struct SoundtrackSection: View {
             if mode == .previewOnly {
                 openInAppleMusicButton
             }
+
+            if aiAssisted {
+                aiDisclosure
+            }
         }
+    }
+
+    /// Transparência: a curadoria (álbum, canções, texto) vem de IA e pode
+    /// errar — o aviso só aparece quando a IA participou de fato.
+    private var aiDisclosure: some View {
+        Label("Selected with Apple Intelligence — may contain mistakes", systemImage: "apple.intelligence")
+            .font(.dsCaption)
+            .foregroundStyle(.tertiary)
+            .padding(.horizontal, DSSpacing.lg)
     }
 
     @ViewBuilder
@@ -76,16 +96,16 @@ struct SoundtrackSection: View {
 
     /// Grupo com álbum próprio (modo dois álbuns): rótulo + header compacto
     /// tocável + fileira de faixas.
-    private func groupSection(_ group: SoundtrackGroup, label: LocalizedStringKey) -> some View {
+    private func groupSection(_ group: SoundtrackGroup, album: SoundtrackCandidate, label: LocalizedStringKey) -> some View {
         VStack(alignment: .leading, spacing: DSSpacing.sm) {
             subheader(label)
-            compactAlbumHeader(group.album)
+            compactAlbumHeader(album)
             trackRow(group)
         }
     }
 
     private var primaryAlbum: SoundtrackCandidate? {
-        (instrumental ?? songs)?.album
+        instrumental?.album ?? songs?.album
     }
 
     private var openInAppleMusicButton: some View {
@@ -159,7 +179,12 @@ struct SoundtrackSection: View {
         if let releaseYear = album.releaseYear {
             parts.append(String(releaseYear))
         }
-        let total = (songs?.tracks.count ?? 0) + (instrumental?.tracks.count ?? 0)
+        // Só as faixas que pertencem a ESTE álbum: canções avulsas (grupo
+        // sem álbum) não entram na contagem do header.
+        let total = [songs, instrumental]
+            .compactMap { $0 }
+            .filter { $0.album?.id == album.id }
+            .reduce(0) { $0 + $1.tracks.count }
         parts.append("\(total) tracks")
         return parts.joined(separator: " · ")
     }
@@ -391,6 +416,7 @@ private enum SoundtrackPreviewData {
             isPlaying: true,
             elapsed: 97,
             playbackDuration: 242,
+            aiAssisted: true,
             onPlayTrack: { _, _ in },
             onOpenInAppleMusic: { _ in }
         )
@@ -409,6 +435,7 @@ private enum SoundtrackPreviewData {
             isPlaying: false,
             elapsed: 0,
             playbackDuration: nil,
+            aiAssisted: true,
             onPlayTrack: { _, _ in },
             onOpenInAppleMusic: { _ in }
         )
@@ -427,6 +454,26 @@ private enum SoundtrackPreviewData {
             isPlaying: true,
             elapsed: 12,
             playbackDuration: 30,
+            aiAssisted: true,
+            onPlayTrack: { _, _ in },
+            onOpenInAppleMusic: { _ in }
+        )
+        .padding(.vertical, DSSpacing.lg)
+    }
+}
+
+#Preview("Canções avulsas — score + fallback") {
+    ScrollView {
+        SoundtrackSection(
+            about: nil,
+            songs: SoundtrackGroup(album: nil, tracks: SoundtrackPreviewData.mixSongs.tracks),
+            instrumental: SoundtrackPreviewData.scoreTracks,
+            mode: .fullPlayback,
+            nowPlayingTrackID: nil,
+            isPlaying: false,
+            elapsed: 0,
+            playbackDuration: nil,
+            aiAssisted: true,
             onPlayTrack: { _, _ in },
             onOpenInAppleMusic: { _ in }
         )
@@ -445,6 +492,7 @@ private enum SoundtrackPreviewData {
             isPlaying: false,
             elapsed: 0,
             playbackDuration: nil,
+            aiAssisted: false,
             onPlayTrack: { _, _ in },
             onOpenInAppleMusic: { _ in }
         )

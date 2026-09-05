@@ -45,6 +45,9 @@ struct SoundtrackTrack: Identifiable, Sendable {
     let previewURL: URL?
     /// Item real para a queue do player no modo assinante.
     let song: Song?
+    /// Álbum de origem — contexto para o modelo julgar se a canção
+    /// pertence ao título (fallback de canções avulsas).
+    var albumTitle: String? = nil
 }
 
 struct AppleMusicCatalog: Sendable {
@@ -105,6 +108,42 @@ struct AppleMusicCatalog: Sendable {
         }
     }
 
+    /// Busca canções avulsas no catálogo — fallback quando o título não
+    /// tem álbum de canções no Apple Music (caso Awesome Mix, removido do
+    /// catálogo) mas as canções originais continuam lá.
+    func searchSongs(term: String, limit: Int = 5) async throws(AppleMusicError) -> [SoundtrackTrack] {
+        guard MusicAuthorization.currentStatus == .authorized else {
+            throw AppleMusicError.notAuthorized
+        }
+        do {
+            var request = MusicCatalogSearchRequest(term: term, types: [Song.self])
+            request.limit = limit
+            let response = try await request.response()
+            return response.songs.map(Self.track(from:))
+        } catch {
+            throw AppleMusicError.searchFailed(description: String(describing: error))
+        }
+    }
+
+    /// Hidrata canções avulsas por id preservando a ordem pedida (cache
+    /// hit do fallback de canções).
+    func songs(ids: [String]) async throws(AppleMusicError) -> [SoundtrackTrack] {
+        guard MusicAuthorization.currentStatus == .authorized else {
+            throw AppleMusicError.notAuthorized
+        }
+        do {
+            let request = MusicCatalogResourceRequest<Song>(matching: \.id, memberOf: ids.map { MusicItemID($0) })
+            let response = try await request.response()
+            var byID: [String: Song] = [:]
+            for song in response.items where byID[song.id.rawValue] == nil {
+                byID[song.id.rawValue] = song
+            }
+            return ids.compactMap { byID[$0] }.map(Self.track(from:))
+        } catch {
+            throw AppleMusicError.searchFailed(description: String(describing: error))
+        }
+    }
+
     // MARK: - Mapeamento framework → domínio
 
     private static func candidate(from album: Album) -> SoundtrackCandidate {
@@ -116,6 +155,18 @@ struct AppleMusicCatalog: Sendable {
             trackCount: album.trackCount,
             artworkURL: album.artwork?.url(width: 600, height: 600),
             url: album.url
+        )
+    }
+
+    private static func track(from song: Song) -> SoundtrackTrack {
+        SoundtrackTrack(
+            id: song.id.rawValue,
+            title: song.title,
+            artistName: song.artistName,
+            duration: song.duration,
+            previewURL: song.previewAssets?.first?.url,
+            song: song,
+            albumTitle: song.albumTitle
         )
     }
 

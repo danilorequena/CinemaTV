@@ -245,21 +245,26 @@ struct TVShowDetailScreen: View {
                 }
             }
 
-            if case .loaded(let soundtrack) = soundtrackModel.state {
+            // Skeleton enquanto a busca de trilha roda; some (animado) se o
+            // título não tiver trilha no catálogo.
+            if case .loading = soundtrackModel.state {
+                SoundtrackLoadingSection()
+            } else if case .loaded(let soundtrack) = soundtrackModel.state {
                 SoundtrackSection(
-                    album: soundtrack.album.candidate,
                     about: soundtrack.about,
-                    tracks: soundtrack.album.tracks,
+                    songs: soundtrack.songs,
+                    instrumental: soundtrack.instrumental,
                     mode: soundtrackPlayer.mode,
                     nowPlayingTrackID: soundtrackPlayer.nowPlayingTrackID,
                     isPlaying: soundtrackPlayer.isPlaying,
                     elapsed: soundtrackPlayer.elapsed,
                     playbackDuration: soundtrackPlayer.playbackDuration,
-                    onPlayTrack: { track in
-                        Task { await soundtrackPlayer.togglePlay(track: track, in: soundtrack.album) }
+                    aiAssisted: soundtrack.aiAssisted,
+                    onPlayTrack: { track, queue in
+                        Task { await soundtrackPlayer.togglePlay(track: track, queue: queue) }
                     },
-                    onOpenInAppleMusic: {
-                        if let url = soundtrack.album.candidate.url { openURL(url) }
+                    onOpenInAppleMusic: { album in
+                        if let url = album.url { openURL(url) }
                     }
                 )
             }
@@ -285,6 +290,19 @@ struct TVShowDetailScreen: View {
         // O bottom bar flutuante (botão ~44pt + margens) não gera safe area
         // própria; sem esta folga a última seção fica presa embaixo dele.
         .padding(.bottom, 96)
+        // Crossfade skeleton ↔ seção de trilha (ou ↔ nada) e o reflow das
+        // seções vizinhas na mesma transação.
+        .animation(.smooth, value: soundtrackPhase)
+    }
+
+    /// Chave do crossfade da seção de trilha.
+    private var soundtrackPhase: Int {
+        switch soundtrackModel.state {
+        case .idle: 0
+        case .loading: 1
+        case .loaded: 2
+        case .failed: 3
+        }
     }
 
     private func pills(for show: TVShowDetails) -> [InfoPillRow.Pill] {
