@@ -57,6 +57,40 @@ public final class WatchlistStore {
         try context.save()
     }
 
+    /// Importa um item externo para a fila sem regredir um filme já assistido.
+    public func importToWatchlist(_ item: MediaItem, listedAt: Date?) throws {
+        guard !isWatched(movieID: item.id), !isInWatchlist(movieID: item.id) else { return }
+        let nextIndex = (try moviesToWatch().compactMap(\.sortIndex).max() ?? -1) + 1
+        let movie = MoviesToWatch(item: item, sortIndex: nextIndex)
+        movie.dateAdded = listedAt
+        movie.releaseDate = item.releaseDate
+        context.insert(movie)
+        try context.save()
+    }
+
+    /// Importa o estado assistido. A identidade é o TMDB ID do MediaItem;
+    /// reimportações atualizam a data sem criar outro registro.
+    public func importWatched(_ item: MediaItem, watchedAt: Date?) throws {
+        if let pending = try firstToWatch(movieID: item.id) {
+            context.delete(pending)
+        }
+        if let existing = try firstWatched(movieID: item.id) {
+            if let watchedAt {
+                if let existingDate = existing.watchedAt {
+                    existing.watchedAt = min(existingDate, watchedAt)
+                } else {
+                    existing.watchedAt = watchedAt
+                }
+            }
+            try context.save()
+            return
+        }
+        let watched = MoviesWatched(item: item)
+        watched.watchedAt = watchedAt
+        context.insert(watched)
+        try context.save()
+    }
+
     /// Backfill da data de estreia (itens antigos não a persistiam): o
     /// detalhe do filme chama ao carregar; no-op fora da watchlist.
     public func updateReleaseDate(movieID: Int, releaseDate: String?) throws {

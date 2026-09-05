@@ -119,3 +119,7 @@ iOSInjectionProject/
 # Token do GitHub Issues (fine-grained PAT) — NUNCA commitar: o repo é
 # público e o secret scanning do GitHub revoga o token automaticamente.
 GitHub.plist
+
+# Credenciais do Trakt (client id/secret) — mesmo caso do GitHub.plist;
+# o ci_post_clone gera um placeholder no Xcode Cloud.
+Trakt.plist

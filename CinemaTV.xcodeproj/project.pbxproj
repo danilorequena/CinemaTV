@@ -91,6 +91,9 @@
 		FFA08B9B30431AA800DD9E08 /* SoundtrackPlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA08B9A30431AA800DD9E08 /* SoundtrackPlayerModel.swift */; };
 		FFA08B9D3043383A00DD9E08 /* CinemaTV_V3.icon in Resources */ = {isa = PBXBuildFile; fileRef = FFA08B9C3043383A00DD9E08 /* CinemaTV_V3.icon */; };
 		FFA08B9E3043383A00DD9E08 /* CinemaTV_V3.icon in Resources */ = {isa = PBXBuildFile; fileRef = FFA08B9C3043383A00DD9E08 /* CinemaTV_V3.icon */; };
+		FFA0923E30445CC100DD9E08 /* TraktCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA0923D30445CC100DD9E08 /* TraktCoreTests.swift */; };
+		FFA0924030445E3B00DD9E08 /* TraktIntegrationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA0923F30445E3B00DD9E08 /* TraktIntegrationModel.swift */; };
+		FFA0924230445EA900DD9E08 /* Trakt.plist in Resources */ = {isa = PBXBuildFile; fileRef = FFA0924130445EA900DD9E08 /* Trakt.plist */; };
 		FFC3FBC42895F727000E379E /* TMDB.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF74128D2895CF9900A79C7C /* TMDB.plist */; };
 		FFCA557C302BB6210025941D /* ReviewCardRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCA557B302BB6210025941D /* ReviewCardRenderer.swift */; };
 		FFCA557E302BB6360025941D /* ReviewComposerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCA557D302BB6360025941D /* ReviewComposerSheet.swift */; };
@@ -226,6 +229,9 @@
 		FFA08B9830431A3B00DD9E08 /* SoundtrackPromptTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundtrackPromptTests.swift; sourceTree = "<group>"; };
 		FFA08B9A30431AA800DD9E08 /* SoundtrackPlayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundtrackPlayerModel.swift; sourceTree = "<group>"; };
 		FFA08B9C3043383A00DD9E08 /* CinemaTV_V3.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = CinemaTV_V3.icon; sourceTree = "<group>"; };
+		FFA0923D30445CC100DD9E08 /* TraktCoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraktCoreTests.swift; sourceTree = "<group>"; };
+		FFA0923F30445E3B00DD9E08 /* TraktIntegrationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraktIntegrationModel.swift; sourceTree = "<group>"; };
+		FFA0924130445EA900DD9E08 /* Trakt.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Trakt.plist; sourceTree = "<group>"; };
 		FFB68A0128FDA7AB002D5888 /* CinemaTV.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CinemaTV.entitlements; sourceTree = "<group>"; };
 		FFB68A0228FDAAC8002D5888 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FFCA557B302BB6210025941D /* ReviewCardRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCardRenderer.swift; sourceTree = "<group>"; };
@@ -346,6 +352,7 @@
 				FFA08B853043156000DD9E08 /* AgentRoutingPolicyTests.swift */,
 				FFA08B923043174E00DD9E08 /* SoundtrackFinderTests.swift */,
 				FFA08B9830431A3B00DD9E08 /* SoundtrackPromptTests.swift */,
+				FFA0923D30445CC100DD9E08 /* TraktCoreTests.swift */,
 			);
 			path = CinemaTVTests;
 			sourceTree = "<group>";
@@ -500,6 +507,7 @@
 				FFA08B6C3040C3C300DD9E08 /* RoadmapScreens.swift */,
 				FFA08B6E304199FD00DD9E08 /* MyRequestsScreen.swift */,
 				FFA08B873043160900DD9E08 /* AppleIntelligenceSection.swift */,
+				FFA0923F30445E3B00DD9E08 /* TraktIntegrationModel.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -539,6 +547,7 @@
 				7D42245B273810E1006236F8 /* CinemaTVApp.swift */,
 				FF74128D2895CF9900A79C7C /* TMDB.plist */,
 				FFA08B7030419A0100DD9E08 /* GitHub.plist */,
+				FFA0924130445EA900DD9E08 /* Trakt.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -799,6 +808,7 @@
 				FFA08B7130419A0100DD9E08 /* GitHub.plist in Resources */,
 				FF74128E2895CF9900A79C7C /* TMDB.plist in Resources */,
 				FF21ACCB300A37C5009764B1 /* InfoPlist.xcstrings in Resources */,
+				FFA0924230445EA900DD9E08 /* Trakt.plist in Resources */,
 				FF21ACCC300A37C5009764B1 /* AppShortcuts.xcstrings in Resources */,
 				7D422463273810E2006236F8 /* Preview Assets.xcassets in Resources */,
 				FFA08B9E3043383A00DD9E08 /* CinemaTV_V3.icon in Resources */,
@@ -874,6 +884,7 @@
 				FFA08B7C3043150200DD9E08 /* AgentAvailability.swift in Sources */,
 				FF9F137C3031183A004819FD /* EpisodeDetailScreen.swift in Sources */,
 				FFCA558630308C5E0025941D /* SeasonModel.swift in Sources */,
+				FFA0924030445E3B00DD9E08 /* TraktIntegrationModel.swift in Sources */,
 				FF21AC9F3008DC1E009764B1 /* MovieListScreen.swift in Sources */,
 				FF2E8AF53036EA6B00CD1F16 /* TVShowEntity.swift in Sources */,
 				FF2E8AF330367B7100CD1F16 /* TVShowListScreen.swift in Sources */,
@@ -914,6 +925,7 @@
 				7D422472273810E2006236F8 /* CinemaTVTests.swift in Sources */,
 				FFA08B863043156000DD9E08 /* AgentRoutingPolicyTests.swift in Sources */,
 				FFA08B9930431A3B00DD9E08 /* SoundtrackPromptTests.swift in Sources */,
+				FFA0923E30445CC100DD9E08 /* TraktCoreTests.swift in Sources */,
 				FFA08B69303F66AB00DD9E08 /* VisualTextExtractorTests.swift in Sources */,
 				FFA08B933043174E00DD9E08 /* SoundtrackFinderTests.swift in Sources */,
 			);

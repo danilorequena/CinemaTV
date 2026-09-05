@@ -35,6 +35,7 @@ struct WatchlistScreen: View {
     /// Watched nasce colapsada: o histórico não rouba espaço da fila.
     @State private var expanded: Set<LibrarySection> = [.watching, .wantToWatch]
     @State private var showsSettings = false
+    @State private var traktIntegration = TraktIntegrationModel()
     /// Espelha o toggle da SettingsScreen; aqui só alimenta o re-sync do .task.
     @AppStorage("premiereNotificationsEnabled") private var premiereNotificationsEnabled = false
 
@@ -84,6 +85,7 @@ struct WatchlistScreen: View {
             // Refresh silencioso (1x/dia): datas/status das seguidas e da
             // fila; depois re-agenda as notificações com a agenda fresca.
             await LibraryRefresher.refreshIfNeeded(client: client, context: modelContext)
+            await traktIntegration.syncIfNeeded(tmdb: client, context: modelContext)
             await PremiereNotifications.sync(
                 enabled: premiereNotificationsEnabled,
                 entries: premiereNotificationEntries
@@ -117,7 +119,10 @@ struct WatchlistScreen: View {
     @ViewBuilder
     private var settingsSheet: some View {
         let stack = NavigationStack {
-            SettingsScreen(notificationEntries: premiereNotificationEntries)
+            SettingsScreen(
+                traktIntegration: traktIntegration,
+                notificationEntries: premiereNotificationEntries
+            )
         }
         if let zoomNamespace {
             stack.navigationTransition(.zoom(sourceID: Self.settingsZoomSourceID, in: zoomNamespace))

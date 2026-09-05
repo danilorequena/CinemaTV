@@ -126,4 +126,27 @@ import Testing
         let names = try store.moviesToWatch().map(\.name)
         #expect(names == ["Movie 3", "Movie 2", "Movie 1"])
     }
+
+    @Test func importedWatchedMovieMovesExistingWatchlistItemWithoutDuplication() throws {
+        try store.addToWatchlist(matrix)
+        let traktDate = Date(timeIntervalSince1970: 1_700_000_000)
+
+        try store.importWatched(matrix, watchedAt: traktDate)
+        try store.importWatched(matrix, watchedAt: traktDate)
+
+        #expect(try store.moviesToWatch().isEmpty)
+        let imported = try store.moviesWatched()
+        #expect(imported.count == 1)
+        #expect(imported.first?.id == 603)
+        #expect(imported.first?.watchedAt == traktDate)
+    }
+
+    @Test func importedWatchlistMovieDoesNotRegressWatchedState() throws {
+        try store.markWatched(matrix)
+
+        try store.importToWatchlist(matrix, listedAt: Date(timeIntervalSince1970: 1_600_000_000))
+
+        #expect(try store.moviesToWatch().isEmpty)
+        #expect(try store.moviesWatched().count == 1)
+    }
 }

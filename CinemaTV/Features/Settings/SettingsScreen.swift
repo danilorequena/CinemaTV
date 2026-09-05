@@ -8,12 +8,16 @@
 //
 
 import SwiftUI
+import SwiftData
 import WidgetKit
 import CinemaTVCore
 import CinemaTVDesignSystem
 
 struct SettingsScreen: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.tmdbClient) private var tmdbClient
+    @Bindable var traktIntegration: TraktIntegrationModel
     /// Mesma chave lida pela WatchlistScreen no re-sync do .task.
     @AppStorage("premiereNotificationsEnabled") private var premiereNotificationsEnabled = false
     /// Override de região do TMDB (App Group); vazio = automático (região do aparelho).
@@ -48,6 +52,84 @@ struct SettingsScreen: View {
                 Text("Region")
             } footer: {
                 Text("Affects release dates, what's in theaters, and where to watch.")
+            }
+
+            Section {
+                switch traktIntegration.state {
+                case .unavailable:
+                    LabeledContent("Trakt", value: "Not configured")
+                    Text("Add valid Trakt credentials to Trakt.plist to enable this integration.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                case .disconnected:
+                    Button("Connect to Trakt") {
+                        Task {
+                            await traktIntegration.connect(
+                                tmdb: tmdbClient,
+                                context: modelContext
+                            )
+                        }
+                    }
+                case .connecting:
+                    LabeledContent("Trakt", value: "Connecting…")
+                    ProgressView()
+                case .syncing:
+                    LabeledContent("Trakt", value: "Importing…")
+                    ProgressView()
+                case .connected(let username):
+                    LabeledContent("Account", value: username ?? "Connected")
+                    if let lastSyncAt = traktIntegration.lastSyncAt {
+                        LabeledContent(
+                            "Last sync",
+                            value: lastSyncAt.formatted(date: .abbreviated, time: .shortened)
+                        )
+                    }
+                    if let result = traktIntegration.lastResult {
+                        Text("\(result.importedMovies) movies, \(result.importedShows) shows, and \(result.importedEpisodes) episodes processed.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                    Button("Sync Now") {
+                        Task {
+                            await traktIntegration.sync(
+                                tmdb: tmdbClient,
+                                context: modelContext
+                            )
+                        }
+                    }
+                    Button("Disconnect", role: .destructive) {
+                        traktIntegration.disconnect()
+                    }
+                case .failed(let message):
+                    Text(message)
+                        .foregroundStyle(.red)
+                    if traktIntegration.isConnected {
+                        Button("Try Again") {
+                            Task {
+                                await traktIntegration.sync(
+                                    tmdb: tmdbClient,
+                                    context: modelContext
+                                )
+                            }
+                        }
+                        Button("Disconnect", role: .destructive) {
+                            traktIntegration.disconnect()
+                        }
+                    } else {
+                        Button("Connect Again") {
+                            Task {
+                                await traktIntegration.connect(
+                                    tmdb: tmdbClient,
+                                    context: modelContext
+                                )
+                            }
+                        }
+                    }
+                }
+            } header: {
+                Text("Trakt")
+            } footer: {
+                Text("Optional. Imports your Trakt watchlist and watched progress without removing local activity or sending CinemaTV changes back to Trakt.")
             }
 
             AppleIntelligenceSection()
@@ -105,6 +187,9 @@ struct SettingsScreen: View {
 
 #Preview {
     NavigationStack {
-        SettingsScreen(notificationEntries: [])
+        SettingsScreen(
+            traktIntegration: TraktIntegrationModel(),
+            notificationEntries: []
+        )
     }
 }

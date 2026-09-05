@@ -182,6 +182,52 @@ public final class TVShowTrackingStore {
         try context.save()
     }
 
+    /// Variante usada por importadores externos, preservando a data original.
+    public func importEpisodeWatched(
+        _ episode: EpisodeSummary,
+        showID: Int,
+        watchedAt: Date?
+    ) throws {
+        guard let seasonNumber = episode.seasonNumber,
+              seasonNumber > 0,
+              let season = try season(showID: showID, seasonNumber: seasonNumber)
+        else { return }
+        if let existing = (season.episodes ?? []).first(where: {
+            $0.episodeNumber == episode.episodeNumber && !$0.isDeleted
+        }) {
+            if let watchedAt {
+                if let existingDate = existing.watchedAt {
+                    existing.watchedAt = min(existingDate, watchedAt)
+                } else {
+                    existing.watchedAt = watchedAt
+                }
+            }
+            if let show = season.tvShow {
+                recomputeUpNext(for: show)
+            }
+            try context.save()
+            return
+        }
+        context.insert(EpisodeSD(
+            id: episode.id,
+            airDate: episode.airDate,
+            episodeNumber: episode.episodeNumber,
+            name: episode.name,
+            overview: episode.overview,
+            runtime: episode.runtime,
+            seasonNumber: seasonNumber,
+            showID: showID,
+            stillPath: episode.stillPath,
+            voteAverage: episode.voteAverage,
+            watchedAt: watchedAt,
+            season: season
+        ))
+        if let show = season.tvShow {
+            recomputeUpNext(for: show)
+        }
+        try context.save()
+    }
+
     public func unmarkEpisodeWatched(showID: Int, seasonNumber: Int, episodeNumber: Int) throws {
         guard let season = try season(showID: showID, seasonNumber: seasonNumber),
               let episode = (season.episodes ?? []).first(where: { $0.episodeNumber == episodeNumber })
