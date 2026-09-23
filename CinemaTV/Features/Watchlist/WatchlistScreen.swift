@@ -46,6 +46,8 @@ struct WatchlistScreen: View {
 
     @Query(sort: [SortDescriptor(\WatchedModel.name)]) private var watched: [WatchedModel]
 
+    @Query private var reviews: [MovieReview]
+
     // O cache de Up Next mora no TVShowWatchingModel: mutações profundas
     // (EpisodeSD) tocam o show, então esta query re-renderiza as seções.
     @Query(sort: [
@@ -59,10 +61,6 @@ struct WatchlistScreen: View {
 
     private var trackingStore: TVShowTrackingStore {
         TVShowTrackingStore(context: modelContext)
-    }
-
-    private var reviewStore: ReviewStore {
-        ReviewStore(context: modelContext)
     }
 
     var body: some View {
@@ -133,67 +131,133 @@ struct WatchlistScreen: View {
 
     // MARK: - Lista única com seções
 
+    private struct ShowProgressEntry: Identifiable {
+        let show: TVShowWatchingModel
+        let progress: WatchProgress
+
+        var id: PersistentIdentifier { show.persistentModelID }
+    }
+
+    /// Values shared by every section during one render. Building this once
+    /// keeps SwiftData relationship walks out of repeated view-builder reads.
+    private struct LibrarySnapshot {
+        let activeShows: [ShowProgressEntry]
+        let queuedShows: [ShowProgressEntry]
+        let completedShows: [ShowProgressEntry]
+        let reviewedMovieIDs: Set<Int>
+
+        init(
+            shows: [TVShowWatchingModel],
+            reviews: [MovieReview],
+            progress: (TVShowWatchingModel) -> WatchProgress
+        ) {
+            let entries = shows.map { ShowProgressEntry(show: $0, progress: progress($0)) }
+            activeShows = entries
+                .filter { $0.progress.watched > 0 && !$0.progress.isComplete }
+                .sorted { lhs, rhs in
+                    switch (lhs.show.lastActivityAt, rhs.show.lastActivityAt) {
+                    case let (left?, right?): left > right
+                    case (.some, nil): true
+                    case (nil, .some): false
+                    case (nil, nil): (lhs.show.name ?? "") < (rhs.show.name ?? "")
+                    }
+                }
+            queuedShows = entries
+                .filter { $0.progress.watched == 0 }
+                .sorted { lhs, rhs in
+                    switch (lhs.show.dateAdded, rhs.show.dateAdded) {
+                    case let (left?, right?): left > right
+                    case (.some, nil): true
+                    case (nil, .some): false
+                    case (nil, nil): (lhs.show.name ?? "") < (rhs.show.name ?? "")
+                    }
+                }
+            completedShows = entries.filter(\.progress.isComplete)
+            reviewedMovieIDs = Set(reviews.compactMap { review in
+                review.movieID.map(Int.init)
+            })
+        }
+    }
+
     private var library: some View {
-        ScrollView {
+        let progressStore = trackingStore
+        let snapshot = LibrarySnapshot(
+            shows: watchingShows,
+            reviews: reviews,
+            progress: { show in
+                guard show.id != nil else { return WatchProgress(watched: 0, total: 0) }
+                return progressStore.showProgress(of: show)
+            }
+        )
+        let premieres = upcomingPremieres
+
+        return ScrollView {
             LazyVStack(alignment: .leading, spacing: DSSpacing.lg) {
                 // Up Next: agenda de ESTREIAS — só o que ainda não foi ao
                 // ar (episódios/temporadas de séries seguidas e filmes da
                 // fila), com contagem regressiva.
-                if !upcomingPremieres.isEmpty {
+                if !premieres.isEmpty {
                     Text("Up Next")
                         .font(.dsSectionTitle)
                         .accessibilityAddTraits(.isHeader)
                         .padding(.horizontal, DSSpacing.lg)
-                    premiereAgenda
+                    premiereAgenda(premieres)
                 }
 
                 // Watching primeiro nas listas: "continue de onde parou".
-                if !activeShows.isEmpty {
+                if !snapshot.activeShows.isEmpty {
                     sectionHeader(
                         .watching,
                         title: "Watching",
-                        count: activeShows.count,
-                        detail: watchingDetail
+                        count: snapshot.activeShows.count,
+                        detail: watchingDetail(for: snapshot.activeShows)
                     )
                     if expanded.contains(.watching) {
-                        ForEach(sortedActiveShows) { show in
-                            watchingCard(show)
+                        ForEach(snapshot.activeShows) { entry in
+                            watchingCard(entry)
                         }
                     }
                 }
 
-                if !wantToWatchIsEmpty {
+                if !toWatch.isEmpty || !snapshot.queuedShows.isEmpty {
                     sectionHeader(
                         .wantToWatch,
                         title: "Want to Watch",
-                        count: toWatch.count + queuedShows.count,
-                        detail: wantToWatchDetail
+                        count: toWatch.count + snapshot.queuedShows.count,
+                        detail: wantToWatchDetail(queuedShowCount: snapshot.queuedShows.count)
                     )
-                    .padding(.top, activeShows.isEmpty && upcomingPremieres.isEmpty ? 0 : DSSpacing.md)
+                    .padding(.top, snapshot.activeShows.isEmpty && premieres.isEmpty ? 0 : DSSpacing.md)
                     if expanded.contains(.wantToWatch) {
                         ForEach(toWatch) { movie in
                             queueMovieCard(movie)
                         }
                         .reorderable()
 
-                        ForEach(queuedShows) { show in
-                            queuedShowCard(show)
+                        ForEach(snapshot.queuedShows) { entry in
+                            queuedShowCard(entry.show)
                         }
                     }
                 }
 
-                if !watched.isEmpty || !completedShows.isEmpty {
+                if !watched.isEmpty || !snapshot.completedShows.isEmpty {
                     sectionHeader(
                         .watched,
                         title: "Watched",
-                        count: watched.count + completedShows.count,
-                        detail: watchedDetail
+                        count: watched.count + snapshot.completedShows.count,
+                        detail: watchedDetail(
+                            completedShowCount: snapshot.completedShows.count,
+                            reviewedMovieIDs: snapshot.reviewedMovieIDs
+                        )
                     )
                     .padding(.top, DSSpacing.md)
                     if expanded.contains(.watched) {
-                        ForEach(watchedEntries) { entry in
+                        ForEach(watchedEntries(completedShows: snapshot.completedShows)) { entry in
                             switch entry {
-                            case .movie(let movie): watchedCard(movie)
+                            case .movie(let movie):
+                                watchedCard(
+                                    movie,
+                                    hasReview: snapshot.reviewedMovieIDs.contains(Int(movie.id ?? 0))
+                                )
                             case .show(let show): completedShowCard(show)
                             }
                         }
@@ -207,10 +271,6 @@ struct WatchlistScreen: View {
             applyReorder(difference)
         }
         .sensoryFeedback(.impact(weight: .light), trigger: toWatch.compactMap(\.sortIndex))
-    }
-
-    private var wantToWatchIsEmpty: Bool {
-        toWatch.isEmpty && queuedShows.isEmpty
     }
 
     // MARK: - Agenda "Up Next" (estreias com contagem regressiva)
@@ -286,9 +346,9 @@ struct WatchlistScreen: View {
         }
     }
 
-    private var premiereAgenda: some View {
-        let thisWeek = upcomingPremieres.filter { daysUntil($0.date) <= 7 }
-        let later = upcomingPremieres.filter { daysUntil($0.date) > 7 }
+    private func premiereAgenda(_ premieres: [UpcomingPremiere]) -> some View {
+        let thisWeek = premieres.filter { daysUntil($0.date) <= 7 }
+        let later = premieres.filter { daysUntil($0.date) > 7 }
 
         return VStack(alignment: .leading, spacing: DSSpacing.md) {
             if !thisWeek.isEmpty {
@@ -470,40 +530,38 @@ struct WatchlistScreen: View {
     }
 
     /// "3 movies · 1 show" — breakdown da fila.
-    private var wantToWatchDetail: String? {
+    private func wantToWatchDetail(queuedShowCount: Int) -> String? {
         var parts: [String] = []
         if !toWatch.isEmpty {
             parts.append(String(localized: "\(toWatch.count) movies"))
         }
-        if !queuedShows.isEmpty {
-            parts.append(String(localized: "\(queuedShows.count) shows"))
+        if queuedShowCount > 0 {
+            parts.append(String(localized: "\(queuedShowCount) shows"))
         }
         return parts.isEmpty ? nil : parts.joined(separator: " · ")
     }
 
     /// "23 of 88 episodes" — progresso agregado das séries em andamento.
-    private var watchingDetail: String? {
-        let summary = activeShows.reduce(into: (watched: 0, total: 0)) { acc, show in
-            guard let showID = show.id else { return }
-            let progress = trackingStore.showProgress(showID: showID)
-            acc.watched += progress.watched
-            acc.total += progress.total
+    private func watchingDetail(for entries: [ShowProgressEntry]) -> String? {
+        let summary = entries.reduce(into: (watched: 0, total: 0)) { acc, entry in
+            acc.watched += entry.progress.watched
+            acc.total += entry.progress.total
         }
         guard summary.total > 0 else { return nil }
         return String(localized: "\(summary.watched) of \(summary.total) episodes")
     }
 
     /// "4 reviewed · 2 shows" — reviews dos filmes + séries completas.
-    private var watchedDetail: String? {
+    private func watchedDetail(completedShowCount: Int, reviewedMovieIDs: Set<Int>) -> String? {
         var parts: [String] = []
         let reviewed = watched.reduce(0) { count, movie in
-            count + (reviewStore.hasReview(movieID: Int(movie.id ?? 0)) ? 1 : 0)
+            count + (reviewedMovieIDs.contains(Int(movie.id ?? 0)) ? 1 : 0)
         }
         if reviewed > 0 {
             parts.append(String(localized: "\(reviewed) reviewed"))
         }
-        if !completedShows.isEmpty {
-            parts.append(String(localized: "\(completedShows.count) shows"))
+        if completedShowCount > 0 {
+            parts.append(String(localized: "\(completedShowCount) shows"))
         }
         return parts.isEmpty ? nil : parts.joined(separator: " · ")
     }
@@ -608,21 +666,6 @@ struct WatchlistScreen: View {
 
     // MARK: - Fila: séries não começadas
 
-    /// Séries seguidas sem nenhum episódio marcado vivem na fila; a primeira
-    /// marcação preenche lastActivityAt e as promove a Watching.
-    private var queuedShows: [TVShowWatchingModel] {
-        watchingShows
-            .filter { $0.lastActivityAt == nil }
-            .sorted { lhs, rhs in
-                switch (lhs.dateAdded, rhs.dateAdded) {
-                case let (left?, right?): left > right
-                case (.some, nil): true
-                case (nil, .some): false
-                case (nil, nil): (lhs.name ?? "") < (rhs.name ?? "")
-                }
-            }
-    }
-
     private func queuedShowCard(_ show: TVShowWatchingModel) -> some View {
         let item = show.mediaItem
         let selection = MediaSelection(item: item, scope: "watching")
@@ -699,35 +742,11 @@ struct WatchlistScreen: View {
 
     // MARK: - Watching (séries em andamento)
 
-    /// Séries com episódio marcado E ainda incompletas. Completas saem do
-    /// Watching (vivem na Watched) e voltam sozinhas quando o refresh de
-    /// metadados trouxer episódios novos — o que nunca acontece com séries
-    /// encerradas/canceladas.
-    private var activeShows: [TVShowWatchingModel] {
-        watchingShows.filter { $0.lastActivityAt != nil && !progress(for: $0).isComplete }
-    }
-
-    /// Séries 100% assistidas — moram na seção Watched.
-    private var completedShows: [TVShowWatchingModel] {
-        watchingShows.filter { progress(for: $0).isComplete }
-    }
-
-    /// "Continue de onde parou": última atividade primeiro.
-    private var sortedActiveShows: [TVShowWatchingModel] {
-        activeShows.sorted { lhs, rhs in
-            switch (lhs.lastActivityAt, rhs.lastActivityAt) {
-            case let (left?, right?): left > right
-            case (.some, nil): true
-            case (nil, .some): false
-            case (nil, nil): (lhs.name ?? "") < (rhs.name ?? "")
-            }
-        }
-    }
-
-    private func watchingCard(_ show: TVShowWatchingModel) -> some View {
+    private func watchingCard(_ entry: ShowProgressEntry) -> some View {
+        let show = entry.show
         let item = show.mediaItem
         let selection = MediaSelection(item: item, scope: "watching")
-        let progress = progress(for: show)
+        let progress = entry.progress
 
         return NavigationLink(value: selection) {
             LibraryRow(zoomSourceID: selection.sourceID) {
@@ -786,11 +805,6 @@ struct WatchlistScreen: View {
             parts.append(String(localized: "Last watched \(activity)"))
         }
         return parts.joined(separator: " · ")
-    }
-
-    private func progress(for show: TVShowWatchingModel) -> WatchProgress {
-        guard let showID = show.id else { return WatchProgress(watched: 0, total: 0) }
-        return trackingStore.showProgress(showID: showID)
     }
 
     private func upNextLabel(for show: TVShowWatchingModel) -> Text? {
@@ -853,31 +867,31 @@ struct WatchlistScreen: View {
     /// antigo (filme = watchedAt; série = lastActivityAt); sem data → fim.
     private enum WatchedEntry: Identifiable {
         case movie(WatchedModel)
-        case show(TVShowWatchingModel)
+        case show(ShowProgressEntry)
 
         var id: String {
             switch self {
             case .movie(let movie): "movie-\(movie.id ?? 0)"
-            case .show(let show): "show-\(show.id ?? 0)"
+            case .show(let entry): "show-\(entry.show.id ?? 0)"
             }
         }
 
         var sortDate: Date? {
             switch self {
             case .movie(let movie): movie.watchedAt
-            case .show(let show): show.lastActivityAt
+            case .show(let entry): entry.show.lastActivityAt
             }
         }
 
         var sortName: String {
             switch self {
             case .movie(let movie): movie.name ?? ""
-            case .show(let show): show.name ?? ""
+            case .show(let entry): entry.show.name ?? ""
             }
         }
     }
 
-    private var watchedEntries: [WatchedEntry] {
+    private func watchedEntries(completedShows: [ShowProgressEntry]) -> [WatchedEntry] {
         let entries = watched.map(WatchedEntry.movie) + completedShows.map(WatchedEntry.show)
         return entries.sorted { lhs, rhs in
             switch (lhs.sortDate, rhs.sortDate) {
@@ -889,10 +903,9 @@ struct WatchlistScreen: View {
         }
     }
 
-    private func watchedCard(_ movie: WatchedModel) -> some View {
+    private func watchedCard(_ movie: WatchedModel, hasReview: Bool) -> some View {
         let item = movie.mediaItem
         let selection = MediaSelection(item: item, scope: "watched")
-        let hasReview = reviewStore.hasReview(movieID: item.id)
 
         return NavigationLink(value: selection) {
             LibraryRow(zoomSourceID: selection.sourceID) {
@@ -959,10 +972,11 @@ struct WatchlistScreen: View {
 
     /// Série 100% assistida na seção Watched: progresso completo + status
     /// explicando por que saiu do Watching.
-    private func completedShowCard(_ show: TVShowWatchingModel) -> some View {
+    private func completedShowCard(_ entry: ShowProgressEntry) -> some View {
+        let show = entry.show
         let item = show.mediaItem
         let selection = MediaSelection(item: item, scope: "watching")
-        let progress = progress(for: show)
+        let progress = entry.progress
 
         return NavigationLink(value: selection) {
             LibraryRow(zoomSourceID: selection.sourceID) {

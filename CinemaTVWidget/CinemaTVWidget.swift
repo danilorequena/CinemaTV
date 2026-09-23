@@ -11,11 +11,21 @@ import WidgetKit
 import SwiftUI
 import SwiftData
 import AppIntents
+import OSLog
 import CinemaTVCore
 
-/// Container SwiftData do app group — mesma store que o app e os intents.
+/// The widget only reads the app-group store. Its extension has no CloudKit
+/// entitlement; the host app owns CloudKit mirroring for this same store.
 enum WidgetContainer {
-    static let shared = ModelContainerFactory.resilientShared()
+    static let shared: ModelContainer = {
+        do {
+            return try ModelContainerFactory.makeLocalShared()
+        } catch {
+            Logger(subsystem: "com.danilorequena.CinemaTV", category: "WidgetStore")
+                .error("Could not open the shared library: \(error.localizedDescription)")
+            return try! ModelContainerFactory.makeInMemory()
+        }
+    }()
 }
 
 // MARK: - Configuração
@@ -618,4 +628,3 @@ struct LauncherWidgetView: View {
 } timeline: {
     LauncherEntry(date: .now, configuration: LauncherWidgetConfigIntent())
 }
-

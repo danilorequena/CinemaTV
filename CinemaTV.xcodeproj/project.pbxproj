@@ -20,6 +20,7 @@
 		FF21AC833008DB9D009764B1 /* DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF21AC823008DB9D009764B1 /* DeepLink.swift */; };
 		FF21AC863008DBA0009764B1 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF21AC853008DBA0009764B1 /* AppRouter.swift */; };
 		FF21AC8B3008DBAC009764B1 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF21AC893008DBAC009764B1 /* AppEnvironment.swift */; };
+		DC2026092300000000000001 /* CloudSyncDiagnostics.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2026092300000000000002 /* CloudSyncDiagnostics.swift */; };
 		FF21AC8D3008DBB8009764B1 /* AppShellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF21AC8C3008DBB8009764B1 /* AppShellView.swift */; };
 		FF21AC993008DC0D009764B1 /* HomeScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF21AC973008DC0D009764B1 /* HomeScreenModel.swift */; };
 		FF21AC9B3008DC15009764B1 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF21AC9A3008DC15009764B1 /* HomeScreen.swift */; };
@@ -159,6 +160,7 @@
 		FF21AC823008DB9D009764B1 /* DeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
 		FF21AC853008DBA0009764B1 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		FF21AC893008DBAC009764B1 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
+		DC2026092300000000000002 /* CloudSyncDiagnostics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncDiagnostics.swift; sourceTree = "<group>"; };
 		FF21AC8C3008DBB8009764B1 /* AppShellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppShellView.swift; sourceTree = "<group>"; };
 		FF21AC973008DC0D009764B1 /* HomeScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenModel.swift; sourceTree = "<group>"; };
 		FF21AC9A3008DC15009764B1 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 			isa = PBXGroup;
 			children = (
 				FF21AC893008DBAC009764B1 /* AppEnvironment.swift */,
+				DC2026092300000000000002 /* CloudSyncDiagnostics.swift */,
 				FF21AC8C3008DBB8009764B1 /* AppShellView.swift */,
 			);
 			path = App;
@@ -907,6 +910,7 @@
 				FF21AC9B3008DC15009764B1 /* HomeScreen.swift in Sources */,
 				FF21ACA83008DC59009764B1 /* MovieDetailScreen.swift in Sources */,
 				FF21AC8B3008DBAC009764B1 /* AppEnvironment.swift in Sources */,
+				DC2026092300000000000001 /* CloudSyncDiagnostics.swift in Sources */,
 				FFA0857B303F645800DD9E08 /* VisualTextExtractor.swift in Sources */,
 				FFA08B7A304314F900DD9E08 /* AgentTask.swift in Sources */,
 				FFCA557C302BB6210025941D /* ReviewCardRenderer.swift in Sources */,

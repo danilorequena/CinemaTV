@@ -10,6 +10,7 @@
 import SwiftUI
 import SwiftData
 import WidgetKit
+import CloudKit
 import CinemaTVCore
 import CinemaTVDesignSystem
 
@@ -22,6 +23,15 @@ struct SettingsScreen: View {
     @AppStorage("premiereNotificationsEnabled") private var premiereNotificationsEnabled = false
     /// Override de região do TMDB (App Group); vazio = automático (região do aparelho).
     @AppStorage(TMDBRegion.overrideKey, store: TMDBRegion.store) private var regionOverride = ""
+    @AppStorage(CloudSyncDiagnostics.modeKey) private var cloudStoreMode = ""
+    @AppStorage(CloudSyncDiagnostics.startupErrorKey) private var cloudStartupError = ""
+    @AppStorage(CloudSyncDiagnostics.lastSetupKey) private var lastCloudSetup = 0.0
+    @AppStorage(CloudSyncDiagnostics.lastImportKey) private var lastCloudImport = 0.0
+    @AppStorage(CloudSyncDiagnostics.lastExportKey) private var lastCloudExport = 0.0
+    @AppStorage(CloudSyncDiagnostics.lastErrorKey) private var lastCloudError = ""
+    @AppStorage(CloudSyncDiagnostics.lastErrorDateKey) private var lastCloudErrorDate = 0.0
+    @State private var cloudAccountStatus: CKAccountStatus?
+    @State private var cloudAccountError = ""
 
     /// Agenda atual de estreias, para (re)agendar ao mexer no toggle.
     let notificationEntries: [PremiereNotifications.Entry]
@@ -52,6 +62,57 @@ struct SettingsScreen: View {
                 Text("Region")
             } footer: {
                 Text("Affects release dates, what's in theaters, and where to watch.")
+            }
+
+            Section {
+                LabeledContent("Library storage", value: cloudStoreLabel)
+                LabeledContent("iCloud account", value: cloudAccountLabel)
+
+                if cloudStoreMode == "cloudKit", lastCloudSetup > 0 {
+                    LabeledContent("Last iCloud setup", value: cloudDate(lastCloudSetup))
+                }
+                if cloudStoreMode == "cloudKit", lastCloudExport > 0 {
+                    LabeledContent("Last observed upload", value: cloudDate(lastCloudExport))
+                }
+                if cloudStoreMode == "cloudKit", lastCloudImport > 0 {
+                    LabeledContent("Last observed download", value: cloudDate(lastCloudImport))
+                }
+
+                if cloudStoreMode == "local" {
+                    Text("iCloud did not start. Changes saved on this iPhone are currently local.")
+                        .foregroundStyle(.orange)
+                } else if cloudStoreMode == "memory" {
+                    Text("The library could not be opened. Changes may disappear when the app closes.")
+                        .foregroundStyle(.red)
+                } else if cloudStoreMode == "cloudKit", lastCloudSetup == 0,
+                          lastCloudImport == 0, lastCloudExport == 0 {
+                    Text("Waiting for iCloud activity.")
+                        .foregroundStyle(.secondary)
+                }
+
+                if !cloudStartupError.isEmpty {
+                    Text("Storage error: \(cloudStartupError)")
+                        .font(.footnote)
+                        .foregroundStyle(.red)
+                }
+                if !cloudAccountError.isEmpty {
+                    Text("Account error: \(cloudAccountError)")
+                        .font(.footnote)
+                        .foregroundStyle(.red)
+                }
+                if cloudStoreMode == "cloudKit", !lastCloudError.isEmpty {
+                    Text("Sync error\(lastCloudErrorDate > 0 ? " (\(cloudDate(lastCloudErrorDate)))" : ""): \(lastCloudError)")
+                        .font(.footnote)
+                        .foregroundStyle(.red)
+                }
+
+                Button("Check iCloud Account Again") {
+                    Task { await refreshCloudAccount() }
+                }
+            } header: {
+                Text("iCloud Sync")
+            } footer: {
+                Text("An available account does not mean your library has finished syncing. Both iPhones need the same Apple Account. Xcode builds and TestFlight/App Store builds use separate iCloud databases.")
             }
 
             Section {
@@ -181,6 +242,46 @@ struct SettingsScreen: View {
                     entries: notificationEntries
                 )
             }
+        }
+        .task { await refreshCloudAccount() }
+    }
+
+    private var cloudStoreLabel: String {
+        switch cloudStoreMode {
+        case "cloudKit": "iCloud configured"
+        case "local": "Only on this iPhone"
+        case "memory": "Temporary"
+        default: "Checking…"
+        }
+    }
+
+    private var cloudAccountLabel: String {
+        if !cloudAccountError.isEmpty { return "Could not check" }
+        guard let cloudAccountStatus else { return "Checking…" }
+        switch cloudAccountStatus {
+        case .available: return "Available"
+        case .noAccount: return "Not signed in"
+        case .restricted: return "Restricted"
+        case .temporarilyUnavailable: return "Temporarily unavailable"
+        case .couldNotDetermine: return "Could not determine"
+        @unknown default: return "Unknown"
+        }
+    }
+
+    private func cloudDate(_ timestamp: Double) -> String {
+        Date(timeIntervalSince1970: timestamp).formatted(date: .abbreviated, time: .shortened)
+    }
+
+    @MainActor
+    private func refreshCloudAccount() async {
+        do {
+            cloudAccountStatus = try await CKContainer(
+                identifier: ModelContainerFactory.cloudKitContainerID
+            ).accountStatus()
+            cloudAccountError = ""
+        } catch {
+            cloudAccountStatus = nil
+            cloudAccountError = error.localizedDescription
         }
     }
 }

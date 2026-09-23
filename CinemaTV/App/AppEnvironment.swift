@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 import CinemaTVCore
 
 // Default estável (struct Sendable): criado uma vez, não invalida dependentes.
@@ -35,6 +36,23 @@ extension EnvironmentValues {
 /// Container único do processo — compartilhado entre o app e os App Intents
 /// (o ModelContainer é caro; criar um por intent duplicaria stores).
 enum AppContainer {
-    static let shared = ModelContainerFactory.resilientShared()
+    static let shared: ModelContainer = {
+#if DEBUG
+        // The Canvas launches the app before injecting its preview content.
+        // Keep that launch independent of the personal CloudKit store as well.
+        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
+            return try! ModelContainerFactory.makeInMemory()
+        }
+        // A dedicated on-disk store lets UI tests relaunch without touching personal data.
+        if let token = ProcessInfo.processInfo.environment["CINEMATV_UI_TEST_STORE"], let id = UUID(uuidString: token) {
+            let url = FileManager.default.temporaryDirectory.appending(path: "boxes-ui-\(id.uuidString).store")
+            let config = ModelConfiguration(schema: ModelContainerFactory.schema, url: url, cloudKitDatabase: .none)
+            return try! ModelContainer(for: ModelContainerFactory.schema, configurations: config)
+        }
+#endif
+        CloudSyncDiagnostics.start()
+        let result = ModelContainerFactory.makeResilientShared()
+        CloudSyncDiagnostics.recordContainerResult(result)
+        return result.container
+    }()
 }
-

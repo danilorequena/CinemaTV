@@ -86,6 +86,12 @@ public final class TVShowTrackingStore {
 
     public func showProgress(showID: Int) -> WatchProgress {
         guard let show = try? show(id: showID) else { return WatchProgress(watched: 0, total: 0) }
+        return showProgress(of: show)
+    }
+
+    /// Progress from a model the caller already owns. This avoids fetching
+    /// the complete followed-show collection again when rendering a list.
+    public func showProgress(of show: TVShowWatchingModel) -> WatchProgress {
         let seasons = regularSeasons(of: show)
         let watched = seasons.reduce(0) { $0 + ($1.episodes?.count ?? 0) }
         let total = show.totalEpisodes ?? seasons.reduce(0) { $0 + ($1.episodeCount ?? 0) }
@@ -322,8 +328,24 @@ public final class TVShowTrackingStore {
     public func backfillActivityCaches() throws {
         var changed = false
         for show in try watchingShows() where show.lastActivityAt == nil {
+            // nil is valid for an unstarted show. Leave its caches alone
+            // instead of dirtying the model on every Library visit.
+            guard (show.seasons ?? []).contains(where: { season in
+                !season.isDeleted && (season.episodes ?? []).contains {
+                    !$0.isDeleted
+                }
+            }) else { continue }
+            let previousNext = (
+                show.nextEpisodeSeason, show.nextEpisodeNumber,
+                show.nextEpisodeName, show.nextEpisodeStillPath
+            )
             recomputeUpNext(for: show)
-            if show.lastActivityAt != nil {
+            // Legacy episodes can be watched without having a date. Persist
+            // their Up Next repair even when lastActivityAt remains nil.
+            if show.lastActivityAt != nil || previousNext != (
+                show.nextEpisodeSeason, show.nextEpisodeNumber,
+                show.nextEpisodeName, show.nextEpisodeStillPath
+            ) {
                 changed = true
             }
         }
@@ -386,12 +408,15 @@ public final class TVShowTrackingStore {
     /// quando o alvo muda; updateUpNextCache preenche depois. Também
     /// recomputa o cache de última atividade (roda em toda mutação).
     private func recomputeUpNext(for show: TVShowWatchingModel) {
-        show.lastActivityAt = (show.seasons ?? [])
+        let lastActivityAt = (show.seasons ?? [])
             .filter { !$0.isDeleted }
             .flatMap { $0.episodes ?? [] }
             .filter { !$0.isDeleted }
             .compactMap(\.watchedAt)
             .max()
+        if show.lastActivityAt != lastActivityAt {
+            show.lastActivityAt = lastActivityAt
+        }
 
         var next: (season: Int, episode: Int)?
         outer: for season in regularSeasons(of: show) {
@@ -410,10 +435,13 @@ public final class TVShowTrackingStore {
             }
         }
         guard let next else {
-            show.nextEpisodeSeason = nil
-            show.nextEpisodeNumber = nil
-            show.nextEpisodeName = nil
-            show.nextEpisodeStillPath = nil
+            if show.nextEpisodeSeason != nil || show.nextEpisodeNumber != nil ||
+                show.nextEpisodeName != nil || show.nextEpisodeStillPath != nil {
+                show.nextEpisodeSeason = nil
+                show.nextEpisodeNumber = nil
+                show.nextEpisodeName = nil
+                show.nextEpisodeStillPath = nil
+            }
             return
         }
         if show.nextEpisodeSeason != next.season || show.nextEpisodeNumber != next.episode {

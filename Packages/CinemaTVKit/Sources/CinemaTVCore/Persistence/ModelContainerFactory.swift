@@ -8,10 +8,29 @@
 //
 
 import Foundation
+import OSLog
 import SwiftData
+
+public enum SharedContainerMode: String, Sendable {
+    case cloudKit
+    case local
+    case memory
+}
+
+public struct SharedContainerResult: Sendable {
+    public let container: ModelContainer
+    public let mode: SharedContainerMode
+    public let errorDescription: String?
+}
 
 public enum ModelContainerFactory {
     public static let appGroupID = "group.com.danilorequena.CinemaTV"
+    public static let cloudKitContainerID = "iCloud.com.danilorequena.CinemaTV"
+
+    private static let logger = Logger(
+        subsystem: "com.danilorequena.CinemaTV",
+        category: "ModelContainer"
+    )
 
     public static let schema = Schema([
         MoviesToWatch.self,
@@ -31,26 +50,64 @@ public enum ModelContainerFactory {
         let configuration = ModelConfiguration(
             schema: schema,
             url: storeURL,
-            cloudKitDatabase: .automatic
+            cloudKitDatabase: .private(cloudKitContainerID)
         )
         return try ModelContainer(for: schema, configurations: [configuration])
     }
 
-    /// makeShared com degradação graciosa: sem CloudKit disponível (ex.:
-    /// simulador sem conta) cai para store local no app group; em último
-    /// caso, in-memory para o app nunca deixar de abrir.
+    /// Container local do app group para extensões sem entitlement de CloudKit.
+    public static func makeLocalShared() throws -> ModelContainer {
+        let storeURL = try storeURL()
+        migrateLegacyStoreIfNeeded(to: storeURL)
+
+        let configuration = ModelConfiguration(
+            schema: schema,
+            url: storeURL,
+            cloudKitDatabase: .none
+        )
+        return try ModelContainer(for: schema, configurations: [configuration])
+    }
+
+    /// Abre o container compartilhado e informa se o processo precisou
+    /// desativar o CloudKit ou, em último caso, usar armazenamento em memória.
+    public static func makeResilientShared() -> SharedContainerResult {
+        do {
+            let container = try makeShared()
+            return SharedContainerResult(container: container, mode: .cloudKit, errorDescription: nil)
+        } catch {
+            let originalError = errorDescription(for: error)
+            logger.error("CloudKit container failed to open; falling back to the local app-group store. Error: \(originalError)")
+
+            do {
+                let container = try makeLocalShared()
+                return SharedContainerResult(
+                    container: container,
+                    mode: .local,
+                    errorDescription: originalError
+                )
+            } catch {
+                let localError = errorDescription(for: error)
+                logger.fault("Local app-group store failed to open; falling back to an in-memory store. Error: \(localError)")
+
+                do {
+                    let container = try makeInMemory()
+                    return SharedContainerResult(
+                        container: container,
+                        mode: .memory,
+                        errorDescription: "CloudKit: \(originalError). Local store: \(localError)"
+                    )
+                } catch {
+                    let memoryError = errorDescription(for: error)
+                    logger.fault("In-memory store failed to open. Error: \(memoryError)")
+                    fatalError("Unable to create any CinemaTV model container: \(memoryError)")
+                }
+            }
+        }
+    }
+
+    /// Compatibility wrapper for callers that only need the container.
     public static func resilientShared() -> ModelContainer {
-        if let shared = try? makeShared() {
-            return shared
-        }
-        if let url = try? storeURL(),
-           let local = try? ModelContainer(
-               for: schema,
-               configurations: [ModelConfiguration(schema: schema, url: url, cloudKitDatabase: .none)]
-           ) {
-            return local
-        }
-        return try! makeInMemory()
+        makeResilientShared().container
     }
 
     /// Container efêmero para testes e previews.
@@ -91,5 +148,10 @@ public enum ModelContainerFactory {
             guard fm.fileExists(atPath: source.path) else { continue }
             try? fm.copyItem(at: source, to: target)
         }
+    }
+
+    private static func errorDescription(for error: any Error) -> String {
+        let error = error as NSError
+        return "\(error.domain) (\(error.code)): \(error.localizedDescription)"
     }
 }

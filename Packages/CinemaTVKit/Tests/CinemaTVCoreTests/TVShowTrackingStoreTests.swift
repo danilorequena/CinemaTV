@@ -172,6 +172,63 @@ import Testing
         #expect(show.lastActivityAt != nil)
     }
 
+    @Test func backfillDoesNotDirtyAnUnstartedShow() throws {
+        try store.follow(gameOfThrones)
+        let context = container.mainContext
+        #expect(!context.hasChanges)
+
+        try store.backfillActivityCaches()
+
+        // Opening Library must not schedule another autosave for an
+        // unstarted show whose activity cache is correctly nil.
+        #expect(!context.hasChanges)
+    }
+
+    @Test(arguments: [nil, Date(timeIntervalSince1970: 1_700_000_000)] as [Date?])
+    func backfillPicksUpLegacyEpisodesArrivingAfterAnEarlierPass(watchedAt: Date?) throws {
+        try store.follow(gameOfThrones)
+        try store.backfillActivityCaches()
+
+        let show = try #require(try store.show(id: 1399))
+        let season = try #require(show.seasons?.first { $0.seasonNumber == 1 })
+        // Models can arrive later through CloudKit, without a store mutation
+        // recomputing the caches. A process-wide migration flag would miss this.
+        container.mainContext.insert(EpisodeSD(
+            episodeNumber: 1, seasonNumber: 1, showID: 1399,
+            watchedAt: watchedAt, season: season
+        ))
+        try container.mainContext.save()
+
+        try store.backfillActivityCaches()
+
+        #expect(show.lastActivityAt == watchedAt)
+        #expect(show.nextEpisodeNumber == 2)
+        #expect(!container.mainContext.hasChanges)
+        try store.backfillActivityCaches()
+        #expect(!container.mainContext.hasChanges)
+    }
+
+    @Test func backfillDoesNotDirtyACompletedShowWithoutActivityDates() throws {
+        try store.follow(gameOfThrones)
+        let show = try #require(try store.show(id: 1399))
+        for season in show.seasons ?? [] {
+            for number in 1...(season.episodeCount ?? 1) {
+                container.mainContext.insert(EpisodeSD(
+                    episodeNumber: number, seasonNumber: season.seasonNumber,
+                    showID: 1399, season: season
+                ))
+            }
+        }
+        try container.mainContext.save()
+
+        try store.backfillActivityCaches()
+        #expect(show.nextEpisodeNumber == nil)
+        #expect(!container.mainContext.hasChanges)
+
+        try store.backfillActivityCaches()
+        #expect(!container.mainContext.hasChanges)
+    }
+
     @Test func bulkSeasonMarkSetsLastActivity() throws {
         try store.follow(gameOfThrones)
         try store.markSeasonWatched(seasonDetails(1, episodes: 3), showID: 1399)

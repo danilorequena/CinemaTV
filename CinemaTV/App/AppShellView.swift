@@ -20,6 +20,9 @@ private let holoShaderProvider = DSHoloShaderProvider(id: "holoSweep") { angle, 
 
 struct AppShellView: View {
     @Environment(AppRouter.self) private var router
+    @AppStorage(CloudSyncDiagnostics.modeKey) private var cloudStoreMode = ""
+    @AppStorage(CloudSyncDiagnostics.lastErrorKey) private var lastCloudError = ""
+    @State private var showsCloudStoreWarning = false
     @Namespace private var zoomNamespace
 
     var body: some View {
@@ -27,6 +30,33 @@ struct AppShellView: View {
             .environment(\.mediaZoomNamespace, zoomNamespace)
             .environment(\.dsHoloShader, holoShaderProvider)
             .tint(DSColor.accent)
+            .onAppear {
+#if DEBUG
+                if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+                    || ProcessInfo.processInfo.environment["CINEMATV_UI_TEST_STORE"] != nil {
+                    return
+                }
+#endif
+                showsCloudStoreWarning = cloudStoreMode == "local"
+                    || cloudStoreMode == "memory"
+                    || !lastCloudError.isEmpty
+            }
+            .onChange(of: lastCloudError) { _, error in
+                if cloudStoreMode == "cloudKit", !error.isEmpty {
+                    showsCloudStoreWarning = true
+                }
+            }
+            .alert("iCloud Sync Needs Attention", isPresented: $showsCloudStoreWarning) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                if cloudStoreMode == "memory" {
+                    Text("The library could not be opened. New changes may disappear when the app closes. See Settings > iCloud Sync for details.")
+                } else if cloudStoreMode == "local" {
+                    Text("Changes are being saved only on this iPhone. See Settings > iCloud Sync for details.")
+                } else {
+                    Text("Your library is saved on this iPhone, but iCloud could not sync it. See Settings > iCloud Sync for details.")
+                }
+            }
     }
 
     private var standardBody: some View {
