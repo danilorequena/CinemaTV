@@ -56,6 +56,56 @@ public struct ProviderRow: View {
     }
 }
 
+/// Disponibilidade regional do TMDB/JustWatch para filmes e séries.
+/// O link abre a página do TMDB, que contém os links efetivos dos serviços.
+public struct WatchProvidersSection: View {
+    private let providers: RegionProviders?
+    private let regionCode: String
+
+    public init(providers: RegionProviders?, regionCode: String) {
+        self.providers = providers
+        self.regionCode = regionCode
+    }
+
+    public var body: some View {
+        VStack(alignment: .leading, spacing: DSSpacing.md) {
+            SectionHeader("Where to Watch")
+
+            Text("Availability in \(TMDBRegion.localizedName(for: regionCode)) (\(regionCode))")
+                .font(.dsCaption)
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, DSSpacing.lg)
+
+            if let providers, providers.hasOffers {
+                ProviderRow(title: "Subscription", providers: providers.flatrate ?? [])
+                ProviderRow(title: "Free", providers: providers.free ?? [])
+                ProviderRow(title: "With ads", providers: providers.ads ?? [])
+                ProviderRow(title: "Rent", providers: providers.rent ?? [])
+                ProviderRow(title: "Buy", providers: providers.buy ?? [])
+            } else {
+                Text("No watch options found for this region.")
+                    .font(.body)
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, DSSpacing.lg)
+            }
+
+            if let url = providers?.watchPageURL {
+                Link(destination: url) {
+                    Label("See watch options on TMDB", systemImage: "arrow.up.right")
+                }
+                .font(.dsCaption)
+                .padding(.horizontal, DSSpacing.lg)
+                .accessibilityHint("Opens TMDB's page with links to the services")
+            }
+
+            Text("Availability data provided by JustWatch")
+                .font(.caption2)
+                .foregroundStyle(.tertiary)
+                .padding(.horizontal, DSSpacing.lg)
+        }
+    }
+}
+
 #Preview(traits: .sizeThatFitsLayout) {
     ProviderRow(
         title: "Stream",

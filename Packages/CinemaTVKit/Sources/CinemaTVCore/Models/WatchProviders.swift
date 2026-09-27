@@ -9,17 +9,34 @@ public struct WatchProvidersResponse: Decodable, Sendable {
     public let id: Int
     public let results: [String: RegionProviders]
 
-    /// Provedores da região efetiva (TMDBRegion), com fallback para US.
+    /// Provedores somente da região efetiva; disponibilidade de outro país
+    /// não representa uma opção válida para o usuário.
     public var currentRegion: RegionProviders? {
-        results[TMDBRegion.current] ?? results["US"]
+        results[TMDBRegion.current]
     }
 }
 
 public struct RegionProviders: Decodable, Sendable {
     public let link: String?
     public let flatrate: [WatchProvider]?
+    public let free: [WatchProvider]?
+    public let ads: [WatchProvider]?
     public let rent: [WatchProvider]?
     public let buy: [WatchProvider]?
+
+    public var hasOffers: Bool {
+        [flatrate, free, ads, rent, buy].contains { !($0 ?? []).isEmpty }
+    }
+
+    /// O link retornado pelo TMDB aponta para sua própria página de
+    /// disponibilidade, não diretamente para o aplicativo do provedor.
+    public var watchPageURL: URL? {
+        guard let link, let url = URL(string: link),
+              url.scheme == "https", let host = url.host?.lowercased(),
+              host == "themoviedb.org" || host.hasSuffix(".themoviedb.org")
+        else { return nil }
+        return url
+    }
 }
 
 public struct WatchProvider: Identifiable, Hashable, Sendable, Decodable {

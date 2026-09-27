@@ -21,6 +21,7 @@ public enum TMDBEndpoint: Equatable, Sendable {
     case movieRecommendations(id: Int)
     case similarMovies(id: Int)
     case movieWatchProviders(id: Int)
+    case movieWatchProviderCatalog
     case searchMovies
     case multiSearch
 
@@ -41,6 +42,7 @@ public enum TMDBEndpoint: Equatable, Sendable {
     case tvShowCredits(id: Int)
     case tvShowVideos(id: Int)
     case tvShowWatchProviders(id: Int)
+    case tvWatchProviderCatalog
     case tvShowRecommendations(id: Int)
     case similarTVShows(id: Int)
     case searchTVShows
@@ -58,6 +60,7 @@ public enum TMDBEndpoint: Equatable, Sendable {
         case .movieRecommendations(let id): "movie/\(id)/recommendations"
         case .similarMovies(let id): "movie/\(id)/similar"
         case .movieWatchProviders(let id): "movie/\(id)/watch/providers"
+        case .movieWatchProviderCatalog: "watch/providers/movie"
         case .searchMovies: "search/movie"
         case .multiSearch: "search/multi"
         case .trendingAll: "trending/all/week"
@@ -72,6 +75,7 @@ public enum TMDBEndpoint: Equatable, Sendable {
         case .tvShowCredits(let id): "tv/\(id)/credits"
         case .tvShowVideos(let id): "tv/\(id)/videos"
         case .tvShowWatchProviders(let id): "tv/\(id)/watch/providers"
+        case .tvWatchProviderCatalog: "watch/providers/tv"
         case .tvShowRecommendations(let id): "tv/\(id)/recommendations"
         case .similarTVShows(let id): "tv/\(id)/similar"
         case .searchTVShows: "search/tv"

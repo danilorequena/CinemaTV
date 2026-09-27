@@ -16,6 +16,7 @@ final class TVShowDetailModel {
         /// Crew do show (compositores para a busca de trilha sonora).
         let crew: [CrewMember]
         let videos: [Video]
+        let providerRegion: String
         let providers: RegionProviders?
         let recommendations: [MediaItem]
     }
@@ -24,6 +25,7 @@ final class TVShowDetailModel {
 
     func load(client: TMDBClient, showID: Int) async {
         if case .loaded = state { return }
+        let providerRegion = TMDBRegion.current
         state = .loading
         do {
             async let show: TVShowDetails = client.fetch(.tvShowDetail(id: showID))
@@ -38,7 +40,8 @@ final class TVShowDetailModel {
                     cast: try await credits.cast,
                     crew: try await credits.crew ?? [],
                     videos: try await videos.results.filter(\.isYouTubeTrailer),
-                    providers: try await providers.currentRegion,
+                    providerRegion: providerRegion,
+                    providers: try await providers.results[providerRegion],
                     recommendations: try await recommendations.results
                 )
             )

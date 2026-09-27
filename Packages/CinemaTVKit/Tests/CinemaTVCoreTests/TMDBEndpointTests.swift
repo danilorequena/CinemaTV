@@ -42,4 +42,9 @@ import Testing
         #expect(TMDBEndpoint.tvShowRecommendations(id: 1399).path == "tv/1399/recommendations")
         #expect(TMDBEndpoint.similarTVShows(id: 1399).path == "tv/1399/similar")
     }
+
+    @Test func streamingProviderCatalogPaths() {
+        #expect(TMDBEndpoint.movieWatchProviderCatalog.path == "watch/providers/movie")
+        #expect(TMDBEndpoint.tvWatchProviderCatalog.path == "watch/providers/tv")
+    }
 }

@@ -15,6 +15,7 @@ final class MovieDetailModel {
         let cast: [CastMember]
         let crew: [CrewMember]
         let videos: [Video]
+        let providerRegion: String
         let providers: RegionProviders?
         let recommendations: [MediaItem]
     }
@@ -23,6 +24,7 @@ final class MovieDetailModel {
 
     func load(client: TMDBClient, movieID: Int) async {
         if case .loaded = state { return }
+        let providerRegion = TMDBRegion.current
         state = .loading
         do {
             async let movie: MovieDetails = client.fetch(.movieDetail(id: movieID))
@@ -37,7 +39,8 @@ final class MovieDetailModel {
                     cast: try await credits.cast,
                     crew: try await credits.crew ?? [],
                     videos: try await videos.results.filter(\.isYouTubeTrailer),
-                    providers: try await providers.currentRegion,
+                    providerRegion: providerRegion,
+                    providers: try await providers.results[providerRegion],
                     recommendations: try await recommendations.results
                 )
             )

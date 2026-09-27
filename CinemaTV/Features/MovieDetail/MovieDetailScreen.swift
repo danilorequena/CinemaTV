@@ -281,14 +281,10 @@ struct MovieDetailScreen: View {
                 CastCarousel(members: details.cast)
             }
 
-            if let providers = details.providers {
-                VStack(alignment: .leading, spacing: DSSpacing.md) {
-                    SectionHeader("Where to Watch")
-                    ProviderRow(title: "Stream", providers: providers.flatrate ?? [])
-                    ProviderRow(title: "Rent", providers: providers.rent ?? [])
-                    ProviderRow(title: "Buy", providers: providers.buy ?? [])
-                }
-            }
+            WatchProvidersSection(
+                providers: details.providers,
+                regionCode: details.providerRegion
+            )
 
             // Skeleton enquanto a busca de trilha roda; some (animado) se o
             // título não tiver trilha no catálogo.

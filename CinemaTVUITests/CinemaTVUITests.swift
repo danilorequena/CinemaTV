@@ -231,3 +231,64 @@ final class ExternalMediaNavigationUITests: XCTestCase {
         XCTAssertTrue(app.buttons["Boxes"].waitForExistence(timeout: 5))
     }
 }
+
+final class StreamingDiscoveryUITests: XCTestCase {
+    @MainActor
+    func testMoviesShowAvailableNetflixReleases() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        app.launch()
+
+        app.buttons["Discover"].firstMatch.tap()
+        assertStreamingResults(in: app, feedID: "discover.movies.feed")
+    }
+
+    @MainActor
+    func testTVShowsShowAvailableNetflixReleases() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        app.launch()
+
+        app.buttons["Discover"].firstMatch.tap()
+        app.segmentedControls.buttons["TV Shows"].tap()
+        assertStreamingResults(in: app, feedID: "discover.tv.feed")
+    }
+
+    @MainActor
+    func testMovieDetailShowsWhereToWatchAndAttribution() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        app.open(URL(string: "cinematv://movie/603")!)
+
+        XCTAssertTrue(app.staticTexts["The Matrix"].waitForExistence(timeout: 30))
+        let heading = app.staticTexts["Where to Watch"]
+        for _ in 0..<8 where !heading.exists {
+            app.swipeUp()
+        }
+        XCTAssertTrue(heading.waitForExistence(timeout: 20))
+        XCTAssertTrue(app.staticTexts["Availability data provided by JustWatch"].exists)
+    }
+
+    @MainActor
+    private func assertStreamingResults(in app: XCUIApplication, feedID: String) {
+        let feed = app.scrollViews[feedID]
+        XCTAssertTrue(feed.waitForExistence(timeout: 30))
+
+        let streaming = app.staticTexts["New releases to stream"]
+        for _ in 0..<8 where !streaming.exists {
+            feed.swipeUp()
+        }
+        XCTAssertTrue(streaming.waitForExistence(timeout: 10))
+        XCTAssertTrue(app.buttons["streaming.provider.8"].waitForExistence(timeout: 30))
+        XCTAssertTrue(
+            app.descendants(matching: .any)["streaming.results"]
+                .waitForExistence(timeout: 30)
+        )
+    }
+}

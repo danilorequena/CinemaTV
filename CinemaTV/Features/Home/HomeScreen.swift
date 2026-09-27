@@ -24,6 +24,7 @@ struct HomeScreen: View {
     @State private var tvModel = TVHomeModel()
     @State private var mediaKind: MediaKind = .movies
     @State private var motion = MotionTiltManager()
+    @State private var streamingRefreshID = 0
 
     var body: some View {
         Group {
@@ -91,7 +92,7 @@ struct HomeScreen: View {
 
     private func loadedContent(_ content: HomeScreenModel.Content) -> some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: DSSpacing.xl) {
+            LazyVStack(alignment: .leading, spacing: DSSpacing.xl) {
                 TiltedHeroCarousel(items: Array(content.nowPlaying.prefix(6)), motion: motion)
 
                 MediaCarousel(title: "Upcoming", items: content.upcoming, zoomScope: "upcoming") {
@@ -100,6 +101,7 @@ struct HomeScreen: View {
                 MediaCarousel(title: "Popular", items: content.popular, zoomScope: "popular") {
                     router.discoverPath.append(Route.movieList(category: .popular))
                 }
+                StreamingDiscoverySection(kind: .movie, refreshID: streamingRefreshID)
                 MediaCarousel(title: "Top Rated", items: content.topRated, zoomScope: "topRated") {
                     router.discoverPath.append(Route.movieList(category: .topRated))
                 }
@@ -109,14 +111,16 @@ struct HomeScreen: View {
             }
             .padding(.vertical, DSSpacing.lg)
         }
+        .accessibilityIdentifier("discover.movies.feed")
         .refreshable {
             await model.refresh(client: client)
+            streamingRefreshID += 1
         }
     }
 
     private var homeSkeleton: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: DSSpacing.xl) {
+            LazyVStack(alignment: .leading, spacing: DSSpacing.xl) {
                 HeroCarousel(items: [.dsPreview])
                 MediaCarousel(title: "Upcoming", items: skeletonItems)
                 MediaCarousel(title: "Popular", items: skeletonItems)
@@ -164,7 +168,7 @@ struct HomeScreen: View {
 
     private func loadedShowsContent(_ content: TVHomeModel.Content) -> some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: DSSpacing.xl) {
+            LazyVStack(alignment: .leading, spacing: DSSpacing.xl) {
                 TiltedHeroCarousel(items: Array(content.airingToday.prefix(6)), motion: motion)
 
                 MediaCarousel(title: "Airing Today", items: content.airingToday, zoomScope: "tvAiring") {
@@ -176,17 +180,20 @@ struct HomeScreen: View {
                 MediaCarousel(title: "Popular", items: content.popular, zoomScope: "tvPopular") {
                     router.discoverPath.append(Route.tvShowList(category: .popular))
                 }
+                StreamingDiscoverySection(kind: .tv, refreshID: streamingRefreshID)
             }
             .padding(.vertical, DSSpacing.lg)
         }
+        .accessibilityIdentifier("discover.tv.feed")
         .refreshable {
             await tvModel.refresh(client: client)
+            streamingRefreshID += 1
         }
     }
 
     private var showsSkeleton: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: DSSpacing.xl) {
+            LazyVStack(alignment: .leading, spacing: DSSpacing.xl) {
                 HeroCarousel(items: [.dsPreview])
                 MediaCarousel(title: "Airing Today", items: skeletonItems)
                 MediaCarousel(title: "Popular", items: skeletonItems)
@@ -278,4 +285,198 @@ private struct DiscoverPortalCard: View {
     }
     .environment(AppRouter())
     .modelContainer(try! ModelContainerFactory.makeInMemory())
+}
+
+/// Loaded when its position in Discover becomes visible, separately from the
+/// main feed so provider requests cannot delay the hero and existing rails.
+private struct StreamingDiscoverySection: View {
+    private static let featuredProviderIDs = [8, 337, 119, 350, 1899]
+
+    let kind: StreamingMediaKind
+    let refreshID: Int
+
+    @Environment(\.tmdbClient) private var client
+    @AppStorage(TMDBRegion.overrideKey, store: TMDBRegion.store) private var regionOverride = ""
+    @State private var providers: [WatchProvider] = []
+    @State private var selectedProvider: WatchProvider?
+    @State private var items: [MediaItem] = []
+    @State private var isLoadingCatalog = false
+    @State private var isLoadingTitles = false
+    @State private var catalogError: String?
+    @State private var titlesError: String?
+    @State private var catalogRetryID = 0
+    @State private var titlesRetryID = 0
+    @State private var catalogVersion = 0
+    @State private var titlesVersion = 0
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: DSSpacing.md) {
+            SectionHeader("New releases to stream")
+
+            Text("Recently released titles available by subscription in \(TMDBRegion.localizedName(for: TMDBRegion.current))")
+                .font(.dsCaption)
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, DSSpacing.lg)
+
+            if isLoadingCatalog {
+                ProgressView("Loading streaming services")
+                    .padding(.horizontal, DSSpacing.lg)
+            } else if let catalogError {
+                retryView(message: catalogError) { catalogRetryID += 1 }
+            } else if providers.isEmpty {
+                Text("No featured streaming services found for this region.")
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, DSSpacing.lg)
+            } else {
+                providerPicker
+
+                if isLoadingTitles {
+                    ProgressView("Loading titles")
+                        .padding(.horizontal, DSSpacing.lg)
+                } else if let titlesError {
+                    retryView(message: titlesError) { titlesRetryID += 1 }
+                } else if items.isEmpty {
+                    Text("No recent subscription releases found for this service.")
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, DSSpacing.lg)
+                } else {
+                    MediaCarousel(
+                        items: items,
+                        zoomScope: "streaming-\(selectedProvider?.providerId ?? 0)-\(kind)"
+                    )
+                    .accessibilityIdentifier("streaming.results")
+                }
+            }
+
+            Text("Availability data provided by JustWatch")
+                .font(.caption2)
+                .foregroundStyle(.tertiary)
+                .padding(.horizontal, DSSpacing.lg)
+        }
+        .task(id: "\(regionOverride)-\(refreshID)-\(catalogRetryID)") {
+            await loadCatalog()
+        }
+        .task(id: "\(regionOverride)-\(selectedProvider?.providerId ?? 0)-\(titlesRetryID)") {
+            await loadTitles()
+        }
+    }
+
+    private var providerPicker: some View {
+        ScrollView(.horizontal) {
+            LazyHStack(spacing: DSSpacing.sm) {
+                ForEach(providers) { provider in
+                    Button {
+                        selectedProvider = provider
+                    } label: {
+                        HStack(spacing: DSSpacing.xs) {
+                            PosterImage(path: provider.logoPath, kind: .profile)
+                                .frame(width: 24, height: 24)
+                                .clipShape(.rect(cornerRadius: 6))
+                            Text(verbatim: provider.providerName)
+                                .font(.dsCaption)
+                        }
+                        .padding(.horizontal, DSSpacing.sm)
+                        .padding(.vertical, DSSpacing.xs)
+                        .background(
+                            provider.providerId == selectedProvider?.providerId
+                                ? Color.accentColor.opacity(0.2) : Color.secondary.opacity(0.1),
+                            in: Capsule()
+                        )
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("streaming.provider.\(provider.providerId)")
+                    .accessibilityAddTraits(
+                        provider.providerId == selectedProvider?.providerId ? .isSelected : []
+                    )
+                }
+            }
+            .padding(.horizontal, DSSpacing.lg)
+        }
+        .scrollIndicators(.hidden)
+    }
+
+    private func retryView(message: String, action: @escaping () -> Void) -> some View {
+        HStack(spacing: DSSpacing.sm) {
+            Text(verbatim: message)
+                .font(.dsCaption)
+                .foregroundStyle(.secondary)
+            Button("Try Again", systemImage: "arrow.clockwise", action: action)
+        }
+        .padding(.horizontal, DSSpacing.lg)
+    }
+
+    private func loadCatalog() async {
+        catalogVersion += 1
+        let version = catalogVersion
+        let region = TMDBRegion.current
+        isLoadingCatalog = true
+        catalogError = nil
+        selectedProvider = nil
+        providers = []
+        items = []
+        defer {
+            if version == catalogVersion { isLoadingCatalog = false }
+        }
+
+        do {
+            let query = StreamingAvailabilityQuery(
+                kind: kind, region: region, providerID: 0, today: ""
+            )
+            let response: WatchProviderCatalogResponse = try await client.fetch(
+                query.catalogEndpoint,
+                parameters: query.catalogParameters
+            )
+            guard !Task.isCancelled, version == catalogVersion,
+                  region == TMDBRegion.current else { return }
+            let featured = Self.featuredProviderIDs.compactMap { id in
+                response.results.first(where: { $0.providerId == id })
+            }
+            providers = featured
+            selectedProvider = featured.first
+        } catch {
+            guard !Task.isCancelled, version == catalogVersion else { return }
+            catalogError = error.localizedDescription
+        }
+    }
+
+    private func loadTitles() async {
+        titlesVersion += 1
+        let version = titlesVersion
+        guard let provider = selectedProvider else {
+            items = []
+            return
+        }
+        let region = TMDBRegion.current
+        isLoadingTitles = true
+        titlesError = nil
+        items = []
+        defer {
+            if version == titlesVersion { isLoadingTitles = false }
+        }
+
+        do {
+            let formatter = DateFormatter()
+            formatter.calendar = Calendar(identifier: .gregorian)
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            formatter.timeZone = .current
+            formatter.dateFormat = "yyyy-MM-dd"
+            let query = StreamingAvailabilityQuery(
+                kind: kind,
+                region: region,
+                providerID: provider.providerId,
+                today: formatter.string(from: .now)
+            )
+            let response: PagedResponse<MediaItem> = try await client.fetch(
+                query.discoverEndpoint,
+                parameters: query.parameters
+            )
+            guard !Task.isCancelled, version == titlesVersion,
+                  region == TMDBRegion.current,
+                  selectedProvider?.providerId == provider.providerId else { return }
+            items = Array(response.results.prefix(20))
+        } catch {
+            guard !Task.isCancelled, version == titlesVersion else { return }
+            titlesError = error.localizedDescription
+        }
+    }
 }

@@ -289,14 +289,10 @@ struct TVShowDetailScreen: View {
                 CastCarousel(members: details.cast)
             }
 
-            if let providers = details.providers {
-                VStack(alignment: .leading, spacing: DSSpacing.md) {
-                    SectionHeader("Where to Watch")
-                    ProviderRow(title: "Stream", providers: providers.flatrate ?? [])
-                    ProviderRow(title: "Rent", providers: providers.rent ?? [])
-                    ProviderRow(title: "Buy", providers: providers.buy ?? [])
-                }
-            }
+            WatchProvidersSection(
+                providers: details.providers,
+                regionCode: details.providerRegion
+            )
 
             if !details.recommendations.isEmpty {
                 MediaCarousel(title: "You Might Also Like", items: details.recommendations, zoomScope: "tvRecs")
