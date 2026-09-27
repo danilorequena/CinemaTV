@@ -234,7 +234,7 @@ final class ExternalMediaNavigationUITests: XCTestCase {
 
 final class StreamingDiscoveryUITests: XCTestCase {
     @MainActor
-    func testMoviesShowAvailableNetflixReleases() throws {
+    func testMoviesShowRegionalStreamingReleases() throws {
         continueAfterFailure = false
         let app = XCUIApplication()
         app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
@@ -246,7 +246,7 @@ final class StreamingDiscoveryUITests: XCTestCase {
     }
 
     @MainActor
-    func testTVShowsShowAvailableNetflixReleases() throws {
+    func testTVShowsShowRegionalStreamingReleases() throws {
         continueAfterFailure = false
         let app = XCUIApplication()
         app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
@@ -256,6 +256,32 @@ final class StreamingDiscoveryUITests: XCTestCase {
         app.buttons["Discover"].firstMatch.tap()
         app.segmentedControls.buttons["TV Shows"].tap()
         assertStreamingResults(in: app, feedID: "discover.tv.feed")
+    }
+
+    @MainActor
+    func testCanRevealMoreRegionalServices() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        app.launch()
+
+        app.buttons["Discover"].firstMatch.tap()
+        let feed = app.scrollViews["discover.movies.feed"]
+        XCTAssertTrue(feed.waitForExistence(timeout: 30))
+
+        let showMore = app.buttons["streaming.showMore"]
+        for _ in 0..<18 where !showMore.isHittable {
+            feed.swipeUp()
+        }
+        XCTAssertTrue(showMore.isHittable)
+        let before = try XCTUnwrap(showMore.value as? String)
+        showMore.tap()
+        let changed = XCTNSPredicateExpectation(
+            predicate: NSPredicate(format: "value != %@", before),
+            object: showMore
+        )
+        XCTAssertEqual(XCTWaiter.wait(for: [changed], timeout: 5), .completed)
     }
 
     @MainActor
@@ -280,14 +306,25 @@ final class StreamingDiscoveryUITests: XCTestCase {
         let feed = app.scrollViews[feedID]
         XCTAssertTrue(feed.waitForExistence(timeout: 30))
 
-        let streaming = app.staticTexts["New releases to stream"]
+        let streaming = app.staticTexts["Newest titles to stream"]
         for _ in 0..<8 where !streaming.exists {
             feed.swipeUp()
         }
         XCTAssertTrue(streaming.waitForExistence(timeout: 10))
-        XCTAssertTrue(app.buttons["streaming.provider.8"].waitForExistence(timeout: 30))
+
+        let resultsPrefix = "streaming.results."
+        let results = app.descendants(matching: .any)
+            .matching(NSPredicate(format: "identifier BEGINSWITH %@", resultsPrefix))
+            .firstMatch
+        if !results.waitForExistence(timeout: 10) {
+            for _ in 0..<6 where !results.exists {
+                feed.swipeUp()
+            }
+        }
+        XCTAssertTrue(results.waitForExistence(timeout: 30))
+        let providerID = String(results.identifier.dropFirst(resultsPrefix.count))
         XCTAssertTrue(
-            app.descendants(matching: .any)["streaming.results"]
+            app.descendants(matching: .any)["streaming.provider.\(providerID)"]
                 .waitForExistence(timeout: 30)
         )
     }

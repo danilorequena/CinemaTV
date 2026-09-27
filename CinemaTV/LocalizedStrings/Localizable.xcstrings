@@ -7130,22 +7130,22 @@
         }
       }
     },
-    "New releases to stream" : {
+    "Newest titles to stream" : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lançamentos no streaming"
+            "value" : "Títulos mais recentes no streaming"
           }
         }
       }
     },
-    "Recently released titles available by subscription in %@" : {
+    "Titles sorted by release date and available by subscription in %@" : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lançamentos recentes disponíveis por assinatura em %@"
+            "value" : "Títulos ordenados pela data de estreia e disponíveis por assinatura em %@"
           }
         }
       }
@@ -7160,12 +7160,12 @@
         }
       }
     },
-    "No featured streaming services found for this region." : {
+    "No streaming services found for this region." : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nenhum serviço de streaming em destaque encontrado nesta região."
+            "value" : "Nenhum serviço de streaming encontrado nesta região."
           }
         }
       }
@@ -7180,12 +7180,12 @@
         }
       }
     },
-    "No recent subscription releases found for this service." : {
+    "Show more services" : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nenhum lançamento recente por assinatura encontrado neste serviço."
+            "value" : "Mostrar mais serviços"
           }
         }
       }

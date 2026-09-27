@@ -43,13 +43,23 @@ public struct WatchProvider: Identifiable, Hashable, Sendable, Decodable {
     public let providerId: Int
     public let providerName: String
     public let logoPath: String?
+    public let displayPriority: Int?
+    public let displayPriorities: [String: Int]?
 
     public var id: Int { providerId }
     public var logoURL: URL? { TMDBImage.url(path: logoPath, size: .profile) }
 
-    public init(providerId: Int, providerName: String, logoPath: String?) {
+    public init(
+        providerId: Int,
+        providerName: String,
+        logoPath: String?,
+        displayPriority: Int? = nil,
+        displayPriorities: [String: Int]? = nil
+    ) {
         self.providerId = providerId
         self.providerName = providerName
         self.logoPath = logoPath
+        self.displayPriority = displayPriority
+        self.displayPriorities = displayPriorities
     }
 }
