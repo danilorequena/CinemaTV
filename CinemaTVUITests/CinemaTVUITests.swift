@@ -138,3 +138,96 @@ final class LibraryEntryUITests: XCTestCase {
         XCTAssertTrue(app.navigationBars["Discover"].waitForExistence(timeout: 5))
     }
 }
+
+final class ExternalMediaNavigationUITests: XCTestCase {
+    @MainActor
+    func testColdOpenMovieCanCloseToLibrary() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        if app.state != .notRunning { app.terminate() }
+        app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+
+        app.open(URL(string: "cinematv://movie/603")!)
+        XCTAssertTrue(app.buttons["Mark as Watched"].waitForExistence(timeout: 10))
+        app.buttons["Close"].tap()
+        XCTAssertTrue(app.buttons["Boxes"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["Discover"].exists)
+    }
+
+    @MainActor
+    func testExternalMovieReplacesImportWithoutLosingLibrary() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        app.launch()
+
+        app.buttons["Import"].tap()
+        XCTAssertTrue(app.navigationBars["Import"].waitForExistence(timeout: 5))
+        app.open(URL(string: "cinematv://movie/603")!)
+        XCTAssertTrue(app.buttons["Mark as Watched"].waitForExistence(timeout: 10))
+        app.buttons["Close"].tap()
+        XCTAssertTrue(app.buttons["Boxes"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["Discover"].exists)
+    }
+
+    @MainActor
+    func testSecondExternalResultReplacesFirstAndClosesToLibrary() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        app.launch()
+
+        XCTAssertTrue(app.buttons["Boxes"].waitForExistence(timeout: 10))
+        app.open(URL(string: "cinematv://movie/603")!)
+        XCTAssertTrue(app.buttons["Mark as Watched"].waitForExistence(timeout: 10))
+        app.open(URL(string: "cinematv://tvshow/1399")!)
+        XCTAssertTrue(app.buttons["Follow"].waitForExistence(timeout: 10))
+        app.buttons["Close"].tap()
+        XCTAssertTrue(app.buttons["Boxes"].waitForExistence(timeout: 5))
+    }
+
+    @MainActor
+    func testOpeningMovieFromOutsideReturnsToPreviousLibraryScreen() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        app.launch()
+
+        XCTAssertTrue(app.buttons["Boxes"].waitForExistence(timeout: 10))
+        app.open(URL(string: "cinematv://movie/603")!)
+        XCTAssertTrue(app.buttons["Mark as Watched"].waitForExistence(timeout: 10))
+
+        let close = app.buttons["Close"]
+        if close.exists {
+            close.tap()
+        } else {
+            app.navigationBars.buttons.firstMatch.tap()
+        }
+        XCTAssertTrue(app.buttons["Boxes"].waitForExistence(timeout: 5))
+    }
+
+    @MainActor
+    func testOpeningTVShowFromOutsideReturnsToPreviousLibraryScreen() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        app.launch()
+
+        XCTAssertTrue(app.buttons["Boxes"].waitForExistence(timeout: 10))
+        app.open(URL(string: "cinematv://tvshow/1399")!)
+        XCTAssertTrue(app.buttons["Follow"].waitForExistence(timeout: 10))
+
+        let close = app.buttons["Close"]
+        if close.exists {
+            close.tap()
+        } else {
+            app.navigationBars.buttons.firstMatch.tap()
+        }
+        XCTAssertTrue(app.buttons["Boxes"].waitForExistence(timeout: 5))
+    }
+}

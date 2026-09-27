@@ -86,8 +86,30 @@ struct AppShellView: View {
         }
         .tabBarMinimizeBehavior(.onScrollDown)
         .tabViewSearchActivation(.searchTabSelection)
-        .sheet(item: $router.libraryImport) { request in
-            LibraryImportScreen(initialText: request.text, initialDestination: request.destination)
+        .sheet(item: $router.presentation) { presentation in
+            switch presentation.content {
+            case .libraryImport(let request):
+                LibraryImportScreen(initialText: request.text, initialDestination: request.destination)
+            case .externalMedia(let media):
+                NavigationStack(path: $router.externalMediaPath) {
+                    Group {
+                        switch media {
+                        case .movie(let id):
+                            MovieDetailScreen(movieID: id)
+                        case .tvShow(let id):
+                            TVShowDetailScreen(showID: id)
+                        }
+                    }
+                    .withMediaDestinations(zoomNamespace: zoomNamespace)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button("Close", systemImage: "xmark") {
+                                router.presentation = nil
+                            }
+                        }
+                    }
+                }
+            }
         }
         .onOpenURL { url in
             if let deepLink = DeepLink(url: url) {

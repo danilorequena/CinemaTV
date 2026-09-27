@@ -15,6 +15,23 @@ enum AppTab: Hashable {
     case search
 }
 
+enum ExternalMediaRoute: Hashable, Identifiable {
+    case movie(id: Int)
+    case tvShow(id: Int)
+
+    var id: Self { self }
+}
+
+struct AppPresentation: Identifiable {
+    enum Content {
+        case libraryImport(LibraryImportRequest)
+        case externalMedia(ExternalMediaRoute)
+    }
+
+    let id = UUID()
+    let content: Content
+}
+
 @MainActor
 @Observable
 final class AppRouter {
@@ -25,17 +42,25 @@ final class AppRouter {
     var searchPath = NavigationPath()
     /// Query da busca — bindada ao .searchable e alimentada por deep links.
     var searchQuery = ""
-    /// Single presentation handoff for Library and Visual Intelligence imports.
-    var libraryImport: LibraryImportRequest?
+    /// One presentation at a time for Library import and externally opened media.
+    var presentation: AppPresentation?
+    var externalMediaPath = NavigationPath()
 
     func presentLibraryImport(text: String = "", destination: LibraryImportDestination = .watched) {
         selectedTab = .tracking
-        libraryImport = LibraryImportRequest(text: text, destination: destination)
+        externalMediaPath = NavigationPath()
+        presentation = AppPresentation(
+            content: .libraryImport(LibraryImportRequest(text: text, destination: destination))
+        )
     }
 
     /// Empilha uma rota na tab ativa (navegação programática de telas que
     /// não usam NavigationLink, ex.: rail de temporadas do design system).
     func push(_ route: Route) {
+        if case .externalMedia = presentation?.content {
+            externalMediaPath.append(route)
+            return
+        }
         switch selectedTab {
         case .tracking: trackingPath.append(route)
         case .discover: discoverPath.append(route)
@@ -44,15 +69,17 @@ final class AppRouter {
     }
 
     func open(_ deepLink: DeepLink) {
+        presentation = nil
+        externalMediaPath = NavigationPath()
         switch deepLink {
         case .boxes:
             showInLibrary(.boxes)
         case .box(let editionID):
             showInLibrary(.sharedBox(editionID: editionID))
         case .movie(let id):
-            showInDiscover(.movieDetail(id: id))
+            presentation = AppPresentation(content: .externalMedia(.movie(id: id)))
         case .tvShow(let id):
-            showInDiscover(.tvShowDetail(id: id))
+            presentation = AppPresentation(content: .externalMedia(.tvShow(id: id)))
         case .watchlist:
             selectedTab = .tracking
             trackingPath = NavigationPath()
@@ -65,11 +92,6 @@ final class AppRouter {
         }
     }
 
-    /// Troca para a Discover e empilha a rota. Quando há troca de tab, o
-    /// append fica para o turno seguinte do main actor: trocar a tab e
-    /// empilhar na mesma transação faz a NavigationStack nascer já com o
-    /// detalhe (que esconde a tab bar) — o pop congela o main thread e a
-    /// tab bar não volta na raiz.
     private func showInLibrary(_ route: Route) {
         guard selectedTab != .tracking else {
             trackingPath.append(route)
@@ -77,16 +99,5 @@ final class AppRouter {
         }
         selectedTab = .tracking
         Task { trackingPath.append(route) }
-    }
-
-    private func showInDiscover(_ route: Route) {
-        guard selectedTab != .discover else {
-            discoverPath.append(route)
-            return
-        }
-        selectedTab = .discover
-        Task {
-            discoverPath.append(route)
-        }
     }
 }

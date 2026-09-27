@@ -87,31 +87,72 @@ struct AppRouterTests {
         #expect(router.selectedTab == .tracking)
     }
 
-    @Test("open(.movie) selects discover tab and pushes onto discoverPath")
-    func openMovieSelectsDiscoverTabAndPushes() async {
+    @Test("opening a movie externally preserves the current tab and Discover path")
+    func openMoviePreservesCurrentNavigation() async {
         let router = AppRouter()
         router.selectedTab = .search
+        router.discoverPath.append(Route.tvShowDetail(id: 1399))
         let initialCount = router.discoverPath.count
 
         router.open(.movie(id: 603))
 
-        #expect(router.selectedTab == .discover)
-        // The route is appended on the next main-actor turn after the tab switch.
         await Task { @MainActor in }.value
-        #expect(router.discoverPath.count == initialCount + 1)
+        #expect(router.selectedTab == .search)
+        #expect(router.discoverPath.count == initialCount)
     }
 
-    @Test("open(.tvShow) selects discover tab and pushes onto discoverPath")
-    func openTVShowSelectsDiscoverTabAndPushes() async {
+    @Test("opening a TV show externally preserves the current tab and Discover path")
+    func openTVShowPreservesCurrentNavigation() async {
         let router = AppRouter()
         router.selectedTab = .tracking
+        router.discoverPath.append(Route.movieDetail(id: 603))
         let initialCount = router.discoverPath.count
 
         router.open(.tvShow(id: 1399))
 
-        #expect(router.selectedTab == .discover)
         await Task { @MainActor in }.value
-        #expect(router.discoverPath.count == initialCount + 1)
+        #expect(router.selectedTab == .tracking)
+        #expect(router.discoverPath.count == initialCount)
+    }
+
+    @Test("a season opened from an external TV show does not navigate the hidden tab")
+    func externalSeasonPushLeavesTabPathsUntouched() {
+        let router = AppRouter()
+        router.open(.tvShow(id: 1399))
+
+        router.push(.season(tvShowID: 1399, seasonNumber: 1, sourceID: nil))
+
+        #expect(router.trackingPath.isEmpty)
+        #expect(router.discoverPath.isEmpty)
+        #expect(router.searchPath.isEmpty)
+        #expect(router.externalMediaPath.count == 1)
+    }
+
+    @Test("opening media externally replaces an active import presentation")
+    func externalMediaReplacesImport() {
+        let router = AppRouter()
+        router.presentLibraryImport(text: "Dune")
+
+        router.open(.movie(id: 603))
+
+        guard case .some(.externalMedia(.movie(id: 603))) = router.presentation?.content else {
+            Issue.record("The movie should replace the import presentation")
+            return
+        }
+    }
+
+    @Test("starting import replaces an external media presentation")
+    func importReplacesExternalMedia() {
+        let router = AppRouter()
+        router.open(.movie(id: 603))
+
+        router.presentLibraryImport(text: "Dune")
+
+        guard case .some(.libraryImport(let request)) = router.presentation?.content else {
+            Issue.record("The import should replace the movie presentation")
+            return
+        }
+        #expect(request.text == "Dune")
     }
 
     @Test("open(.watchlist) selects tracking tab and resets trackingPath")
