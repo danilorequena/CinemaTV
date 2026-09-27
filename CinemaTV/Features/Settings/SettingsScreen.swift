@@ -274,6 +274,16 @@ struct SettingsScreen: View {
 
     @MainActor
     private func refreshCloudAccount() async {
+#if DEBUG
+        // Isolated UI tests and previews do not carry a CloudKit entitlement.
+        // CKContainer(identifier:) traps before accountStatus() can throw.
+        if ProcessInfo.processInfo.environment["CINEMATV_UI_TEST_STORE"] != nil
+            || ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
+            cloudAccountStatus = .couldNotDetermine
+            cloudAccountError = ""
+            return
+        }
+#endif
         do {
             cloudAccountStatus = try await CKContainer(
                 identifier: ModelContainerFactory.cloudKitContainerID

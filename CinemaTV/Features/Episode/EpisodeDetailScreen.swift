@@ -29,6 +29,8 @@ struct EpisodeDetailScreen: View {
     @State private var currentNumber: Int
     @State private var isFollowing = false
     @State private var isWatched = false
+    @State private var knownShowName: String?
+    @State private var knownShowPosterPath: String?
 
     private let selection: EpisodeSelection
 
@@ -62,6 +64,13 @@ struct EpisodeDetailScreen: View {
         .scrollEdgeEffectStyle(.soft, for: .top)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .tabBar)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                if let episode {
+                    BoxAddToBoxButton(content: BoxContentFactory.episode(episode, seriesID: selection.tvShowID, seasonNumber: selection.seasonNumber, seriesTitle: knownShowName, posterPath: knownShowPosterPath))
+                }
+            }
+        }
         .safeAreaInset(edge: .bottom) {
             bottomBar
         }
@@ -261,6 +270,9 @@ struct EpisodeDetailScreen: View {
     // MARK: - Tracking
 
     private func refreshTrackingState() {
+        let storedShow = try? trackingStore.show(id: selection.tvShowID)
+        knownShowName = storedShow?.name
+        knownShowPosterPath = storedShow?.imagePath
         isFollowing = trackingStore.isFollowing(showID: selection.tvShowID)
         isWatched = trackingStore.isEpisodeWatched(
             showID: selection.tvShowID,

@@ -36,6 +36,7 @@ struct MovieDetailScreen: View {
     @State private var soundtrackPlayer = SoundtrackPlayerModel()
     @State private var watchlistState: WatchlistState = .none
     @State private var presentedTrailer: Video?
+    @State private var boxContent: BoxContent?
     @State private var reviewTarget: MediaItem?
     @State private var hasReview = false
     @State private var suggestsReview = false
@@ -85,6 +86,13 @@ struct MovieDetailScreen: View {
         // viram itens do bottom bar (glass do sistema de graça).
         .toolbar(.hidden, for: .tabBar)
         .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                if case .loaded(let details) = model.state {
+                    BoxAddToBoxButton(content: BoxContentFactory.media(details.movie.mediaItem))
+                } else {
+                    Button("Add to Box", systemImage: "shippingbox") {}.disabled(true)
+                }
+            }
             ToolbarItemGroup(placement: .bottomBar) {
                 Button {
                     toggleWatchlist()
@@ -97,6 +105,7 @@ struct MovieDetailScreen: View {
                         Text(watchlistState == .toWatch ? "In Watchlist" : "Add to Watchlist")
                     }
                 }
+                .disabled(watchlistState == .watched)
 
                 Spacer()
 
@@ -172,6 +181,9 @@ struct MovieDetailScreen: View {
         .sheet(item: $presentedTrailer) { trailer in
             YouTubePlayerView(video: trailer)
                 .presentationDetents([.medium, .large])
+        }
+        .sheet(item: $boxContent) { content in
+            BoxAddToBoxSheet(content: content)
         }
         .sheet(item: $reviewTarget, onDismiss: refreshWatchlistState) { item in
             ReviewComposerSheet(item: item)
@@ -258,7 +270,9 @@ struct MovieDetailScreen: View {
             }
 
             if !details.videos.isEmpty {
-                TrailerSection(videos: details.videos) { trailer in
+                TrailerSection(videos: details.videos, onAddToBox: { trailer in
+                    boxContent = BoxContentFactory.trailer(trailer, for: details.movie.mediaItem)
+                }) { trailer in
                     presentedTrailer = trailer
                 }
             }
@@ -296,6 +310,9 @@ struct MovieDetailScreen: View {
                     },
                     onOpenInAppleMusic: { album in
                         if let url = album.url { openURL(url) }
+                    },
+                    onAddToBox: { album in
+                        boxContent = BoxContentFactory.soundtrack(album)
                     }
                 )
             }
@@ -418,4 +435,3 @@ struct MovieDetailScreen: View {
     }
     .modelContainer(try! ModelContainerFactory.makeInMemory())
 }
-

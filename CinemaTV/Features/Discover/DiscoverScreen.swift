@@ -11,108 +11,6 @@ import SwiftData
 import CinemaTVCore
 import CinemaTVDesignSystem
 
-// MARK: - Model
-
-@MainActor
-@Observable
-final class DiscoverModel {
-    struct Decision {
-        let item: MediaItem
-        let wanted: Bool
-    }
-
-    private(set) var deck: [MediaItem] = []
-    private(set) var history: [Decision] = []
-    private(set) var state: LoadState<Bool> = .idle
-
-    private var page = 0
-    private var totalPages = Int.max
-    private var decidedIDs: Set<Int> = []
-    private var isLoadingMore = false
-
-    init() {}
-
-    /// Previews: deck pré-populado, sem rede (totalPages = 1 desliga o
-    /// loadMoreIfNeeded).
-    init(previewDeck: [MediaItem]) {
-        deck = previewDeck
-        page = 1
-        totalPages = 1
-        state = .loaded(true)
-    }
-
-    var canUndo: Bool { !history.isEmpty }
-
-    /// Trailer do YouTube sob demanda: primeiro o trailer oficial; senão
-    /// qualquer vídeo DO YOUTUBE (key de outro site montaria URL quebrada).
-    func trailer(for item: MediaItem, client: TMDBClient) async -> Video? {
-        let response: VideosResponse? = try? await client.fetch(.movieVideos(id: item.id))
-        return response?.results.first(where: \.isYouTubeTrailer)
-            ?? response?.results.first(where: { $0.site.caseInsensitiveCompare("YouTube") == .orderedSame })
-    }
-
-    func loadInitial(client: TMDBClient) async {
-        if case .loaded = state { return }
-        state = .loading
-        do {
-            let response: PagedResponse<MediaItem> = try await client.fetch(.discoverMovies, page: 1)
-            page = response.page
-            totalPages = response.totalPages
-            deck = response.results.filter { $0.mediaType == .movie && !decidedIDs.contains($0.id) }
-            state = .loaded(true)
-        } catch {
-            state = .failed(error.localizedDescription)
-        }
-    }
-
-    /// Reabastece o deck com a página seguinte quando restam poucas cartas,
-    /// filtrando filmes já decididos nesta sessão.
-    func loadMoreIfNeeded(client: TMDBClient) async {
-        guard case .loaded = state, deck.count < 4, page < totalPages, !isLoadingMore else { return }
-        isLoadingMore = true
-        defer { isLoadingMore = false }
-        do {
-            let response: PagedResponse<MediaItem> = try await client.fetch(.discoverMovies, page: page + 1)
-            page = response.page
-            totalPages = response.totalPages
-            let visible = Set(deck.map(\.id))
-            deck.append(contentsOf: response.results.filter {
-                $0.mediaType == .movie && !decidedIDs.contains($0.id) && !visible.contains($0.id)
-            })
-        } catch {
-            // Com cartas na mesa o fluxo segue; só vira erro sem nada a exibir.
-            if deck.isEmpty {
-                state = .failed(error.localizedDescription)
-            }
-        }
-    }
-
-    func decide(_ item: MediaItem, wanted: Bool, store: WatchlistStore) {
-        decidedIDs.insert(item.id)
-        deck.removeAll { $0.id == item.id }
-        history.append(Decision(item: item, wanted: wanted))
-        if wanted {
-            try? store.addToWatchlist(item)
-            SpotlightIndexer.index(item)
-        }
-    }
-
-    func undo(store: WatchlistStore) {
-        guard let last = history.popLast() else { return }
-        decidedIDs.remove(last.item.id)
-        deck.insert(last.item, at: 0)
-        if last.wanted {
-            try? store.removeFromWatchlist(movieID: last.item.id)
-            SpotlightIndexer.deindex(movieID: last.item.id)
-        }
-    }
-
-    func retry(client: TMDBClient) async {
-        state = .idle
-        await loadInitial(client: client)
-    }
-}
-
 // MARK: - Tela
 
 struct DiscoverScreen: View {
@@ -130,17 +28,30 @@ private struct DiscoverContent: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    let model: DiscoverModel
+    @Bindable var model: DiscoverModel
     /// Previews: tilt congelado — o body sobrescreve o environment com o
     /// MotionTiltManager (zero sem giroscópio), então injeção externa não
     /// chega; este parâmetro tem precedência quando presente.
     var previewTilt: DSTiltValue?
 
     @State private var motion = MotionTiltManager()
-    @State private var presentedTrailer: Video?
+    @State private var trailer = DiscoverTrailerModel()
+    @State private var quickDetails: MediaItem?
+    @State private var pendingDetails: MediaItem?
+    @State private var fullDetails: MediaItem?
+    @State private var saveFeedback = 0
+    @Query private var savedMovies: [MoviesToWatch]
+    @Query private var watchedMovies: [MoviesWatched]
+
+    private var savedMovieIDs: Set<Int> {
+        Set(savedMovies.compactMap { $0.id.map(Int.init) })
+            .union(watchedMovies.compactMap { $0.id.map(Int.init) })
+    }
 
     private var store: WatchlistStore {
-        WatchlistStore(context: modelContext)
+        let context = ModelContext(modelContext.container)
+        context.autosaveEnabled = false
+        return WatchlistStore(context: context)
     }
 
     var body: some View {
@@ -152,10 +63,30 @@ private struct DiscoverContent: View {
         .navigationTitle("Discover")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .tabBar)
-        .sheet(item: $presentedTrailer) { trailer in
-            YouTubePlayerView(video: trailer)
-                .presentationDetents([.medium, .large])
+        .sheet(item: $quickDetails, onDismiss: {
+            fullDetails = pendingDetails
+            pendingDetails = nil
+        }) { item in
+            DiscoverQuickDetails(item: item) {
+                pendingDetails = item
+                quickDetails = nil
+            }
         }
+        .navigationDestination(item: $fullDetails) { item in
+            MovieDetailScreen(item: item)
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                if trailer.movieID != nil {
+                    Button("Back to cover", systemImage: "xmark") { trailer.close() }
+                } else if model.canUndo {
+                    Button("Undo skip", systemImage: "arrow.uturn.backward") {
+                        withAnimation(DSMotion.respecting(reduceMotion)) { model.undoSkip() }
+                    }
+                }
+            }
+        }
+        .sensoryFeedback(.success, trigger: saveFeedback)
         .environment(\.dsTilt, previewTilt ?? DSTiltValue(roll: motion.roll, pitch: motion.pitch))
         .onAppear {
             if !reduceMotion {
@@ -164,21 +95,47 @@ private struct DiscoverContent: View {
         }
         .onDisappear {
             motion.stop()
+            model.cancelLoading()
+            trailer.close()
+        }
+        .onChange(of: model.visibleItemID) {
+            if trailer.movieID != model.visibleItemID { trailer.close() }
         }
         .task {
             await model.loadInitial(client: client)
+            await model.loadMoreIfNeeded(client: client)
         }
         .task(id: model.deck.count) {
             await model.loadMoreIfNeeded(client: client)
         }
+        .task(id: model.visibleItemID) {
+            await model.loadMoreIfNeeded(client: client)
+        }
+        .overlay(alignment: .bottom) {
+            if trailer.movieID == nil {
+                VStack(spacing: DSSpacing.sm) {
+                    if let error = model.actionError {
+                        HStack {
+                            Text(verbatim: error).font(.caption)
+                            Button("Close", systemImage: "xmark") { model.actionError = nil }
+                                .labelStyle(.iconOnly)
+                        }
+                        .padding(DSSpacing.md)
+                        .foregroundStyle(.white)
+                        .glassEffect()
+                    }
+                    if !model.deck.isEmpty { paginationStatus }
+                }
+                .padding(DSSpacing.md)
+            }
+        }
     }
 
-    /// Poster do topo do deck desfocado como luz ambiente; crossfade animado
-    /// quando o topo muda.
+    /// A luz ambiente acompanha o filme visível, inclusive ao deslizar.
     private var ambientBackground: some View {
         ZStack {
             Color.black
-            if let top = model.deck.first {
+            if let top = model.visibleItem {
                 PosterImage(path: top.posterPath, kind: .poster, fillsContainer: true)
                     .id(top.id)
                     .blur(radius: 60)
@@ -186,7 +143,7 @@ private struct DiscoverContent: View {
             }
         }
         .ignoresSafeArea()
-        .animation(DSMotion.standard, value: model.deck.first?.id)
+        .animation(DSMotion.respecting(reduceMotion), value: model.visibleItem?.id)
         .accessibilityHidden(true)
     }
 
@@ -203,30 +160,63 @@ private struct DiscoverContent: View {
             }
         case .loaded:
             if model.deck.isEmpty {
-                EmptyStateView(
-                    title: "That's all for now",
-                    message: "Come back soon for more movies.",
-                    systemImage: "sparkles"
-                )
+                if model.isLoadingMore {
+                    LoadingStateView { DiscoverCardSkeleton() }
+                } else if let message = model.paginationError {
+                    ErrorStateView(message: message) {
+                        Task { await model.retry(client: client) }
+                    }
+                } else {
+                    EmptyStateView(
+                        title: "That's all for now",
+                        message: "Come back soon for more movies.",
+                        systemImage: "sparkles"
+                    )
+                }
             } else {
                 VerticalVariant(
                     deck: model.deck,
+                    visibleItemID: $model.visibleItemID,
+                    savedIDs: savedMovieIDs,
+                    trailer: trailer,
                     onDecide: decide,
-                    onPlayTrailer: playTrailer
+                    onPlayTrailer: playTrailer,
+                    onDetails: { trailer.close(); quickDetails = $0 }
                 )
             }
         }
     }
 
-    private func playTrailer(_ item: MediaItem) {
-        Task {
-            presentedTrailer = await model.trailer(for: item, client: client)
+    @ViewBuilder
+    private var paginationStatus: some View {
+        if model.isLoadingMore {
+            ProgressView()
+                .tint(.white)
+                .padding(DSSpacing.md)
+                .glassEffect()
+                .accessibilityLabel(Text("Loading more movies"))
+        } else if model.paginationError != nil {
+            VStack(spacing: DSSpacing.xs) {
+                Text("Couldn't load more movies.")
+                    .font(.caption)
+                Button("Try Again", systemImage: "arrow.clockwise") {
+                    Task { await model.retry(client: client) }
+                }
+                .buttonStyle(.glass)
+            }
+            .foregroundStyle(.white)
         }
+    }
+
+    private func playTrailer(_ item: MediaItem) {
+        trailer.play(item, client: client)
     }
 
     private func decide(_ item: MediaItem, wanted: Bool) {
         withAnimation(DSMotion.respecting(reduceMotion)) {
-            model.decide(item, wanted: wanted, store: store)
+            if model.decide(item, wanted: wanted, store: store), wanted {
+                saveFeedback += 1
+            }
         }
     }
 
@@ -258,20 +248,26 @@ private struct DiscoverCardSkeleton: View {
 
 private struct VerticalVariant: View {
     let deck: [MediaItem]
+    @Binding var visibleItemID: MediaItem.ID?
+    let savedIDs: Set<Int>
+    let trailer: DiscoverTrailerModel
     let onDecide: (MediaItem, Bool) -> Void
     let onPlayTrailer: (MediaItem) -> Void
+    let onDetails: (MediaItem) -> Void
 
     var body: some View {
         ScrollView(.vertical) {
             LazyVStack(spacing: 0) {
                 ForEach(deck) { item in
-                    VerticalPage(item: item, onDecide: onDecide, onPlayTrailer: onPlayTrailer)
+                    VerticalPage(item: item, isSaved: savedIDs.contains(item.id), trailer: trailer,
+                                 onDecide: onDecide, onPlayTrailer: onPlayTrailer, onDetails: onDetails)
                         .containerRelativeFrame(.vertical)
                 }
             }
             .scrollTargetLayout()
         }
         .scrollTargetBehavior(.paging)
+        .scrollPosition(id: $visibleItemID)
         .scrollIndicators(.hidden)
         // Sem .soft, o efeito de borda do scroll pinta uma faixa dura preta
         // sob a navigation bar no full-bleed.
@@ -284,14 +280,14 @@ private struct VerticalPage: View {
     @Environment(\.dsTilt) private var tilt
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.mediaZoomNamespace) private var zoomNamespace
-    @Namespace private var actionsNamespace
-    /// "Want to Watch" morfa a coluna de ações numa pill de confirmação
-    /// antes do onDecide remover a página do deck.
-    @State private var confirmedWant = false
+    @Environment(\.scenePhase) private var scenePhase
 
     let item: MediaItem
+    let isSaved: Bool
+    let trailer: DiscoverTrailerModel
     let onDecide: (MediaItem, Bool) -> Void
     let onPlayTrailer: (MediaItem) -> Void
+    let onDetails: (MediaItem) -> Void
 
     /// Um único MediaSelection por página: o mesmo valor navega (botão info)
     /// e ancora a zoom transition na página inteira.
@@ -299,7 +295,50 @@ private struct VerticalPage: View {
         MediaSelection(item: item, scope: "discover")
     }
 
+    private var showsTrailer: Bool { trailer.movieID == item.id }
+    private var playerReady: Bool { showsTrailer && trailer.isReady }
+
     var body: some View {
+        ZStack {
+            posterContent
+                .opacity(playerReady ? 0 : 1)
+                .allowsHitTesting(!playerReady)
+                .accessibilityHidden(playerReady)
+            if showsTrailer, let video = trailer.video {
+                let playbackID = trailer.playbackID
+                ZStack {
+                    Color.black
+                    InlineYouTubePlayer(
+                        videoKey: video.key,
+                        isActive: scenePhase == .active,
+                        onReady: { trailer.playerReady(for: video, playbackID: playbackID) },
+                        onFailure: { trailer.playerFailed(for: video, playbackID: playbackID) }
+                    )
+                    .id(playbackID)
+                    .aspectRatio(16 / 9, contentMode: .fit)
+                }
+                .opacity(playerReady ? 1 : 0)
+                .allowsHitTesting(playerReady)
+                .accessibilityHidden(!playerReady)
+                .transition(.opacity)
+            }
+            if showsTrailer, !playerReady {
+                trailerStatus
+            }
+        }
+        .animation(reduceMotion ? DSMotion.subtleFade : .easeInOut(duration: 0.25), value: playerReady)
+        .onChange(of: scenePhase) {
+            if scenePhase == .background { trailer.close() }
+        }
+        .onDisappear {
+            if showsTrailer { trailer.close() }
+        }
+        .accessibilityAction(named: Text("Back to cover")) {
+            if showsTrailer { trailer.close() }
+        }
+    }
+
+    private var posterContent: some View {
         ZStack(alignment: .bottom) {
             // Camada de fundo do parallax, na linguagem do hero da Home:
             // imagem rígida (sem warp) ampliada, com leve rotação 3D +
@@ -378,85 +417,62 @@ private struct VerticalPage: View {
     }
 
     private var actions: some View {
-        GlassEffectContainer(spacing: DSSpacing.md) {
-            VStack(spacing: DSSpacing.md) {
-                if confirmedWant {
-                    // Herda o glassEffectID do bookmark: o glass dele flui
-                    // para cá e os demais botões são absorvidos pelo container.
-                    Image(systemName: "checkmark")
-                        .foregroundStyle(.white)
-                        .padding(DSSpacing.lg)
-                        .glassEffect(.regular.tint(.green), in: .circle)
-                        .glassEffectID("want", in: actionsNamespace)
-                        .accessibilityHidden(true)
-                } else {
-                    Button {
-                        confirmWant()
-                    } label: {
-                        Image(systemName: "bookmark.fill")
-                            .foregroundStyle(.green)
-                            .padding(DSSpacing.md)
-                            .glassEffect(.regular.interactive(), in: .circle)
-                            .glassEffectID("want", in: actionsNamespace)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(Text("Want to Watch"))
-
-                    Button {
-                        onPlayTrailer(item)
-                    } label: {
-                        Image(systemName: "play.fill")
-                            .foregroundStyle(.white)
-                            .padding(DSSpacing.md)
-                            .glassEffect(.regular.interactive(), in: .circle)
-                            .glassEffectID("trailer", in: actionsNamespace)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(Text("Trailer"))
-                    .accessibilityAddTraits(.startsMediaSession)
-
-                    Button {
-                        onDecide(item, false)
-                    } label: {
-                        Image(systemName: "xmark")
-                            .foregroundStyle(.red)
-                            .padding(DSSpacing.md)
-                            .glassEffect(.regular.interactive(), in: .circle)
-                            .glassEffectID("skip", in: actionsNamespace)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(Text("Skip"))
-
-                    NavigationLink(value: selection) {
-                        Image(systemName: "info")
-                            .padding(DSSpacing.md)
-                            .glassEffect(.regular.interactive(), in: .circle)
-                            .glassEffectID("info", in: actionsNamespace)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(Text(verbatim: item.title))
-                }
+        VStack(spacing: DSSpacing.md) {
+            actionButton(isSaved ? "Saved" : "Save", systemImage: isSaved ? "bookmark.fill" : "bookmark", tint: .green) {
+                onDecide(item, true)
             }
-            .font(.title3.weight(.semibold))
+            .disabled(isSaved)
+            actionButton("Trailer", systemImage: "play.fill") { onPlayTrailer(item) }
+                .disabled(showsTrailer)
+                .accessibilityAddTraits(.startsMediaSession)
+            actionButton("Skip", systemImage: "forward.end") { onDecide(item, false) }
+            actionButton("Details", systemImage: "info") { onDetails(item) }
         }
-        .sensoryFeedback(.success, trigger: confirmedWant)
     }
 
-    /// Morph primeiro, decisão depois: o onDecide remove a página do deck,
-    /// então a pill de confirmação precisa de um instante em cena.
-    private func confirmWant() {
-        guard !confirmedWant else { return }
-        guard !reduceMotion else {
-            onDecide(item, true)
-            return
+    private func actionButton(_ title: LocalizedStringKey, systemImage: String, tint: Color = .white,
+                              action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            VStack(spacing: DSSpacing.xs) {
+                Image(systemName: systemImage)
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(tint)
+                    .frame(width: 48, height: 48)
+                    .glassEffect(.regular.interactive(), in: .circle)
+                Text(title).font(.caption2).foregroundStyle(.white)
+            }
         }
-        withAnimation(DSMotion.snappy) {
-            confirmedWant = true
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text(title))
+    }
+
+    @ViewBuilder
+    private var trailerStatus: some View {
+        VStack(spacing: DSSpacing.md) {
+            switch trailer.phase {
+            case .loading, .preparing:
+                ProgressView("Loading trailer…").tint(.white)
+                Button("Cancel") { trailer.close() }
+            case .failed:
+                Text("Couldn't play this trailer.")
+                Button("Try Again", systemImage: "arrow.clockwise") { onPlayTrailer(item) }
+                if let url = trailer.watchURL {
+                    Link("Open in YouTube", destination: url)
+                }
+                Button("Back to cover") { trailer.close() }
+            case .unavailable:
+                Text("No trailer available for this movie.")
+                Button("Back to cover") { trailer.close() }
+            case .idle, .ready:
+                EmptyView()
+            }
         }
-        Task {
-            try? await Task.sleep(for: .milliseconds(650))
-            onDecide(item, true)
-        }
+        .font(.subheadline)
+        .foregroundStyle(.white)
+        .padding(DSSpacing.lg)
+        .background(.black.opacity(0.85), in: .rect(cornerRadius: 20))
+        .buttonStyle(.glass)
+        .accessibilityElement(children: .contain)
     }
 }
 
@@ -513,4 +529,3 @@ private let discoverPreviewDeck: [MediaItem] = [
     }
     .modelContainer(try! ModelContainerFactory.makeInMemory())
 }
-

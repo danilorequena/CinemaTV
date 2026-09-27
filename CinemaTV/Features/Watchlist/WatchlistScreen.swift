@@ -66,11 +66,14 @@ struct WatchlistScreen: View {
     var body: some View {
         Group {
             if toWatch.isEmpty && watched.isEmpty && watchingShows.isEmpty {
-                EmptyStateView(
-                    title: "Your Library Is Empty",
-                    message: "Add movies and shows from the Discover tab to start tracking.",
-                    systemImage: "books.vertical"
-                )
+                VStack {
+                    BoxesLibraryEntry().padding(.horizontal, DSSpacing.lg)
+                    EmptyStateView(
+                        title: "Your Library Is Empty",
+                        message: "Add movies and shows from the Discover tab to start tracking.",
+                        systemImage: "books.vertical"
+                    )
+                }
             } else {
                 library
             }
@@ -91,13 +94,24 @@ struct WatchlistScreen: View {
         }
         .toolbarTitleDisplayMode(.inlineLarge)
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItemGroup {
+                Button {
+                    router.presentLibraryImport()
+                } label: {
+                    Label("Import", systemImage: "plus")
+                }
                 Button {
                     showsSettings = true
                 } label: {
                     Label("Settings", systemImage: "gearshape")
                 }
                 .modifier(ZoomSourceModifier(id: Self.settingsZoomSourceID, namespace: zoomNamespace))
+
+                Button {
+                    router.push(.boxes)
+                } label: {
+                    Label("Boxes", systemImage: "shippingbox")
+                }
             }
         }
         .sheet(isPresented: $showsSettings) {
@@ -193,6 +207,7 @@ struct WatchlistScreen: View {
 
         return ScrollView {
             LazyVStack(alignment: .leading, spacing: DSSpacing.lg) {
+                BoxesLibraryEntry().padding(.horizontal, DSSpacing.lg)
                 // Up Next: agenda de ESTREIAS — só o que ainda não foi ao
                 // ar (episódios/temporadas de séries seguidas e filmes da
                 // fila), com contagem regressiva.

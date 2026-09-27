@@ -63,6 +63,15 @@
                ReferencedContainer = "container:Packages/CinemaTVKit">
             </BuildableReference>
          </TestableReference>
+         <TestableReference skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7D422476273810E2006236F8"
+               BuildableName = "CinemaTVUITests.xctest"
+               BlueprintName = "CinemaTVUITests"
+               ReferencedContainer = "container:CinemaTV.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

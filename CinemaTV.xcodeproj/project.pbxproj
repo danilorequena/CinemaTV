@@ -7,6 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B02609140000000200000007 /* LibraryImportExtractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609140000000100000007 /* LibraryImportExtractorTests.swift */; };
+		B02609140000000200000006 /* LibraryImportReviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609140000000100000006 /* LibraryImportReviewTests.swift */; };
+		B02609140000000200000005 /* VisualLibraryImportIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609140000000100000005 /* VisualLibraryImportIntent.swift */; };
+		B02609140000000200000004 /* LibraryImportIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609140000000100000004 /* LibraryImportIntents.swift */; };
+		B02609140000000200000003 /* LibraryImportExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609140000000100000003 /* LibraryImportExtractor.swift */; };
+		B02609140000000200000002 /* LibraryImportScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609140000000100000002 /* LibraryImportScreen.swift */; };
+		B02609140000000200000001 /* LibraryImportReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609140000000100000001 /* LibraryImportReview.swift */; };
+		B02609060000000500000002 /* BoxShareLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609060000000400000002 /* BoxShareLinkTests.swift */; };
+		B02609060000000500000001 /* BoxStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609060000000400000001 /* BoxStoreTests.swift */; };
+		B02609060000000200000001 /* BoxAddToBoxSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609060000000100000001 /* BoxAddToBoxSheet.swift */; };
+		B02609060000000200000002 /* BoxComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609060000000100000002 /* BoxComponents.swift */; };
+		B02609060000000200000003 /* BoxComposerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609060000000100000003 /* BoxComposerScreen.swift */; };
+		B02609060000000200000004 /* BoxContentFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609060000000100000004 /* BoxContentFactory.swift */; };
+		B02609060000000200000005 /* BoxContentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609060000000100000005 /* BoxContentPicker.swift */; };
+		B02609060000000200000006 /* BoxDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609060000000100000006 /* BoxDetailScreen.swift */; };
+		B02609060000000200000007 /* BoxIncomingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609060000000100000007 /* BoxIncomingScreen.swift */; };
+		B02609060000000200000008 /* BoxShareScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609060000000100000008 /* BoxShareScreen.swift */; };
+		B02609060000000200000009 /* BoxesLibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609060000000100000009 /* BoxesLibraryScreen.swift */; };
+		DC2026090600000000000009 /* InlineYouTubePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC202609060000000000000A /* InlineYouTubePlayer.swift */; };
+		DC2026090600000000000007 /* DiscoverQuickDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2026090600000000000008 /* DiscoverQuickDetails.swift */; };
+		DC2026090600000000000005 /* DiscoverTrailerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2026090600000000000006 /* DiscoverTrailerModel.swift */; };
+		DC2026090600000000000003 /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2026090600000000000004 /* DiscoverModel.swift */; };
+		DC2026090600000000000001 /* DiscoverModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2026090600000000000002 /* DiscoverModelTests.swift */; };
 		7D42245C273810E1006236F8 /* CinemaTVApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D42245B273810E1006236F8 /* CinemaTVApp.swift */; };
 		7D422460273810E2006236F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D42245F273810E2006236F8 /* Assets.xcassets */; };
 		7D422463273810E2006236F8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D422462273810E2006236F8 /* Preview Assets.xcassets */; };
@@ -146,6 +169,29 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B02609140000000100000007 /* LibraryImportExtractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryImportExtractorTests.swift; sourceTree = "<group>"; };
+		B02609140000000100000006 /* LibraryImportReviewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryImportReviewTests.swift; sourceTree = "<group>"; };
+		B02609140000000100000005 /* VisualLibraryImportIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualLibraryImportIntent.swift; sourceTree = "<group>"; };
+		B02609140000000100000004 /* LibraryImportIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryImportIntents.swift; sourceTree = "<group>"; };
+		B02609140000000100000003 /* LibraryImportExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryImportExtractor.swift; sourceTree = "<group>"; };
+		B02609140000000100000002 /* LibraryImportScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryImportScreen.swift; sourceTree = "<group>"; };
+		B02609140000000100000001 /* LibraryImportReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryImportReview.swift; sourceTree = "<group>"; };
+		B02609060000000400000002 /* BoxShareLinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Packages/CinemaTVKit/Tests/CinemaTVCoreTests/BoxShareLinkTests.swift; sourceTree = SOURCE_ROOT; };
+		B02609060000000400000001 /* BoxStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Packages/CinemaTVKit/Tests/CinemaTVCoreTests/BoxStoreTests.swift; sourceTree = SOURCE_ROOT; };
+		B02609060000000100000001 /* BoxAddToBoxSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxAddToBoxSheet.swift; sourceTree = "<group>"; };
+		B02609060000000100000002 /* BoxComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxComponents.swift; sourceTree = "<group>"; };
+		B02609060000000100000003 /* BoxComposerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxComposerScreen.swift; sourceTree = "<group>"; };
+		B02609060000000100000004 /* BoxContentFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxContentFactory.swift; sourceTree = "<group>"; };
+		B02609060000000100000005 /* BoxContentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxContentPicker.swift; sourceTree = "<group>"; };
+		B02609060000000100000006 /* BoxDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxDetailScreen.swift; sourceTree = "<group>"; };
+		B02609060000000100000007 /* BoxIncomingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxIncomingScreen.swift; sourceTree = "<group>"; };
+		B02609060000000100000008 /* BoxShareScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxShareScreen.swift; sourceTree = "<group>"; };
+		B02609060000000100000009 /* BoxesLibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxesLibraryScreen.swift; sourceTree = "<group>"; };
+		DC202609060000000000000A /* InlineYouTubePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineYouTubePlayer.swift; sourceTree = "<group>"; };
+		DC2026090600000000000008 /* DiscoverQuickDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverQuickDetails.swift; sourceTree = "<group>"; };
+		DC2026090600000000000006 /* DiscoverTrailerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverTrailerModel.swift; sourceTree = "<group>"; };
+		DC2026090600000000000004 /* DiscoverModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverModel.swift; sourceTree = "<group>"; };
+		DC2026090600000000000002 /* DiscoverModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverModelTests.swift; sourceTree = "<group>"; };
 		7D422458273810E1006236F8 /* CinemaTV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CinemaTV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D42245B273810E1006236F8 /* CinemaTVApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CinemaTVApp.swift; sourceTree = "<group>"; };
 		7D42245F273810E2006236F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -285,6 +331,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B02609140000000300000001 /* Import */ = {
+			isa = PBXGroup;
+			children = (
+				B02609140000000100000001 /* LibraryImportReview.swift */,
+				B02609140000000100000002 /* LibraryImportScreen.swift */,
+				B02609140000000100000003 /* LibraryImportExtractor.swift */,
+			);
+			path = Import;
+			sourceTree = "<group>";
+		};
+		B02609060000000300000001 /* Boxes */ = {
+			isa = PBXGroup;
+			children = (
+				B02609060000000100000001 /* BoxAddToBoxSheet.swift */,
+				B02609060000000100000002 /* BoxComponents.swift */,
+				B02609060000000100000003 /* BoxComposerScreen.swift */,
+				B02609060000000100000004 /* BoxContentFactory.swift */,
+				B02609060000000100000005 /* BoxContentPicker.swift */,
+				B02609060000000100000006 /* BoxDetailScreen.swift */,
+				B02609060000000100000007 /* BoxIncomingScreen.swift */,
+				B02609060000000100000008 /* BoxShareScreen.swift */,
+				B02609060000000100000009 /* BoxesLibraryScreen.swift */,
+			);
+			path = Boxes;
+			sourceTree = "<group>";
+		};
 		09E6E2E028DF954E00E7E856 /* LocalizedStrings */ = {
 			isa = PBXGroup;
 			children = (
@@ -349,7 +421,12 @@
 		7D422470273810E2006236F8 /* CinemaTVTests */ = {
 			isa = PBXGroup;
 			children = (
+				B02609140000000100000006 /* LibraryImportReviewTests.swift */,
+				B02609140000000100000007 /* LibraryImportExtractorTests.swift */,
+				B02609060000000400000002 /* BoxShareLinkTests.swift */,
+				B02609060000000400000001 /* BoxStoreTests.swift */,
 				7D422471273810E2006236F8 /* CinemaTVTests.swift */,
+				DC2026090600000000000002 /* DiscoverModelTests.swift */,
 				FFA08B68303F66AB00DD9E08 /* VisualTextExtractorTests.swift */,
 				FFA08B853043156000DD9E08 /* AgentRoutingPolicyTests.swift */,
 				FFA08B923043174E00DD9E08 /* SoundtrackFinderTests.swift */,
@@ -392,6 +469,7 @@
 			isa = PBXGroup;
 			children = (
 				FF21ACAC3008DC64009764B1 /* YouTubePlayerView.swift */,
+				DC202609060000000000000A /* InlineYouTubePlayer.swift */,
 				FF21ACC530097C7A009764B1 /* MotionTiltManager.swift */,
 				FF21ACC730097C82009764B1 /* Shaders.metal */,
 				FF2C02EA303B42AD0019AE7F /* MailComposeView.swift */,
@@ -403,6 +481,8 @@
 		FF21AC903008DBF7009764B1 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				B02609140000000300000001 /* Import */,
+				B02609060000000300000001 /* Boxes */,
 				FF21AC913008DBFE009764B1 /* Home */,
 				FF21AC923008DBFE009764B1 /* MovieList */,
 				FF21AC933008DBFF009764B1 /* Search */,
@@ -478,6 +558,8 @@
 		FF21ACB530092B0A009764B1 /* Intents */ = {
 			isa = PBXGroup;
 			children = (
+				B02609140000000100000004 /* LibraryImportIntents.swift */,
+				B02609140000000100000005 /* VisualLibraryImportIntent.swift */,
 				FF21ACB630092B20009764B1 /* MovieEntity.swift */,
 				FF21ACB930092B28009764B1 /* WatchlistIntents.swift */,
 				FF21ACBC30092B2F009764B1 /* OpenIntents.swift */,
@@ -498,6 +580,9 @@
 			isa = PBXGroup;
 			children = (
 				FF21ACD2300B8C4F009764B1 /* DiscoverScreen.swift */,
+				DC2026090600000000000008 /* DiscoverQuickDetails.swift */,
+				DC2026090600000000000006 /* DiscoverTrailerModel.swift */,
+				DC2026090600000000000004 /* DiscoverModel.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -852,12 +937,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B02609140000000200000005 /* VisualLibraryImportIntent.swift in Sources */,
+				B02609140000000200000004 /* LibraryImportIntents.swift in Sources */,
+				B02609140000000200000003 /* LibraryImportExtractor.swift in Sources */,
+				B02609140000000200000002 /* LibraryImportScreen.swift in Sources */,
+				B02609140000000200000001 /* LibraryImportReview.swift in Sources */,
+				B02609060000000200000001 /* BoxAddToBoxSheet.swift in Sources */,
+				B02609060000000200000002 /* BoxComponents.swift in Sources */,
+				B02609060000000200000003 /* BoxComposerScreen.swift in Sources */,
+				B02609060000000200000004 /* BoxContentFactory.swift in Sources */,
+				B02609060000000200000005 /* BoxContentPicker.swift in Sources */,
+				B02609060000000200000006 /* BoxDetailScreen.swift in Sources */,
+				B02609060000000200000007 /* BoxIncomingScreen.swift in Sources */,
+				B02609060000000200000008 /* BoxShareScreen.swift in Sources */,
+				B02609060000000200000009 /* BoxesLibraryScreen.swift in Sources */,
 				FFA08B8F3043170E00DD9E08 /* SoundtrackFinder.swift in Sources */,
 				FF21ACC830097C82009764B1 /* Shaders.metal in Sources */,
 				FFA08B823043153700DD9E08 /* AgentEngine.swift in Sources */,
 				FFA08B6D3040C3C300DD9E08 /* RoadmapScreens.swift in Sources */,
 				FF21ACB730092B20009764B1 /* MovieEntity.swift in Sources */,
 				FF21ACD3300B8C4F009764B1 /* DiscoverScreen.swift in Sources */,
+				DC2026090600000000000009 /* InlineYouTubePlayer.swift in Sources */,
+				DC2026090600000000000007 /* DiscoverQuickDetails.swift in Sources */,
+				DC2026090600000000000005 /* DiscoverTrailerModel.swift in Sources */,
+				DC2026090600000000000003 /* DiscoverModel.swift in Sources */,
 				FF21AC8D3008DBB8009764B1 /* AppShellView.swift in Sources */,
 				FF21ACAD3008DC64009764B1 /* YouTubePlayerView.swift in Sources */,
 				FF2C02EB303B42AD0019AE7F /* MailComposeView.swift in Sources */,
@@ -926,7 +1029,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B02609140000000200000007 /* LibraryImportExtractorTests.swift in Sources */,
+				B02609140000000200000006 /* LibraryImportReviewTests.swift in Sources */,
+				B02609060000000500000002 /* BoxShareLinkTests.swift in Sources */,
+				B02609060000000500000001 /* BoxStoreTests.swift in Sources */,
 				7D422472273810E2006236F8 /* CinemaTVTests.swift in Sources */,
+				DC2026090600000000000001 /* DiscoverModelTests.swift in Sources */,
 				FFA08B863043156000DD9E08 /* AgentRoutingPolicyTests.swift in Sources */,
 				FFA08B9930431A3B00DD9E08 /* SoundtrackPromptTests.swift in Sources */,
 				FFA0923E30445CC100DD9E08 /* TraktCoreTests.swift in Sources */,
@@ -1301,7 +1409,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.danilorequena.CinemaTV.CinemaTVWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1334,7 +1442,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.danilorequena.CinemaTV.CinemaTVWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;

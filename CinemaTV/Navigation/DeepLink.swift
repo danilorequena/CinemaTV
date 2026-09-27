@@ -7,17 +7,27 @@
 //
 
 import Foundation
+import CinemaTVCore
 
 enum DeepLink: Equatable {
+    case boxes
+    case box(editionID: UUID)
     case movie(id: Int)
     case tvShow(id: Int)
     case watchlist
     case search(query: String?)
 
     init?(url: URL) {
+        if let editionID = BoxShareLink.editionID(from: url, allowedHost: BoxSharingConfiguration.baseURL?.host) {
+            self = .box(editionID: editionID)
+            return
+        }
         guard url.scheme == "cinematv" else { return nil }
 
         switch url.host() {
+        case "boxes":
+            guard url.path.isEmpty || url.path == "/" else { return nil }
+            self = .boxes
         case "movie":
             let idComponent = url.pathComponents.dropFirst().first
             guard let idComponent, let id = Int(idComponent) else { return nil }
@@ -40,6 +50,10 @@ enum DeepLink: Equatable {
     /// URL correspondente — usada em widgetURL e Spotlight.
     var url: URL {
         switch self {
+        case .boxes:
+            return URL(string: "cinematv://boxes")!
+        case .box(let id):
+            return BoxShareLink.deepLink(for: id)
         case .movie(let id):
             return URL(string: "cinematv://movie/\(id)")!
         case .tvShow(let id):

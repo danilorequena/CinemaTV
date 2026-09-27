@@ -12,6 +12,7 @@ import CinemaTVDesignSystem
 
 struct TrailerSection: View {
     let videos: [Video]
+    var onAddToBox: ((Video) -> Void)? = nil
     let onPlay: (Video) -> Void
 
     var body: some View {
@@ -29,6 +30,11 @@ struct TrailerSection: View {
                         // O botão abre o player: avisa o VoiceOver para
                         // pausar a própria fala durante a mídia.
                         .accessibilityAddTraits(.startsMediaSession)
+                        .contextMenu {
+                            if let onAddToBox {
+                                Button("Add to Box", systemImage: "shippingbox") { onAddToBox(video) }
+                            }
+                        }
                     }
                 }
                 .scrollTargetLayout()

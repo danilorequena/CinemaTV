@@ -54,6 +54,15 @@ import Testing
         #expect(try store.moviesWatched().count == 1)
     }
 
+    @Test func savingAnAlreadyWatchedMovieDoesNotReturnItToWatchlist() throws {
+        try store.markWatched(matrix)
+
+        try store.addToWatchlist(matrix)
+
+        #expect(try store.moviesToWatch().isEmpty)
+        #expect(try store.moviesWatched().count == 1)
+    }
+
     @Test func unreleasedMovieCannotBeMarkedWatched() throws {
         let upcoming = MediaItem(
             id: 604,

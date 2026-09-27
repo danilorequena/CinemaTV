@@ -25,6 +25,13 @@ final class AppRouter {
     var searchPath = NavigationPath()
     /// Query da busca — bindada ao .searchable e alimentada por deep links.
     var searchQuery = ""
+    /// Single presentation handoff for Library and Visual Intelligence imports.
+    var libraryImport: LibraryImportRequest?
+
+    func presentLibraryImport(text: String = "", destination: LibraryImportDestination = .watched) {
+        selectedTab = .tracking
+        libraryImport = LibraryImportRequest(text: text, destination: destination)
+    }
 
     /// Empilha uma rota na tab ativa (navegação programática de telas que
     /// não usam NavigationLink, ex.: rail de temporadas do design system).
@@ -38,6 +45,10 @@ final class AppRouter {
 
     func open(_ deepLink: DeepLink) {
         switch deepLink {
+        case .boxes:
+            showInLibrary(.boxes)
+        case .box(let editionID):
+            showInLibrary(.sharedBox(editionID: editionID))
         case .movie(let id):
             showInDiscover(.movieDetail(id: id))
         case .tvShow(let id):
@@ -59,6 +70,15 @@ final class AppRouter {
     /// empilhar na mesma transação faz a NavigationStack nascer já com o
     /// detalhe (que esconde a tab bar) — o pop congela o main thread e a
     /// tab bar não volta na raiz.
+    private func showInLibrary(_ route: Route) {
+        guard selectedTab != .tracking else {
+            trackingPath.append(route)
+            return
+        }
+        selectedTab = .tracking
+        Task { trackingPath.append(route) }
+    }
+
     private func showInDiscover(_ route: Route) {
         guard selectedTab != .discover else {
             discoverPath.append(route)

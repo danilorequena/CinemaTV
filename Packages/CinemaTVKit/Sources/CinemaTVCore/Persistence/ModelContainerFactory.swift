@@ -39,7 +39,9 @@ public enum ModelContainerFactory {
         TVShowWatchedModel.self,
         SeasonSD.self,
         EpisodeSD.self,
-        MovieReview.self
+        MovieReview.self,
+        PersonalBox.self,
+        BoxAuthorProfile.self
     ])
 
     /// Container compartilhado (app group + CloudKit).

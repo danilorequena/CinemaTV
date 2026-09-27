@@ -9,6 +9,10 @@ import Foundation
 import CinemaTVCore
 
 enum Route: Hashable {
+    case boxes
+    case box(id: UUID)
+    case sharedBox(editionID: UUID)
+    case boxEpisode(tvShowID: Int, seasonNumber: Int, episodeNumber: Int)
     case movieDetail(id: Int)
     case person(id: Int)
     case movieList(category: MovieCategory)

@@ -88,7 +88,7 @@ struct AppRouterTests {
     }
 
     @Test("open(.movie) selects discover tab and pushes onto discoverPath")
-    func openMovieSelectsDiscoverTabAndPushes() {
+    func openMovieSelectsDiscoverTabAndPushes() async {
         let router = AppRouter()
         router.selectedTab = .search
         let initialCount = router.discoverPath.count
@@ -96,11 +96,13 @@ struct AppRouterTests {
         router.open(.movie(id: 603))
 
         #expect(router.selectedTab == .discover)
+        // The route is appended on the next main-actor turn after the tab switch.
+        await Task { @MainActor in }.value
         #expect(router.discoverPath.count == initialCount + 1)
     }
 
     @Test("open(.tvShow) selects discover tab and pushes onto discoverPath")
-    func openTVShowSelectsDiscoverTabAndPushes() {
+    func openTVShowSelectsDiscoverTabAndPushes() async {
         let router = AppRouter()
         router.selectedTab = .tracking
         let initialCount = router.discoverPath.count
@@ -108,6 +110,7 @@ struct AppRouterTests {
         router.open(.tvShow(id: 1399))
 
         #expect(router.selectedTab == .discover)
+        await Task { @MainActor in }.value
         #expect(router.discoverPath.count == initialCount + 1)
     }
 
@@ -225,5 +228,44 @@ struct VisualMediaQueryTests {
     @Test("Empty input produces empty output")
     func emptyInput() {
         #expect(VisualMediaResult.results(from: []).isEmpty)
+    }
+}
+
+@Suite("Boxes navigation")
+@MainActor
+struct BoxesNavigationTests {
+    @Test func sharedEditionDeepLinkRoundTrips() {
+        let link = DeepLink.box(editionID: UUID())
+        #expect(DeepLink(url: link.url) == link)
+        #expect(DeepLink(url: DeepLink.boxes.url) == .boxes)
+    }
+
+    @Test(arguments: [
+        "cinematv://box/not-a-uuid",
+        "cinematv://box/5c085737-b280-4b09-9bbf-9414c608c045/extra",
+        "https://untrusted.example/boxes/5c085737-b280-4b09-9bbf-9414c608c045"
+    ])
+    func invalidBoxLinksAreRejected(_ raw: String) throws {
+        #expect(DeepLink(url: try #require(URL(string: raw))) == nil)
+    }
+
+    @Test func receivingABoxSelectsLibraryAndPreservesOtherTabs() async {
+        let router = AppRouter()
+        router.selectedTab = .search
+        router.searchQuery = "Interstellar"
+        router.discoverPath.append(Route.movieDetail(id: 157336))
+        router.open(.box(editionID: UUID()))
+        #expect(router.selectedTab == .tracking)
+        // Navigation appends on the next main-actor turn after switching tabs.
+        await Task { @MainActor in }.value
+        #expect(router.trackingPath.count == 1)
+        #expect(router.discoverPath.count == 1)
+        #expect(router.searchQuery == "Interstellar")
+    }
+
+    @Test func openingShelfOnActiveLibraryPushesImmediately() {
+        let router = AppRouter()
+        router.open(.boxes)
+        #expect(router.trackingPath.count == 1)
     }
 }

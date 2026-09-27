@@ -40,3 +40,101 @@ class CinemaTVUITests: XCTestCase {
         }
     }
 }
+
+final class BoxesUITests: XCTestCase {
+    @MainActor
+    func testToolbarOpensBoxesInsteadOfSettings() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        app.launch()
+
+        let boxesButton = app.buttons["Boxes"]
+        XCTAssertTrue(boxesButton.waitForExistence(timeout: 10))
+        boxesButton.tap()
+        XCTAssertTrue(app.navigationBars["My Boxes"].waitForExistence(timeout: 5))
+    }
+
+    @MainActor
+    func testCreateReopenEditAndExportPersonalBox() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        app.launch()
+
+        let shelf = app.buttons["boxes.libraryEntry"]
+        XCTAssertTrue(shelf.waitForExistence(timeout: 10))
+        shelf.tap()
+        app.buttons["Create a Box"].firstMatch.tap()
+        let title = app.descendants(matching: .any)["boxes.title"]
+        XCTAssertTrue(title.waitForExistence(timeout: 5))
+        title.tap()
+        title.typeText("A quiet evening")
+        app.buttons["Next"].tap()
+        app.buttons["boxes.addContent"].tap()
+        app.buttons["Write My Impression"].tap()
+        let note = app.descendants(matching: .any)["A scene, a feeling, a memory…"]
+        XCTAssertTrue(note.waitForExistence(timeout: 5))
+        note.tap()
+        note.typeText("The final scene stayed with me.")
+        app.buttons["Add"].tap()
+        app.buttons["Next"].tap()
+        app.buttons["Save Box"].tap()
+        XCTAssertTrue(app.staticTexts["A quiet evening"].firstMatch.waitForExistence(timeout: 5))
+
+        app.terminate()
+        app.launch()
+        app.buttons["boxes.libraryEntry"].tap()
+        app.staticTexts["A quiet evening"].firstMatch.tap()
+        XCTAssertTrue(app.staticTexts["The final scene stayed with me."].waitForExistence(timeout: 5))
+        let detail = XCTAttachment(screenshot: app.screenshot())
+        detail.name = "Boxes - persistent personal edition"
+        detail.lifetime = .keepAlways
+        add(detail)
+
+        app.buttons["Edit Box"].firstMatch.tap()
+        app.segmentedControls.buttons["Contents"].tap()
+        app.staticTexts["My Impression"].firstMatch.tap()
+        let edited = app.descendants(matching: .any)["boxes.reviewText"]
+        XCTAssertTrue(edited.waitForExistence(timeout: 5))
+        edited.tap()
+        edited.typeText(" A new thought.")
+        app.buttons["Save"].tap()
+        app.segmentedControls.buttons["Review Box"].tap()
+        app.buttons["Save Box"].tap()
+        app.buttons["Share Box"].tap()
+        app.buttons["Share Cover Only"].tap()
+        XCTAssertTrue(app.cells["Copy"].waitForExistence(timeout: 10))
+        let share = XCTAttachment(screenshot: app.screenshot())
+        share.name = "Boxes - cover share sheet"
+        share.lifetime = .keepAlways
+        add(share)
+    }
+}
+
+final class LibraryEntryUITests: XCTestCase {
+    @MainActor
+    func testImportAndICloudDiagnosticsOpenFromLibrary() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        app.launch()
+
+        let importButton = app.buttons["Import"]
+        XCTAssertTrue(importButton.waitForExistence(timeout: 10))
+        importButton.tap()
+        XCTAssertTrue(app.navigationBars["Import"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["Review Titles"].isEnabled)
+        app.buttons["Cancel"].tap()
+
+        app.buttons["Settings"].tap()
+        XCTAssertTrue(app.staticTexts["iCloud Sync"].waitForExistence(timeout: 5))
+        app.buttons["Done"].tap()
+
+        app.buttons["Discover"].firstMatch.tap()
+        XCTAssertTrue(app.navigationBars["Discover"].waitForExistence(timeout: 5))
+    }
+}

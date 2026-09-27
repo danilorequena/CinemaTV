@@ -29,6 +29,7 @@ struct SoundtrackSection: View {
     /// A fila é o grupo de onde a faixa veio: a reprodução segue no álbum.
     let onPlayTrack: (SoundtrackTrack, [SoundtrackTrack]) -> Void
     let onOpenInAppleMusic: (SoundtrackCandidate) -> Void
+    var onAddToBox: ((SoundtrackCandidate) -> Void)? = nil
 
     var body: some View {
         VStack(alignment: .leading, spacing: DSSpacing.md) {
@@ -142,6 +143,11 @@ struct SoundtrackSection: View {
             Spacer(minLength: 0)
         }
         .accessibilityElement(children: .combine)
+        .contextMenu {
+            if let onAddToBox, BoxContentFactory.soundtrack(album) != nil {
+                Button("Add to Box", systemImage: "shippingbox") { onAddToBox(album) }
+            }
+        }
     }
 
     /// Header compacto do modo dois álbuns; tocá-lo abre o álbum no Apple
@@ -172,6 +178,11 @@ struct SoundtrackSection: View {
         .padding(.horizontal, DSSpacing.lg)
         .accessibilityElement(children: .combine)
         .accessibilityHint(Text("Open in Apple Music"))
+        .contextMenu {
+            if let onAddToBox, BoxContentFactory.soundtrack(album) != nil {
+                Button("Add to Box", systemImage: "shippingbox") { onAddToBox(album) }
+            }
+        }
     }
 
     private func albumMetadata(_ album: SoundtrackCandidate) -> String {

@@ -86,6 +86,9 @@ struct AppShellView: View {
         }
         .tabBarMinimizeBehavior(.onScrollDown)
         .tabViewSearchActivation(.searchTabSelection)
+        .sheet(item: $router.libraryImport) { request in
+            LibraryImportScreen(initialText: request.text, initialDestination: request.destination)
+        }
         .onOpenURL { url in
             if let deepLink = DeepLink(url: url) {
                 router.open(deepLink)
@@ -152,6 +155,14 @@ private struct MediaDestinationsModifier: ViewModifier {
     @ViewBuilder
     private func destination(for route: Route) -> some View {
         switch route {
+        case .boxes:
+            BoxesLibraryScreen()
+        case .box(let id):
+            BoxDetailScreen(id: id)
+        case .sharedBox(let editionID):
+            BoxIncomingScreen(editionID: editionID)
+        case .boxEpisode(let id, let season, let episode):
+            BoxEpisodeScreen(tvShowID: id, seasonNumber: season, episodeNumber: episode)
         case .movieDetail(let id):
             MovieDetailScreen(movieID: id)
         case .person(let id):

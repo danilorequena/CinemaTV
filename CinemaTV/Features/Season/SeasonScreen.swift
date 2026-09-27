@@ -21,6 +21,7 @@ struct SeasonScreen: View {
     @State private var isFollowing = false
     @State private var watchedNumbers: Set<Int> = []
     @State private var hasNextSeason = false
+    @State private var knownShowName: String?
     @State private var bulkTrigger = false
     @State private var scrollPosition = ScrollPosition()
     // Compacta e centralizada como a pill da referência; escala com o texto
@@ -74,6 +75,15 @@ struct SeasonScreen: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .tabBar)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                if case .loaded(let details) = model.state {
+                    BoxAddToBoxButton(content: BoxContentFactory.season(details, seriesID: tvShowID, seriesTitle: knownShowName))
+                } else {
+                    Button("Add to Box", systemImage: "shippingbox") {}.disabled(true)
+                }
+            }
+        }
         // Barra própria em vez de ToolbarItemGroup(.bottomBar): o scrubber
         // precisa de long-press + drag, gesto que o bottom bar do sistema
         // não acomoda.
@@ -343,10 +353,12 @@ struct SeasonScreen: View {
     private func refreshTrackingState() {
         isFollowing = trackingStore.isFollowing(showID: tvShowID)
         watchedNumbers = trackingStore.watchedEpisodeNumbers(showID: tvShowID, seasonNumber: seasonNumber)
+        let storedShow = try? trackingStore.show(id: tvShowID)
+        knownShowName = storedShow?.name
         // O follow grava o skeleton de todas as temporadas, então a
         // existência da próxima sai do store, sem rede. isDeleted: relações
         // ainda contêm modelos deletados antes do save.
-        hasNextSeason = ((try? trackingStore.show(id: tvShowID))?.seasons ?? [])
+        hasNextSeason = (storedShow?.seasons ?? [])
             .contains { !$0.isDeleted && $0.seasonNumber == seasonNumber + 1 }
     }
 

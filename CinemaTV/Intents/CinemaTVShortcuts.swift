@@ -10,6 +10,23 @@ import AppIntents
 struct CinemaTVShortcuts: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
+            intent: ImportTitlesIntent(),
+            phrases: [
+                "Add movies and shows to \(.applicationName)",
+                "Import a list into \(.applicationName)"
+            ],
+            shortTitle: "Add Movies and Shows",
+            systemImageName: "text.badge.plus"
+        )
+        AppShortcut(
+            intent: ImportScreenshotsIntent(),
+            phrases: [
+                "Import screenshots into \(.applicationName)"
+            ],
+            shortTitle: "Import Screenshots",
+            systemImageName: "photo.badge.plus"
+        )
+        AppShortcut(
             intent: OpenWatchlistIntent(),
             phrases: [
                 "Open my \(.applicationName) watchlist",

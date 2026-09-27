@@ -30,6 +30,7 @@ struct TVShowDetailScreen: View {
     @State private var isFollowing = false
     @State private var seasonProgress: [Int: WatchProgress] = [:]
     @State private var presentedTrailer: Video?
+    @State private var boxContent: BoxContent?
     @State private var confirmsUnfollow = false
 
     private let showID: Int
@@ -71,6 +72,13 @@ struct TVShowDetailScreen: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .tabBar)
         .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                if let details = loadedDetails {
+                    BoxAddToBoxButton(content: BoxContentFactory.media(details.mediaItem))
+                } else {
+                    Button("Add to Box", systemImage: "shippingbox") {}.disabled(true)
+                }
+            }
             ToolbarItemGroup(placement: .bottomBar) {
                 Button {
                     toggleFollow()
@@ -131,6 +139,9 @@ struct TVShowDetailScreen: View {
         .sheet(item: $presentedTrailer) { trailer in
             YouTubePlayerView(video: trailer)
                 .presentationDetents([.medium, .large])
+        }
+        .sheet(item: $boxContent) { content in
+            BoxAddToBoxSheet(content: content)
         }
         .confirmationDialog(
             "Unfollow this show?",
@@ -240,7 +251,9 @@ struct TVShowDetailScreen: View {
             }
 
             if !details.videos.isEmpty {
-                TrailerSection(videos: details.videos) { trailer in
+                TrailerSection(videos: details.videos, onAddToBox: { trailer in
+                    boxContent = BoxContentFactory.trailer(trailer, for: details.show.mediaItem)
+                }) { trailer in
                     presentedTrailer = trailer
                 }
             }
@@ -265,6 +278,9 @@ struct TVShowDetailScreen: View {
                     },
                     onOpenInAppleMusic: { album in
                         if let url = album.url { openURL(url) }
+                    },
+                    onAddToBox: { album in
+                        boxContent = BoxContentFactory.soundtrack(album)
                     }
                 )
             }

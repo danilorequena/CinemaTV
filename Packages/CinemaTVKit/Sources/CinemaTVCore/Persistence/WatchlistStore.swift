@@ -48,7 +48,7 @@ public final class WatchlistStore {
 
     /// Adiciona à lista "quero assistir" (no fim da ordenação manual).
     public func addToWatchlist(_ item: MediaItem) throws {
-        guard !isInWatchlist(movieID: item.id) else { return }
+        guard !isWatched(movieID: item.id), !isInWatchlist(movieID: item.id) else { return }
         let nextIndex = (try moviesToWatch().compactMap(\.sortIndex).max() ?? -1) + 1
         let movie = MoviesToWatch(item: item, sortIndex: nextIndex)
         movie.dateAdded = .now
