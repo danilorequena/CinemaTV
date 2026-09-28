@@ -41,6 +41,72 @@ class CinemaTVUITests: XCTestCase {
     }
 }
 
+final class LifetimeUITests: XCTestCase {
+    @MainActor
+    func testPortugueseLifetimeTabIsLocalized() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
+        app.launchArguments = ["-AppleLanguages", "(pt-BR)", "-AppleLocale", "pt_BR"]
+        app.launch()
+
+        let tab = app.tabBars.buttons["Sua História"]
+        XCTAssertTrue(tab.waitForExistence(timeout: 10))
+        tab.tap()
+        XCTAssertTrue(app.staticTexts["Sua história"].waitForExistence(timeout: 5))
+    }
+
+    @MainActor
+    func testLifetimeTabHasAnEmptyStateAndOptionalBirthday() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        app.launch()
+
+        let lifetimeTab = app.tabBars.buttons["Lifetime"]
+        XCTAssertTrue(lifetimeTab.waitForExistence(timeout: 10))
+        lifetimeTab.tap()
+        XCTAssertTrue(app.staticTexts["Your Story"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Track a movie or episode to start your story."].exists)
+        app.buttons["lifetime.birthday.edit"].tap()
+        XCTAssertTrue(app.datePickers["lifetime.birthday.picker"].waitForExistence(timeout: 5))
+        app.buttons["Save"].tap()
+        XCTAssertTrue(app.staticTexts["The comparison will appear when runtime data is available."].waitForExistence(timeout: 5))
+        app.buttons["lifetime.birthday.edit"].tap()
+        app.buttons["lifetime.birthday.remove"].tap()
+        XCTAssertFalse(app.staticTexts["lifetime.lifePercentage"].exists)
+    }
+
+    @MainActor
+    func testTrackedHistoryShowsChartsAndShareCard() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
+        app.launchEnvironment["CINEMATV_UI_TEST_SEED_LIFETIME"] = "1"
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        app.launch()
+
+        app.tabBars.buttons["Lifetime"].tap()
+        XCTAssertTrue(app.staticTexts["lifetime.duration"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Your timeline"].exists)
+        XCTAssertTrue(app.staticTexts["Shows that stayed with you"].exists)
+        let dashboard = XCTAttachment(screenshot: app.screenshot())
+        dashboard.name = "Lifetime dashboard"
+        dashboard.lifetime = .keepAlways
+        add(dashboard)
+        let percentage = app.staticTexts["lifetime.lifePercentage"]
+        for _ in 0..<5 where !percentage.exists { app.swipeUp() }
+        XCTAssertTrue(percentage.exists)
+        app.buttons["lifetime.share"].tap()
+        XCTAssertTrue(app.buttons["lifetime.share.confirm"].waitForExistence(timeout: 5))
+        let attachment = XCTAttachment(screenshot: app.screenshot())
+        attachment.name = "Lifetime share preview"
+        attachment.lifetime = .keepAlways
+        add(attachment)
+    }
+}
+
 final class BoxesUITests: XCTestCase {
     @MainActor
     func testToolbarOpensBoxesInsteadOfSettings() throws {

@@ -47,7 +47,23 @@ enum AppContainer {
         if let token = ProcessInfo.processInfo.environment["CINEMATV_UI_TEST_STORE"], let id = UUID(uuidString: token) {
             let url = FileManager.default.temporaryDirectory.appending(path: "boxes-ui-\(id.uuidString).store")
             let config = ModelConfiguration(schema: ModelContainerFactory.schema, url: url, cloudKitDatabase: .none)
-            return try! ModelContainer(for: ModelContainerFactory.schema, configurations: config)
+            let container = try! ModelContainer(for: ModelContainerFactory.schema, configurations: config)
+            if ProcessInfo.processInfo.environment["CINEMATV_UI_TEST_SEED_LIFETIME"] == "1" {
+                MainActor.assumeIsolated {
+                    let context = container.mainContext
+                    let watchedAt = ISO8601DateFormatter().date(from: "2024-03-02T12:00:00Z")
+                    context.insert(MoviesWatched(id: 603, name: "The Matrix", watchedAt: watchedAt))
+                    let show = TVShowWatchingModel(id: 100, name: "A Long Story", firstAirDate: "2020-01-01", totalEpisodes: 2)
+                    context.insert(show)
+                    let season = SeasonSD(episodeCount: 2, seasonNumber: 1, tvShow: show)
+                    context.insert(season)
+                    context.insert(EpisodeSD(episodeNumber: 1, name: "Pilot", runtime: 45, seasonNumber: 1, showID: 100, watchedAt: watchedAt, season: season))
+                    context.insert(MovieReview(movieID: 603, rating: 5, movieTitle: "The Matrix", updatedAt: watchedAt))
+                    context.insert(LifetimeProfile(birthDateISO: "1990-05-14", updatedAt: watchedAt))
+                    try! context.save()
+                }
+            }
+            return container
         }
 #endif
         CloudSyncDiagnostics.start()

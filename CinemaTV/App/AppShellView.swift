@@ -70,6 +70,13 @@ struct AppShellView: View {
                 }
             }
 
+            Tab("Lifetime", systemImage: "chart.bar.xaxis", value: AppTab.lifetime) {
+                NavigationStack(path: $router.lifetimePath) {
+                    LifetimeScreen()
+                        .withMediaDestinations(zoomNamespace: zoomNamespace)
+                }
+            }
+
             Tab("Discover", systemImage: "binoculars", value: AppTab.discover) {
                 NavigationStack(path: $router.discoverPath) {
                     HomeScreen()

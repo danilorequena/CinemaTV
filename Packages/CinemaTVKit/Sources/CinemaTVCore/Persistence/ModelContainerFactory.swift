@@ -40,6 +40,7 @@ public enum ModelContainerFactory {
         SeasonSD.self,
         EpisodeSD.self,
         MovieReview.self,
+        LifetimeProfile.self,
         PersonalBox.self,
         BoxAuthorProfile.self
     ])

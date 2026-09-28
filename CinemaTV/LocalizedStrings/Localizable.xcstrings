@@ -1,6 +1,656 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Of your lifetime in the known duration of titles you've marked as watched." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Da sua vida na duração conhecida dos títulos que você marcou como assistidos."
+          }
+        }
+      }
+    },
+    "The comparison will appear when runtime data is available." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A comparação aparecerá quando houver dados de duração."
+          }
+        }
+      }
+    },
+    "No duration data yet" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ainda não há dados de duração"
+          }
+        }
+      }
+    },
+    "Every story counts." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada história conta."
+          }
+        }
+      }
+    },
+    "Lifetime" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua História"
+          }
+        }
+      }
+    },
+    "YOUR LIFETIME" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SUA JORNADA"
+          }
+        }
+      }
+    },
+    "Your Story" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua história"
+          }
+        }
+      }
+    },
+    "The stories you've marked as watched, all in one place." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As histórias que você marcou como assistidas, em um só lugar."
+          }
+        }
+      }
+    },
+    "Your Story Is Just Beginning" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua história está só começando"
+          }
+        }
+      }
+    },
+    "Track a movie or episode to start your story." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marque um filme ou episódio como assistido para começar sua história."
+          }
+        }
+      }
+    },
+    "Duration of titles marked as watched" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duração dos títulos marcados como assistidos"
+          }
+        }
+      }
+    },
+    "%lld full days of stories" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld dias inteiros de histórias"
+          }
+        }
+      }
+    },
+    "Based on catalogue runtimes, not measured playback or rewatches." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baseado na duração do catálogo, não na reprodução medida ou em reassistidas."
+          }
+        }
+      }
+    },
+    "Duration available for %lld of %lld titles" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duração disponível para %lld de %lld títulos"
+          }
+        }
+      }
+    },
+    "Loading catalogue details %lld of %lld" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregando detalhes do catálogo: %lld de %lld"
+          }
+        }
+      }
+    },
+    "Retry missing details" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tentar carregar detalhes novamente"
+          }
+        }
+      }
+    },
+    "Your timeline" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua linha do tempo"
+          }
+        }
+      }
+    },
+    "When titles were marked as watched" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando os títulos foram marcados como assistidos"
+          }
+        }
+      }
+    },
+    "Timeline" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linha do tempo"
+          }
+        }
+      }
+    },
+    "Monthly" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mensal"
+          }
+        }
+      }
+    },
+    "Yearly" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anual"
+          }
+        }
+      }
+    },
+    "Year" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ano"
+          }
+        }
+      }
+    },
+    "No dated watch records yet." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ainda não há registros com data."
+          }
+        }
+      }
+    },
+    "%lld titles without a watch date are included in totals, but not this chart." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld títulos sem data entram nos totais, mas não neste gráfico."
+          }
+        }
+      }
+    },
+    "Monthly watch records for %lld" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registros mensais de %lld"
+          }
+        }
+      }
+    },
+    "Yearly watch records" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registros anuais de títulos assistidos"
+          }
+        }
+      }
+    },
+    "%lld titles" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld títulos"
+          }
+        }
+      }
+    },
+    "%lld titles across %lld years" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld títulos em %lld anos"
+          }
+        }
+      }
+    },
+    "Your genres" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seus gêneros"
+          }
+        }
+      }
+    },
+    "Counted once per watched movie or show" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada filme ou série assistido conta uma vez"
+          }
+        }
+      }
+    },
+    "Your decades" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suas décadas"
+          }
+        }
+      }
+    },
+    "Based on original release year" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com base no ano de estreia original"
+          }
+        }
+      }
+    },
+    "Shows that stayed with you" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Séries que mais acompanharam você"
+          }
+        }
+      }
+    },
+    "Most episodes marked as watched" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mais episódios marcados como assistidos"
+          }
+        }
+      }
+    },
+    "Your favorites" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seus favoritos"
+          }
+        }
+      }
+    },
+    "Your own movie ratings" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suas avaliações de filmes"
+          }
+        }
+      }
+    },
+    "Milestones" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marcos"
+          }
+        }
+      }
+    },
+    "Built from your tracked history" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com base no seu histórico"
+          }
+        }
+      }
+    },
+    "First movie" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Primeiro filme"
+          }
+        }
+      }
+    },
+    "10 movies" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10 filmes"
+          }
+        }
+      }
+    },
+    "100 movies" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100 filmes"
+          }
+        }
+      }
+    },
+    "First episode" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Primeiro episódio"
+          }
+        }
+      }
+    },
+    "100 episodes" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100 episódios"
+          }
+        }
+      }
+    },
+    "1,000 episodes" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1.000 episódios"
+          }
+        }
+      }
+    },
+    "100 hours of stories" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100 horas de histórias"
+          }
+        }
+      }
+    },
+    "30 days of stories" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 dias de histórias"
+          }
+        }
+      }
+    },
+    "A piece of your life" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uma parte da sua vida"
+          }
+        }
+      }
+    },
+    "Optional and private" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opcional e privado"
+          }
+        }
+      }
+    },
+    "Of your lifetime in the duration of titles you've marked as watched." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Da sua vida na duração dos títulos que você marcou como assistidos."
+          }
+        }
+      }
+    },
+    "Add your birth date to see this optional comparison." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione sua data de nascimento para ver esta comparação opcional."
+          }
+        }
+      }
+    },
+    "Add Birth Date" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar data de nascimento"
+          }
+        }
+      }
+    },
+    "Edit Birth Date" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar data de nascimento"
+          }
+        }
+      }
+    },
+    "Birth Date" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data de nascimento"
+          }
+        }
+      }
+    },
+    "This date syncs privately with iCloud. It never appears on your shared card." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Essa data é sincronizada de forma privada pelo iCloud. Ela nunca aparece no cartão compartilhado."
+          }
+        }
+      }
+    },
+    "Remove Birth Date" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover data de nascimento"
+          }
+        }
+      }
+    },
+    "Could Not Save Birth Date" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível salvar a data de nascimento"
+          }
+        }
+      }
+    },
+    "Share Your Story" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartilhar sua história"
+          }
+        }
+      }
+    },
+    "Preview of your Lifetime card" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prévia do seu cartão Sua História"
+          }
+        }
+      }
+    },
+    "Share Card" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartilhar cartão"
+          }
+        }
+      }
+    },
+    "Preparing your card" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preparando seu cartão"
+          }
+        }
+      }
+    },
+    "CINEMATV / LIFETIME" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CINEMATV / SUA HISTÓRIA"
+          }
+        }
+      }
+    },
+    "MOVIES" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FILMES"
+          }
+        }
+      }
+    },
+    "EPISODES" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EPISÓDIOS"
+          }
+        }
+      }
+    },
+    "TOP GENRE" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GÊNERO FAVORITO"
+          }
+        }
+      }
+    },
+    "Runtime known for %lld of %lld titles" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duração conhecida de %lld de %lld títulos"
+          }
+        }
+      }
+    },
     "%@" : {
       "comment" : "The year part of a release date.",
       "isCommentAutoGenerated" : true,

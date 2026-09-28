@@ -11,6 +11,7 @@ import CinemaTVCore
 
 enum AppTab: Hashable {
     case tracking
+    case lifetime
     case discover
     case search
 }
@@ -39,6 +40,7 @@ final class AppRouter {
     var selectedTab: AppTab = .tracking
     var discoverPath = NavigationPath()
     var trackingPath = NavigationPath()
+    var lifetimePath = NavigationPath()
     var searchPath = NavigationPath()
     /// Query da busca — bindada ao .searchable e alimentada por deep links.
     var searchQuery = ""
@@ -63,6 +65,7 @@ final class AppRouter {
         }
         switch selectedTab {
         case .tracking: trackingPath.append(route)
+        case .lifetime: lifetimePath.append(route)
         case .discover: discoverPath.append(route)
         case .search: searchPath.append(route)
         }

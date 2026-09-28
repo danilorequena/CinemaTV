@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A62609270000000000000003 /* LifetimeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62609270000000000000001 /* LifetimeScreen.swift */; };
+		A62609270000000000000004 /* LifetimeShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62609270000000000000002 /* LifetimeShareSheet.swift */; };
 		B02609140000000200000007 /* LibraryImportExtractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609140000000100000007 /* LibraryImportExtractorTests.swift */; };
 		B02609140000000200000006 /* LibraryImportReviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609140000000100000006 /* LibraryImportReviewTests.swift */; };
 		B02609140000000200000005 /* VisualLibraryImportIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02609140000000100000005 /* VisualLibraryImportIntent.swift */; };
@@ -169,6 +171,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A62609270000000000000001 /* LifetimeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifetimeScreen.swift; sourceTree = "<group>"; };
+		A62609270000000000000002 /* LifetimeShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifetimeShareSheet.swift; sourceTree = "<group>"; };
 		B02609140000000100000007 /* LibraryImportExtractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryImportExtractorTests.swift; sourceTree = "<group>"; };
 		B02609140000000100000006 /* LibraryImportReviewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryImportReviewTests.swift; sourceTree = "<group>"; };
 		B02609140000000100000005 /* VisualLibraryImportIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualLibraryImportIntent.swift; sourceTree = "<group>"; };
@@ -488,6 +492,7 @@
 				FF21AC933008DBFF009764B1 /* Search */,
 				FF21AC943008DC00009764B1 /* MovieDetail */,
 				FF21AC953008DC00009764B1 /* Watchlist */,
+				A62609270000000000000005 /* Lifetime */,
 				FF21AC963008DC00009764B1 /* Person */,
 				FF21ACCF300B82FF009764B1 /* Discover */,
 				FFCA557A302BB6210025941D /* Reviews */,
@@ -499,6 +504,15 @@
 				FFA08B75304310C800DD9E08 /* Soundtrack */,
 			);
 			path = Features;
+			sourceTree = "<group>";
+		};
+		A62609270000000000000005 /* Lifetime */ = {
+			isa = PBXGroup;
+			children = (
+				A62609270000000000000001 /* LifetimeScreen.swift */,
+				A62609270000000000000002 /* LifetimeShareSheet.swift */,
+			);
+			path = Lifetime;
 			sourceTree = "<group>";
 		};
 		FF21AC913008DBFE009764B1 /* Home */ = {
@@ -937,6 +951,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A62609270000000000000003 /* LifetimeScreen.swift in Sources */,
+				A62609270000000000000004 /* LifetimeShareSheet.swift in Sources */,
 				B02609140000000200000005 /* VisualLibraryImportIntent.swift in Sources */,
 				B02609140000000200000004 /* LibraryImportIntents.swift in Sources */,
 				B02609140000000200000003 /* LibraryImportExtractor.swift in Sources */,
