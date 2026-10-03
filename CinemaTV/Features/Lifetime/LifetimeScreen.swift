@@ -230,14 +230,15 @@ struct LifetimeScreen: View {
                     .font(.subheadline.weight(.medium))
                     .foregroundStyle(.secondary)
                 if stats.knownDurationCount > 0 {
-                    Text(durationText(stats.totalKnownMinutes))
+                    Text(verbatim: LifetimeDurationLabel.primary(stats.totalKnownMinutes))
                         .font(.system(size: 42, weight: .bold, design: .rounded))
                         .minimumScaleFactor(0.6)
                         .lineLimit(1)
                         .contentTransition(.numericText())
                         .accessibilityIdentifier("lifetime.duration")
+                        .accessibilityValue(LifetimeDurationLabel.exactHours(stats.totalKnownMinutes))
                     if stats.totalKnownMinutes >= 1_440 {
-                        Text("\(stats.totalKnownMinutes / 1_440) full days of stories")
+                        Text(verbatim: LifetimeDurationLabel.exactHours(stats.totalKnownMinutes))
                             .font(.subheadline)
                             .foregroundStyle(DSColor.accent)
                     } else {
@@ -249,6 +250,11 @@ struct LifetimeScreen: View {
                     Text("No duration data yet")
                         .font(.title2.weight(.bold))
                         .accessibilityIdentifier("lifetime.duration")
+                }
+                if stats.totalKnownMinutes >= 4 * 7 * 24 * 60 {
+                    Text("One month means four weeks here.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
                 Text("Based on catalogue runtimes, not measured playback or rewatches.")
                     .font(.caption)
@@ -493,12 +499,6 @@ struct LifetimeScreen: View {
             Text(title).font(.headline).accessibilityAddTraits(.isHeader)
             Text(subtitle).font(.caption).foregroundStyle(.secondary)
         }
-    }
-
-    private func durationText(_ minutes: Int) -> String {
-        let hours = minutes / 60
-        let remaining = minutes % 60
-        return "\(hours.formatted())h \(remaining)m"
     }
 
     private func enrichMetadata() async {

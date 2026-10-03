@@ -112,6 +112,36 @@ import Testing
         #expect(snapshot.monthlyTimeline.map(\.year) == [2023, 2023])
     }
 
+    @Test func durationDisplayRollsOverAtDaysWeeksAndFourWeekMonths() {
+        #expect(LifetimeDurationBreakdown.components(for: 23 * 60 + 59) == [
+            .init(value: 23, unit: .hour), .init(value: 59, unit: .minute)
+        ])
+        #expect(LifetimeDurationBreakdown.components(for: 24 * 60) == [
+            .init(value: 1, unit: .day)
+        ])
+        #expect(LifetimeDurationBreakdown.components(for: 7 * 24 * 60 - 1) == [
+            .init(value: 6, unit: .day), .init(value: 23, unit: .hour)
+        ])
+        #expect(LifetimeDurationBreakdown.components(for: 7 * 24 * 60) == [
+            .init(value: 1, unit: .week)
+        ])
+        #expect(LifetimeDurationBreakdown.components(for: 4 * 7 * 24 * 60 - 1) == [
+            .init(value: 3, unit: .week), .init(value: 6, unit: .day)
+        ])
+        #expect(LifetimeDurationBreakdown.components(for: 4 * 7 * 24 * 60) == [
+            .init(value: 1, unit: .month)
+        ])
+    }
+
+    @Test func durationDisplayKeepsOnlyTwoLeadingUnitsWithoutRoundingUp() {
+        let total = (4 * 7 + 7 + 1) * 24 * 60 + 3 * 60 + 20
+        #expect(LifetimeDurationBreakdown.components(for: total) == [
+            .init(value: 1, unit: .month), .init(value: 1, unit: .week)
+        ])
+        #expect(LifetimeDurationBreakdown.components(for: 45) == [.init(value: 45, unit: .minute)])
+        #expect(LifetimeDurationBreakdown.components(for: 0) == [.init(value: 0, unit: .minute)])
+    }
+
     private func date(_ value: String) -> Date {
         ISO8601DateFormatter().date(from: value + "T12:00:00Z")!
     }

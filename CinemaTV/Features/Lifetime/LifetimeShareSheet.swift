@@ -52,9 +52,6 @@ struct LifetimeShareSheet: View {
 private struct LifetimeShareCard: View {
     let summary: LifetimeShareSummary
 
-    private var hours: Int { summary.totalKnownMinutes / 60 }
-    private var minutes: Int { summary.totalKnownMinutes % 60 }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("CINEMATV / LIFETIME")
@@ -65,7 +62,7 @@ private struct LifetimeShareCard: View {
             Text("Your Story")
                 .font(.system(size: 40, weight: .bold, design: .serif))
                 .foregroundStyle(.white)
-            Text("\(hours.formatted())h \(minutes)m")
+            Text(verbatim: LifetimeDurationLabel.primary(summary.totalKnownMinutes))
                 .font(.system(size: 55, weight: .heavy, design: .rounded))
                 .minimumScaleFactor(0.5)
                 .lineLimit(1)
@@ -74,6 +71,16 @@ private struct LifetimeShareCard: View {
             Text("Duration of titles marked as watched")
                 .font(.system(size: 14))
                 .foregroundStyle(.white.opacity(0.78))
+            if summary.totalKnownMinutes >= 24 * 60 {
+                Text(verbatim: LifetimeDurationLabel.exactHours(summary.totalKnownMinutes))
+                    .font(.system(size: 12))
+                    .foregroundStyle(.white.opacity(0.65))
+            }
+            if summary.totalKnownMinutes >= 4 * 7 * 24 * 60 {
+                Text("One month means four weeks here.")
+                    .font(.system(size: 11))
+                    .foregroundStyle(.white.opacity(0.65))
+            }
             HStack(spacing: 24) {
                 count(summary.movieCount, title: "MOVIES")
                 count(summary.episodeCount, title: "EPISODES")
@@ -109,5 +116,25 @@ private struct LifetimeShareCard: View {
                 .tracking(1)
                 .foregroundStyle(.white.opacity(0.65))
         }
+    }
+}
+
+enum LifetimeDurationLabel {
+    static func primary(_ minutes: Int) -> String {
+        LifetimeDurationBreakdown.components(for: minutes).map { part in
+            let number = part.value.formatted()
+            switch part.unit {
+            case .month: return "\(number) \(String(localized: part.value == 1 ? "month" : "months"))"
+            case .week: return "\(number) \(String(localized: part.value == 1 ? "week" : "weeks"))"
+            case .day: return "\(number) \(String(localized: part.value == 1 ? "day" : "days"))"
+            case .hour: return "\(number)h"
+            case .minute: return "\(number)min"
+            }
+        }.joined(separator: " · ")
+    }
+
+    static func exactHours(_ minutes: Int) -> String {
+        let safeMinutes = max(0, minutes)
+        return "\((safeMinutes / 60).formatted())h \((safeMinutes % 60).formatted())min"
     }
 }
