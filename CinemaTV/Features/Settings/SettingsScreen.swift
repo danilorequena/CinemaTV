@@ -196,6 +196,10 @@ struct SettingsScreen: View {
             AppleIntelligenceSection()
 
             Section {
+                NavigationLink("Revisit Onboarding") {
+                    OnboardingReviewDestination()
+                }
+                .accessibilityIdentifier("onboarding.review")
                 NavigationLink("What's New") {
                     ChangelogScreen()
                 }
@@ -293,6 +297,15 @@ struct SettingsScreen: View {
             cloudAccountStatus = nil
             cloudAccountError = error.localizedDescription
         }
+    }
+}
+
+private struct OnboardingReviewDestination: View {
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        OnboardingScreen(isReview: true) { _ in dismiss() }
+            .toolbar(.hidden, for: .navigationBar)
     }
 }
 

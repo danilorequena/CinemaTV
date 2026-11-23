@@ -32,7 +32,20 @@ struct CinemaTVApp: App {
             AppShellView()
                 .environment(router)
                 .dsImagePipeline()
+                .defaultAppStorage(Self.appDefaults)
         }
         .modelContainer(container)
     }
+
+    private static let appDefaults: UserDefaults = {
+#if DEBUG
+        let environment = ProcessInfo.processInfo.environment
+        if let token = environment["CINEMATV_UI_TEST_STORE"],
+           let id = UUID(uuidString: token),
+           let defaults = UserDefaults(suiteName: "CinemaTV.UITests.\(id.uuidString)") {
+            return defaults
+        }
+#endif
+        return .standard
+    }()
 }

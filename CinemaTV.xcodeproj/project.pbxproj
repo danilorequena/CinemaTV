@@ -37,6 +37,8 @@
 		7D422463273810E2006236F8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D422462273810E2006236F8 /* Preview Assets.xcassets */; };
 		7D422472273810E2006236F8 /* CinemaTVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D422471273810E2006236F8 /* CinemaTVTests.swift */; };
 		7D42247C273810E2006236F8 /* CinemaTVUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D42247B273810E2006236F8 /* CinemaTVUITests.swift */; };
+		A62611220000000000000001 /* OnboardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62611220000000000000003 /* OnboardingScreen.swift */; };
+		A62611220000000000000002 /* StreamingServicePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62611220000000000000004 /* StreamingServicePicker.swift */; };
 		7D42247E273810E2006236F8 /* CinemaTVUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D42247D273810E2006236F8 /* CinemaTVUITestsLaunchTests.swift */; };
 		CA57C0DE0000000000000003 /* CinemaTVCore in Frameworks */ = {isa = PBXBuildFile; productRef = CA57C0DE0000000000000103 /* CinemaTVCore */; };
 		FF21AC7B3008282D009764B1 /* CinemaTVCore in Frameworks */ = {isa = PBXBuildFile; productRef = FF21AC7A3008282D009764B1 /* CinemaTVCore */; };
@@ -204,6 +206,8 @@
 		7D422471273810E2006236F8 /* CinemaTVTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CinemaTVTests.swift; sourceTree = "<group>"; };
 		7D422477273810E2006236F8 /* CinemaTVUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CinemaTVUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D42247B273810E2006236F8 /* CinemaTVUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CinemaTVUITests.swift; sourceTree = "<group>"; };
+		A62611220000000000000003 /* OnboardingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreen.swift; sourceTree = "<group>"; };
+		A62611220000000000000004 /* StreamingServicePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingServicePicker.swift; sourceTree = "<group>"; };
 		7D42247D273810E2006236F8 /* CinemaTVUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CinemaTVUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FF21AC783007D591009764B1 /* CinemaTVWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CinemaTVWidgetExtension.entitlements; sourceTree = "<group>"; };
 		FF21AC7F3008DB96009764B1 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
@@ -488,6 +492,7 @@
 				B02609140000000300000001 /* Import */,
 				B02609060000000300000001 /* Boxes */,
 				FF21AC913008DBFE009764B1 /* Home */,
+				A62611220000000000000005 /* Onboarding */,
 				FF21AC923008DBFE009764B1 /* MovieList */,
 				FF21AC933008DBFF009764B1 /* Search */,
 				FF21AC943008DC00009764B1 /* MovieDetail */,
@@ -520,9 +525,18 @@
 			children = (
 				FF21AC973008DC0D009764B1 /* HomeScreenModel.swift */,
 				FF21AC9A3008DC15009764B1 /* HomeScreen.swift */,
+				A62611220000000000000004 /* StreamingServicePicker.swift */,
 				FFCA55893030907A0025941D /* TVHomeModel.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		A62611220000000000000005 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				A62611220000000000000003 /* OnboardingScreen.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		FF21AC923008DBFE009764B1 /* MovieList */ = {
@@ -884,6 +898,7 @@
 				en,
 				Base,
 				"pt-BR",
+				fr,
 			);
 			mainGroup = 7D42244F273810E1006236F8;
 			packageReferences = (
@@ -1027,6 +1042,8 @@
 				FF2C02ED303B42B00019AE7F /* ShareSheetView.swift in Sources */,
 				FF21AC863008DBA0009764B1 /* AppRouter.swift in Sources */,
 				FF21AC9B3008DC15009764B1 /* HomeScreen.swift in Sources */,
+				A62611220000000000000001 /* OnboardingScreen.swift in Sources */,
+				A62611220000000000000002 /* StreamingServicePicker.swift in Sources */,
 				FF21ACA83008DC59009764B1 /* MovieDetailScreen.swift in Sources */,
 				FF21AC8B3008DBAC009764B1 /* AppEnvironment.swift in Sources */,
 				DC2026092300000000000001 /* CloudSyncDiagnostics.swift in Sources */,

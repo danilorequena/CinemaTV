@@ -19,44 +19,119 @@ private let holoShaderProvider = DSHoloShaderProvider(id: "holoSweep") { angle, 
 }
 
 struct AppShellView: View {
+    private static let onboardingVersion = 1
+
     @Environment(AppRouter.self) private var router
+    @AppStorage("completedOnboardingVersion") private var completedOnboardingVersion = 0
     @AppStorage(CloudSyncDiagnostics.modeKey) private var cloudStoreMode = ""
     @AppStorage(CloudSyncDiagnostics.lastErrorKey) private var lastCloudError = ""
     @State private var showsCloudStoreWarning = false
+    @State private var didCheckCloudStore = false
     @Namespace private var zoomNamespace
 
     var body: some View {
-        standardBody
-            .environment(\.mediaZoomNamespace, zoomNamespace)
-            .environment(\.dsHoloShader, holoShaderProvider)
-            .tint(DSColor.accent)
-            .onAppear {
+        @Bindable var router = router
+
+        ZStack {
+            if showsOnboarding {
+                OnboardingScreen(onChooseStreamingServices: {
+                    router.presentation = AppPresentation(content: .onboardingStreaming)
+                }, onExit: finishOnboarding)
+            } else {
+                standardBody
+                    .onAppear(perform: checkCloudStore)
+                    .onChange(of: lastCloudError) { _, error in
+                        if cloudStoreMode == "cloudKit", !error.isEmpty {
+                            didCheckCloudStore = false
+                            checkCloudStore()
+                        }
+                    }
+            }
+        }
+        .alert("iCloud Sync Needs Attention", isPresented: $showsCloudStoreWarning) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            if cloudStoreMode == "memory" {
+                Text("The library could not be opened. New changes may disappear when the app closes. See Settings > iCloud Sync for details.")
+            } else if cloudStoreMode == "local" {
+                Text("Changes are being saved only on this iPhone. See Settings > iCloud Sync for details.")
+            } else {
+                Text("Your library is saved on this iPhone, but iCloud could not sync it. See Settings > iCloud Sync for details.")
+            }
+        }
+        .sheet(item: $router.presentation, onDismiss: checkCloudStore, content: presentedScreen)
+        .environment(\.mediaZoomNamespace, zoomNamespace)
+        .environment(\.dsHoloShader, holoShaderProvider)
+        .tint(DSColor.accent)
+        .onOpenURL { url in
+            if let deepLink = DeepLink(url: url) {
+                router.open(deepLink)
+            }
+        }
+    }
+
+    private var showsOnboarding: Bool {
 #if DEBUG
-                if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
-                    || ProcessInfo.processInfo.environment["CINEMATV_UI_TEST_STORE"] != nil {
-                    return
-                }
+        let environment = ProcessInfo.processInfo.environment
+        if environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+            || (environment["CINEMATV_UI_TEST_STORE"] != nil && environment["CINEMATV_UI_TEST_ONBOARDING"] != "1") {
+            return false
+        }
 #endif
-                showsCloudStoreWarning = cloudStoreMode == "local"
-                    || cloudStoreMode == "memory"
-                    || !lastCloudError.isEmpty
-            }
-            .onChange(of: lastCloudError) { _, error in
-                if cloudStoreMode == "cloudKit", !error.isEmpty {
-                    showsCloudStoreWarning = true
+        return completedOnboardingVersion < Self.onboardingVersion && !router.receivedExternalOpen
+    }
+
+    private func finishOnboarding(_ destination: OnboardingDestination) {
+        guard !router.receivedExternalOpen else { return }
+        completedOnboardingVersion = Self.onboardingVersion
+        switch destination {
+        case .library: router.selectedTab = .tracking
+        case .search: router.selectedTab = .search
+        case .libraryImport: router.presentLibraryImport()
+        }
+    }
+
+    private func checkCloudStore() {
+        guard !showsOnboarding, !didCheckCloudStore, router.presentation == nil else { return }
+#if DEBUG
+        let environment = ProcessInfo.processInfo.environment
+        if environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" || environment["CINEMATV_UI_TEST_STORE"] != nil {
+            return
+        }
+#endif
+        didCheckCloudStore = true
+        showsCloudStoreWarning = cloudStoreMode == "local" || cloudStoreMode == "memory" || !lastCloudError.isEmpty
+    }
+
+    @ViewBuilder
+    private func presentedScreen(_ presentation: AppPresentation) -> some View {
+        @Bindable var router = router
+
+        switch presentation.content {
+        case .onboardingStreaming:
+            StreamingServicePicker(allowsSkipping: true)
+        case .libraryImport(let request):
+            LibraryImportScreen(initialText: request.text, initialDestination: request.destination)
+        case .externalMedia(let media):
+            NavigationStack(path: $router.externalMediaPath) {
+                Group {
+                    switch media {
+                    case .movie(let id):
+                        MovieDetailScreen(movieID: id)
+                    case .tvShow(let id):
+                        TVShowDetailScreen(showID: id)
+                    }
+                }
+                .withMediaDestinations(zoomNamespace: zoomNamespace)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button("Close", systemImage: "xmark") {
+                            router.presentation = nil
+                        }
+                    }
                 }
             }
-            .alert("iCloud Sync Needs Attention", isPresented: $showsCloudStoreWarning) {
-                Button("OK", role: .cancel) {}
-            } message: {
-                if cloudStoreMode == "memory" {
-                    Text("The library could not be opened. New changes may disappear when the app closes. See Settings > iCloud Sync for details.")
-                } else if cloudStoreMode == "local" {
-                    Text("Changes are being saved only on this iPhone. See Settings > iCloud Sync for details.")
-                } else {
-                    Text("Your library is saved on this iPhone, but iCloud could not sync it. See Settings > iCloud Sync for details.")
-                }
-            }
+        }
     }
 
     private var standardBody: some View {
@@ -93,36 +168,6 @@ struct AppShellView: View {
         }
         .tabBarMinimizeBehavior(.onScrollDown)
         .tabViewSearchActivation(.searchTabSelection)
-        .sheet(item: $router.presentation) { presentation in
-            switch presentation.content {
-            case .libraryImport(let request):
-                LibraryImportScreen(initialText: request.text, initialDestination: request.destination)
-            case .externalMedia(let media):
-                NavigationStack(path: $router.externalMediaPath) {
-                    Group {
-                        switch media {
-                        case .movie(let id):
-                            MovieDetailScreen(movieID: id)
-                        case .tvShow(let id):
-                            TVShowDetailScreen(showID: id)
-                        }
-                    }
-                    .withMediaDestinations(zoomNamespace: zoomNamespace)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button("Close", systemImage: "xmark") {
-                                router.presentation = nil
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        .onOpenURL { url in
-            if let deepLink = DeepLink(url: url) {
-                router.open(deepLink)
-            }
-        }
     }
 }
 

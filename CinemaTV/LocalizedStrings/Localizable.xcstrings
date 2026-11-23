@@ -118,6 +118,12 @@
             "state" : "translated",
             "value" : "Sua História"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre histoire"
+          }
         }
       }
     },
@@ -1023,6 +1029,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$lld de %2$lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld sur %2$lld"
           }
         }
       }
@@ -2150,6 +2162,12 @@
             "state" : "translated",
             "value" : "Cancelar"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
+          }
         }
       }
     },
@@ -2343,6 +2361,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fechar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer"
           }
         }
       }
@@ -2994,6 +3018,12 @@
             "state" : "translated",
             "value" : "Descubra"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Découvrir"
+          }
         }
       }
     },
@@ -3023,6 +3053,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Concluir"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé"
           }
         }
       }
@@ -3608,6 +3644,12 @@
             "state" : "translated",
             "value" : "Importar"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer"
+          }
         }
       }
     },
@@ -3879,6 +3921,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Biblioteca"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bibliothèque"
           }
         }
       }
@@ -4708,6 +4756,12 @@
             "state" : "translated",
             "value" : "Agora Não"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas maintenant"
+          }
         }
       }
     },
@@ -5379,6 +5433,12 @@
             "state" : "machine_translated",
             "value" : "Região"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Région"
+          }
         }
       }
     },
@@ -5706,6 +5766,12 @@
             "state" : "translated",
             "value" : "Guardar"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer"
+          }
         }
       }
     },
@@ -5855,6 +5921,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pesquisa"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher"
           }
         }
       }
@@ -6218,6 +6290,12 @@
             "state" : "translated",
             "value" : "Ajustes"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réglages"
+          }
         }
       }
     },
@@ -6383,6 +6461,12 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Pular"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passer"
           }
         }
       }
@@ -6992,6 +7076,12 @@
             "state" : "translated",
             "value" : "Tentar novamente"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réessayer"
+          }
         }
       }
     },
@@ -7294,6 +7384,12 @@
             "state" : "translated",
             "value" : "Quero assistir"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À regarder"
+          }
         }
       }
     },
@@ -7331,6 +7427,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Assistido"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déjà vus"
           }
         }
       }
@@ -7847,6 +7949,12 @@
             "state" : "translated",
             "value" : "Dados de disponibilidade fornecidos pela JustWatch"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Données de disponibilité fournies par JustWatch"
+          }
         }
       }
     },
@@ -7856,6 +7964,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Títulos mais recentes no streaming"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sorties récentes en streaming"
           }
         }
       }
@@ -7867,6 +7981,12 @@
             "state" : "translated",
             "value" : "Títulos ordenados pela data de estreia e disponíveis por assinatura em %@"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Titres disponibles sur abonnement (%@), classés par date de sortie"
+          }
         }
       }
     },
@@ -7876,6 +7996,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Carregando serviços de streaming"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement des services de streaming"
           }
         }
       }
@@ -7887,6 +8013,12 @@
             "state" : "translated",
             "value" : "Nenhum serviço de streaming encontrado nesta região."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun service de streaming trouvé pour cette région."
+          }
         }
       }
     },
@@ -7897,6 +8029,12 @@
             "state" : "translated",
             "value" : "Carregando títulos"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement des titres"
+          }
         }
       }
     },
@@ -7906,6 +8044,1052 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar mais serviços"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher plus de services"
+          }
+        }
+      }
+    },
+    "Revisit Onboarding" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rever onboarding"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revoir la visite guidée"
+          }
+        }
+      }
+    },
+    "My Streaming Services" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meus streamings"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mes services de streaming"
+          }
+        }
+      }
+    },
+    "Choose Streaming Services" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolher serviços"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisir les services"
+          }
+        }
+      }
+    },
+    "Edit Streaming Services" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar serviços"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier les services"
+          }
+        }
+      }
+    },
+    "See Other Services" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver outros serviços"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voir les autres services"
+          }
+        }
+      }
+    },
+    "Search Streaming Services" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar serviços"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher des services"
+          }
+        }
+      }
+    },
+    "We couldn’t load streaming services." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível carregar os serviços de streaming."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de charger les services de streaming."
+          }
+        }
+      }
+    },
+    "No matching streaming services." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhum serviço encontrado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun service correspondant."
+          }
+        }
+      }
+    },
+    "Back" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retour"
+          }
+        }
+      }
+    },
+    "Page %lld of %lld" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Página %1$lld de %2$lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Page %1$lld sur %2$lld"
+          }
+        }
+      }
+    },
+    "Continue" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuer"
+          }
+        }
+      }
+    },
+    "Open Library" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Biblioteca"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir la bibliothèque"
+          }
+        }
+      }
+    },
+    "Find your next watch" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encontre o que assistir"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trouvez quoi regarder"
+          }
+        }
+      }
+    },
+    "Build your Library" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monte sua Biblioteca"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créez votre bibliothèque"
+          }
+        }
+      }
+    },
+    "Go beyond the credits" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vá além dos créditos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Au-delà du générique"
+          }
+        }
+      }
+    },
+    "See your Lifetime" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reviva Sua História"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revivez votre histoire"
+          }
+        }
+      }
+    },
+    "Make a Box" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crie uma Box"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créez une Box"
+          }
+        }
+      }
+    },
+    "CinemaTV at a glance" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CinemaTV em um relance"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CinemaTV en un coup d’œil"
+          }
+        }
+      }
+    },
+    "Make it yours" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deixe o app do seu jeito"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personnalisez CinemaTV"
+          }
+        }
+      }
+    },
+    "Browse Discover" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explore a aba Descubra"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parcourir l’onglet Découvrir"
+          }
+        }
+      }
+    },
+    "See upcoming movies and shows, or swipe through the Discover deck for ideas." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veja os próximos filmes e séries ou deslize pelos cards em Descubra para encontrar ideias."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repérez les prochains films et séries ou faites défiler les cartes de l’onglet Découvrir pour trouver des idées."
+          }
+        }
+      }
+    },
+    "Search the catalog" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pesquise no catálogo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher dans le catalogue"
+          }
+        }
+      }
+    },
+    "Find movies, TV shows, and people by name, or browse genres." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encontre filmes, séries e pessoas por nome ou explore por gênero."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recherchez des films, des séries et des personnes par nom, ou explorez le catalogue par genre."
+          }
+        }
+      }
+    },
+    "See where to watch" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veja onde assistir"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Savoir où regarder"
+          }
+        }
+      }
+    },
+    "Make a movie queue" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monte sua lista de filmes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créer une liste de films"
+          }
+        }
+      }
+    },
+    "Save movies to Want to Watch and mark them watched when you finish." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salve filmes em Quero assistir e marque-os como assistidos quando terminar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez des films à votre liste À regarder, puis marquez-les comme vus."
+          }
+        }
+      }
+    },
+    "Keep up with shows" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acompanhe suas séries"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suivre vos séries"
+          }
+        }
+      }
+    },
+    "Track episodes, browse upcoming premieres, and turn on release-day alerts in Settings." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acompanhe os episódios, veja as próximas estreias e ative os avisos de estreia nos Ajustes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suivez les épisodes, consultez les prochaines sorties et activez les alertes de sortie dans les réglages."
+          }
+        }
+      }
+    },
+    "Bring your lists with you" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traga suas listas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Récupérer vos listes"
+          }
+        }
+      }
+    },
+    "Paste titles or choose screenshots and review matches before adding them." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cole títulos ou escolha capturas de tela e confira as correspondências antes de adicioná-las."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collez des titres ou sélectionnez des captures d’écran, puis vérifiez les correspondances avant de les ajouter."
+          }
+        }
+      }
+    },
+    "Explore the details" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explore os detalhes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explorer les détails"
+          }
+        }
+      }
+    },
+    "Watch trailers, meet the cast, explore their filmographies, and find related titles." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Assista a trailers, conheça o elenco, explore filmografias e descubra títulos relacionados."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Regardez les bandes-annonces, découvrez la distribution et ses filmographies, puis explorez les titres similaires."
+          }
+        }
+      }
+    },
+    "Rate and review movies" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avalie filmes e escreva resenhas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noter les films et écrire des critiques"
+          }
+        }
+      }
+    },
+    "Save a rating and share your review as a card." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salve uma nota e compartilhe sua resenha em um card."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrez une note et partagez votre critique sous forme de carte."
+          }
+        }
+      }
+    },
+    "Listen to soundtracks" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouça trilhas sonoras"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écouter les bandes originales"
+          }
+        }
+      }
+    },
+    "See what you’ve watched" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veja o que você assistiu"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retrouver ce que vous avez vu"
+          }
+        }
+      }
+    },
+    "Follow your watch time, timeline, rankings, and milestones as your Library grows." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acompanhe seu tempo assistido, a linha do tempo, os rankings e os marcos à medida que sua Biblioteca cresce."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suivez votre temps de visionnage, votre chronologie, vos classements et vos étapes marquantes au fil de l’enrichissement de votre bibliothèque."
+          }
+        }
+      }
+    },
+    "Share your story" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartilhe sua história"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager votre histoire"
+          }
+        }
+      }
+    },
+    "Turn your Lifetime highlights into an image to share." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transforme os destaques de Sua História em uma imagem para compartilhar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créez une image à partager avec les temps forts de votre rétrospective."
+          }
+        }
+      }
+    },
+    "Compare with your age" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compare com sua idade"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comparer avec votre âge"
+          }
+        }
+      }
+    },
+    "Add your birth date for an optional, private comparison of watch time with your age." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione sua data de nascimento para comparar seu tempo assistido com sua idade. A comparação é opcional e privada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez votre date de naissance pour comparer votre temps de visionnage à votre âge. La comparaison est facultative et privée."
+          }
+        }
+      }
+    },
+    "Collect what belongs together" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Organize suas coleções"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rassembler vos favoris"
+          }
+        }
+      }
+    },
+    "Add movies, shows, episodes, trailers, music, and notes to a Box." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione filmes, séries, episódios, trailers, músicas e notas a uma Box."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez des films, des séries, des épisodes, des bandes-annonces, de la musique et des notes à une Box."
+          }
+        }
+      }
+    },
+    "Choose a cover and share" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha uma capa e compartilhe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créer une couverture et la partager"
+          }
+        }
+      }
+    },
+    "Pick what goes on the cover and share it as an image." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha o conteúdo da capa e compartilhe-a como imagem."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez ce qui apparaît sur la couverture et partagez-la sous forme d’image."
+          }
+        }
+      }
+    },
+    "Share an edition by link" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartilhe uma edição por link"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager une édition par lien"
+          }
+        }
+      }
+    },
+    "Publish a snapshot of a Box that anyone with the link can open." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publique uma edição da Box que qualquer pessoa com o link possa abrir."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publiez une édition de votre Box que toute personne disposant du lien pourra ouvrir."
+          }
+        }
+      }
+    },
+    "Add widgets" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione widgets"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter des widgets"
+          }
+        }
+      }
+    },
+    "Put Movies, Library, or Quick Action on your Home Screen." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coloque os widgets Filmes, Biblioteca ou Ação Rápida na tela de início."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez les widgets Films, Bibliothèque ou Action rapide à votre écran d’accueil."
+          }
+        }
+      }
+    },
+    "Use Siri and Shortcuts" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use a Siri e o app Atalhos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser Siri et Raccourcis"
+          }
+        }
+      }
+    },
+    "Open your watchlist, search, or log a movie with a shortcut." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abra sua lista, faça uma busca ou marque um filme como assistido com um atalho."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez votre liste, lancez une recherche ou marquez un film comme vu avec un raccourci."
+          }
+        }
+      }
+    },
+    "Search from anywhere" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pesquise de qualquer lugar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher depuis n’importe où"
+          }
+        }
+      }
+    },
+    "Find titles through Spotlight and use Visual Intelligence on supported devices." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encontre títulos pelo Spotlight e use a Inteligência Visual em aparelhos compatíveis."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trouvez des titres avec Spotlight et utilisez l’intelligence visuelle sur les appareils compatibles."
+          }
+        }
+      }
+    },
+    "Manage your preferences" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerencie suas preferências"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gérer vos préférences"
+          }
+        }
+      }
+    },
+    "Choose a content region, manage premiere notifications, and check iCloud sync in Settings." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha a região de conteúdo, gerencie as notificações de estreia e verifique a sincronização com o iCloud nos Ajustes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans les réglages, choisissez la région du contenu, gérez les notifications de sortie et vérifiez la synchronisation iCloud."
+          }
+        }
+      }
+    },
+    "Check Apple Intelligence" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confira a Apple Intelligence"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérifier Apple Intelligence"
+          }
+        }
+      }
+    },
+    "See which Apple Intelligence models are available on your device." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veja quais modelos da Apple Intelligence estão disponíveis no seu aparelho."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérifiez quels modèles Apple Intelligence sont disponibles sur votre appareil."
+          }
+        }
+      }
+    },
+    "Connect Trakt" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conecte o Trakt"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connecter Trakt"
+          }
+        }
+      }
+    },
+    "Import your watchlist and watched progress from Trakt." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importe do Trakt sua lista e o progresso do que você assistiu."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importez votre liste à regarder et votre progression depuis Trakt."
+          }
+        }
+      }
+    },
+    "Keep up with CinemaTV" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acompanhe as novidades do CinemaTV"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suivre l’actualité de CinemaTV"
+          }
+        }
+      }
+    },
+    "See what’s new, check what’s coming, and send feedback." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veja as novidades, confira o que vem por aí e envie sugestões."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Découvrez les nouveautés, consultez les changements à venir et envoyez vos commentaires."
+          }
+        }
+      }
+    },
+    "Search for a Title" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar um título"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher un titre"
+          }
+        }
+      }
+    },
+    "Import My List" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importar minha lista"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer ma liste"
+          }
+        }
+      }
+    },
+    "Check availability in your region. Your selected services appear first in Discover." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confira a disponibilidade na sua região. Os serviços que você escolher aparecem primeiro em Descubra."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérifiez la disponibilité dans votre région. Vos services sélectionnés apparaissent en premier dans l’onglet Découvrir."
+          }
+        }
+      }
+    },
+    "Find soundtracks for movies and shows and open them in Apple Music when available." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encontre trilhas sonoras de filmes e séries e abra-as no Apple Music quando estiverem disponíveis."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retrouvez les bandes originales de films et de séries et ouvrez-les dans Apple Music si elles sont disponibles."
           }
         }
       }

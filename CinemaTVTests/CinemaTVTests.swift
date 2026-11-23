@@ -87,6 +87,34 @@ struct AppRouterTests {
         #expect(router.selectedTab == .tracking)
     }
 
+    @Test("an external open bypasses first-run onboarding for this launch")
+    func externalLinkTakesPriorityOverOnboarding() {
+        let router = AppRouter()
+        #expect(!router.receivedExternalOpen)
+
+        router.open(.watchlist)
+
+        #expect(router.receivedExternalOpen)
+        #expect(router.selectedTab == .tracking)
+    }
+
+    @Test("only external imports bypass first-run onboarding")
+    func externalImportTakesPriorityOverOnboarding() {
+        let router = AppRouter()
+        router.presentLibraryImport()
+        #expect(!router.receivedExternalOpen)
+
+        router.openLibraryImport(text: "The Matrix", destination: .watchlist)
+
+        #expect(router.receivedExternalOpen)
+        guard case .libraryImport(let request)? = router.presentation?.content else {
+            Issue.record("The external import was not presented")
+            return
+        }
+        #expect(request.text == "The Matrix")
+        #expect(request.destination == .watchlist)
+    }
+
     @Test("opening a movie externally preserves the current tab and Discover path")
     func openMoviePreservesCurrentNavigation() async {
         let router = AppRouter()

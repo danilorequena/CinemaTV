@@ -395,3 +395,284 @@ final class StreamingDiscoveryUITests: XCTestCase {
         )
     }
 }
+
+final class OnboardingUITests: XCTestCase {
+    private static let englishChapters = [
+        "Find your next watch",
+        "Build your Library",
+        "Go beyond the credits",
+        "See your Lifetime",
+        "Make a Box",
+        "CinemaTV at a glance",
+        "Make it yours"
+    ]
+
+    override func setUpWithError() throws {
+        continueAfterFailure = false
+    }
+
+    @MainActor
+    func testTourShowsAllSevenChaptersAndRemembersCompletion() {
+        let app = makeApp()
+        app.launch()
+        assertChapter(Self.englishChapters[0], in: app)
+        tap("onboarding.next", in: app)
+        assertChapter(Self.englishChapters[1], in: app)
+        tap("onboarding.back", in: app)
+
+        advanceToFinalChapter(in: app)
+        tap("onboarding.openLibrary", in: app)
+        assertLibrary(in: app)
+
+        app.terminate()
+        app.launch()
+        assertLibrary(in: app)
+    }
+
+    @MainActor
+    func testSkipPersistsAndSettingsCanReplayTheTour() {
+        let app = makeApp()
+        app.launch()
+        assertChapter(Self.englishChapters[0], in: app)
+        tap("onboarding.skip", in: app)
+        assertLibrary(in: app)
+
+        app.terminate()
+        app.launch()
+        assertLibrary(in: app)
+        tap("Settings", in: app)
+        XCTAssertTrue(app.navigationBars["Settings"].waitForExistence(timeout: 5))
+        tap("onboarding.review", in: app, scroll: true)
+
+        assertChapter(Self.englishChapters[0], in: app)
+        XCTAssertFalse(app.buttons["onboarding.skip"].exists)
+        tap("onboarding.close", in: app)
+        XCTAssertTrue(app.navigationBars["Settings"].waitForExistence(timeout: 5))
+        tap("onboarding.review", in: app, scroll: true)
+        advanceToFinalChapter(in: app)
+        XCTAssertFalse(app.buttons["onboarding.search"].exists)
+        XCTAssertFalse(app.buttons["onboarding.import"].exists)
+        tap("onboarding.done", in: app)
+        XCTAssertTrue(app.navigationBars["Settings"].waitForExistence(timeout: 5))
+        app.navigationBars["Settings"].buttons["Done"].tap()
+        assertLibrary(in: app)
+    }
+
+    @MainActor
+    func testFinalSearchActionOpensSearch() {
+        let app = makeApp()
+        app.launch()
+        advanceToFinalChapter(in: app)
+        tap("onboarding.search", in: app)
+
+        XCTAssertTrue(app.staticTexts["Trending"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["onboarding.title"].exists)
+    }
+
+    @MainActor
+    func testFinalImportActionOpensLibraryImport() {
+        let app = makeApp()
+        app.launch()
+        advanceToFinalChapter(in: app)
+        tap("onboarding.import", in: app)
+
+        let importBar = app.navigationBars["Import"]
+        XCTAssertTrue(importBar.waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["Review Titles"].isEnabled)
+        importBar.buttons["Cancel"].tap()
+        assertLibrary(in: app)
+    }
+
+    @MainActor
+    func testColdDeepLinkDefersTheTourUntilANormalLaunch() throws {
+        let app = makeApp()
+        if app.state != .notRunning { app.terminate() }
+        app.open(try XCTUnwrap(URL(string: "cinematv://watchlist")))
+        assertLibrary(in: app)
+
+        app.terminate()
+        app.launch()
+        openStreamingPicker(in: app)
+        app.open(try XCTUnwrap(URL(string: "cinematv://movie/603")))
+        XCTAssertTrue(app.navigationBars["My Streaming Services"].waitForNonExistence(timeout: 5))
+        let close = app.buttons["Close"]
+        XCTAssertTrue(close.waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["onboarding.title"].exists)
+        close.tap()
+        assertLibrary(in: app)
+
+        app.terminate()
+        app.launch()
+        assertChapter(Self.englishChapters[0], in: app)
+    }
+
+    @MainActor
+    func testPortugueseTourTitleIsLocalized() {
+        let app = makeApp(language: "pt-BR", locale: "pt_BR")
+        app.launch()
+
+        assertChapter("Encontre o que assistir", in: app)
+        tap("onboarding.next", in: app)
+        assertChapter("Monte sua Biblioteca", in: app)
+    }
+
+    @MainActor
+    func testFrenchTourCanAdvanceAtTheLargestAccessibilityTextSize() {
+        let app = makeApp(language: "fr", locale: "fr_FR")
+        app.launchArguments += [
+            "-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityExtraExtraExtraLarge"
+        ]
+        app.launch()
+
+        assertChapter("Trouvez quoi regarder", in: app)
+        tap("onboarding.next", in: app, scroll: true)
+        assertChapter("Créez votre bibliothèque", in: app)
+    }
+
+    @MainActor
+    func testTourCanSaveStreamingServicesAndCancelUncommittedChanges() {
+        let app = makeApp()
+        app.launch()
+        openStreamingPicker(in: app)
+
+        let netflix = app.buttons["streaming.picker.provider.8"]
+        XCTAssertTrue(netflix.waitForExistence(timeout: 5))
+        XCTAssertEqual(app.buttons.matching(identifier: "streaming.picker.provider.8").count, 1)
+        XCTAssertTrue(app.buttons["streaming.picker.provider.9"].exists)
+        XCTAssertTrue(app.buttons["streaming.picker.provider.337"].exists)
+        XCTAssertFalse(netflix.isSelected)
+        netflix.tap()
+        XCTAssertTrue(netflix.isSelected)
+        tap("streaming.picker.save", in: app)
+        XCTAssertTrue(app.navigationBars["My Streaming Services"].waitForNonExistence(timeout: 5))
+
+        app.terminate()
+        app.launch()
+        openStreamingPicker(in: app)
+        XCTAssertTrue(netflix.waitForExistence(timeout: 5))
+        XCTAssertTrue(netflix.isSelected)
+        netflix.tap()
+        XCTAssertFalse(netflix.isSelected)
+        tap("streaming.picker.cancel", in: app)
+        XCTAssertTrue(app.navigationBars["My Streaming Services"].waitForNonExistence(timeout: 5))
+
+        openStreamingPicker(in: app)
+        XCTAssertTrue(netflix.waitForExistence(timeout: 5))
+        XCTAssertTrue(netflix.isSelected)
+    }
+
+    @MainActor
+    func testOfflineStreamingPickerDoesNotBlockTheTour() {
+        let app = makeApp()
+        app.launchEnvironment["CINEMATV_UI_TEST_STREAMING_FIXTURES"] = "offline"
+        app.launch()
+        openStreamingPicker(in: app)
+
+        XCTAssertTrue(app.buttons["streaming.picker.retry"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["streaming.picker.save"].isEnabled)
+        tap("streaming.picker.cancel", in: app)
+        XCTAssertTrue(app.navigationBars["My Streaming Services"].waitForNonExistence(timeout: 5))
+        tap("onboarding.next", in: app)
+        assertChapter(Self.englishChapters[1], in: app)
+    }
+
+    @MainActor
+    func testTourStreamingSelectionPrioritizesBothDiscoverFeeds() {
+        let app = makeApp()
+        app.launch()
+        openStreamingPicker(in: app)
+        tap("streaming.picker.provider.8", in: app)
+        tap("streaming.picker.save", in: app)
+        XCTAssertTrue(app.navigationBars["My Streaming Services"].waitForNonExistence(timeout: 5))
+        tap("onboarding.skip", in: app)
+        assertLibrary(in: app)
+
+        app.tabBars.buttons["Discover"].tap()
+        assertPreferredStreamingResults(in: app, feedID: "discover.movies.feed", otherProviderID: 9)
+
+        let moviesFeed = app.scrollViews["discover.movies.feed"]
+        // The segment picker can be hidden by the minimized toolbar after scrolling down.
+        moviesFeed.swipeDown()
+        let tvShows = app.segmentedControls.buttons["TV Shows"]
+        for _ in 0..<4 where !tvShows.isHittable {
+            moviesFeed.swipeDown()
+        }
+        XCTAssertTrue(tvShows.isHittable)
+        tvShows.tap()
+        assertPreferredStreamingResults(in: app, feedID: "discover.tv.feed", otherProviderID: 337)
+    }
+
+    @MainActor
+    private func makeApp(language: String = "en", locale: String = "en_US") -> XCUIApplication {
+        let app = XCUIApplication()
+        app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
+        app.launchEnvironment["CINEMATV_UI_TEST_ONBOARDING"] = "1"
+        app.launchEnvironment["CINEMATV_UI_TEST_STREAMING_FIXTURES"] = "1"
+        app.launchArguments = ["-AppleLanguages", "(\(language))", "-AppleLocale", locale]
+        return app
+    }
+
+    @MainActor
+    private func openStreamingPicker(in app: XCUIApplication) {
+        assertChapter(Self.englishChapters[0], in: app)
+        tap("onboarding.streaming", in: app, scroll: true)
+        XCTAssertTrue(app.navigationBars["My Streaming Services"].waitForExistence(timeout: 5))
+    }
+
+    @MainActor
+    private func assertPreferredStreamingResults(in app: XCUIApplication, feedID: String, otherProviderID: Int) {
+        let feed = app.scrollViews[feedID]
+        XCTAssertTrue(feed.waitForExistence(timeout: 5))
+        let preferredResults = app.descendants(matching: .any)["streaming.results.8"].firstMatch
+        let otherResults = app.descendants(matching: .any)["streaming.results.\(otherProviderID)"].firstMatch
+        let seeOtherServices = app.buttons["streaming.seeOtherServices"]
+        for _ in 0..<8 where !seeOtherServices.isHittable {
+            feed.swipeUp()
+        }
+        XCTAssertTrue(preferredResults.waitForExistence(timeout: 5))
+        XCTAssertFalse(otherResults.exists)
+        XCTAssertTrue(seeOtherServices.isHittable)
+        seeOtherServices.tap()
+
+        for _ in 0..<4 where !otherResults.exists {
+            feed.swipeUp()
+        }
+        XCTAssertTrue(otherResults.waitForExistence(timeout: 5))
+        XCTAssertFalse(seeOtherServices.exists)
+    }
+
+    @MainActor
+    private func advanceToFinalChapter(in app: XCUIApplication) {
+        for (index, title) in Self.englishChapters.enumerated() {
+            assertChapter(title, in: app)
+            if index < Self.englishChapters.count - 1 {
+                tap("onboarding.next", in: app)
+            }
+        }
+    }
+
+    @MainActor
+    private func assertChapter(_ title: String, in app: XCUIApplication, file: StaticString = #filePath, line: UInt = #line) {
+        let heading = app.staticTexts.matching(identifier: "onboarding.title")
+            .matching(NSPredicate(format: "label == %@", title)).firstMatch
+        XCTAssertTrue(heading.waitForExistence(timeout: 5), "Expected chapter ‘\(title)’", file: file, line: line)
+    }
+
+    @MainActor
+    private func assertLibrary(in app: XCUIApplication, file: StaticString = #filePath, line: UInt = #line) {
+        XCTAssertTrue(app.buttons["boxes.libraryEntry"].waitForExistence(timeout: 10), file: file, line: line)
+        XCTAssertFalse(app.staticTexts["onboarding.title"].exists, file: file, line: line)
+    }
+
+    @MainActor
+    private func tap(_ identifier: String, in app: XCUIApplication, scroll: Bool = false, file: StaticString = #filePath, line: UInt = #line) {
+        let button = app.buttons[identifier].firstMatch
+        if scroll {
+            for _ in 0..<8 where !button.isHittable {
+                app.swipeUp()
+            }
+        }
+        XCTAssertTrue(button.waitForExistence(timeout: 5), "Expected button ‘\(identifier)’", file: file, line: line)
+        button.tap()
+    }
+}

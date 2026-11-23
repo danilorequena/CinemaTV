@@ -297,22 +297,35 @@ private struct StreamingDiscoverySection: View {
 
     @Environment(\.tmdbClient) private var client
     @AppStorage(TMDBRegion.overrideKey, store: TMDBRegion.store) private var regionOverride = ""
+    @AppStorage(StreamingServicePreferences.storageKey) private var preferencesData = Data()
     @State private var providers: [WatchProvider] = []
-    @State private var visibleProviderCount = providerBatchSize
+    @State private var otherProviderLimit = 0
+    @State private var showsServicePicker = false
     @State private var providerResults: [Int: StreamingProviderResult] = [:]
     @State private var providerTasks: [UUID: Task<Void, Never>] = [:]
-    @State private var isLoadingCatalog = false
     @State private var catalogError: String?
     @State private var catalogRetryID = 0
     @State private var catalogVersion = 0
-    @State private var loadedCatalogKey: String?
+    @State private var completedCatalogKey: String?
+
+    private var region: String {
+        regionOverride.isEmpty ? TMDBRegion.deviceDefault : regionOverride
+    }
+
+    private var preferences: StreamingServicePreferences {
+        StreamingServicePreferences(data: preferencesData)
+    }
 
     var body: some View {
+        let region = region
+        let catalogKey = "\(kind)-\(region)-\(refreshID)-\(catalogRetryID)"
+        let selectedIDs = preferences.providerIDs(for: region)
+
         LazyVStack(alignment: .leading, spacing: DSSpacing.xl) {
             VStack(alignment: .leading, spacing: DSSpacing.sm) {
                 SectionHeader("Newest titles to stream")
 
-                Text("Titles sorted by release date and available by subscription in \(TMDBRegion.localizedName(for: TMDBRegion.current))")
+                Text("Titles sorted by release date and available by subscription in \(TMDBRegion.localizedName(for: region))")
                     .font(.dsCaption)
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, DSSpacing.lg)
@@ -321,9 +334,23 @@ private struct StreamingDiscoverySection: View {
                     .font(.caption2)
                     .foregroundStyle(.tertiary)
                     .padding(.horizontal, DSSpacing.lg)
+
+                Button {
+                    showsServicePicker = true
+                } label: {
+                    if selectedIDs.isEmpty {
+                        Label("Choose Streaming Services", systemImage: "slider.horizontal.3")
+                    } else {
+                        Label("Edit Streaming Services", systemImage: "slider.horizontal.3")
+                    }
+                }
+                .buttonStyle(.bordered)
+                .font(.dsCaption)
+                .accessibilityIdentifier("streaming.chooseServices")
+                .padding(.horizontal, DSSpacing.lg)
             }
 
-            if isLoadingCatalog {
+            if completedCatalogKey != catalogKey {
                 ProgressView("Loading streaming services")
                     .padding(.horizontal, DSSpacing.lg)
             } else if let catalogError {
@@ -333,35 +360,57 @@ private struct StreamingDiscoverySection: View {
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, DSSpacing.lg)
             } else {
-                ForEach(Array(providers.prefix(visibleProviderCount))) { provider in
-                    StreamingProviderRail(
-                        provider: provider,
-                        kind: kind,
-                        region: TMDBRegion.current,
-                        refreshID: refreshID,
-                        results: $providerResults,
-                        tasks: $providerTasks
-                    )
-                }
-
-                if visibleProviderCount < providers.count {
-                    Button("Show more services", systemImage: "chevron.down") {
-                        visibleProviderCount = min(
-                            visibleProviderCount + Self.providerBatchSize,
-                            providers.count
-                        )
-                    }
-                    .accessibilityIdentifier("streaming.showMore")
-                    .accessibilityValue(Text("\(visibleProviderCount) of \(providers.count)"))
-                    .padding(.horizontal, DSSpacing.lg)
-                }
+                providerRails(for: region)
             }
         }
-        .task(id: "\(kind)-\(regionOverride)-\(refreshID)-\(catalogRetryID)") {
-            await loadCatalog()
+        .sheet(isPresented: $showsServicePicker) {
+            StreamingServicePicker()
+        }
+        .onChange(of: selectedIDs) {
+            otherProviderLimit = 0
+        }
+        .task(id: catalogKey) {
+            await loadCatalog(for: region, key: catalogKey)
         }
         .onDisappear {
             cancelProviderTasks()
+        }
+    }
+
+    @ViewBuilder
+    private func providerRails(for region: String) -> some View {
+        let services = preferences.groupedProviders(providers, for: region)
+        let otherLimit = services.preferred.isEmpty
+            ? max(Self.providerBatchSize, otherProviderLimit)
+            : otherProviderLimit
+        let visibleProviders = services.preferred + Array(services.other.prefix(otherLimit))
+
+        ForEach(visibleProviders) { provider in
+            StreamingProviderRail(
+                provider: provider,
+                kind: kind,
+                region: region,
+                refreshID: refreshID,
+                results: $providerResults,
+                tasks: $providerTasks
+            )
+        }
+
+        if visibleProviders.count < providers.count {
+            if otherLimit == 0 {
+                Button("See Other Services", systemImage: "chevron.down") {
+                    otherProviderLimit = Self.providerBatchSize
+                }
+                .accessibilityIdentifier("streaming.seeOtherServices")
+                .padding(.horizontal, DSSpacing.lg)
+            } else {
+                Button("Show more services", systemImage: "chevron.down") {
+                    otherProviderLimit = min(otherLimit + Self.providerBatchSize, services.other.count)
+                }
+                .accessibilityIdentifier("streaming.showMore")
+                .accessibilityValue(Text("\(visibleProviders.count) of \(providers.count)"))
+                .padding(.horizontal, DSSpacing.lg)
+            }
         }
     }
 
@@ -375,21 +424,17 @@ private struct StreamingDiscoverySection: View {
         .padding(.horizontal, DSSpacing.lg)
     }
 
-    private func loadCatalog() async {
-        let region = TMDBRegion.current
-        let key = "\(kind)-\(region)-\(refreshID)-\(catalogRetryID)"
-        guard loadedCatalogKey != key else { return }
+    private func loadCatalog(for region: String, key: String) async {
+        guard !Task.isCancelled, region == TMDBRegion.current,
+              completedCatalogKey != key || catalogError != nil else { return }
         catalogVersion += 1
         let version = catalogVersion
-        isLoadingCatalog = true
+        completedCatalogKey = nil
         catalogError = nil
         cancelProviderTasks()
         providers = []
-        visibleProviderCount = Self.providerBatchSize
+        otherProviderLimit = 0
         providerResults = [:]
-        defer {
-            if version == catalogVersion { isLoadingCatalog = false }
-        }
 
         do {
             let query = StreamingAvailabilityQuery(
@@ -402,11 +447,12 @@ private struct StreamingDiscoverySection: View {
             guard !Task.isCancelled, version == catalogVersion,
                   region == TMDBRegion.current else { return }
             providers = response.providers(for: region)
-            loadedCatalogKey = key
         } catch {
-            guard !Task.isCancelled, version == catalogVersion else { return }
+            guard !Task.isCancelled, version == catalogVersion,
+                  region == TMDBRegion.current else { return }
             catalogError = error.localizedDescription
         }
+        completedCatalogKey = key
     }
 
     private func cancelProviderTasks() {

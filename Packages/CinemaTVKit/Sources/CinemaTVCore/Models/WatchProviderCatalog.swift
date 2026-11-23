@@ -5,9 +5,13 @@ public struct WatchProviderCatalogResponse: Decodable, Sendable {
 
     /// O endpoint já filtra pelo `watch_region`; mantenha todos os itens
     /// retornados, mesmo se um deles não trouxer prioridade regional.
-    public func providers(for region: String) -> [WatchProvider] {
+    public func providers(
+        for region: String,
+        including otherCatalog: WatchProviderCatalogResponse? = nil
+    ) -> [WatchProvider] {
         let regionCode = region.uppercased()
-        let ordered = results.sorted { lhs, rhs in
+        let candidates = otherCatalog.map { results + $0.results } ?? results
+        let ordered = candidates.sorted { lhs, rhs in
             let lhsPriority = lhs.displayPriorities?[regionCode] ?? lhs.displayPriority ?? .max
             let rhsPriority = rhs.displayPriorities?[regionCode] ?? rhs.displayPriority ?? .max
             if lhsPriority != rhsPriority { return lhsPriority < rhsPriority }

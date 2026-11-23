@@ -130,7 +130,7 @@ enum LibraryImportIntentFlow {
             let text = titles.map { title in
                 title.title + (title.year.map { " (\($0))" } ?? "")
             }.joined(separator: "\n")
-            router.presentLibraryImport(text: text, destination: destination)
+            router.openLibraryImport(text: text, destination: destination)
             return LibraryImportCompletion(report: .init(), omittedTitles: [], reviewRequested: true)
         }
         let client = IntentSupport.makeTMDBClient()

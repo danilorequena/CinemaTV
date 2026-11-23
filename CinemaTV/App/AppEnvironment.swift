@@ -10,9 +10,77 @@ import SwiftData
 import CinemaTVCore
 
 // Default estável (struct Sendable): criado uma vez, não invalida dependentes.
-private let defaultTMDBClient = TMDBClient(
-    configuration: (try? TMDBConfiguration.fromBundle(.main)) ?? TMDBConfiguration(apiKey: "")
-)
+private let defaultTMDBClient: TMDBClient = {
+#if DEBUG
+    if ProcessInfo.processInfo.environment["CINEMATV_UI_TEST_STORE"] != nil,
+       ProcessInfo.processInfo.environment["CINEMATV_UI_TEST_STREAMING_FIXTURES"] != nil {
+        let sessionConfiguration = URLSessionConfiguration.ephemeral
+        sessionConfiguration.protocolClasses = [StreamingFixtureURLProtocol.self]
+        return TMDBClient(
+            configuration: TMDBConfiguration(apiKey: "", baseURL: URL(string: "https://cinematv-fixtures.invalid/3")!),
+            session: URLSession(configuration: sessionConfiguration)
+        )
+    }
+#endif
+    return TMDBClient(
+        configuration: (try? TMDBConfiguration.fromBundle(.main)) ?? TMDBConfiguration(apiKey: "")
+    )
+}()
+
+#if DEBUG
+private final class StreamingFixtureURLProtocol: URLProtocol {
+    override class func canInit(with request: URLRequest) -> Bool { true }
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
+
+    override func startLoading() {
+        guard let url = request.url else {
+            client?.urlProtocol(self, didFailWithError: URLError(.badURL))
+            return
+        }
+        if ProcessInfo.processInfo.environment["CINEMATV_UI_TEST_STREAMING_FIXTURES"] == "offline" {
+            client?.urlProtocol(self, didFailWithError: URLError(.notConnectedToInternet))
+            return
+        }
+
+        let emptyPage = #"{"page":1,"results":[],"total_pages":1,"total_results":0}"#
+        let body: String
+        switch url.path {
+        case "/3/watch/providers/movie":
+            body = """
+            {"results":[
+              {"provider_id":9,"provider_name":"Prime Video","display_priority":1},
+              {"provider_id":8,"provider_name":"Netflix","display_priority":2}
+            ]}
+            """
+        case "/3/watch/providers/tv":
+            body = """
+            {"results":[
+              {"provider_id":337,"provider_name":"Disney Plus","display_priority":1},
+              {"provider_id":8,"provider_name":"Netflix","display_priority":2}
+            ]}
+            """
+        case "/3/discover/movie", "/3/discover/tv":
+            let query = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
+            if let providerID = query?.first(where: { $0.name == "with_watch_providers" })?.value.flatMap(Int.init) {
+                let titleKey = url.path.hasSuffix("/movie") ? "title" : "name"
+                body = """
+                {"page":1,"results":[{"id":\(providerID),"\(titleKey)":"Streaming title \(providerID)"}],"total_pages":1,"total_results":1}
+                """
+            } else {
+                body = emptyPage
+            }
+        default:
+            body = emptyPage
+        }
+        let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
+        client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        client?.urlProtocol(self, didLoad: Data(body.utf8))
+        client?.urlProtocolDidFinishLoading(self)
+    }
+
+    override func stopLoading() {}
+}
+#endif
 
 /// Feedback via GitHub Issues: sem GitHub.plist (ou com placeholder),
 /// vira somente leitura e a tela de request cai no e-mail.

@@ -25,6 +25,7 @@ enum ExternalMediaRoute: Hashable, Identifiable {
 
 struct AppPresentation: Identifiable {
     enum Content {
+        case onboardingStreaming
         case libraryImport(LibraryImportRequest)
         case externalMedia(ExternalMediaRoute)
     }
@@ -47,6 +48,12 @@ final class AppRouter {
     /// One presentation at a time for Library import and externally opened media.
     var presentation: AppPresentation?
     var externalMediaPath = NavigationPath()
+    private(set) var receivedExternalOpen = false
+
+    func openLibraryImport(text: String = "", destination: LibraryImportDestination = .watched) {
+        receivedExternalOpen = true
+        presentLibraryImport(text: text, destination: destination)
+    }
 
     func presentLibraryImport(text: String = "", destination: LibraryImportDestination = .watched) {
         selectedTab = .tracking
@@ -72,6 +79,7 @@ final class AppRouter {
     }
 
     func open(_ deepLink: DeepLink) {
+        receivedExternalOpen = true
         presentation = nil
         externalMediaPath = NavigationPath()
         switch deepLink {

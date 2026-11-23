@@ -14,7 +14,7 @@ struct ReviewVisualContentsIntent {
     @MainActor
     func perform() async throws -> some IntentResult & ProvidesDialog {
         guard let pixels = semanticContent.pixelBuffer else {
-            router.presentLibraryImport()
+            router.openLibraryImport()
             return .result(dialog: "Choose screenshots or enter the titles you want to import.")
         }
         let lines = await VisualTextRecognizer.recognizedLines(in: pixels)
@@ -24,7 +24,7 @@ struct ReviewVisualContentsIntent {
         let text = LibraryImportExtractor.filteredOCRText(from: lines.map {
             LibraryImportExtractor.OCRLine(text: $0.text, boundingBox: $0.boundingBox, confidence: $0.confidence)
         })
-        router.presentLibraryImport(text: text)
+        router.openLibraryImport(text: text)
         return .result(dialog: "Review the titles in CinemaTV before adding them.")
     }
 }
