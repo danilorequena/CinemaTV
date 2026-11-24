@@ -300,6 +300,51 @@ final class ExternalMediaNavigationUITests: XCTestCase {
 
 final class StreamingDiscoveryUITests: XCTestCase {
     @MainActor
+    func testSeeMoreLoadsAdditionalMoviesFromTheSameService() {
+        assertPaginatedCatalog(feedID: "discover.movies.feed", providerID: 9, providerName: "Prime Video")
+    }
+
+    @MainActor
+    func testSeeMoreLoadsAdditionalSeriesFromTheSameService() {
+        assertPaginatedCatalog(feedID: "discover.tv.feed", providerID: 337, providerName: "Disney Plus")
+    }
+
+    @MainActor
+    private func assertPaginatedCatalog(feedID: String, providerID: Int, providerName: String) {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchEnvironment["CINEMATV_UI_TEST_STORE"] = UUID().uuidString
+        app.launchEnvironment["CINEMATV_UI_TEST_STREAMING_FIXTURES"] = "pagination"
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        app.launch()
+
+        app.tabBars.buttons["Discover"].tap()
+        if feedID == "discover.tv.feed" {
+            app.segmentedControls.buttons["TV Shows"].tap()
+        }
+
+        let feed = app.scrollViews[feedID]
+        XCTAssertTrue(feed.waitForExistence(timeout: 15))
+        let seeMore = app.descendants(matching: .any)["streaming.seeMore.\(providerID)"]
+        for _ in 0..<8 where !seeMore.isHittable {
+            feed.swipeUp()
+        }
+        XCTAssertTrue(seeMore.isHittable)
+        seeMore.tap()
+
+        XCTAssertTrue(app.navigationBars[providerName].waitForExistence(timeout: 10))
+        let catalog = app.scrollViews["streaming.catalog"]
+        XCTAssertTrue(catalog.waitForExistence(timeout: 10))
+        let firstTitle = app.descendants(matching: .any)["streaming.catalog.item.\(providerID * 100 + 1)"]
+        XCTAssertTrue(firstTitle.exists)
+        let nextPageTitle = app.descendants(matching: .any)["streaming.catalog.item.\(providerID * 100 + 21)"]
+        for _ in 0..<8 where !nextPageTitle.isHittable {
+            catalog.swipeUp()
+        }
+        XCTAssertTrue(nextPageTitle.isHittable)
+    }
+
+    @MainActor
     func testMoviesShowRegionalStreamingReleases() throws {
         continueAfterFailure = false
         let app = XCUIApplication()

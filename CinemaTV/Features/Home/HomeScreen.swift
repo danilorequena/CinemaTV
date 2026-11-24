@@ -466,7 +466,7 @@ private struct StreamingDiscoverySection: View {
 
 private enum StreamingProviderResult {
     case loading(UUID)
-    case loaded([MediaItem])
+    case loaded(query: StreamingAvailabilityQuery, firstPage: PagedResponse<MediaItem>)
     case failed(String)
 }
 
@@ -526,6 +526,8 @@ private actor StreamingDiscoverGate {
 /// Each rail fetches its own subscription releases only when it becomes visible.
 /// Results live in the parent so scrolling away and back does not refetch them.
 private struct StreamingProviderRail: View {
+    private static let titleLimit = 20
+
     let provider: WatchProvider
     let kind: StreamingMediaKind
     let region: String
@@ -534,32 +536,33 @@ private struct StreamingProviderRail: View {
     @Binding var tasks: [UUID: Task<Void, Never>]
 
     @Environment(\.tmdbClient) private var client
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var retryID = 0
 
     private var result: StreamingProviderResult? { results[provider.providerId] }
 
+    private var catalogRoute: Route? {
+        guard case .loaded(let query, let firstPage) = result else { return nil }
+        return .streamingCatalog(
+            providerName: provider.providerName,
+            query: query,
+            firstPageItems: firstPage.results,
+            nextPage: firstPage.hasMorePages ? firstPage.page + 1 : nil
+        )
+    }
+
     var body: some View {
         Group {
-            if case .some(.loaded(let items)) = result, items.isEmpty {
+            if case .some(.loaded(_, let firstPage)) = result, firstPage.results.isEmpty {
                 EmptyView()
             } else {
                 VStack(alignment: .leading, spacing: DSSpacing.md) {
-                    HStack(spacing: DSSpacing.sm) {
-                        PosterImage(path: provider.logoPath, kind: .profile)
-                            .frame(width: 32, height: 32)
-                            .clipShape(.rect(cornerRadius: 7))
-                            .accessibilityHidden(true)
-                        Text(verbatim: provider.providerName)
-                            .font(.dsSectionTitle)
-                            .accessibilityAddTraits(.isHeader)
-                    }
-                    .padding(.horizontal, DSSpacing.lg)
-                    .accessibilityIdentifier("streaming.provider.\(provider.providerId)")
+                    providerHeader
 
                     switch result {
-                    case .some(.loaded(let items)):
+                    case .some(.loaded(_, let firstPage)):
                         MediaCarousel(
-                            items: items,
+                            items: Array(firstPage.results.prefix(Self.titleLimit)),
                             zoomScope: "streaming-\(provider.providerId)-\(kind)"
                         )
                         .accessibilityIdentifier("streaming.results.\(provider.providerId)")
@@ -584,6 +587,49 @@ private struct StreamingProviderRail: View {
         .task(id: "\(kind)-\(region)-\(refreshID)-\(retryID)-\(provider.providerId)") {
             startLoad()
         }
+    }
+
+    private var providerHeader: some View {
+        let stacksVertically = dynamicTypeSize.isAccessibilitySize
+        let layout = stacksVertically
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: DSSpacing.xs))
+            : AnyLayout(HStackLayout(spacing: DSSpacing.sm))
+
+        return layout {
+            HStack(spacing: DSSpacing.sm) {
+                PosterImage(path: provider.logoPath, kind: .profile)
+                    .frame(width: 32, height: 32)
+                    .clipShape(.rect(cornerRadius: 7))
+                    .accessibilityHidden(true)
+                Text(verbatim: provider.providerName)
+                    .font(.dsSectionTitle)
+                    .accessibilityAddTraits(.isHeader)
+            }
+            .accessibilityIdentifier("streaming.provider.\(provider.providerId)")
+
+            if let catalogRoute {
+                if !stacksVertically {
+                    Spacer(minLength: DSSpacing.sm)
+                }
+                NavigationLink(value: catalogRoute) {
+                    HStack(spacing: DSSpacing.xs) {
+                        Text("See More")
+                        Image(systemName: "chevron.right")
+                            .font(.caption2.weight(.semibold))
+                            .accessibilityHidden(true)
+                    }
+                    .font(.dsCaption)
+                    .fixedSize(horizontal: true, vertical: false)
+                    .frame(minHeight: 44)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(.secondary)
+                .accessibilityLabel(Text("See more from \(provider.providerName)"))
+                .accessibilityIdentifier("streaming.seeMore.\(provider.providerId)")
+            }
+        }
+        .padding(.horizontal, DSSpacing.lg)
     }
 
     private func startLoad() {
@@ -623,7 +669,7 @@ private struct StreamingProviderRail: View {
                 results.removeValue(forKey: providerID)
                 return
             }
-            results[providerID] = .loaded(Array(response.results.prefix(20)))
+            results[providerID] = .loaded(query: query, firstPage: response)
         } catch {
             guard ownsRequest(token) else { return }
             if Task.isCancelled || region != TMDBRegion.current {

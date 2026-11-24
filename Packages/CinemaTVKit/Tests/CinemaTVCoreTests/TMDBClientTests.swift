@@ -32,6 +32,14 @@ import Testing
         #expect(items.contains(URLQueryItem(name: "query", value: "matrix")))
     }
 
+    @Test func explicitRegionReplacesTheDefaultQueryItem() throws {
+        let url = try client.makeURL(endpoint: .discoverMovies, parameters: ["region": "CA"])
+        let components = try #require(URLComponents(url: url, resolvingAgainstBaseURL: false))
+        let items = try #require(components.queryItems)
+
+        #expect(items.filter { $0.name == "region" } == [URLQueryItem(name: "region", value: "CA")])
+    }
+
     @Test func fetchDecodesSuccessfulResponse() async throws {
         let json = """
         {"page": 1, "results": [], "total_pages": 1, "total_results": 0}

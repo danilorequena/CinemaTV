@@ -16,6 +16,12 @@ enum Route: Hashable {
     case movieDetail(id: Int)
     case person(id: Int)
     case movieList(category: MovieCategory)
+    case streamingCatalog(
+        providerName: String,
+        query: StreamingAvailabilityQuery,
+        firstPageItems: [MediaItem],
+        nextPage: Int?
+    )
     case discoverDeck
 
     // V2 — TV Shows

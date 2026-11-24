@@ -39,6 +39,9 @@
 		7D42247C273810E2006236F8 /* CinemaTVUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D42247B273810E2006236F8 /* CinemaTVUITests.swift */; };
 		A62611220000000000000001 /* OnboardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62611220000000000000003 /* OnboardingScreen.swift */; };
 		A62611220000000000000002 /* StreamingServicePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62611220000000000000004 /* StreamingServicePicker.swift */; };
+		A62611230000000000000001 /* StreamingCatalogScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62611230000000000000004 /* StreamingCatalogScreen.swift */; };
+		A62611230000000000000002 /* StreamingCatalogModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62611230000000000000005 /* StreamingCatalogModel.swift */; };
+		A62611230000000000000003 /* StreamingCatalogModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62611230000000000000006 /* StreamingCatalogModelTests.swift */; };
 		7D42247E273810E2006236F8 /* CinemaTVUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D42247D273810E2006236F8 /* CinemaTVUITestsLaunchTests.swift */; };
 		CA57C0DE0000000000000003 /* CinemaTVCore in Frameworks */ = {isa = PBXBuildFile; productRef = CA57C0DE0000000000000103 /* CinemaTVCore */; };
 		FF21AC7B3008282D009764B1 /* CinemaTVCore in Frameworks */ = {isa = PBXBuildFile; productRef = FF21AC7A3008282D009764B1 /* CinemaTVCore */; };
@@ -208,6 +211,9 @@
 		7D42247B273810E2006236F8 /* CinemaTVUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CinemaTVUITests.swift; sourceTree = "<group>"; };
 		A62611220000000000000003 /* OnboardingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreen.swift; sourceTree = "<group>"; };
 		A62611220000000000000004 /* StreamingServicePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingServicePicker.swift; sourceTree = "<group>"; };
+		A62611230000000000000004 /* StreamingCatalogScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingCatalogScreen.swift; sourceTree = "<group>"; };
+		A62611230000000000000005 /* StreamingCatalogModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingCatalogModel.swift; sourceTree = "<group>"; };
+		A62611230000000000000006 /* StreamingCatalogModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingCatalogModelTests.swift; sourceTree = "<group>"; };
 		7D42247D273810E2006236F8 /* CinemaTVUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CinemaTVUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FF21AC783007D591009764B1 /* CinemaTVWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CinemaTVWidgetExtension.entitlements; sourceTree = "<group>"; };
 		FF21AC7F3008DB96009764B1 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
@@ -435,6 +441,7 @@
 				B02609060000000400000001 /* BoxStoreTests.swift */,
 				7D422471273810E2006236F8 /* CinemaTVTests.swift */,
 				DC2026090600000000000002 /* DiscoverModelTests.swift */,
+				A62611230000000000000006 /* StreamingCatalogModelTests.swift */,
 				FFA08B68303F66AB00DD9E08 /* VisualTextExtractorTests.swift */,
 				FFA08B853043156000DD9E08 /* AgentRoutingPolicyTests.swift */,
 				FFA08B923043174E00DD9E08 /* SoundtrackFinderTests.swift */,
@@ -525,6 +532,8 @@
 			children = (
 				FF21AC973008DC0D009764B1 /* HomeScreenModel.swift */,
 				FF21AC9A3008DC15009764B1 /* HomeScreen.swift */,
+				A62611230000000000000004 /* StreamingCatalogScreen.swift */,
+				A62611230000000000000005 /* StreamingCatalogModel.swift */,
 				A62611220000000000000004 /* StreamingServicePicker.swift */,
 				FFCA55893030907A0025941D /* TVHomeModel.swift */,
 			);
@@ -1044,6 +1053,8 @@
 				FF21AC9B3008DC15009764B1 /* HomeScreen.swift in Sources */,
 				A62611220000000000000001 /* OnboardingScreen.swift in Sources */,
 				A62611220000000000000002 /* StreamingServicePicker.swift in Sources */,
+				A62611230000000000000001 /* StreamingCatalogScreen.swift in Sources */,
+				A62611230000000000000002 /* StreamingCatalogModel.swift in Sources */,
 				FF21ACA83008DC59009764B1 /* MovieDetailScreen.swift in Sources */,
 				FF21AC8B3008DBAC009764B1 /* AppEnvironment.swift in Sources */,
 				DC2026092300000000000001 /* CloudSyncDiagnostics.swift in Sources */,
@@ -1068,6 +1079,7 @@
 				B02609060000000500000001 /* BoxStoreTests.swift in Sources */,
 				7D422472273810E2006236F8 /* CinemaTVTests.swift in Sources */,
 				DC2026090600000000000001 /* DiscoverModelTests.swift in Sources */,
+				A62611230000000000000003 /* StreamingCatalogModelTests.swift in Sources */,
 				FFA08B863043156000DD9E08 /* AgentRoutingPolicyTests.swift in Sources */,
 				FFA08B9930431A3B00DD9E08 /* SoundtrackPromptTests.swift in Sources */,
 				FFA0923E30445CC100DD9E08 /* TraktCoreTests.swift in Sources */,

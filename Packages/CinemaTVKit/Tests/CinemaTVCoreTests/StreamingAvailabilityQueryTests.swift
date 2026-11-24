@@ -14,6 +14,7 @@ import Testing
         #expect(query.catalogParameters == ["watch_region": "BR"])
         #expect(query.discoverEndpoint == .discoverMovies)
         #expect(query.parameters == [
+            "region": "BR",
             "watch_region": "BR",
             "with_watch_providers": "8",
             "with_watch_monetization_types": "flatrate",
@@ -34,6 +35,7 @@ import Testing
         #expect(query.catalogParameters == ["watch_region": "US"])
         #expect(query.discoverEndpoint == .discoverTVShows)
         #expect(query.parameters == [
+            "region": "US",
             "watch_region": "US",
             "with_watch_providers": "337",
             "with_watch_monetization_types": "flatrate",

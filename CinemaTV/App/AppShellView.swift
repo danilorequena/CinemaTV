@@ -243,6 +243,13 @@ private struct MediaDestinationsModifier: ViewModifier {
             PersonScreen(personID: id)
         case .movieList(let category):
             MovieListScreen(category: category)
+        case .streamingCatalog(let providerName, let query, let firstPageItems, let nextPage):
+            StreamingCatalogScreen(
+                providerName: providerName,
+                query: query,
+                firstPageItems: firstPageItems,
+                nextPage: nextPage
+            )
         case .discoverDeck:
             DiscoverScreen()
         case .tvShowDetail(let id):

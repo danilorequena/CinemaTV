@@ -1,13 +1,13 @@
 import Foundation
 
-public enum StreamingMediaKind: Sendable {
+public enum StreamingMediaKind: Hashable, Sendable {
     case movie
     case tv
 }
 
 /// Filters titles by availability today. TMDB does not expose when a title
 /// first entered a particular provider's catalog.
-public struct StreamingAvailabilityQuery: Sendable {
+public struct StreamingAvailabilityQuery: Hashable, Sendable {
     public let kind: StreamingMediaKind
     public let region: String
     public let providerID: Int
@@ -40,6 +40,7 @@ public struct StreamingAvailabilityQuery: Sendable {
 
     public var parameters: [String: String] {
         var parameters = [
+            "region": region,
             "watch_region": region,
             "with_watch_providers": String(providerID),
             "with_watch_monetization_types": "flatrate"

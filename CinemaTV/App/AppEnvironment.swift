@@ -63,9 +63,14 @@ private final class StreamingFixtureURLProtocol: URLProtocol {
             let query = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
             if let providerID = query?.first(where: { $0.name == "with_watch_providers" })?.value.flatMap(Int.init) {
                 let titleKey = url.path.hasSuffix("/movie") ? "title" : "name"
-                body = """
-                {"page":1,"results":[{"id":\(providerID),"\(titleKey)":"Streaming title \(providerID)"}],"total_pages":1,"total_results":1}
-                """
+                if ProcessInfo.processInfo.environment["CINEMATV_UI_TEST_STREAMING_FIXTURES"] == "pagination" {
+                    let page = query?.first(where: { $0.name == "page" })?.value.flatMap(Int.init) ?? 1
+                    body = paginatedTitles(providerID: providerID, titleKey: titleKey, page: page)
+                } else {
+                    body = """
+                    {"page":1,"results":[{"id":\(providerID),"\(titleKey)":"Streaming title \(providerID)"}],"total_pages":1,"total_results":1}
+                    """
+                }
             } else {
                 body = emptyPage
             }
@@ -79,6 +84,23 @@ private final class StreamingFixtureURLProtocol: URLProtocol {
     }
 
     override func stopLoading() {}
+
+    private func paginatedTitles(providerID: Int, titleKey: String, page: Int) -> String {
+        let numbers: [Int] = switch page {
+        case 1: Array(1...20)
+        case 2: [20]
+        case 3: [21, 22]
+        default: []
+        }
+        let titles = numbers.map { number in
+            """
+            {"id":\(providerID * 100 + number),"\(titleKey)":"Streaming title \(number)"}
+            """
+        }
+        return """
+        {"page":\(page),"results":[\(titles.joined(separator: ","))],"total_pages":3,"total_results":22}
+        """
+    }
 }
 #endif
 
